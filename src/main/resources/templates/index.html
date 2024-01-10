@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Role</title>
+    </head>
+    <body>
+        <div sec:authorize="isAuthenticated()">
+            <div sec:authorize = "hasRole('ADMIN')">
+                ADMIN
+            </div>
+            <div sec:authorize = "hasRole('REGULAR')">
+                REGULAR
+            </div>
+            <div sec:authorize = "hasRole('ASSOCIATE')">
+                ASSOCIATE
+            </div>
+        </div>
+        <a th:href="@{/logout}">로그아웃</a>
+    </body>
+</html>
