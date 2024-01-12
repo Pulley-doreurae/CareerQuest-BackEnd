@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccountRegisterRequest;
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccountRegisterResponse;
@@ -20,6 +21,7 @@ import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
  * 회원가입을 처리하는 컨트롤러
  * 중복을 확인하기 위해 UserAccountRepository 를 주입받아 사용한다.
  */
+@Slf4j
 @RequestMapping("/api")
 @RestController
 public class UserAccountController {
@@ -51,6 +53,8 @@ public class UserAccountController {
 				sb.append(message).append("\n");
 			});
 
+			log.warn("[회원가입] 유효성 검사 실패 : {}", sb);
+
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					UserAccountRegisterResponse.builder()
 							.userId(request.getUserId())
@@ -81,6 +85,7 @@ public class UserAccountController {
 			return BAD_REQUEST;
 
 		if (userAccountRepository.existsByUserId(request.getUserId())) {
+			log.warn("[회원가입] 중복된 아이디 : {}", request.getUserId());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					UserAccountRegisterResponse.builder()
 							.userId(request.getUserId())
@@ -93,6 +98,7 @@ public class UserAccountController {
 			);
 		}
 
+		log.info("[회원가입] 가입 가능한 아이디 : {}", request.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
 				UserAccountRegisterResponse.builder()
 						.userId(request.getUserId())
@@ -121,6 +127,7 @@ public class UserAccountController {
 			return BAD_REQUEST;
 
 		if (userAccountRepository.existsByEmail(request.getEmail())) {
+			log.warn("[회원가입] 중복된 이메일 : {}", request.getUserId());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					UserAccountRegisterResponse.builder()
 							.userId(request.getUserId())
@@ -128,11 +135,12 @@ public class UserAccountController {
 							.email(request.getEmail())
 							.userName(request.getUserName())
 							.phoneNum(request.getPhoneNum())
-							.msg("이미 존재하는 아이디입니다.")
+							.msg("이미 존재하는 이메일입니다.")
 							.build()
 			);
 		}
 
+		log.info("[회원가입] 가입 가능한 이메일 : {}", request.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
 				UserAccountRegisterResponse.builder()
 						.userId(request.getUserId())
@@ -140,7 +148,7 @@ public class UserAccountController {
 						.email(request.getEmail())
 						.userName(request.getUserName())
 						.phoneNum(request.getPhoneNum())
-						.msg("가입 가능한 아이디입니다.")
+						.msg("가입 가능한 이메일입니다.")
 						.build()
 		);
 	}
@@ -181,6 +189,7 @@ public class UserAccountController {
 				.build();
 		userAccountRepository.save(userAccount);
 
+		log.info("[회원가입] 새로 추가된 회원 : {}", userAccount.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
 				UserAccountRegisterResponse.builder()
 						.userId(user.getUserId())
