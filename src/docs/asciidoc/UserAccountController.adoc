@@ -1,0 +1,36 @@
+== UserAccountController
+=== 회원가입 성공
+==== 요청
+operation::user-account-controller-test/register-test1[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/register-test1[snippets="http-response,response-fields"]
+=== 회원가입 중복 (id)
+==== 요청
+operation::user-account-controller-test/register-test2[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/register-test2[snippets="http-response,response-fields"]
+=== 회원가입 중복 (email)
+==== 요청
+operation::user-account-controller-test/register-test3[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/register-test3[snippets="http-response,response-fields"]
+=== 유효성 검사 통과 실패 (id)
+==== 요청
+operation::user-account-controller-test/register-test4[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/register-test4[snippets="http-response,response-fields"]
+=== 유효성 검사 통과 실패 (password)
+==== 요청
+operation::user-account-controller-test/register-test5[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/register-test5[snippets="http-response,response-fields"]
+=== 유효성 검사 통과 실패 (email)
+==== 요청
+operation::user-account-controller-test/register-test6[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/register-test6[snippets="http-response,response-fields"]
+=== 유효성 검사 통과 실패 (phoneNum)
+==== 요청
+operation::user-account-controller-test/register-test7[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/register-test7[snippets="http-response,response-fields"]

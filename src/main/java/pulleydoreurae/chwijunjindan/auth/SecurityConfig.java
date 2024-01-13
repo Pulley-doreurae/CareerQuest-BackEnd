@@ -26,7 +26,8 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests((auth) ->
 				auth
-						.requestMatchers("/login", "/register", "/").permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
+						.requestMatchers("/login", "/api/register", "/").permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
+						.requestMatchers("/docs/index.html").permitAll()	// Spring REST Docs 를 보기 위해 모두 접근 가능
 						.requestMatchers("/h2-console/**").permitAll()    // h2 를 사용하기 위한 설정
 						.requestMatchers(PathRequest.toH2Console()).permitAll()    // h2 를 사용하기 위한 설정
 						.anyRequest().authenticated());    // 나머지는 인증된 사용자만 접근가능
