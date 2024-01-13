@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.7'
     id 'io.spring.dependency-management' version '1.1.4'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'pulley-doreurae'
@@ -15,6 +16,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExt
 }
 
 repositories {
@@ -28,6 +30,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
@@ -42,4 +46,23 @@ tasks.named('bootBuildImage') {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+asciidoctor {   // adoc 파일 html 로 변환
+    configurations 'asciidoctorExt'
+    dependsOn test // 테스트 실행 후 실행
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor   // asciidoctor 실행 후 실행
+    doFirst {   // 실행되기 전 기존 파일 삭제
+        delete("src/main/resources/static/docs")
+    }
+    // 위의 경로를 아래의 경로로 복사
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+}
+
+build { // 프로젝트 빌드 전 copyDocument 실행
+    dependsOn copyDocument
 }
