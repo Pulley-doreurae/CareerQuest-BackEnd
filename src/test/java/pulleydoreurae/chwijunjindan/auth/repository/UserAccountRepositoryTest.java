@@ -34,6 +34,7 @@ class UserAccountRepositoryTest {
 				.userId("testId")
 				.userName("testName")
 				.email("test@email.com")
+				.phoneNum("010-1111-2222")
 				.password("testPassword")
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
@@ -56,6 +57,7 @@ class UserAccountRepositoryTest {
 				.userId("testId")
 				.userName("testName")
 				.email("test@email.com")
+				.phoneNum("010-1111-2222")
 				.password("testPassword")
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
@@ -76,6 +78,7 @@ class UserAccountRepositoryTest {
 				.userId("testId")
 				.userName("testName")
 				.email("test@email.com")
+				.phoneNum("010-1111-2222")
 				.password("testPassword")
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
