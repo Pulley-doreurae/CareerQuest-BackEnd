@@ -1,4 +1,4 @@
-package pulleydoreurae.chwijunjindan.auth.domain;
+package pulleydoreurae.chwijunjindan.auth.domain.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

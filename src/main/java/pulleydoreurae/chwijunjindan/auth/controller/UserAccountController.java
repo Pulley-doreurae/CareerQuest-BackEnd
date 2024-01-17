@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
-import pulleydoreurae.chwijunjindan.auth.domain.UserAccountRegisterRequest;
-import pulleydoreurae.chwijunjindan.auth.domain.UserAccountRegisterResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterRequest;
+import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
