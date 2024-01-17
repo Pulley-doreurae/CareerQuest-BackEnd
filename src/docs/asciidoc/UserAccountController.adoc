@@ -1,4 +1,4 @@
-== UserAccountController
+== 회원가입 API (UserAccountController)
 === 회원가입 성공
 ==== 요청
 operation::user-account-controller-test/register-test1[snippets="http-request,form-parameters"]

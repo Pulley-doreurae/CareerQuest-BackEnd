@@ -6,3 +6,4 @@
 :seclinks:
 
 include::../chwijunjindan/src/docs/asciidoc/UserAccountController.adoc[]
+include::../chwijunjindan/src/docs/asciidoc/LoginController.adoc[]
