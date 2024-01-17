@@ -1,4 +1,4 @@
-package pulleydoreurae.chwijunjindan.auth;
+package pulleydoreurae.chwijunjindan.auth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
