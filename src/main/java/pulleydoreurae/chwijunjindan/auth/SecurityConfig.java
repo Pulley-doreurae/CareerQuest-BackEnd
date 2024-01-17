@@ -1,13 +1,20 @@
 package pulleydoreurae.chwijunjindan.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import pulleydoreurae.chwijunjindan.auth.domain.filter.LoginFilter;
+import pulleydoreurae.chwijunjindan.auth.domain.handler.LoginFailureHandler;
+import pulleydoreurae.chwijunjindan.auth.domain.handler.LoginSuccessHandler;
 
 /**
  * 스프링 시큐리티 설정 클래스
@@ -16,9 +23,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	private final AuthenticationConfiguration authenticationConfiguration;
+	private final LoginSuccessHandler loginSuccessHandler;
+	private final LoginFailureHandler loginFailureHandler;
+
+	@Autowired
+	public SecurityConfig(AuthenticationConfiguration authenticationConfiguration,
+			LoginSuccessHandler loginSuccessHandler, LoginFailureHandler loginFailureHandler) {
+		this.authenticationConfiguration = authenticationConfiguration;
+		this.loginSuccessHandler = loginSuccessHandler;
+		this.loginFailureHandler = loginFailureHandler;
+	}
+
+	@Bean    // 빈으로 등록하면 자동으로 검색해서 AuthenticationProvider 구현체들을 등록하는듯?
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws
+			Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
+
 	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
+	public LoginFilter loginFilter() throws Exception {
+		LoginFilter loginFilter = new LoginFilter("/api/login");
+		loginFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+		loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
+		loginFilter.setAuthenticationFailureHandler(loginFailureHandler);
+		return loginFilter;
 	}
 
 	@Bean
@@ -26,19 +55,25 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests((auth) ->
 				auth
-						.requestMatchers("/login", "/api/register", "/").permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
-						.requestMatchers("/docs/index.html").permitAll()	// Spring REST Docs 를 보기 위해 모두 접근 가능
-						.requestMatchers("/h2-console/**").permitAll()    // h2 를 사용하기 위한 설정
-						.requestMatchers(PathRequest.toH2Console()).permitAll()    // h2 를 사용하기 위한 설정
-						.anyRequest().authenticated());    // 나머지는 인증된 사용자만 접근가능
+						.requestMatchers("/api/login", "/api/register", "/")
+						.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
+						.requestMatchers("/docs/index.html")
+						.permitAll()    // Spring REST Docs 를 보기 위해 모두 접근 가능
+						.requestMatchers("/h2-console/**")
+						.permitAll()    // h2 를 사용하기 위한 설정
+						.requestMatchers(PathRequest.toH2Console())
+						.permitAll()    // h2 를 사용하기 위한 설정
+						.anyRequest()
+						.authenticated());    // 나머지는 인증된 사용자만 접근가능
 
 		http.headers((auth) -> auth
 				.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));    // h2 를 사용하기 위한 설정
 
 		http.csrf((csrf) -> csrf.disable());    // csrf 는 우선 사용하지 않음.
 
-		http.formLogin((login) -> login
-				.loginProcessingUrl("/login"));    // 시큐리티의 기본 로그인 사용
+		http.cors((cors) -> cors.disable());	// cors 는 우선 사용하지 않음.
+
+		http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class); // 로그인 필터 변경
 
 		return http.build();
 	}
