@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,11 +14,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.dto.LoginFailResponse;
 
 /**
  * 로그인 실패 핸들러
@@ -28,7 +30,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final Gson gson;
+
+	@Autowired
+	public LoginFailureHandler(Gson gson) {
+		this.gson = gson;
+	}
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -51,9 +58,10 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		response.setContentType("application/json;charset=UTF-8");
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-		HashMap<String, String> body = new HashMap<>();
-		body.put("msg", "로그인에 실패했습니다.");
-		body.put("error", error);
-		response.getWriter().write(objectMapper.writeValueAsString(body));
+		LoginFailResponse failResponse = LoginFailResponse.builder()
+				.code(HttpStatus.UNAUTHORIZED.toString())
+				.error(error)
+				.build();
+		response.getWriter().write(gson.toJson(failResponse));
 	}
 }
