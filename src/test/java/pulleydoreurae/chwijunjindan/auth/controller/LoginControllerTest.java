@@ -51,6 +51,7 @@ class LoginControllerTest {
 	@Test
 	@DisplayName("로그인 성공 테스트")
 	@WithMockUser
+	// TODO: 2024/01/18 로그인 성공하면 토큰을 반환하므로 테스트 코드 수정이 필요함
 	void LoginSuccessTest() throws Exception {
 	    // Given
 		UserAccount userAccount = UserAccount.builder()
@@ -102,7 +103,7 @@ class LoginControllerTest {
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
 						responseFields(	// Json 응답 형식
-								fieldWithPath("msg").description("로그인 결과"),
+								fieldWithPath("code").description("응답 코드"),
 								fieldWithPath("error").description("실패 이유")
 						)));
 		// Then
@@ -135,7 +136,7 @@ class LoginControllerTest {
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
 						responseFields(	// Json 응답 형식
-								fieldWithPath("msg").description("로그인 결과"),
+								fieldWithPath("code").description("응답 코드"),
 								fieldWithPath("error").description("실패 이유")
 						)));
 		// Then
