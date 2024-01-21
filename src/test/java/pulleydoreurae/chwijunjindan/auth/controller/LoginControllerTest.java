@@ -1,10 +1,10 @@
 package pulleydoreurae.chwijunjindan.auth.controller;
 
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -17,10 +17,13 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtRefreshToken;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
 /**
@@ -29,7 +32,7 @@ import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
  * @author : parkjihyeok
  * @since : 2024/01/17
  */
-@SpringBootTest	// 시큐리티 내부의 로그인 기능을 테스트하려면 @WebMvcTest 로는 어려움
+@SpringBootTest    // 시큐리티 내부의 로그인 기능을 테스트하려면 @WebMvcTest 로는 어려움, @WithMockUser 필요 없음
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 class LoginControllerTest {
@@ -43,42 +46,55 @@ class LoginControllerTest {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	JwtRefreshTokenRepository jwtRefreshTokenRepository;
+
 	@BeforeEach
 	public void setUp() {
 		userAccountRepository.deleteAll();
+		jwtRefreshTokenRepository.deleteAll();
 	}
 
 	@Test
 	@DisplayName("로그인 성공 테스트")
-	@WithMockUser
-	// TODO: 2024/01/18 로그인 성공하면 토큰을 반환하므로 테스트 코드 수정이 필요함
 	void LoginSuccessTest() throws Exception {
-	    // Given
+		// Given
 		UserAccount userAccount = UserAccount.builder()
 				.userId("testId")
 				.password(bCryptPasswordEncoder.encode("testPassword"))
 				.build();
-	    userAccountRepository.save(userAccount);
+		userAccountRepository.save(userAccount);
 
-	    // When
+		// When
 		mockMvc.perform(post("/api/login")
-						.with(csrf())
 						.param("username", "testId")
 						.param("password", "testPassword"))
 				.andDo(print())
-				.andExpect(redirectedUrl("/api/login-success"))
-				.andExpect(status().is3xxRedirection())
+				.andExpect(jsonPath("$.token_type").exists())
+				.andExpect(jsonPath("$.access_token").exists())
+				.andExpect(jsonPath("$.expires_in").exists())
+				.andExpect(jsonPath("$.refresh_token").exists())
+				.andExpect(jsonPath("$.refresh_token_expires_in").exists())
 				// Spring REST Docs
 				.andDo(document("{class-name}/{method-name}/",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
-				formParameters(	// form-data 형식
-						parameterWithName("username").description("로그인 할 아이디"),
-						parameterWithName("password").description("로그인 할 비밀번호"),
-						parameterWithName("_csrf").description("csrf 토큰값")
-				)));
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("username").description("로그인 할 아이디"),
+								parameterWithName("password").description("로그인 할 비밀번호")
+						),
+						responseFields(
+								fieldWithPath("token_type").description("토큰 타입"),
+								fieldWithPath("access_token").description("액세스 토큰"),
+								fieldWithPath("expires_in").description("액세스 토큰 유효기간"),
+								fieldWithPath("refresh_token").description("리프레시 토큰"),
+								fieldWithPath("refresh_token_expires_in").description("리프레시 토큰 유효기간")
+						)));
 
-	    // Then
+		// Then
 	}
 
 	@Test
@@ -88,7 +104,6 @@ class LoginControllerTest {
 
 		// When
 		mockMvc.perform(post("/api/login")
-						.with(csrf())
 						.param("username", "testId")
 						.param("password", "testPassword"))
 				.andDo(print())
@@ -97,12 +112,11 @@ class LoginControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
+						formParameters(    // form-data 형식
 								parameterWithName("username").description("로그인 할 아이디"),
-								parameterWithName("password").description("로그인 할 비밀번호"),
-								parameterWithName("_csrf").description("csrf 토큰값")
+								parameterWithName("password").description("로그인 할 비밀번호")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("code").description("응답 코드"),
 								fieldWithPath("error").description("실패 이유")
 						)));
@@ -121,7 +135,6 @@ class LoginControllerTest {
 
 		// When
 		mockMvc.perform(post("/api/login")
-						.with(csrf())
 						.param("username", "testId")
 						.param("password", "Password"))
 				.andDo(print())
@@ -130,15 +143,121 @@ class LoginControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
+						formParameters(    // form-data 형식
 								parameterWithName("username").description("로그인 할 아이디"),
-								parameterWithName("password").description("로그인 할 비밀번호"),
-								parameterWithName("_csrf").description("csrf 토큰값")
+								parameterWithName("password").description("로그인 할 비밀번호")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("code").description("응답 코드"),
 								fieldWithPath("error").description("실패 이유")
 						)));
+		// Then
+	}
+
+	@Test
+	@DisplayName("액세스 토큰 테스트 (유효한 액세스 토큰)")
+	void ValidAccessTokenTest() throws Exception {
+		// Given
+		UserAccount userAccount = UserAccount.builder()
+				.userId("testId")
+				.password(bCryptPasswordEncoder.encode("testPassword"))
+				.build();
+		userAccountRepository.save(userAccount);
+
+		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse("testId");
+
+		// When
+		mockMvc.perform(get("/index")
+						.header("Authorization", "Bearer " + jwtTokenResponse.getAccess_token()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestHeaders(
+								headerWithName("Authorization").description("유효한 액세스 토큰")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("액세스 토큰 테스트 (유효하지 않은 액세스 토큰)")
+	void InvalidAccessTokenTest() throws Exception {
+		// Given
+		String invalidJwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg";
+
+		// When
+		mockMvc.perform(get("/index")
+						.header("Authorization", "Bearer " + invalidJwtToken))
+				.andDo(print())
+				.andExpect(status().isBadRequest())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestHeaders(
+								headerWithName("Authorization").description("유효하지 않은 액세스 토큰")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("리프레시 토큰 테스트 (유효한 리프레시 토큰)")
+	void ValidRefreshTokenTest() throws Exception {
+		// Given
+		String invalidJwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg";
+
+		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse("testId");
+		JwtRefreshToken jwtRefreshToken = new JwtRefreshToken(jwtTokenResponse.getRefresh_token(), "testId");
+		jwtRefreshTokenRepository.save(jwtRefreshToken);
+
+		// When
+		mockMvc.perform(get("/index")
+						.header("Authorization", "Bearer " + invalidJwtToken)
+						.header("RefreshToken", jwtTokenResponse.getRefresh_token()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.token_type").exists())
+				.andExpect(jsonPath("$.access_token").exists())
+				.andExpect(jsonPath("$.expires_in").exists())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestHeaders(
+								headerWithName("Authorization").description("유효하지 않은 액세스 토큰"),
+								headerWithName("RefreshToken").description("유효한 리프레시 토큰")
+						),
+						responseFields(
+								fieldWithPath("token_type").description("토큰 타입"),
+								fieldWithPath("access_token").description("새로 발급받은 액세스 토큰"),
+								fieldWithPath("expires_in").description("새로 발급받은 액세스 토큰 유효기간")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("리프레시 토큰 테스트 (유효하지 않은 리프레시 토큰)")
+	void InvalidRefreshTokenTest() throws Exception {
+		// Given
+		String invalidJwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg";
+		String invalidRefreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNTgyNjA5NX0.UwTqbudlGSB_lSPof00ju5_aK3T6TL2B8RQ00hCs3xc";
+
+		// When
+		mockMvc.perform(get("/index")
+						.header("Authorization", "Bearer " + invalidJwtToken)
+						.header("RefreshToken", invalidRefreshToken))
+				.andDo(print())
+				.andExpect(status().isBadRequest())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestHeaders(
+								headerWithName("Authorization").description("유효하지 않은 액세스 토큰"),
+								headerWithName("RefreshToken").description("유효하지 않은 리프레시 토큰")
+						)));
+
 		// Then
 	}
 }
