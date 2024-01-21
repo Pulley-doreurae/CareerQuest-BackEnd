@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +13,10 @@ import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtRefreshToken;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
 
 /**
  * 로그인 성공 핸들러 클래스
@@ -26,11 +27,14 @@ import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
 @Component
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+	private final JwtRefreshTokenRepository jwtRefreshTokenRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final Gson gson;
 
 	@Autowired
-	public LoginSuccessHandler(JwtTokenProvider jwtTokenProvider, Gson gson) {
+	public LoginSuccessHandler(JwtRefreshTokenRepository jwtRefreshTokenRepository, JwtTokenProvider jwtTokenProvider,
+			Gson gson) {
+		this.jwtRefreshTokenRepository = jwtRefreshTokenRepository;
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.gson = gson;
 	}
@@ -39,14 +43,14 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException {
 
-		// TODO: 2024/01/18 JWT 토큰에 관한 처리추가해서 세션을 사용하지 않도록 수정하기
-		//  토큰에 대한 값을 좀 더 추가해야 함
-		String accessToken = jwtTokenProvider.createAccessToken(SecurityContextHolder.getContext().getAuthentication().getName());
-		JwtTokenResponse jwtTokenResponse = JwtTokenResponse.builder()
-				.token_type("bearer")
-				.access_token(accessToken)
-				.build();
+		// 로그인에 성공하면 토큰들을 dto 로 생성
+		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse(authentication.getName());
 
+		// 로그인한 id 와 생성된 리프레시토큰 을 redis 에 저장
+		jwtRefreshTokenRepository
+				.save(new JwtRefreshToken(jwtTokenResponse.getRefresh_token(), authentication.getName()));
+
+		// 생성된 dto 를 클라이언트에게 전달
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType("application/json;charset=UTF-8");
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());

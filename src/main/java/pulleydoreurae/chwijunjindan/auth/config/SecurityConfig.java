@@ -9,12 +9,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import pulleydoreurae.chwijunjindan.auth.domain.filter.LoginFilter;
 import pulleydoreurae.chwijunjindan.auth.domain.handler.LoginFailureHandler;
 import pulleydoreurae.chwijunjindan.auth.domain.handler.LoginSuccessHandler;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.filter.JwtAuthenticationFilter;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
+import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
 /**
  * 스프링 시큐리티 설정 클래스
@@ -26,13 +31,21 @@ public class SecurityConfig {
 	private final AuthenticationConfiguration authenticationConfiguration;
 	private final LoginSuccessHandler loginSuccessHandler;
 	private final LoginFailureHandler loginFailureHandler;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final UserAccountRepository userAccountRepository;
+	private final JwtRefreshTokenRepository jwtRefreshTokenRepository;
 
 	@Autowired
 	public SecurityConfig(AuthenticationConfiguration authenticationConfiguration,
-			LoginSuccessHandler loginSuccessHandler, LoginFailureHandler loginFailureHandler) {
+			LoginSuccessHandler loginSuccessHandler, LoginFailureHandler loginFailureHandler,
+			JwtTokenProvider jwtTokenProvider, UserAccountRepository userAccountRepository,
+			JwtRefreshTokenRepository jwtRefreshTokenRepository) {
 		this.authenticationConfiguration = authenticationConfiguration;
 		this.loginSuccessHandler = loginSuccessHandler;
 		this.loginFailureHandler = loginFailureHandler;
+		this.jwtTokenProvider = jwtTokenProvider;
+		this.userAccountRepository = userAccountRepository;
+		this.jwtRefreshTokenRepository = jwtRefreshTokenRepository;
 	}
 
 	@Bean    // 빈으로 등록하면 자동으로 검색해서 AuthenticationProvider 구현체들을 등록하는듯?
@@ -48,6 +61,12 @@ public class SecurityConfig {
 		loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
 		loginFilter.setAuthenticationFailureHandler(loginFailureHandler);
 		return loginFilter;
+	}
+
+	@Bean
+	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+		return new JwtAuthenticationFilter(
+				authenticationManager(authenticationConfiguration), userAccountRepository, jwtRefreshTokenRepository, jwtTokenProvider);
 	}
 
 	@Bean
@@ -69,11 +88,15 @@ public class SecurityConfig {
 		http.headers((auth) -> auth
 				.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));    // h2 를 사용하기 위한 설정
 
+		http.sessionManagement((session) -> session
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // JWT 를 사용하므로 세션은 사용하지 않음
+
 		http.csrf((csrf) -> csrf.disable());    // csrf 는 우선 사용하지 않음.
 
-		http.cors((cors) -> cors.disable());	// cors 는 우선 사용하지 않음.
+		http.cors((cors) -> cors.disable());    // cors 는 우선 사용하지 않음.
 
 		http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class); // 로그인 필터 변경
+		http.addFilter(jwtAuthenticationFilter()); // JWT 토큰을 확인하는 필터 추가
 
 		return http.build();
 	}
