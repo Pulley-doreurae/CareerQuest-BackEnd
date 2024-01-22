@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtRefreshToken;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;

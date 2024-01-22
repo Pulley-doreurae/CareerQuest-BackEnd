@@ -1,4 +1,4 @@
-package pulleydoreurae.chwijunjindan.auth.domain.jwt;
+package pulleydoreurae.chwijunjindan.auth.domain.jwt.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

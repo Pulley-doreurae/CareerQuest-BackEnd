@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.CustomUserDetails;
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
-import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtRefreshToken;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;

@@ -2,7 +2,7 @@ package pulleydoreurae.chwijunjindan.auth.domain.jwt.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtRefreshToken;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
 
 /**
  * Redis 에 사용할 Repository
