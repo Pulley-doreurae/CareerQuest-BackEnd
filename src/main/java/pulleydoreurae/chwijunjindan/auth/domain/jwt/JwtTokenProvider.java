@@ -102,17 +102,31 @@ public class JwtTokenProvider {
 				.build();
 	}
 
-	// 토큰에서 정보 가져오기
+	/**
+	 * JWT 토큰에서 사용자 정보를 가져오는 메서드
+	 *
+	 * @param token 토큰을 입력받으면
+	 * @return 정보를 리턴한다.
+	 * @deprecated Redis 를 사용하므로 더 이상 사용되지 않는다.
+	 */
+	@Deprecated
 	public String getUserPk(String token) {
 		return Jwts.parser().setSigningKey(accessSecretKey).parseClaimsJws(token).getBody().getSubject();
 	}
 
 	// 리프레시 토큰에서 정보 가져오기
-	public String getUserPkFromRefreshToken(String refreshToken) {
+	private String getUserPkFromRefreshToken(String refreshToken) {
 		return Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(refreshToken).getBody().getSubject();
 	}
 
-	// 토큰의 유효성 + 만료일자 확인
+	/**
+	 * 토큰의 유효성을 검증하는 메서드
+	 *
+	 * @param token 토큰을 입력으로 받는다.
+	 * @return 토큰에 대한 유효성을 검사해 반환한다.
+	 * @deprecated Redis 를 사용하므로 더 이상 사용되지 않는다.
+	 */
+	@Deprecated
 	public boolean validateToken(String token) {
 		try {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(accessSecretKey).parseClaimsJws(token);
