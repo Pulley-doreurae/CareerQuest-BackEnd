@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
-import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtRefreshToken;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
