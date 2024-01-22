@@ -14,10 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import pulleydoreurae.chwijunjindan.auth.domain.filter.LoginFilter;
+import pulleydoreurae.chwijunjindan.auth.domain.filter.LogoutFilter;
 import pulleydoreurae.chwijunjindan.auth.domain.handler.LoginFailureHandler;
 import pulleydoreurae.chwijunjindan.auth.domain.handler.LoginSuccessHandler;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.filter.JwtAuthenticationFilter;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtAccessTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
@@ -34,18 +36,20 @@ public class SecurityConfig {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final UserAccountRepository userAccountRepository;
 	private final JwtRefreshTokenRepository jwtRefreshTokenRepository;
+	private final JwtAccessTokenRepository jwtAccessTokenRepository;
 
 	@Autowired
 	public SecurityConfig(AuthenticationConfiguration authenticationConfiguration,
 			LoginSuccessHandler loginSuccessHandler, LoginFailureHandler loginFailureHandler,
 			JwtTokenProvider jwtTokenProvider, UserAccountRepository userAccountRepository,
-			JwtRefreshTokenRepository jwtRefreshTokenRepository) {
+			JwtRefreshTokenRepository jwtRefreshTokenRepository, JwtAccessTokenRepository jwtAccessTokenRepository) {
 		this.authenticationConfiguration = authenticationConfiguration;
 		this.loginSuccessHandler = loginSuccessHandler;
 		this.loginFailureHandler = loginFailureHandler;
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.userAccountRepository = userAccountRepository;
 		this.jwtRefreshTokenRepository = jwtRefreshTokenRepository;
+		this.jwtAccessTokenRepository = jwtAccessTokenRepository;
 	}
 
 	@Bean    // 빈으로 등록하면 자동으로 검색해서 AuthenticationProvider 구현체들을 등록하는듯?
@@ -64,9 +68,16 @@ public class SecurityConfig {
 	}
 
 	@Bean
+	public LogoutFilter logOutFilter() {
+		LogoutFilter logoutFilter = new LogoutFilter(jwtAccessTokenRepository, jwtRefreshTokenRepository);
+		return logoutFilter;
+	}
+
+	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
 		return new JwtAuthenticationFilter(
-				authenticationManager(authenticationConfiguration), userAccountRepository, jwtRefreshTokenRepository, jwtTokenProvider);
+				authenticationManager(authenticationConfiguration), userAccountRepository, jwtRefreshTokenRepository,
+				jwtAccessTokenRepository, jwtTokenProvider);
 	}
 
 	@Bean
@@ -96,6 +107,7 @@ public class SecurityConfig {
 		http.cors((cors) -> cors.disable());    // cors 는 우선 사용하지 않음.
 
 		http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class); // 로그인 필터 변경
+		http.addFilterAt(logOutFilter(), LoginFilter.class); // 로그아웃 필터 추가
 		http.addFilter(jwtAuthenticationFilter()); // JWT 토큰을 확인하는 필터 추가
 
 		return http.build();
