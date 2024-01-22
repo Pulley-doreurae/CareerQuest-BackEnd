@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
-import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtAccessToken;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtAccessTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
@@ -32,7 +35,7 @@ import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
  * @author : parkjihyeok
  * @since : 2024/01/17
  */
-@SpringBootTest    // 시큐리티 내부의 로그인 기능을 테스트하려면 @WebMvcTest 로는 어려움, @WithMockUser 필요 없음
+@SpringBootTest    // 시큐리티 내부의 로그인 기능을 테스트하려면 @WebMvcTest 로는 어려움, 통합테스트이므로 @WithMockUser 필요 없음
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 class LoginControllerTest {
@@ -52,10 +55,21 @@ class LoginControllerTest {
 	@Autowired
 	JwtRefreshTokenRepository jwtRefreshTokenRepository;
 
+	@Autowired
+	JwtAccessTokenRepository jwtAccessTokenRepository;
+
 	@BeforeEach
 	public void setUp() {
 		userAccountRepository.deleteAll();
 		jwtRefreshTokenRepository.deleteAll();
+		jwtAccessTokenRepository.deleteAll();
+	}
+
+	@AfterEach
+	public void afterEach() {
+		userAccountRepository.deleteAll();
+		jwtRefreshTokenRepository.deleteAll();
+		jwtAccessTokenRepository.deleteAll();
 	}
 
 	@Test
@@ -165,6 +179,7 @@ class LoginControllerTest {
 		userAccountRepository.save(userAccount);
 
 		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse("testId");
+		jwtAccessTokenRepository.save(new JwtAccessToken(jwtTokenResponse.getAccess_token(), "testId"));
 
 		// When
 		mockMvc.perform(get("/index")
@@ -257,6 +272,30 @@ class LoginControllerTest {
 								headerWithName("Authorization").description("유효하지 않은 액세스 토큰"),
 								headerWithName("RefreshToken").description("유효하지 않은 리프레시 토큰")
 						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("로그아웃 테스트 (Redis 에 액세스, 리프레시 토큰 제거)")
+	void LogoutTest() throws Exception {
+		// Given
+		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse("testId");
+
+		// When
+		mockMvc.perform(get("/api/logout")
+						.header("Authorization", "Bearer " + jwtTokenResponse.getAccess_token())
+						.header("RefreshToken", jwtTokenResponse.getRefresh_token()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestHeaders(
+								headerWithName("Authorization").description("로그인 하고 발급받은 액세스 토큰"),
+								headerWithName("RefreshToken").description("로그인 하고 발급받은 리프레시 토큰")
+						)));
+
 
 		// Then
 	}
