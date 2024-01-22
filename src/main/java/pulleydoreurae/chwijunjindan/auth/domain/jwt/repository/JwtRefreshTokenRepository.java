@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
 
 /**
- * Redis 에 사용할 Repository
+ * Redis 에 사용할 리프레시 토큰 Repository
  *
  * @author : parkjihyeok
  * @since : 2024/01/21

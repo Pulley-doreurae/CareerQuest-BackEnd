@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.RedisHash;
 import lombok.Getter;
 
 /**
- * Redis 에 저장할 객체
+ * Redis 에 저장할 리프레시 토큰 객체
  * 
  * @author : parkjihyeok
  * @since : 2024/01/21
