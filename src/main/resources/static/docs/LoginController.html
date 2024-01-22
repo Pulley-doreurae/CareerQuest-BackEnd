@@ -507,9 +507,9 @@ Content-Length: 448
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4Mjg5MzYsImV4cCI6MTcwNTgyOTUzNn0.xtB72G4E-_WdYr9vfqNK3QC-0H0C3ZNjkn8a_2oNJa4",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU5MDg4NjYsImV4cCI6MTcwNTkwOTQ2Nn0.UQJIZbx2hh-8s-Yw3D-q4d-qKkXJPsn-7CvyEPqyUew",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4Mjg5MzYsImV4cCI6MTcwNzk4ODkzNn0.tqq_XBz8RlSSJqav8-QLAgWPWqPJbVeAitL0Mkwe64w",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU5MDg4NjYsImV4cCI6MTcwODA2ODg2Nn0.fdCIPL-Wm3zuJSRSvES4dOPP8jO8l_wUbuOKEJrIuC8",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -771,7 +771,7 @@ Content-Length: 133
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4Mjg5MzYsImV4cCI6MTcwNTgyOTUzNn0.xtB72G4E-_WdYr9vfqNK3QC-0H0C3ZNjkn8a_2oNJa4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU5MDg4NjYsImV4cCI6MTcwNTkwOTQ2Nn0.UQJIZbx2hh-8s-Yw3D-q4d-qKkXJPsn-7CvyEPqyUew
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -896,7 +896,7 @@ Content-Length: 46
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4Mjg5MzYsImV4cCI6MTcwNzk4ODkzNn0.tqq_XBz8RlSSJqav8-QLAgWPWqPJbVeAitL0Mkwe64w
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU5MDg4NjYsImV4cCI6MTcwODA2ODg2Nn0.fdCIPL-Wm3zuJSRSvES4dOPP8jO8l_wUbuOKEJrIuC8
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -944,7 +944,7 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4Mjg5MzYsImV4cCI6MTcwNTgyOTUzNn0.xtB72G4E-_WdYr9vfqNK3QC-0H0C3ZNjkn8a_2oNJa4",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU5MDg4NjYsImV4cCI6MTcwNTkwOTQ2Nn0.UQJIZbx2hh-8s-Yw3D-q4d-qKkXJPsn-7CvyEPqyUew",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -1048,13 +1048,75 @@ Content-Length: 75
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_로그아웃">로그아웃</h3>
+<div class="sect3">
+<h4 id="_요청_8">요청</h4>
+<div class="sect4">
+<h5 id="_요청_8_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/logout HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU5MDg4NjYsImV4cCI6MTcwNTkwOTQ2Nn0.UQJIZbx2hh-8s-Yw3D-q4d-qKkXJPsn-7CvyEPqyUew
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU5MDg4NjYsImV4cCI6MTcwODA2ODg2Nn0.fdCIPL-Wm3zuJSRSvES4dOPP8jO8l_wUbuOKEJrIuC8
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_8_request_headers">Request headers</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 하고 발급받은 액세스 토큰</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 하고 발급받은 리프레시 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_8">응답</h4>
+<div class="sect4">
+<h5 id="_응답_8_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Length: 40
+
+"로그아웃에 성공하였습니다."</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-21 18:22:07 +0900
+Last updated 2024-01-22 16:35:53 +0900
 </div>
 </div>
 </body>

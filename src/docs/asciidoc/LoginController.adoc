@@ -35,4 +35,8 @@ operation::login-controller-test/valid-refresh-token-test[snippets="http-respons
 operation::login-controller-test/invalid-refresh-token-test[snippets="http-request,request-headers"]
 ==== 응답
 operation::login-controller-test/invalid-refresh-token-test[snippets="http-response"]
-
+=== 로그아웃
+==== 요청
+operation::login-controller-test/logout-test[snippets="http-request,request-headers"]
+==== 응답
+operation::login-controller-test/logout-test[snippets="http-response"]
