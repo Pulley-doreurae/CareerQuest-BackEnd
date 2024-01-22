@@ -20,8 +20,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.CustomUserDetails;
 import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtAccessToken;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.entity.JwtRefreshToken;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.JwtTokenProvider;
+import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtAccessTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.repository.JwtRefreshTokenRepository;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
@@ -35,16 +37,18 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
 	private final UserAccountRepository userAccountRepository;
 	private final JwtRefreshTokenRepository jwtRefreshTokenRepository;
+	private final JwtAccessTokenRepository jwtAccessTokenRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final Gson gson = new Gson();
 
 	@Autowired
 	public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
 			UserAccountRepository userAccountRepository, JwtRefreshTokenRepository jwtRefreshTokenRepository,
-			JwtTokenProvider jwtTokenProvider) {
+			JwtAccessTokenRepository jwtAccessTokenRepository, JwtTokenProvider jwtTokenProvider) {
 		super(authenticationManager);
 		this.userAccountRepository = userAccountRepository;
 		this.jwtRefreshTokenRepository = jwtRefreshTokenRepository;
+		this.jwtAccessTokenRepository = jwtAccessTokenRepository;
 		this.jwtTokenProvider = jwtTokenProvider;
 	}
 
@@ -63,12 +67,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 		String accessToken = request.getHeader("Authorization")
 				.replace("Bearer ", "");
 
-		boolean accessTokenIsValid = jwtTokenProvider.validateToken(accessToken);
+		Optional<JwtAccessToken> getAccessToken = jwtAccessTokenRepository.findById(accessToken);
+
 		// 액세스토큰이 유효하다면
-		if (accessTokenIsValid) {
+		if (getAccessToken.isPresent()) {
 
 			// 토큰에서 사용자 아이디 가져오기
-			String username = jwtTokenProvider.getUserPk(accessToken);
+			String username = getAccessToken.get().getUserId();
 
 			// 사용자가 존재한다면 인증객체를 만들어 저장
 			if (username != null) {
@@ -83,7 +88,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				chain.doFilter(request, response);
 			}
-		} else if (!accessTokenIsValid && refreshToken == null) { // 액세스 토큰이 유효하지 않고 리프레시 토큰이 없다면 400 에러를 리턴
+		} else if (getAccessToken.isEmpty() && refreshToken == null) { // 액세스 토큰이 유효하지 않고 리프레시 토큰이 없다면 400 에러를 리턴
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
 			response.setContentType("application/json;charset=UTF-8");
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
