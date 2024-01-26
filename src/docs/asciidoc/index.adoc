@@ -1,0 +1,10 @@
+= 취준진담 API
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:seclinks:
+
+include::../chwijunjindan/src/docs/asciidoc/UserAccountController.adoc[]
+include::../chwijunjindan/src/docs/asciidoc/LoginController.adoc[]
+include::../chwijunjindan/src/docs/asciidoc/KakaoLoginController.adoc[]

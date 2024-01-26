@@ -1,4 +1,4 @@
-package pulleydoreurae.chwijunjindan.auth.domain;
+package pulleydoreurae.chwijunjindan.auth.domain.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +14,6 @@ public class UserAccountRegisterResponse {
 	private String userId;
 	private String userName;
 	private String email;
+	private String phoneNum;
 	private String msg;
 }

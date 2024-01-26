@@ -9,6 +9,7 @@ import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
 	Optional<UserAccount> findByUserId(String userId);
+	Optional<UserAccount> findByEmail(String email);
 	boolean existsByUserId(String userId);
 	boolean existsByEmail(String email);
 }

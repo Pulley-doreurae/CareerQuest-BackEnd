@@ -213,4 +213,6 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,gradle,java,intellij+all
+# End of https://www.toptal.com/developers/gitignore/api/macos,gradle,java,intellij+alljwt.yml
+kakao.yml
+jwt.yml
