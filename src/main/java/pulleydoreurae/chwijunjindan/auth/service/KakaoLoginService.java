@@ -36,8 +36,6 @@ import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 @Service
 public class KakaoLoginService {
 
-	private final String auth_url;
-	private final String token_url;
 	private final String clientId;
 	private final String redirect_uri;
 	private final String response_type = "code";
@@ -45,12 +43,9 @@ public class KakaoLoginService {
 	private final UserAccountRepository userAccountRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public KakaoLoginService(@Value("${LOGIN.KAKAO_AUTH_URL}") String auth_url,
-			@Value("${LOGIN.KAKAO_TOKEN_URL}") String tokenUrl, @Value("${LOGIN.KAKAO_API_KEY}") String clientId,
-			@Value("${LOGIN.REDIRECT_URL}") String redirectUri, UserAccountRepository userAccountRepository,
-			BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.auth_url = auth_url;
-		token_url = tokenUrl;
+	public KakaoLoginService(@Value("${LOGIN.KAKAO_API_KEY}") String clientId,
+			@Value("${LOGIN.REDIRECT_URL}") String redirectUri,
+			UserAccountRepository userAccountRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.clientId = clientId;
 		this.redirect_uri = redirectUri;
 		this.userAccountRepository = userAccountRepository;
@@ -60,11 +55,12 @@ public class KakaoLoginService {
 	/**
 	 * 리다이렉션할 주소를 반환하는 메서드
 	 *
+	 * @param url API 의 기본 url 을 전달받는다.
 	 * @return 카카오 로그인 창으로 리다이렉션시켜줄 주소를 반환한다.
 	 */
-	public String getRedirectUrl() {
+	public String getRedirectUrl(String url) {
 
-		URI uri = UriComponentsBuilder.fromUriString(auth_url)
+		URI uri = UriComponentsBuilder.fromUriString(url)
 				.queryParam("response_type", response_type)
 				.queryParam("client_id", clientId)
 				.queryParam("redirect_uri", redirect_uri)
@@ -79,10 +75,11 @@ public class KakaoLoginService {
 	/**
 	 * 사용자가 카카오로그인에 성공하면 성공한 정보를 바탕으로 카카오 서버에서 토큰을 받아온다.
 	 *
-	 * @param code 카카오로그인에 성공하여 받아온 코드
-	 * @return 받아온 코드로 액세스 토큰을 리턴한다.
+	 * @param code 카카오 로그인에 성공하여 받아온 코드
+	 * @param url  호출할 API 주소
+	 * @return 호출이 성공적으로 된다면 액세스토큰을 반환한다.
 	 */
-	public String getToken(String code) {
+	public String getToken(String code, String url) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -95,23 +92,30 @@ public class KakaoLoginService {
 
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
 
-		ResponseEntity<KakaoLoginResponse> response = new RestTemplate().exchange(
-				token_url,
-				HttpMethod.POST,
-				entity,
-				KakaoLoginResponse.class
-		);
-		return response.getBody().getAccess_token();
+		try {
+			KakaoLoginResponse response = new RestTemplate().exchange(
+					url,
+					HttpMethod.POST,
+					entity,
+					KakaoLoginResponse.class
+			).getBody();
+
+			return response.getAccess_token();
+		} catch (Exception e) {
+			log.error("[로그인-카카오] : 유효하지않은 인증코드 --- {}", e.getMessage());
+			return null;
+		}
 	}
 
 	/**
 	 * 카카오 서버에서 사용자 정보를 받아오는 메서드
 	 *
-	 * @param token 카카오에서 발급해준 액세스 토큰을 전달받아
-	 * @return 우선 이메일을 리턴한다.
+	 * @param token 카카오에서 발급해준 액세스 토큰을 전달받는다.
+	 * @param url   호출할 API 주소를 전달받는다.
+	 * @return 사용자 정보를 리턴한다. 현재는 이메일을 리턴한다.
 	 */
 	// TODO: 2024/01/24 카카오 서버로부터 받아올 정보를 수정해야 함.
-	public String getUserDetails(String token) {
+	public String getUserDetails(String token, String url) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -120,20 +124,27 @@ public class KakaoLoginService {
 		String[] property_keys = {"kakao_account.profile", "kakao_account.name", "kakao_account.email"};
 		Gson gson = new Gson();
 		URI uri = UriComponentsBuilder
-				.fromUriString("https://kapi.kakao.com/v2/user/me")
+				.fromUriString(url)
 				.queryParam("property_keys", gson.toJson(property_keys))
 				.encode()
 				.build()
 				.toUri();
 
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(headers);
-		ResponseEntity<KakaoUserDetailsResponse> response = new RestTemplate().exchange(
-				uri,
-				HttpMethod.GET,
-				entity,
-				KakaoUserDetailsResponse.class);
 
-		return response.getBody().getKakao_account().getEmail();
+		try {
+			KakaoUserDetailsResponse response = new RestTemplate().exchange(
+					uri,
+					HttpMethod.GET,
+					entity,
+					KakaoUserDetailsResponse.class
+			).getBody();
+
+			return response.getKakao_account().getEmail();
+		} catch (Exception e) {
+			log.error("[로그인-카카오] : 유효하지않은 액세스토큰 --- {}", e.getMessage());
+			return null;
+		}
 	}
 
 	/**
@@ -162,14 +173,19 @@ public class KakaoLoginService {
 		log.info("[로그인-카카오] : 취준진담 서비스에 사용자 [{}] 로그인 성공", email);
 
 		// TODO: 2024/01/24 주소 수정 및 실패에 대한 처리를 추가하기
-		JwtTokenResponse getResponse = new RestTemplate().exchange(
-				"http://localhost:8080/api/login",
-				HttpMethod.POST,
-				entity,
-				JwtTokenResponse.class
-		).getBody();
+		try {
+			JwtTokenResponse getResponse = new RestTemplate().exchange(
+					"http://localhost:8080/api/login",
+					HttpMethod.POST,
+					entity,
+					JwtTokenResponse.class
+			).getBody();
 
-		return ResponseEntity.status(HttpStatus.OK).body(getResponse);
+			return ResponseEntity.status(HttpStatus.OK).body(getResponse);
+		} catch (Exception e) {
+			log.error("[로그인-카카오] : 서비스에 로그인할 수 없음 --- {}", e.getMessage());
+			return null;
+		}
 	}
 
 	/**
