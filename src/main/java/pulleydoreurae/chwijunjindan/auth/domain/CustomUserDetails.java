@@ -6,6 +6,8 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
+
 /**
  * UserDetails 를 구현하여 사용자의 정보를 담는 클래스
  */

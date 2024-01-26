@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
