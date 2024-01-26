@@ -295,8 +295,6 @@ class LoginControllerTest {
 								headerWithName("Authorization").description("로그인 하고 발급받은 액세스 토큰"),
 								headerWithName("RefreshToken").description("로그인 하고 발급받은 리프레시 토큰")
 						)));
-
-
 		// Then
 	}
 }
