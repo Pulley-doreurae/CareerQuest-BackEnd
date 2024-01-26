@@ -182,7 +182,7 @@ class LoginControllerTest {
 		jwtAccessTokenRepository.save(new JwtAccessToken(jwtTokenResponse.getAccess_token(), "testId"));
 
 		// When
-		mockMvc.perform(get("/index")
+		mockMvc.perform(get("/")
 						.header("Authorization", "Bearer " + jwtTokenResponse.getAccess_token()))
 				.andDo(print())
 				.andExpect(status().isOk())
