@@ -21,7 +21,7 @@ import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserAccount {
+public class UserAccount extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
