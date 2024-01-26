@@ -183,6 +183,7 @@ public class UserAccountController {
 		UserAccount userAccount = UserAccount.builder()
 				.userId(user.getUserId())
 				.userName(user.getUserName())
+				.phoneNum(user.getPhoneNum())
 				.email(user.getEmail())
 				.password(bCryptPasswordEncoder.encode(user.getPassword()))
 				.role(UserRole.ROLE_TEMPORARY_USER)
