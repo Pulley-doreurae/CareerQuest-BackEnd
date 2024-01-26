@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import pulleydoreurae.chwijunjindan.auth.domain.CustomUserDetails;
-import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
 /**

@@ -25,7 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.chwijunjindan.auth.domain.UserAccount;
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.KakaoAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.KakaoLoginResponse;
