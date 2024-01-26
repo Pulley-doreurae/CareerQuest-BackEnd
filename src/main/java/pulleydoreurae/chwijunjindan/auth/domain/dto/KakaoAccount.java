@@ -1,6 +1,9 @@
 package pulleydoreurae.chwijunjindan.auth.domain.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -12,6 +15,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 // TODO: 2024/01/24 카카오로부터 받아올 정보를 정해 추가해야함
 public class KakaoAccount {
 
