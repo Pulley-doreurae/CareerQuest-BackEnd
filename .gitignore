@@ -216,3 +216,4 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/macos,gradle,java,intellij+alljwt.yml
 kakao.yml
 jwt.yml
+mail.yml
