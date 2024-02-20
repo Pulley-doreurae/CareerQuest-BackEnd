@@ -12,7 +12,7 @@ import lombok.Getter;
  * @since : 2024/01/22
  */
 @Getter
-@RedisHash(value = "JwtAccessToken", timeToLive = 60 * 10) // 액세스 토큰의 유효기간은 10분
+//@RedisHash(value = "JwtAccessToken", timeToLive = 60 * 10) // 액세스 토큰의 유효기간은 10분
 public class JwtAccessToken {
 
 	@Id
