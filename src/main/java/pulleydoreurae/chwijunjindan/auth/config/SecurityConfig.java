@@ -85,7 +85,7 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests((auth) ->
 				auth
-						.requestMatchers("/api/login", "/api/register", "/api/login-kakao/**", "/")
+						.requestMatchers("/api/login", "/api/register", "/api/verify", "/api/login-kakao/**", "/")
 						.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
 						.requestMatchers("/docs/index.html")
 						.permitAll()    // Spring REST Docs 를 보기 위해 모두 접근 가능
