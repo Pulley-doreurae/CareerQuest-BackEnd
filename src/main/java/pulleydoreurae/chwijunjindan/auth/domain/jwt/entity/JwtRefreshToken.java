@@ -12,7 +12,7 @@ import lombok.Getter;
  * @since : 2024/01/21
  */
 @Getter
-//@RedisHash(value = "JwtRefreshToken", timeToLive = 60 * 60 * 24 * 10) // 리프레시 토큰의 유효기간은 10일
+@RedisHash(value = "JwtRefreshToken", timeToLive = 60 * 60 * 24 * 10) // 리프레시 토큰의 유효기간은 10일
 public class JwtRefreshToken {
 
 	@Id

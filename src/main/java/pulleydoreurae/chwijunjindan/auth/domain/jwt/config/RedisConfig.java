@@ -8,6 +8,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 /**
  * Redis 설정 파일
@@ -28,9 +29,10 @@ public class RedisConfig {
 
 	private final int redisMailPort;
 
-
-	public RedisConfig(@Value("${spring.data.redis.host}") String redisHost, @Value("${spring.data.redis.port}") int redisPort,
-					   @Value("${spring.data.redis.host-mail}") String redisMailHost, @Value("${spring.data.redis.port-mail}") int redisMailPort) {
+	public RedisConfig(@Value("${spring.data.redis.host}") String redisHost,
+		@Value("${spring.data.redis.port}") int redisPort,
+		@Value("${spring.data.redis.host-mail}") String redisMailHost,
+		@Value("${spring.data.redis.port-mail}") int redisMailPort) {
 		this.redisHost = redisHost;
 		this.redisPort = redisPort;
 		this.redisMailHost = redisMailHost;
@@ -45,8 +47,9 @@ public class RedisConfig {
 	}
 
 	@Bean(name = "redisTemplate")
-	public RedisTemplate<String, String> redisJWTTemplate(@Qualifier("redisJWTConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
-		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+	public RedisTemplate<?, ?> redisJWTTemplate(
+		@Qualifier("redisJWTConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+		RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
 		return redisTemplate;
 	}
@@ -59,7 +62,8 @@ public class RedisConfig {
 	}
 
 	@Bean(name = "redisMailTemplate")
-	public StringRedisTemplate redisMailTemplate(@Qualifier("redisMailConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+	public StringRedisTemplate redisMailTemplate(
+		@Qualifier("redisMailConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
 		StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
 		stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
 		return stringRedisTemplate;
