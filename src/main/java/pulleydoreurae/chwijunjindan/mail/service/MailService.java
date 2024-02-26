@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -25,7 +24,6 @@ import pulleydoreurae.chwijunjindan.mail.verifyException;
  */
 @Service
 @RequiredArgsConstructor
-@PropertySource("classpath:mail.yml")
 public class MailService {
 
 	private final JavaMailSender javaMailSender;
