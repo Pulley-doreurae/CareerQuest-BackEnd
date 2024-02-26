@@ -1,24 +1,27 @@
 package pulleydoreurae.chwijunjindan.auth.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterRequest;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterResponse;
-import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 import pulleydoreurae.chwijunjindan.mail.repository.MailRepository;
 import pulleydoreurae.chwijunjindan.mail.service.MailService;
 import pulleydoreurae.chwijunjindan.mail.verifyException;
-
-import java.security.NoSuchAlgorithmException;
 
 /**
  * 회원가입을 처리하는 컨트롤러
@@ -45,8 +48,9 @@ public class UserAccountController {
 
 	/**
 	 * 유효성 검증 메서드
-	 * @param request 사용자의 회원가입, 중복확인 요청
-	 * @param bindingResult	유효성 검사에 관련된 파라미터
+	 *
+	 * @param request       사용자의 회원가입, 중복확인 요청
+	 * @param bindingResult 유효성 검사에 관련된 파라미터
 	 * @return 에러가 존재하면 BAD_REQUEST 를 만들어 리턴하고 정상적인 요청이라면 null 을 리턴해 유효성을 검사함
 	 */
 	private static ResponseEntity<UserAccountRegisterResponse> validCheck(
@@ -78,7 +82,8 @@ public class UserAccountController {
 
 	/**
 	 * 아이디 중복확인 메서드 (1차)
-	 * @param request 사용자의 아이디 중복확인을 위한 요청
+	 *
+	 * @param request       사용자의 아이디 중복확인을 위한 요청
 	 * @param bindingResult 유효성 검사에 관련된 파라미터
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
@@ -120,7 +125,8 @@ public class UserAccountController {
 
 	/**
 	 * 이메일 중복확인 메서드 (1차)
-	 * @param request 사용자의 이메일 중복확인을 위한 요청
+	 *
+	 * @param request       사용자의 이메일 중복확인을 위한 요청
 	 * @param bindingResult 유효성 검사에 관련된 파라미터
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
@@ -189,8 +195,8 @@ public class UserAccountController {
 
 		// 이메일 인증 전송
 		mailService.sendMail(user.getUserId(), user.getUserName(),
-							user.getPhoneNum(), user.getEmail(),
-							bCryptPasswordEncoder.encode(user.getPassword()));
+				user.getPhoneNum(), user.getEmail(),
+				bCryptPasswordEncoder.encode(user.getPassword()));
 
 		log.info("[인증] 인증을 요청한 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -208,22 +214,22 @@ public class UserAccountController {
 	/**
 	 * 이메일 인증 확인 메서드
 	 *
-	 * @param email		인증 링크에 포함되어 있는 이메일
-	 * @param num		인증 링크에 포함되어 있는 인증번호
+	 * @param email 인증 링크에 포함되어 있는 이메일
+	 * @param num   인증 링크에 포함되어 있는 인증번호
 	 * @return 인증을 요청한 회원 정보를 요청 결과와 함께 돌려준다.
-	 * @throws verifyException	인증 확인 중 유효 시간이 다 지났거나 인증 번호가 일치하지 않을 경우의 예외처리로 알려준다.
+	 * @throws verifyException 인증 확인 중 유효 시간이 다 지났거나 인증 번호가 일치하지 않을 경우의 예외처리로 알려준다.
 	 */
 	@GetMapping("/verify")
 	public ResponseEntity<UserAccountRegisterResponse> verifyMailCheck(
 			@RequestParam(name = "email") String email,
 			@RequestParam(name = "certificationNumber") String num
 	) throws verifyException {
-		boolean isOk = mailService.verifyEmail(email,num);
+		boolean isOk = mailService.verifyEmail(email, num);
 
 		UserAccount user = mailService.getVerifiedUser(email);
 		mailRepository.removeCertification(email);
 
-		if(!isOk){
+		if (!isOk) {
 			log.warn("[인증] 인증실패 : {}", user.getUserId());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					UserAccountRegisterResponse.builder()

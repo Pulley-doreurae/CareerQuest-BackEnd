@@ -2,7 +2,6 @@ package pulleydoreurae.chwijunjindan.auth.domain.filter;
 
 import java.io.IOException;
 
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

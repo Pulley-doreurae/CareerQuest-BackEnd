@@ -8,14 +8,12 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 /**
  * Redis 설정 파일
  *
  * @author : parkjihyeok
  * @since : 2024/01/21
- *
  */
 
 @Configuration
@@ -30,9 +28,9 @@ public class RedisConfig {
 	private final int redisMailPort;
 
 	public RedisConfig(@Value("${spring.data.redis.host}") String redisHost,
-		@Value("${spring.data.redis.port}") int redisPort,
-		@Value("${spring.data.redis.host-mail}") String redisMailHost,
-		@Value("${spring.data.redis.port-mail}") int redisMailPort) {
+			@Value("${spring.data.redis.port}") int redisPort,
+			@Value("${spring.data.redis.host-mail}") String redisMailHost,
+			@Value("${spring.data.redis.port-mail}") int redisMailPort) {
 		this.redisHost = redisHost;
 		this.redisPort = redisPort;
 		this.redisMailHost = redisMailHost;
@@ -48,7 +46,7 @@ public class RedisConfig {
 
 	@Bean(name = "redisTemplate")
 	public RedisTemplate<?, ?> redisJWTTemplate(
-		@Qualifier("redisJWTConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+			@Qualifier("redisJWTConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
 		RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
 		return redisTemplate;
@@ -63,7 +61,7 @@ public class RedisConfig {
 
 	@Bean(name = "redisMailTemplate")
 	public StringRedisTemplate redisMailTemplate(
-		@Qualifier("redisMailConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+			@Qualifier("redisMailConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
 		StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
 		stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
 		return stringRedisTemplate;

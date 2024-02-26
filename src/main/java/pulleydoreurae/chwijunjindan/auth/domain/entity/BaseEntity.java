@@ -35,14 +35,14 @@ public abstract class BaseEntity {
 
 	// 날짜 포멧팅
 	@PrePersist // 해당 엔티티를 저장하기 전에 실행
-	public void onPrePersist(){
+	public void onPrePersist() {
 		this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 		this.modifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 	}
 
 	// 업데이트 날짜 포멧팅
 	@PreUpdate  // 해당 엔티티를 업데이트하기 전에 실행
-	public void onPreUpdate(){
+	public void onPreUpdate() {
 		this.modifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 	}
 }

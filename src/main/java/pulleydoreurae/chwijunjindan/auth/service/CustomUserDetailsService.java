@@ -27,9 +27,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	/**
 	 * 사용자 로그인 처리 메서드
+	 *
 	 * @param username 사용자의 id 를 입력받는다.
-	 * @return	사용자 정보를 찾을 수 있는 경우 CustomUserDetails 에 사용자 정보를 넘겨 새로운 사용자 정보를 만들어 리턴한다.
-	 * @throws UsernameNotFoundException	사용자 정보를 찾지 못하는 경우 해당 에러를 던진다.
+	 * @throws UsernameNotFoundException 사용자 정보를 찾지 못하는 경우 해당 에러를 던진다.
+	 * @return 사용자 정보를 찾을 수 있는 경우 CustomUserDetails 에 사용자 정보를 넘겨 새로운 사용자 정보를 만들어 리턴한다.
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
