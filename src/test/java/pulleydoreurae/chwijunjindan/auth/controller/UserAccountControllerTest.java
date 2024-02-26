@@ -75,7 +75,6 @@ class UserAccountControllerTest {
 						preprocessResponse(prettyPrint()),
 						formParameters(    // form-data 형식
 								parameterWithName("userId").description("사용할 아이디")
-										.optional()
 										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
 								parameterWithName("email").description("사용자 이메일")
@@ -125,7 +124,6 @@ class UserAccountControllerTest {
 						preprocessResponse(prettyPrint()),
 						formParameters(    // form-data 형식
 								parameterWithName("userId").description("사용할 아이디")
-										.optional()
 										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
 								parameterWithName("email").description("사용자 이메일")
@@ -174,7 +172,6 @@ class UserAccountControllerTest {
 						preprocessResponse(prettyPrint()),
 						formParameters(    // form-data 형식
 								parameterWithName("userId").description("사용할 아이디")
-										.optional()
 										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
 								parameterWithName("email").description("사용자 이메일")
@@ -224,7 +221,6 @@ class UserAccountControllerTest {
 						preprocessResponse(prettyPrint()),
 						formParameters(    // form-data 형식
 								parameterWithName("userId").description("사용할 아이디")
-										.optional()
 										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
 								parameterWithName("email").description("사용자 이메일")
@@ -272,7 +268,6 @@ class UserAccountControllerTest {
 						preprocessResponse(prettyPrint()),
 						formParameters(    // form-data 형식
 								parameterWithName("userId").description("사용할 아이디")
-										.optional()
 										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
 								parameterWithName("email").description("사용자 이메일")
@@ -320,7 +315,6 @@ class UserAccountControllerTest {
 						preprocessResponse(prettyPrint()),
 						formParameters(    // form-data 형식
 								parameterWithName("userId").description("사용할 아이디")
-										.optional()
 										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
 								parameterWithName("email").description("사용자 이메일")
