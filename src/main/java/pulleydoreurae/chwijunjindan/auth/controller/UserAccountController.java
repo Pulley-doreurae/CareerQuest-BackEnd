@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +14,11 @@ import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterRequest;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
+import pulleydoreurae.chwijunjindan.mail.repository.MailRepository;
+import pulleydoreurae.chwijunjindan.mail.service.MailService;
+import pulleydoreurae.chwijunjindan.mail.verifyException;
+
+import java.security.NoSuchAlgorithmException;
 
 /**
  * 회원가입을 처리하는 컨트롤러
@@ -28,12 +31,16 @@ public class UserAccountController {
 
 	private final UserAccountRepository userAccountRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final MailService mailService;
+	private final MailRepository mailRepository;
 
 	@Autowired
 	public UserAccountController(UserAccountRepository userAccountRepository,
-			BCryptPasswordEncoder bCryptPasswordEncoder) {
+			BCryptPasswordEncoder bCryptPasswordEncoder, MailService mailService, MailRepository mailRepository) {
 		this.userAccountRepository = userAccountRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.mailService = mailService;
+		this.mailRepository = mailRepository;
 	}
 
 	/**
@@ -162,7 +169,7 @@ public class UserAccountController {
 	 */
 	@PostMapping("/register")
 	public ResponseEntity<UserAccountRegisterResponse> register(@Valid UserAccountRegisterRequest user,
-			BindingResult bindingResult) {
+			BindingResult bindingResult) throws NoSuchAlgorithmException {
 
 		// 유효성 검사
 		ResponseEntity<UserAccountRegisterResponse> BAD_REQUEST = validCheck(
@@ -180,17 +187,12 @@ public class UserAccountController {
 		if (BAD_REQUEST.getStatusCode() == HttpStatus.BAD_REQUEST)
 			return BAD_REQUEST;
 
-		UserAccount userAccount = UserAccount.builder()
-				.userId(user.getUserId())
-				.userName(user.getUserName())
-				.phoneNum(user.getPhoneNum())
-				.email(user.getEmail())
-				.password(bCryptPasswordEncoder.encode(user.getPassword()))
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
-		userAccountRepository.save(userAccount);
+		// 이메일 인증 전송
+		mailService.sendMail(user.getUserId(), user.getUserName(),
+							user.getPhoneNum(), user.getEmail(),
+							bCryptPasswordEncoder.encode(user.getPassword()));
 
-		log.info("[회원가입] 새로 추가된 회원 : {}", userAccount.getUserId());
+		log.info("[인증] 인증을 요청한 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
 				UserAccountRegisterResponse.builder()
 						.userId(user.getUserId())
@@ -198,8 +200,54 @@ public class UserAccountController {
 						.email(user.getEmail())
 						.userName(user.getUserName())
 						.phoneNum(user.getPhoneNum())
+						.msg("이메일 인증을 요청했습니다.")
+						.build()
+		);
+	}
+
+	/**
+	 * 이메일 인증 확인 메서드
+	 *
+	 * @param email		인증 링크에 포함되어 있는 이메일
+	 * @param num		인증 링크에 포함되어 있는 인증번호
+	 * @return 인증을 요청한 회원 정보를 요청 결과와 함께 돌려준다.
+	 * @throws verifyException	인증 확인 중 유효 시간이 다 지났거나 인증 번호가 일치하지 않을 경우의 예외처리로 알려준다.
+	 */
+	@GetMapping("/verify")
+	public ResponseEntity<UserAccountRegisterResponse> verifyMailCheck(
+			@RequestParam(name = "email") String email,
+			@RequestParam(name = "certificationNumber") String num
+	) throws verifyException {
+		boolean isOk = mailService.verifyEmail(email,num);
+
+		UserAccount user = mailService.getVerifiedUser(email);
+		mailRepository.removeCertification(email);
+
+		if(!isOk){
+			log.warn("[인증] 인증실패 : {}", user.getUserId());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+					UserAccountRegisterResponse.builder()
+							.userId(user.getUserId())
+							.userName(user.getUserName())
+							.email(user.getEmail())
+							.phoneNum(user.getPhoneNum())
+							.msg("인증을 실패했습니다.")
+							.build()
+			);
+		}
+
+		userAccountRepository.save(user);
+
+		log.info("[인증] 새로 추가된 회원 : {}", user.getUserId());
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserAccountRegisterResponse.builder()
+						.userId(user.getUserId())
+						.userName(user.getUserName())
+						.email(user.getEmail())
+						.phoneNum(user.getPhoneNum())
 						.msg("회원가입에 성공하였습니다.")
 						.build()
 		);
 	}
 }
+
