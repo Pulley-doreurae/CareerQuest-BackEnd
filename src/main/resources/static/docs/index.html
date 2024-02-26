@@ -455,6 +455,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_유효성_검사_통과_실패_password">유효성 검사 통과 실패 (password)</a></li>
 <li><a href="#_유효성_검사_통과_실패_email">유효성 검사 통과 실패 (email)</a></li>
 <li><a href="#_유효성_검사_통과_실패_phonenum">유효성 검사 통과 실패 (phoneNum)</a></li>
+<li><a href="#_아이디_중복확인_중복_x">아이디 중복확인 (중복 X)</a></li>
+<li><a href="#_아이디_중복확인_중복_o">아이디 중복확인 (중복 O)</a></li>
+<li><a href="#_이메일_중복확인_중복_x">이메일 중복확인 (중복 X)</a></li>
+<li><a href="#_이메일_중복확인_중복_o">이메일 중복확인 (중복 O)</a></li>
 </ul>
 </li>
 <li><a href="#_로그인_및_jwt_api">로그인 및 JWT API</a>
@@ -496,7 +500,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 202
 
-userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=_vLg0NMFBWTtNk2cWWSfZKYHh4zKU3JAVEMBzVD-UTdi7ir3yJSE5OAzYwXAAn-lbUmrVMUyqrX7NkZtZ3c3_GmaaQMD2xzH</code></pre>
+userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=rObtt8UIPQ8UM7fvxG7mB72AwxxdIA3zBAwa8jin_46hqq0lldPcg_Y4DD45A4KOp0PSZtm17iRuRjneNDR8xg_Dze3DmM8V</code></pre>
 </div>
 </div>
 </div>
@@ -564,14 +568,14 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 166
+Content-Length: 167
 
 {
   "userId" : "testId",
   "userName" : "testName",
   "email" : "test@email.com",
   "phoneNum" : "010-1111-2222",
-  "msg" : "회원가입에 성공하였습니다."
+  "msg" : "이메일 인증을 요청했습니다."
 }</code></pre>
 </div>
 </div>
@@ -635,7 +639,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 202
 
-userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=eojp7vGJpKw34J23I_pqodLdgcEz8kJh6j1l5Uu7DFrzzIKHGLva2MS5xcoagvuFGtdexLPprPgAxyNMiA9Xhn-Kb2qR9Lu2</code></pre>
+userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=5a8hBSJQ3QYzGbKeuB4CnuE6X5i8r3TEfwJ_9mHVkQMnXcX815oQYEYx5DcefNSriDM2q4BecvmEl0fpTmEdkAewoWdFbPGd</code></pre>
 </div>
 </div>
 </div>
@@ -774,7 +778,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 202
 
-userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=-X9wY86SHl4WvzepOIc96fku6FKosGaN6ORYoBXKu9dxt4_dykZIUKr3J2o7iFGZXqoJ38kXxTCe0VCg2t1ukiHzjrVCgbjl</code></pre>
+userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=fIBbEU2vqJGgdjsM49HaR7rBRf3tzchsCZJG0YCkvz2iZajIGLZsJSmanvWNQgtvh_zudtyjaMXV_PtBbKBzs7fBjFiSB5v_</code></pre>
 </div>
 </div>
 </div>
@@ -913,7 +917,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 200
 
-userId=test&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=4scMhnpI7GNrkIKpesE9niy3WluPNQ7y3KrV5_ZMp9rKq8bDhKJo5R5w3wZGorWbGOwJqh-Od2K9Vz_f6pnihZN8keP9mvSl</code></pre>
+userId=test&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=gclIwbNGNuv3rySyVTcdtSHitWXz7aq4fkwyj0jJtfp-Ktuysf0soIEiAdvamhPQNxophUPTmAfK386VGi9Wty780ZgcGe7U</code></pre>
 </div>
 </div>
 </div>
@@ -1052,7 +1056,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 196
 
-userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPw&amp;_csrf=YHhy1SepVyQR8i1VGyBEm8suiITYb03bJFFWH8zNP9l0hBAWVUlB7RXKYBc8kx1gfQ1wrvhNpeXpWXT2E2hjLP37W78RsHN3</code></pre>
+userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=010-1111-2222&amp;password=testPw&amp;_csrf=0492Q7nfB8YLKBHsUMV01_jltHYOtgnqzyjaIiCFhpomxUnR6-0QJo7pZvYmTiCIMehA4p3QmRQ6gzzH-hvqRhi8s_kX_Xm3</code></pre>
 </div>
 </div>
 </div>
@@ -1191,7 +1195,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 190
 
-userId=testId&amp;userName=testName&amp;email=test&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=U_uI_tSuLmRKku6ne92g26_6FtoCQmgIvavp4Q6UP2shVlGvMpixzLLPHgZnod7BHvCU6ZueO7gxdAwl286P0DylDF4SZzef</code></pre>
+userId=testId&amp;userName=testName&amp;email=test&amp;phoneNum=010-1111-2222&amp;password=testPassword&amp;_csrf=CIuos4keUyWRJiFMFw3qxNDHgqmaNRsxUufhtWJy_465pEh8Oeqb1r4tZEe8FxB1diDe9eHwr8uqVy4cYdbVhFZLmbyPxX8Y</code></pre>
 </div>
 </div>
 </div>
@@ -1330,7 +1334,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 197
 
-userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=01-11-22&amp;password=testPassword&amp;_csrf=XKxA7oU9bimVXG9dyrgAT1kfbC6nUs7V6kkylnKDnHiJQ1X1Pcki2uFcCBi4bQlv_pU0LTh9QU_EMPr403wE8Bfn_R2-cGyT</code></pre>
+userId=testId&amp;userName=testName&amp;email=test%40email.com&amp;phoneNum=01-11-22&amp;password=testPassword&amp;_csrf=sF_yvcbuauB6_YZwgsapj70aWYaBfIP4HFK4j4WdIVdRiY0I0WqT36PfCIRXzORC4Oudt9ktdL62SbHVKzDZ6bCkEzVisbo7</code></pre>
 </div>
 </div>
 </div>
@@ -1456,6 +1460,410 @@ Content-Length: 178
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_아이디_중복확인_중복_x">아이디 중복확인 (중복 X)</h3>
+<div class="sect3">
+<h4 id="_요청_8">요청</h4>
+<div class="sect4">
+<h5 id="_요청_8_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/duplicate-check-id HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 116
+
+userId=testId&amp;_csrf=T2A6r9tw0vOhh7NOGfwhPEmfz5wv5qpStocohtd-oLMhaV-FLVNbn71D68OM44J5fNEVXiyq4qUZ0J1_gbAdtuAcmNcTWmbg</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_8_form_parameters">Form parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이디는 5자 이상</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용할 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_csrf</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csrf 토큰값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_8">응답</h4>
+<div class="sect4">
+<h5 id="_응답_8_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 74
+
+{
+  "field" : "testId",
+  "msg" : "가입 가능한 아이디입니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_8_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>field</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_아이디_중복확인_중복_o">아이디 중복확인 (중복 O)</h3>
+<div class="sect3">
+<h4 id="_요청_9">요청</h4>
+<div class="sect4">
+<h5 id="_요청_9_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/duplicate-check-id HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 116
+
+userId=testId&amp;_csrf=PY8U65y8yfyQWHV7GccJ1st2KqvJvvVGH-l_0n69Bi9kVQyXDOl32aqE_c-9YURCL-o9761HB5Lxh81rKIpJtxrbNk4CMWnx</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_9_form_parameters">Form parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이디는 5자 이상</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용할 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_csrf</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csrf 토큰값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_9">응답</h4>
+<div class="sect4">
+<h5 id="_응답_9_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 77
+
+{
+  "field" : "testId",
+  "msg" : "이미 존재하는 아이디입니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_9_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>field</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이메일_중복확인_중복_x">이메일 중복확인 (중복 X)</h3>
+<div class="sect3">
+<h4 id="_요청_10">요청</h4>
+<div class="sect4">
+<h5 id="_요청_10_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/duplicate-check-email HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 125
+
+email=test%40email.com&amp;_csrf=7Old7gvWHw-K1DNBcd2TvfUWjL6wZkO0t75DaWRkNlS6mY5ljo9r2DPhKTansAVxE_CniMZ3odyEX3OZgoZ6C1EHDmbZrLoD</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_10_form_parameters">Form parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일 형식만 가능</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용할 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_csrf</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csrf 토큰값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_10">응답</h4>
+<div class="sect4">
+<h5 id="_응답_10_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 82
+
+{
+  "field" : "test@email.com",
+  "msg" : "가입 가능한 이메일입니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_10_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>field</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이메일_중복확인_중복_o">이메일 중복확인 (중복 O)</h3>
+<div class="sect3">
+<h4 id="_요청_11">요청</h4>
+<div class="sect4">
+<h5 id="_요청_11_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/duplicate-check-email HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 125
+
+email=test%40email.com&amp;_csrf=-dUbJHyDFz5yFrcA4V8RwUOqrXti_fLzQq4abG9dkTLE9rWByu0vEUy0Ll1fJtM50XIlpXXLgEIEmJbeI5YtClg8qAuil9G2</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_11_form_parameters">Form parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일 형식만 가능</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용할 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_csrf</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csrf 토큰값</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_11">응답</h4>
+<div class="sect4">
+<h5 id="_응답_11_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 85
+
+{
+  "field" : "test@email.com",
+  "msg" : "이미 존재하는 이메일입니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_11_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>field</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1464,9 +1872,9 @@ Content-Length: 178
 <div class="sect2">
 <h3 id="_로그인_성공">로그인 성공</h3>
 <div class="sect3">
-<h4 id="_요청_8">요청</h4>
+<h4 id="_요청_12">요청</h4>
 <div class="sect4">
-<h5 id="_요청_8_http_request">HTTP request</h5>
+<h5 id="_요청_12_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
@@ -1479,7 +1887,7 @@ username=testId&amp;password=testPassword</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_8_form_parameters">Form parameters</h5>
+<h5 id="_요청_12_form_parameters">Form parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1509,9 +1917,9 @@ username=testId&amp;password=testPassword</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_8">응답</h4>
+<h4 id="_응답_12">응답</h4>
 <div class="sect4">
-<h5 id="_응답_8_http_response">HTTP response</h5>
+<h5 id="_응답_12_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1525,16 +1933,16 @@ Content-Length: 448
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwODQxODQwMX0.FZ9bRcnAwIl38OnaP6qAQrSWd_6OWFQd0PW88YXZDgw",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_8_response_fields">Response fields</h5>
+<h5 id="_응답_12_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1582,9 +1990,9 @@ Content-Length: 448
 <div class="sect2">
 <h3 id="_로그인_실패_사용자를_찾을_수_없음">로그인 실패 (사용자를 찾을 수 없음)</h3>
 <div class="sect3">
-<h4 id="_요청_9">요청</h4>
+<h4 id="_요청_13">요청</h4>
 <div class="sect4">
-<h5 id="_요청_9_http_request">HTTP request</h5>
+<h5 id="_요청_13_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
@@ -1597,7 +2005,7 @@ username=testId&amp;password=testPassword</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_9_form_parameters">Form parameters</h5>
+<h5 id="_요청_13_form_parameters">Form parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1627,9 +2035,9 @@ username=testId&amp;password=testPassword</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_9">응답</h4>
+<h4 id="_응답_13">응답</h4>
 <div class="sect4">
-<h5 id="_응답_9_http_response">HTTP response</h5>
+<h5 id="_응답_13_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
@@ -1649,7 +2057,7 @@ Content-Length: 133
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_9_response_fields">Response fields</h5>
+<h5 id="_응답_13_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1682,9 +2090,9 @@ Content-Length: 133
 <div class="sect2">
 <h3 id="_로그인_실패_비밀번호가_맞지않음">로그인 실패 (비밀번호가 맞지않음)</h3>
 <div class="sect3">
-<h4 id="_요청_10">요청</h4>
+<h4 id="_요청_14">요청</h4>
 <div class="sect4">
-<h5 id="_요청_10_http_request">HTTP request</h5>
+<h5 id="_요청_14_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
@@ -1697,7 +2105,7 @@ username=testId&amp;password=Password</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_10_form_parameters">Form parameters</h5>
+<h5 id="_요청_14_form_parameters">Form parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1727,9 +2135,9 @@ username=testId&amp;password=Password</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_10">응답</h4>
+<h4 id="_응답_14">응답</h4>
 <div class="sect4">
-<h5 id="_응답_10_http_response">HTTP response</h5>
+<h5 id="_응답_14_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
@@ -1749,7 +2157,7 @@ Content-Length: 133
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_10_response_fields">Response fields</h5>
+<h5 id="_응답_14_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1783,19 +2191,19 @@ Content-Length: 133
 <div class="sect2">
 <h3 id="_액세스_확인_유효한_엑세스_토큰">액세스 확인 (유효한 엑세스 토큰)</h3>
 <div class="sect3">
-<h4 id="_요청_11">요청</h4>
+<h4 id="_요청_15">요청</h4>
 <div class="sect4">
-<h5 id="_요청_11_http_request">HTTP request</h5>
+<h5 id="_요청_15_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /index HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET / HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_11_request_headers">Request headers</h5>
+<h5 id="_요청_15_request_headers">Request headers</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1817,31 +2225,21 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_11">응답</h4>
+<h4 id="_응답_15">응답</h4>
 <div class="sect4">
-<h5 id="_응답_11_http_response">HTTP response</h5>
+<h5 id="_응답_15_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Language: en
-Content-Type: text/html;charset=UTF-8
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 2
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Content-Length: 123
 
-&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+hi</code></pre>
 </div>
 </div>
 </div>
@@ -1850,9 +2248,9 @@ Content-Length: 123
 <div class="sect2">
 <h3 id="_액세스_확인_유효하지_않은_엑세스_토큰">액세스 확인 (유효하지 않은 엑세스 토큰)</h3>
 <div class="sect3">
-<h4 id="_요청_12">요청</h4>
+<h4 id="_요청_16">요청</h4>
 <div class="sect4">
-<h5 id="_요청_12_http_request">HTTP request</h5>
+<h5 id="_요청_16_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /index HTTP/1.1
@@ -1862,7 +2260,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_12_request_headers">Request headers</h5>
+<h5 id="_요청_16_request_headers">Request headers</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1884,9 +2282,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_12">응답</h4>
+<h4 id="_응답_16">응답</h4>
 <div class="sect4">
-<h5 id="_응답_12_http_response">HTTP response</h5>
+<h5 id="_응답_16_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
@@ -1907,20 +2305,20 @@ Content-Length: 46
 <div class="sect2">
 <h3 id="_리프레시_토큰_확인_유효한_리프레시_토큰">리프레시 토큰 확인 (유효한 리프레시 토큰)</h3>
 <div class="sect3">
-<h4 id="_요청_13">요청</h4>
+<h4 id="_요청_17">요청</h4>
 <div class="sect4">
-<h5 id="_요청_13_http_request">HTTP request</h5>
+<h5 id="_요청_17_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /index HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwODQxODQwMX0.FZ9bRcnAwIl38OnaP6qAQrSWd_6OWFQd0PW88YXZDgw
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_13_request_headers">Request headers</h5>
+<h5 id="_요청_17_request_headers">Request headers</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1946,9 +2344,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_13">응답</h4>
+<h4 id="_응답_17">응답</h4>
 <div class="sect4">
-<h5 id="_응답_13_http_response">HTTP response</h5>
+<h5 id="_응답_17_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1962,14 +2360,14 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU",
   "expires_in" : 600000
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_13_response_fields">Response fields</h5>
+<h5 id="_응답_17_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2007,9 +2405,9 @@ Content-Length: 229
 <div class="sect2">
 <h3 id="_리프레시_토큰_확인_유효하지_않은_리프레시_토큰">리프레시 토큰 확인 (유효하지 않은 리프레시 토큰)</h3>
 <div class="sect3">
-<h4 id="_요청_14">요청</h4>
+<h4 id="_요청_18">요청</h4>
 <div class="sect4">
-<h5 id="_요청_14_http_request">HTTP request</h5>
+<h5 id="_요청_18_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /index HTTP/1.1
@@ -2020,7 +2418,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_14_request_headers">Request headers</h5>
+<h5 id="_요청_18_request_headers">Request headers</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2046,9 +2444,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_14">응답</h4>
+<h4 id="_응답_18">응답</h4>
 <div class="sect4">
-<h5 id="_응답_14_http_response">HTTP response</h5>
+<h5 id="_응답_18_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
@@ -2069,20 +2467,20 @@ Content-Length: 75
 <div class="sect2">
 <h3 id="_로그아웃">로그아웃</h3>
 <div class="sect3">
-<h4 id="_요청_15">요청</h4>
+<h4 id="_요청_19">요청</h4>
 <div class="sect4">
-<h5 id="_요청_15_http_request">HTTP request</h5>
+<h5 id="_요청_19_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwODQxODQwMX0.FZ9bRcnAwIl38OnaP6qAQrSWd_6OWFQd0PW88YXZDgw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_15_request_headers">Request headers</h5>
+<h5 id="_요청_19_request_headers">Request headers</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2108,9 +2506,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_15">응답</h4>
+<h4 id="_응답_19">응답</h4>
 <div class="sect4">
-<h5 id="_응답_15_http_response">HTTP response</h5>
+<h5 id="_응답_19_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2136,9 +2534,9 @@ Content-Length: 40
 <div class="sect2">
 <h3 id="_리다이렉트_주소_요청">리다이렉트 주소 요청</h3>
 <div class="sect3">
-<h4 id="_요청_16">요청</h4>
+<h4 id="_요청_20">요청</h4>
 <div class="sect4">
-<h5 id="_요청_16_http_request">HTTP request</h5>
+<h5 id="_요청_20_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/login-kakao HTTP/1.1
@@ -2148,9 +2546,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_16">응답</h4>
+<h4 id="_응답_20">응답</h4>
 <div class="sect4">
-<h5 id="_응답_16_http_response">HTTP response</h5>
+<h5 id="_응답_20_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 302 Found
@@ -2170,9 +2568,9 @@ Location: null</code></pre>
 <div class="sect2">
 <h3 id="_유효하지_않은_카카오_인증코드로_카카오서버에_요청할때_비정상_요청">유효하지 않은 카카오 인증코드로 카카오서버에 요청할때 (비정상 요청)</h3>
 <div class="sect3">
-<h4 id="_요청_17">요청</h4>
+<h4 id="_요청_21">요청</h4>
 <div class="sect4">
-<h5 id="_요청_17_http_request">HTTP request</h5>
+<h5 id="_요청_21_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/login-kakao/code?code=1234 HTTP/1.1
@@ -2181,7 +2579,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_17_query_parameters">Query parameters</h5>
+<h5 id="_요청_21_query_parameters">Query parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2203,9 +2601,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_17">응답</h4>
+<h4 id="_응답_21">응답</h4>
 <div class="sect4">
-<h5 id="_응답_17_http_response">HTTP response</h5>
+<h5 id="_응답_21_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
@@ -2230,9 +2628,9 @@ Content-Length: 90
 <div class="sect2">
 <h3 id="_유효한_카카오_인증코드로_카카오서버에_요청할때_정상_요청">유효한 카카오 인증코드로 카카오서버에 요청할때 (정상 요청)</h3>
 <div class="sect3">
-<h4 id="_요청_18">요청</h4>
+<h4 id="_요청_22">요청</h4>
 <div class="sect4">
-<h5 id="_요청_18_http_request">HTTP request</h5>
+<h5 id="_요청_22_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/login-kakao/code?code=123123 HTTP/1.1
@@ -2241,7 +2639,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_18_query_parameters">Query parameters</h5>
+<h5 id="_요청_22_query_parameters">Query parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2263,9 +2661,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_18">응답</h4>
+<h4 id="_응답_22">응답</h4>
 <div class="sect4">
-<h5 id="_응답_18_http_response">HTTP response</h5>
+<h5 id="_응답_22_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2289,7 +2687,7 @@ Content-Length: 159
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_18_response_fields">Response fields</h5>
+<h5 id="_응답_22_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2340,7 +2738,7 @@ Content-Length: 159
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-24 16:48:44 +0900
+Last updated 2024-01-26 18:04:36 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

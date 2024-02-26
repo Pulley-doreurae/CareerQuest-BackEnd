@@ -34,3 +34,23 @@ operation::user-account-controller-test/register-test6[snippets="http-response,r
 operation::user-account-controller-test/register-test7[snippets="http-request,form-parameters"]
 ==== 응답
 operation::user-account-controller-test/register-test7[snippets="http-response,response-fields"]
+=== 아이디 중복확인 (중복 X)
+==== 요청
+operation::user-account-controller-test/duplicate-check-id-success[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/duplicate-check-id-success[snippets="http-response,response-fields"]
+=== 아이디 중복확인 (중복 O)
+==== 요청
+operation::user-account-controller-test/duplicate-check-id-fail[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/duplicate-check-id-fail[snippets="http-response,response-fields"]
+=== 이메일 중복확인 (중복 X)
+==== 요청
+operation::user-account-controller-test/duplicate-check-email-success[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/duplicate-check-email-success[snippets="http-response,response-fields"]
+=== 이메일 중복확인 (중복 O)
+==== 요청
+operation::user-account-controller-test/duplicate-check-email-fail[snippets="http-request,form-parameters"]
+==== 응답
+operation::user-account-controller-test/duplicate-check-email-fail[snippets="http-response,response-fields"]
