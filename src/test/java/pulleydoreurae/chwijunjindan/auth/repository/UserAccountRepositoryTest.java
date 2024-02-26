@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 
 /**
  * UserAccountRepository 클래스를 테스트하는 클래스
@@ -21,7 +21,7 @@ class UserAccountRepositoryTest {
 	@Autowired
 	private UserAccountRepository userAccountRepository;
 
-	@AfterEach	// 각각의 테스트가 종료되면 데이터베이스에 저장된 내용 삭제하기
+	@AfterEach    // 각각의 테스트가 종료되면 데이터베이스에 저장된 내용 삭제하기
 	public void after() {
 		userAccountRepository.deleteAll();
 	}
@@ -29,7 +29,7 @@ class UserAccountRepositoryTest {
 	@Test
 	@DisplayName("1. 사용자 아이디로 데이터베이스에 검색하기")
 	void findByUserIdTest() {
-	    // Given
+		// Given
 		UserAccount user = UserAccount.builder()
 				.userId("testId")
 				.userName("testName")
@@ -39,10 +39,10 @@ class UserAccountRepositoryTest {
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
 
-	    // When
+		// When
 		userAccountRepository.save(user);
 
-	    // Then
+		// Then
 		UserAccount getUser = userAccountRepository.findByUserId("testId").orElseThrow(() -> {
 			return new UsernameNotFoundException("사용자 정보를 찾을 수 없음");
 		});
