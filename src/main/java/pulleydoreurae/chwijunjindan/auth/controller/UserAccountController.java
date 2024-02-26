@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import pulleydoreurae.chwijunjindan.auth.domain.dto.DuplicateCheckResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterRequest;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.UserAccountRegisterResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
@@ -83,41 +84,28 @@ public class UserAccountController {
 	/**
 	 * 아이디 중복확인 메서드 (1차)
 	 *
-	 * @param request       사용자의 아이디 중복확인을 위한 요청
-	 * @param bindingResult 유효성 검사에 관련된 파라미터
+	 * @param userId 사용자의 아이디 중복확인을 위한 요청
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
 	@PostMapping("duplicate-check-id")
-	public ResponseEntity<UserAccountRegisterResponse> duplicateCheckId(@Valid UserAccountRegisterRequest request,
-			BindingResult bindingResult) {
+	public ResponseEntity<DuplicateCheckResponse> duplicateCheckId(String userId) {
 
-		ResponseEntity<UserAccountRegisterResponse> BAD_REQUEST = validCheck(
-				request, bindingResult);
-		if (BAD_REQUEST != null)
-			return BAD_REQUEST;
-
-		if (userAccountRepository.existsByUserId(request.getUserId())) {
-			log.warn("[회원가입] 중복된 아이디 : {}", request.getUserId());
+		// TODO: 2024/02/26 중복확인시 redis 도 확인해서 동시에 같은 아이디로 회원가입 할 수 없도록 추가하기
+		//  중복이 안된다면 해당 아이디를 선점하기 위해 redis 에 저장
+		if (userAccountRepository.existsByUserId(userId)) {
+			log.warn("[회원가입] 중복된 아이디 : {}", userId);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-					UserAccountRegisterResponse.builder()
-							.userId(request.getUserId())
-							.userName(request.getUserName())
-							.email(request.getEmail())
-							.userName(request.getUserName())
-							.phoneNum(request.getPhoneNum())
+					DuplicateCheckResponse.builder()
+							.field(userId)
 							.msg("이미 존재하는 아이디입니다.")
 							.build()
 			);
 		}
 
-		log.info("[회원가입] 가입 가능한 아이디 : {}", request.getUserId());
+		log.info("[회원가입] 가입 가능한 아이디 : {}", userId);
 		return ResponseEntity.status(HttpStatus.OK).body(
-				UserAccountRegisterResponse.builder()
-						.userId(request.getUserId())
-						.userName(request.getUserName())
-						.email(request.getEmail())
-						.userName(request.getUserName())
-						.phoneNum(request.getPhoneNum())
+				DuplicateCheckResponse.builder()
+						.field(userId)
 						.msg("가입 가능한 아이디입니다.")
 						.build()
 		);
@@ -126,41 +114,28 @@ public class UserAccountController {
 	/**
 	 * 이메일 중복확인 메서드 (1차)
 	 *
-	 * @param request       사용자의 이메일 중복확인을 위한 요청
-	 * @param bindingResult 유효성 검사에 관련된 파라미터
+	 * @param email 사용자의 이메일 중복확인을 위한 요청
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
 	@PostMapping("duplicate-check-email")
-	public ResponseEntity<UserAccountRegisterResponse> duplicateCheckEmail(@Valid UserAccountRegisterRequest request,
-			BindingResult bindingResult) {
+	public ResponseEntity<DuplicateCheckResponse> duplicateCheckEmail(String email) {
 
-		ResponseEntity<UserAccountRegisterResponse> BAD_REQUEST = validCheck(
-				request, bindingResult);
-		if (BAD_REQUEST != null)
-			return BAD_REQUEST;
-
-		if (userAccountRepository.existsByEmail(request.getEmail())) {
-			log.warn("[회원가입] 중복된 이메일 : {}", request.getUserId());
+		// TODO: 2024/02/26 중복확인시 redis 도 확인해서 동시에 같은 아이디로 회원가입 할 수 없도록 추가하기
+		//  중복이 안된다면 해당 이메일을 선점하기위해 redis 에 저장
+		if (userAccountRepository.existsByEmail(email)) {
+			log.warn("[회원가입] 중복된 이메일 : {}", email);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-					UserAccountRegisterResponse.builder()
-							.userId(request.getUserId())
-							.userName(request.getUserName())
-							.email(request.getEmail())
-							.userName(request.getUserName())
-							.phoneNum(request.getPhoneNum())
+					DuplicateCheckResponse.builder()
+							.field(email)
 							.msg("이미 존재하는 이메일입니다.")
 							.build()
 			);
 		}
 
-		log.info("[회원가입] 가입 가능한 이메일 : {}", request.getUserId());
+		log.info("[회원가입] 가입 가능한 이메일 : {}", email);
 		return ResponseEntity.status(HttpStatus.OK).body(
-				UserAccountRegisterResponse.builder()
-						.userId(request.getUserId())
-						.userName(request.getUserName())
-						.email(request.getEmail())
-						.userName(request.getUserName())
-						.phoneNum(request.getPhoneNum())
+				DuplicateCheckResponse.builder()
+						.field(email)
 						.msg("가입 가능한 이메일입니다.")
 						.build()
 		);
@@ -175,7 +150,7 @@ public class UserAccountController {
 	 */
 	@PostMapping("/register")
 	public ResponseEntity<UserAccountRegisterResponse> register(@Valid UserAccountRegisterRequest user,
-			BindingResult bindingResult) throws NoSuchAlgorithmException {
+			BindingResult bindingResult) {
 
 		// 유효성 검사
 		ResponseEntity<UserAccountRegisterResponse> BAD_REQUEST = validCheck(
@@ -184,21 +159,50 @@ public class UserAccountController {
 			return BAD_REQUEST;
 
 		// 아이디 중복확인 (2차)
-		BAD_REQUEST = duplicateCheckId(user, bindingResult);
-		if (BAD_REQUEST.getStatusCode() == HttpStatus.BAD_REQUEST)
-			return BAD_REQUEST;
+		ResponseEntity<DuplicateCheckResponse> DUPLICATE_CHECK = duplicateCheckId(user.getUserId());
+		if (DUPLICATE_CHECK.getStatusCode() == HttpStatus.BAD_REQUEST) {
+
+			log.error("[회원가입] 중복된 아이디 : {}", user.getUserId());
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+					UserAccountRegisterResponse.builder()
+							.userId(user.getUserId())
+							.userName(user.getUserName())
+							.email(user.getEmail())
+							.userName(user.getUserName())
+							.phoneNum(user.getPhoneNum())
+							.msg("이미 존재하는 아이디입니다.")
+							.build());
+		}
 
 		// 이메일 중복확인 (2차)
-		BAD_REQUEST = duplicateCheckEmail(user, bindingResult);
-		if (BAD_REQUEST.getStatusCode() == HttpStatus.BAD_REQUEST)
-			return BAD_REQUEST;
+		DUPLICATE_CHECK = duplicateCheckEmail(user.getEmail());
+		if (DUPLICATE_CHECK.getStatusCode() == HttpStatus.BAD_REQUEST) {
 
+			log.error("[회원가입] 중복된 이메일 : {}", user.getEmail());
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+					UserAccountRegisterResponse.builder()
+							.userId(user.getUserId())
+							.userName(user.getUserName())
+							.email(user.getEmail())
+							.userName(user.getUserName())
+							.phoneNum(user.getPhoneNum())
+							.msg("이미 존재하는 이메일입니다.")
+							.build());
+		}
+
+		// TODO: 2024/02/26 예외처리 추가하기
 		// 이메일 인증 전송
-		mailService.sendMail(user.getUserId(), user.getUserName(),
-				user.getPhoneNum(), user.getEmail(),
-				bCryptPasswordEncoder.encode(user.getPassword()));
+		try {
+			mailService.sendMail(user.getUserId(), user.getUserName(),
+					user.getPhoneNum(), user.getEmail(),
+					bCryptPasswordEncoder.encode(user.getPassword()));
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
 
-		log.info("[인증] 인증을 요청한 회원 : {}", user.getUserId());
+		log.info("[회원가입 - 인증] 인증을 요청한 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
 				UserAccountRegisterResponse.builder()
 						.userId(user.getUserId())
@@ -217,20 +221,25 @@ public class UserAccountController {
 	 * @param email 인증 링크에 포함되어 있는 이메일
 	 * @param num   인증 링크에 포함되어 있는 인증번호
 	 * @return 인증을 요청한 회원 정보를 요청 결과와 함께 돌려준다.
-	 * @throws verifyException 인증 확인 중 유효 시간이 다 지났거나 인증 번호가 일치하지 않을 경우의 예외처리로 알려준다.
 	 */
 	@GetMapping("/verify")
 	public ResponseEntity<UserAccountRegisterResponse> verifyMailCheck(
 			@RequestParam(name = "email") String email,
 			@RequestParam(name = "certificationNumber") String num
-	) throws verifyException {
-		boolean isOk = mailService.verifyEmail(email, num);
+	) {
+		// TODO: 2024/02/26 예외처리 추가하기
+		boolean isOk;
+		try {
+			isOk = mailService.verifyEmail(email, num);
+		} catch (verifyException e) {
+			throw new RuntimeException(e);
+		}
 
 		UserAccount user = mailService.getVerifiedUser(email);
 		mailRepository.removeCertification(email);
 
 		if (!isOk) {
-			log.warn("[인증] 인증실패 : {}", user.getUserId());
+			log.warn("[회원가입 - 인증] 인증실패 : {}", user.getUserId());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					UserAccountRegisterResponse.builder()
 							.userId(user.getUserId())
@@ -244,7 +253,7 @@ public class UserAccountController {
 
 		userAccountRepository.save(user);
 
-		log.info("[인증] 새로 추가된 회원 : {}", user.getUserId());
+		log.info("[회원가입 - 인증] 새로 추가된 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
 				UserAccountRegisterResponse.builder()
 						.userId(user.getUserId())
