@@ -48,18 +48,18 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException {
 
-		// 로그인에 성공하면 토큰들을 dto 로 생성
+		// 로그인에 성공하면 redis 에 저장할 객체 생성
 		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse(authentication.getName());
 
-		// 로그인한 id 와 생성한 액세스토큰을 redis 에 저장
+		// 로그인한 id 를 키 값으로 생성한 액세스토큰을 redis 에 저장
 		jwtAccessTokenRepository
-				.save(new JwtAccessToken(jwtTokenResponse.getAccess_token(), authentication.getName()));
+				.save(new JwtAccessToken(authentication.getName(), jwtTokenResponse.getAccess_token()));
 
-		// 로그인한 id 와 생성된 리프레시토큰 을 redis 에 저장
+		// 로그인한 id 를 키 값으로 생성된 리프레시토큰 을 redis 에 저장
 		jwtRefreshTokenRepository
-				.save(new JwtRefreshToken(jwtTokenResponse.getRefresh_token(), authentication.getName()));
+				.save(new JwtRefreshToken(authentication.getName(), jwtTokenResponse.getRefresh_token()));
 
-		// 생성된 dto 를 클라이언트에게 전달
+		// 생성된 객체를 클라이언트에게 전달
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType("application/json;charset=UTF-8");
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());

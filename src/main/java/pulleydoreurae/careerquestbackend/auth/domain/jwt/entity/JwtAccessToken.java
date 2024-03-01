@@ -16,11 +16,11 @@ import lombok.Getter;
 public class JwtAccessToken {
 
 	@Id
-	private final String accessToken;
 	private final String userId;
+	private final String accessToken;
 
-	public JwtAccessToken(String accessToken, String userId) {
-		this.accessToken = accessToken;
+	public JwtAccessToken(String userId, String accessToken) {
 		this.userId = userId;
+		this.accessToken = accessToken;
 	}
 }
