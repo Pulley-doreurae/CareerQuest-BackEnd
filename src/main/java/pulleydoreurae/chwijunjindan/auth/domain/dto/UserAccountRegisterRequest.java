@@ -26,7 +26,7 @@ public class UserAccountRegisterRequest {
 	private String email;
 
 	@NotBlank
-	@Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "휴대폰 번호 형식에 맞춰 입력해주세요.")	// 전화번호 형식만 받기
+	@Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "휴대폰 번호 형식에 맞춰 입력해주세요.")    // 전화번호 형식만 받기
 	private String phoneNum;
 
 	@NotBlank(message = "비밀번호는 필수입니다.")

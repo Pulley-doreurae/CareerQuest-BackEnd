@@ -2,7 +2,6 @@ package pulleydoreurae.chwijunjindan.auth.domain.handler;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -507,9 +507,9 @@ Content-Length: 448
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwODQxODQwMX0.FZ9bRcnAwIl38OnaP6qAQrSWd_6OWFQd0PW88YXZDgw",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -770,8 +770,8 @@ Content-Length: 133
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET / HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -805,25 +805,15 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Language: en
-Content-Type: text/html;charset=UTF-8
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 2
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Content-Length: 123
 
-&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+hi</code></pre>
 </div>
 </div>
 </div>
@@ -896,7 +886,7 @@ Content-Length: 46
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwODQxODQwMX0.FZ9bRcnAwIl38OnaP6qAQrSWd_6OWFQd0PW88YXZDgw
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -944,7 +934,7 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -1057,8 +1047,8 @@ Content-Length: 75
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwNjI1OTAwMX0.bgxkoemnctlGK9JrmfcA6lsjoJst_A0Ra3-CjJyptsQ
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDYyNTg0MDEsImV4cCI6MTcwODQxODQwMX0.FZ9bRcnAwIl38OnaP6qAQrSWd_6OWFQd0PW88YXZDgw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1116,7 +1106,7 @@ Content-Length: 40
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-22 16:35:53 +0900
+Last updated 2024-01-26 18:04:36 +0900
 </div>
 </div>
 </body>

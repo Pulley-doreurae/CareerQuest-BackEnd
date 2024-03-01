@@ -19,10 +19,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
-import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.KakaoLoginResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.KakaoUserDetailsResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 

@@ -23,6 +23,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
+import pulleydoreurae.chwijunjindan.mail.repository.MailRepository;
+import pulleydoreurae.chwijunjindan.mail.service.MailService;
 
 /**
  * 회원가입 컨트롤러를 테스트하는 클래스
@@ -30,7 +32,7 @@ import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
  * `@WebMvcTest` 를 사용하는 경우 시큐리티 설정파일도 전부 불러오지 않으므로 `@WithMockUser` 와 `csrf()` 설정을 해주어야 정상적으로 테스트할 수 있다.
  */
 @WebMvcTest(UserAccountController.class)
-@AutoConfigureRestDocs	// REST Docs 를 사용하기 위해 추가
+@AutoConfigureRestDocs    // REST Docs 를 사용하기 위해 추가
 class UserAccountControllerTest {
 
 	@Autowired
@@ -40,6 +42,10 @@ class UserAccountControllerTest {
 	private UserAccountRepository userAccountRepository;
 	@MockBean
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@MockBean
+	private MailService mailService;
+	@MockBean
+	private MailRepository mailRepository;
 
 	@Test
 	@DisplayName("1. 회원가입 테스트")
@@ -67,15 +73,18 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
-								parameterWithName("userId").description("사용할 아이디").optional().attributes(field("constraints", "아이디는 5자 이상")),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
-								parameterWithName("email").description("사용자 이메일").attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("email").description("사용자 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								parameterWithName("phoneNum").description("사용자 연락처"),
-								parameterWithName("password").description("비밀번호").attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								parameterWithName("password").description("비밀번호")
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
@@ -85,7 +94,8 @@ class UserAccountControllerTest {
 
 		// Then
 		// 저장 메서드가 동작했는지 확인
-		verify(userAccountRepository).save(any());
+		verify(mailService).sendMail("testId", "testName", "010-1111-2222",
+				"test@email.com", bCryptPasswordEncoder.encode("testPassword"));
 	}
 
 	@Test
@@ -108,20 +118,22 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andDo(print())
+				.andExpect(jsonPath("$.phoneNum").exists()).andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
-								parameterWithName("userId").description("사용할 아이디").optional().attributes(field("constraints", "아이디는 5자 이상")),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
-								parameterWithName("email").description("사용자 이메일").attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("email").description("사용자 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								parameterWithName("phoneNum").description("사용자 연락처"),
-								parameterWithName("password").description("비밀번호").attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								parameterWithName("password").description("비밀번호")
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
@@ -154,20 +166,22 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andDo(print())
+				.andExpect(jsonPath("$.phoneNum").exists()).andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
-								parameterWithName("userId").description("사용할 아이디").optional().attributes(field("constraints", "아이디는 5자 이상")),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
-								parameterWithName("email").description("사용자 이메일").attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("email").description("사용자 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								parameterWithName("phoneNum").description("사용자 연락처"),
-								parameterWithName("password").description("비밀번호").attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								parameterWithName("password").description("비밀번호")
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
@@ -205,15 +219,18 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
-								parameterWithName("userId").description("사용할 아이디").optional().attributes(field("constraints", "아이디는 5자 이상")),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
-								parameterWithName("email").description("사용자 이메일").attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("email").description("사용자 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								parameterWithName("phoneNum").description("사용자 연락처"),
-								parameterWithName("password").description("비밀번호").attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								parameterWithName("password").description("비밀번호")
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
@@ -249,15 +266,18 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
-								parameterWithName("userId").description("사용할 아이디").optional().attributes(field("constraints", "아이디는 5자 이상")),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
-								parameterWithName("email").description("사용자 이메일").attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("email").description("사용자 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								parameterWithName("phoneNum").description("사용자 연락처"),
-								parameterWithName("password").description("비밀번호").attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								parameterWithName("password").description("비밀번호")
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
@@ -293,15 +313,18 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
-								parameterWithName("userId").description("사용할 아이디").optional().attributes(field("constraints", "아이디는 5자 이상")),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
-								parameterWithName("email").description("사용자 이메일").attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("email").description("사용자 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								parameterWithName("phoneNum").description("사용자 연락처"),
-								parameterWithName("password").description("비밀번호").attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								parameterWithName("password").description("비밀번호")
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
@@ -337,19 +360,148 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(	// form-data 형식
-								parameterWithName("userId").description("사용할 아이디").attributes(field("constraints", "아이디는 5자 이상")),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
 								parameterWithName("userName").description("사용자 이름"),
-								parameterWithName("email").description("사용자 이메일").attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("email").description("사용자 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								parameterWithName("phoneNum").description("사용자 연락처"),
-								parameterWithName("password").description("비밀번호").attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								parameterWithName("password").description("비밀번호")
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
 								parameterWithName("_csrf").description("csrf 토큰값")
 						),
-						responseFields(	// Json 응답 형식
+						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("msg").description("요청에 대한 처리결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("8. 아이디 중복확인 (중복 X)")
+	@WithMockUser
+	void duplicateCheckIdSuccess() throws Exception {
+		// Given
+
+		// When
+		mockMvc.perform(
+						post("/api/duplicate-check-id")
+								.with(csrf())
+								.param("userId", "testId"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.field").exists())
+				.andExpect(jsonPath("$.msg").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
+								parameterWithName("_csrf").description("csrf 토큰값")
+						),
+						responseFields(    // Json 응답 형식
+								fieldWithPath("field").description("요청한 아이디"),
+								fieldWithPath("msg").description("요청에 대한 처리결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("9. 아이디 중복확인 (중복 O)")
+	@WithMockUser
+	void duplicateCheckIdFail() throws Exception {
+		// Given
+		given(userAccountRepository.existsByUserId(any())).willReturn(true);
+
+		// When
+		mockMvc.perform(
+						post("/api/duplicate-check-id")
+								.with(csrf())
+								.param("userId", "testId"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.field").exists())
+				.andExpect(jsonPath("$.msg").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용할 아이디")
+										.attributes(field("constraints", "아이디는 5자 이상")),
+								parameterWithName("_csrf").description("csrf 토큰값")
+						),
+						responseFields(    // Json 응답 형식
+								fieldWithPath("field").description("요청한 아이디"),
+								fieldWithPath("msg").description("요청에 대한 처리결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("10. 이메일 중복확인 (중복 X)")
+	@WithMockUser
+	void duplicateCheckEmailSuccess() throws Exception {
+		// Given
+
+		// When
+		mockMvc.perform(
+						post("/api/duplicate-check-email")
+								.with(csrf())
+								.param("email", "test@email.com"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.field").exists())
+				.andExpect(jsonPath("$.msg").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("email").description("사용할 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("_csrf").description("csrf 토큰값")
+						),
+						responseFields(    // Json 응답 형식
+								fieldWithPath("field").description("요청한 이메일"),
+								fieldWithPath("msg").description("요청에 대한 처리결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("11. 이메일 중복확인 (중복 O)")
+	@WithMockUser
+	void duplicateCheckEmailFail() throws Exception {
+		// Given
+		given(userAccountRepository.existsByEmail(any())).willReturn(true);
+
+		// When
+		mockMvc.perform(
+						post("/api/duplicate-check-email")
+								.with(csrf())
+								.param("email", "test@email.com"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.field").exists())
+				.andExpect(jsonPath("$.msg").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("email").description("사용할 이메일")
+										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+								parameterWithName("_csrf").description("csrf 토큰값")
+						),
+						responseFields(    // Json 응답 형식
+								fieldWithPath("field").description("요청한 이메일"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 

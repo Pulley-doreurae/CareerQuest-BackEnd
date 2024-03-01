@@ -25,11 +25,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.UserRole;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.KakaoAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.KakaoLoginResponse;
 import pulleydoreurae.chwijunjindan.auth.domain.dto.KakaoUserDetailsResponse;
+import pulleydoreurae.chwijunjindan.auth.domain.entity.UserAccount;
 import pulleydoreurae.chwijunjindan.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.chwijunjindan.auth.repository.UserAccountRepository;
 
@@ -212,7 +212,7 @@ class KakaoLoginServiceTest {
 	@Test
 	@DisplayName("카카오 로그인에 성공하고 데이터베이스에 회원정보가 없다면 회원가입을 한다.")
 	void registerTest() {
-	    // Given
+		// Given
 		String email = "test@email.com";
 		UserAccount user = UserAccount.builder()
 				.userId(email)
@@ -223,12 +223,12 @@ class KakaoLoginServiceTest {
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
 
-	    // When
+		// When
 		kakaoLoginService.register(email);
 		Optional<UserAccount> optionalGetUser = userAccountRepository.findByEmail(email);
 		UserAccount getUser = optionalGetUser.get();
 
-	    // Then
+		// Then
 		assertAll(
 				() -> assertEquals(user.getUserId(), getUser.getUserId()),
 				() -> assertEquals(user.getUserName(), getUser.getUserName()),
