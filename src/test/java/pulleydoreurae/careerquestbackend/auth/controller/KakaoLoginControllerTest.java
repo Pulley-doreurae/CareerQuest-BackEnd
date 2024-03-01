@@ -112,6 +112,7 @@ class KakaoLoginControllerTest {
 								parameterWithName("code").description("카카오 로그인에 성공하고 받은 코드")
 						),
 						responseFields(
+								fieldWithPath("userId").description("로그인 시도한 id"),
 								fieldWithPath("token_type").description("토큰 타입"),
 								fieldWithPath("access_token").description("액세스 토큰 (현재는 임의의 값)"),
 								fieldWithPath("expires_in").description("액세스 토큰 유효기간 (현재는 임의의 값)"),

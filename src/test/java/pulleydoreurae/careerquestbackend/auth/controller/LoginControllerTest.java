@@ -1,5 +1,6 @@
 package pulleydoreurae.careerquestbackend.auth.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -87,6 +88,7 @@ class LoginControllerTest {
 						.param("username", "testId")
 						.param("password", "testPassword"))
 				.andDo(print())
+				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.token_type").exists())
 				.andExpect(jsonPath("$.access_token").exists())
 				.andExpect(jsonPath("$.expires_in").exists())
@@ -101,6 +103,7 @@ class LoginControllerTest {
 								parameterWithName("password").description("로그인 할 비밀번호")
 						),
 						responseFields(
+								fieldWithPath("userId").description("로그인 시도한 id"),
 								fieldWithPath("token_type").description("토큰 타입"),
 								fieldWithPath("access_token").description("액세스 토큰"),
 								fieldWithPath("expires_in").description("액세스 토큰 유효기간"),
@@ -179,10 +182,11 @@ class LoginControllerTest {
 		userAccountRepository.save(userAccount);
 
 		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse("testId");
-		jwtAccessTokenRepository.save(new JwtAccessToken(jwtTokenResponse.getAccess_token(), "testId"));
+		jwtAccessTokenRepository.save(new JwtAccessToken("testId", jwtTokenResponse.getAccess_token()));
 
 		// When
-		mockMvc.perform(get("/")
+		mockMvc.perform(get("/test")
+						.header("userId", "testId")
 						.header("Authorization", "Bearer " + jwtTokenResponse.getAccess_token()))
 				.andDo(print())
 				.andExpect(status().isOk())
@@ -203,7 +207,8 @@ class LoginControllerTest {
 		String invalidJwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg";
 
 		// When
-		mockMvc.perform(get("/index")
+		mockMvc.perform(get("/test")
+						.header("userId", "testId")
 						.header("Authorization", "Bearer " + invalidJwtToken))
 				.andDo(print())
 				.andExpect(status().isBadRequest())
@@ -224,11 +229,12 @@ class LoginControllerTest {
 		String invalidJwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg";
 
 		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse("testId");
-		JwtRefreshToken jwtRefreshToken = new JwtRefreshToken(jwtTokenResponse.getRefresh_token(), "testId");
+		JwtRefreshToken jwtRefreshToken = new JwtRefreshToken("testId", jwtTokenResponse.getRefresh_token());
 		jwtRefreshTokenRepository.save(jwtRefreshToken);
 
 		// When
-		mockMvc.perform(get("/index")
+		mockMvc.perform(get("/test")
+						.header("userId", "testId")
 						.header("Authorization", "Bearer " + invalidJwtToken)
 						.header("RefreshToken", jwtTokenResponse.getRefresh_token()))
 				.andDo(print())
@@ -260,7 +266,8 @@ class LoginControllerTest {
 		String invalidRefreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNTgyNjA5NX0.UwTqbudlGSB_lSPof00ju5_aK3T6TL2B8RQ00hCs3xc";
 
 		// When
-		mockMvc.perform(get("/index")
+		mockMvc.perform(get("/test")
+						.header("userId", "testId")
 						.header("Authorization", "Bearer " + invalidJwtToken)
 						.header("RefreshToken", invalidRefreshToken))
 				.andDo(print())
@@ -281,20 +288,22 @@ class LoginControllerTest {
 	void LogoutTest() throws Exception {
 		// Given
 		JwtTokenResponse jwtTokenResponse = jwtTokenProvider.createJwtResponse("testId");
+		jwtAccessTokenRepository.save(new JwtAccessToken("testId", jwtTokenResponse.getAccess_token()));
+		jwtRefreshTokenRepository.save(new JwtRefreshToken("testId", jwtTokenResponse.getRefresh_token()));
 
 		// When
 		mockMvc.perform(get("/api/logout")
-						.header("Authorization", "Bearer " + jwtTokenResponse.getAccess_token())
-						.header("RefreshToken", jwtTokenResponse.getRefresh_token()))
+						.header("userId", "testId"))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestHeaders(
-								headerWithName("Authorization").description("로그인 하고 발급받은 액세스 토큰"),
-								headerWithName("RefreshToken").description("로그인 하고 발급받은 리프레시 토큰")
 						)));
 		// Then
+		// 값이 정상적으로 삭제되었는지 확인
+		assertTrue(jwtAccessTokenRepository.findById("testId").isEmpty());
+		assertTrue(jwtRefreshTokenRepository.findById("testId").isEmpty());
 	}
 }
