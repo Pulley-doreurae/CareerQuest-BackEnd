@@ -6,9 +6,8 @@ package pulleydoreurae.careerquestbackend.mail;
  * @author : hanjaeseong
  * @since : 2024/02/04
  */
+@Deprecated
 public class verifyException extends Exception {
-
-	static final long serialVersionUID = 1L;
 
 	public verifyException(String errMeg) {
 		super(errMeg);
