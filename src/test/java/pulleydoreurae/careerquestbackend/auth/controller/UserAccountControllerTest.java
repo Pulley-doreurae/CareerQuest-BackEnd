@@ -90,7 +90,7 @@ class UserAccountControllerTest {
 						)));
 
 		// Then
-		// 저장 메서드가 동작했는지 확인
+		// 이메일 전송 메서드가 동작했는지 확인
 		verify(mailService).sendMail("testId", "testName", "010-1111-2222",
 				"test@email.com", bCryptPasswordEncoder.encode("testPassword"));
 	}
