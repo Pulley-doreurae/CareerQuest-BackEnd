@@ -18,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.mail.entity.EmailAuthentication;
+import pulleydoreurae.careerquestbackend.mail.entity.UserInfoUserId;
 import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
+import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
 
 /**
  * 이메일 전송 및 인증을 담당하는 Service
@@ -33,6 +35,7 @@ public class MailService {
 
 	private final JavaMailSender javaMailSender;
 	private final EmailAuthenticationRepository emailAuthenticationRepository;
+	private final UserInfoUserIdRepository userInfoUserIdRepository;
 
 	private static final String senderEmail = "admin@chwijunjundan";
 
@@ -93,6 +96,9 @@ public class MailService {
 		};
 		emailAuthenticationRepository.save(
 				new EmailAuthentication(email, userId, userName, phoneNum, password, number));
+		// 인증을 기다리는 동안 userId 선점하기 (인증을 기다리는 동안 다른 사용자가 같은 userId 로 회원가입을 막기 위함)
+		// email 의 경우 이메일인증의 키값이므로 따로 저장할 필요 X
+		userInfoUserIdRepository.save(new UserInfoUserId(userId));
 		javaMailSender.send(preparatory);
 		log.info("[회원가입 - 인증] : {} 의 회원가입을 위한 객체저장 및 메일전송", email);
 	}
@@ -164,9 +170,12 @@ public class MailService {
 	/**
 	 * 인증에 완료한 사용자 정보를 redis 에서 삭제하는 메서드
 	 *
-	 * @param email redis 에 저장된 key 정보
+	 * @param userId 중복을 막기위해 선점했던 userId
+	 * @param email  redis 에 저장된 key 정보
 	 */
-	public void removeVerifiedUser(String email) {
+	public void removeVerifiedUser(String userId, String email) {
+		// 실제 데이터베이스에 저장되었으므로 redis 에 삭제하여도 중복이 발생하지 않는다.
+		userInfoUserIdRepository.deleteById(userId);
 		emailAuthenticationRepository.deleteById(email);
 	}
 }
