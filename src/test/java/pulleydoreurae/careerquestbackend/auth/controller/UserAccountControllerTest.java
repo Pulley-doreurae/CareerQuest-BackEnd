@@ -23,6 +23,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
+import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
 
 /**
@@ -43,6 +45,10 @@ class UserAccountControllerTest {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@MockBean
 	private MailService mailService;
+	@MockBean
+	private UserInfoUserIdRepository userIdRepository;
+	@MockBean
+	private EmailAuthenticationRepository emailAuthenticationRepository;
 
 	@Test
 	@DisplayName("1. 회원가입 테스트")
