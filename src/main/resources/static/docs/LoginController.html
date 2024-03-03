@@ -503,13 +503,15 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Content-Length: 448
+X-Frame-Options: DENY
+Content-Length: 471
 
 {
+  "userId" : "testId",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTUsImV4cCI6MTcwOTI4NTIxNX0.skSHOSz5roH8v1yf52l5fQIDbqDga1Ahe9BjolVRVp0",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcxMTQ0NDYxNn0.5_yS6u1gUmIbAcJYIUR_llcTvtjVAfikniS18ATdl98",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -531,6 +533,11 @@ Content-Length: 448
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 시도한 id</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>token_type</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
@@ -621,6 +628,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+X-Frame-Options: DENY
 Content-Length: 133
 
 {
@@ -721,6 +729,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+X-Frame-Options: DENY
 Content-Length: 133
 
 {
@@ -770,8 +779,9 @@ Content-Length: 133
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET / HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
+userId: testId
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcwOTI4NTIxNn0.8x8kWSnDxPF8Z6CZAa-TlCidS251_0GAYCFr0tjD0go
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -812,6 +822,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+X-Frame-Options: DENY
 
 hi</code></pre>
 </div>
@@ -827,7 +838,8 @@ hi</code></pre>
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
+userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
 Host: localhost:8080</code></pre>
 </div>
@@ -868,6 +880,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+X-Frame-Options: DENY
 Content-Length: 46
 
 "Authorization 이 유효하지 않습니다."</code></pre>
@@ -884,9 +897,10 @@ Content-Length: 46
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
+userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcxMTQ0NDYxNn0.5_yS6u1gUmIbAcJYIUR_llcTvtjVAfikniS18ATdl98
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -930,11 +944,12 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+X-Frame-Options: DENY
 Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcwOTI4NTIxNn0.8x8kWSnDxPF8Z6CZAa-TlCidS251_0GAYCFr0tjD0go",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -984,7 +999,8 @@ Content-Length: 229
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
+userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
 RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNTgyNjA5NX0.UwTqbudlGSB_lSPof00ju5_aK3T6TL2B8RQ00hCs3xc
 Host: localhost:8080</code></pre>
@@ -1030,6 +1046,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+X-Frame-Options: DENY
 Content-Length: 75
 
 "RefreshToken 이 유효하지 않습니다. 다시 로그인해주세요."</code></pre>
@@ -1047,8 +1064,7 @@ Content-Length: 75
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcwODkzNzMwN30.pCqECf5fBPMKOcB-Gbj7AdGKrixp3gbmtrhd5eL5kUU
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDg5MzY3MDcsImV4cCI6MTcxMTA5NjcwN30.3-R6ETOCX91QAwhgHTgWQcxPq_HK8NTjZ__v1-l0uXI
+userId: testId
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1066,16 +1082,6 @@ Host: localhost:8080</code></pre>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 하고 발급받은 액세스 토큰</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 하고 발급받은 리프레시 토큰</p></td>
-</tr>
-</tbody>
 </table>
 </div>
 </div>
@@ -1092,6 +1098,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+X-Frame-Options: DENY
 Content-Length: 40
 
 "로그아웃에 성공하였습니다."</code></pre>

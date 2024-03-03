@@ -23,7 +23,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.mail.repository.MailRepository;
+import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
+import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
 
 /**
@@ -45,7 +46,9 @@ class UserAccountControllerTest {
 	@MockBean
 	private MailService mailService;
 	@MockBean
-	private MailRepository mailRepository;
+	private UserInfoUserIdRepository userIdRepository;
+	@MockBean
+	private EmailAuthenticationRepository emailAuthenticationRepository;
 
 	@Test
 	@DisplayName("1. 회원가입 테스트")
@@ -93,7 +96,7 @@ class UserAccountControllerTest {
 						)));
 
 		// Then
-		// 저장 메서드가 동작했는지 확인
+		// 이메일 전송 메서드가 동작했는지 확인
 		verify(mailService).sendMail("testId", "testName", "010-1111-2222",
 				"test@email.com", bCryptPasswordEncoder.encode("testPassword"));
 	}

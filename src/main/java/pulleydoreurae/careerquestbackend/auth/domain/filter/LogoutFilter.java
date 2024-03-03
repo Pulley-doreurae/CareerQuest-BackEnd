@@ -34,13 +34,11 @@ public class LogoutFilter extends OncePerRequestFilter {
 			FilterChain filterChain) throws ServletException, IOException {
 		String url = request.getRequestURI();
 		if (url.equals("/api/logout")) {
-			// 헤더에서 액세스 토큰과 리프레시 토큰을 가져와서 Redis 에서 삭제하여 로그아웃을 구현
-			String accessToken = request.getHeader("Authorization");
-			accessToken = accessToken.replace("Bearer ", "");
-			String refreshToken = request.getHeader("RefreshToken");
+			// 헤더에서 사용자 id 를 불러와 redis 에 저장된 토큰들 삭제
+			String userId = request.getHeader("userId");
 
-			jwtAccessTokenRepository.deleteById(accessToken);
-			jwtRefreshTokenRepository.deleteById(refreshToken);
+			jwtAccessTokenRepository.deleteById(userId);
+			jwtRefreshTokenRepository.deleteById(userId);
 
 			response.setStatus(HttpStatus.OK.value());
 			response.setContentType("application/json;charset=UTF-8");

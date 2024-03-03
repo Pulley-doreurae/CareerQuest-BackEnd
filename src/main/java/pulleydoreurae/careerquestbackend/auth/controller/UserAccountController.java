@@ -1,7 +1,5 @@
 package pulleydoreurae.careerquestbackend.auth.controller;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +18,9 @@ import pulleydoreurae.careerquestbackend.auth.domain.dto.UserAccountRegisterRequ
 import pulleydoreurae.careerquestbackend.auth.domain.dto.UserAccountRegisterResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.mail.repository.MailRepository;
+import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
+import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
-import pulleydoreurae.careerquestbackend.mail.verifyException;
 
 /**
  * 회원가입을 처리하는 컨트롤러
@@ -36,15 +34,18 @@ public class UserAccountController {
 	private final UserAccountRepository userAccountRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final MailService mailService;
-	private final MailRepository mailRepository;
+	private final UserInfoUserIdRepository userIdRepository;
+	private final EmailAuthenticationRepository emailAuthenticationRepository;
 
 	@Autowired
 	public UserAccountController(UserAccountRepository userAccountRepository,
-			BCryptPasswordEncoder bCryptPasswordEncoder, MailService mailService, MailRepository mailRepository) {
+			BCryptPasswordEncoder bCryptPasswordEncoder, MailService mailService,
+			UserInfoUserIdRepository userIdRepository, EmailAuthenticationRepository emailAuthenticationRepository) {
 		this.userAccountRepository = userAccountRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.mailService = mailService;
-		this.mailRepository = mailRepository;
+		this.userIdRepository = userIdRepository;
+		this.emailAuthenticationRepository = emailAuthenticationRepository;
 	}
 
 	/**
@@ -90,9 +91,8 @@ public class UserAccountController {
 	@PostMapping("duplicate-check-id")
 	public ResponseEntity<DuplicateCheckResponse> duplicateCheckId(String userId) {
 
-		// TODO: 2024/02/26 중복확인시 redis 도 확인해서 동시에 같은 아이디로 회원가입 할 수 없도록 추가하기
-		//  중복이 안된다면 해당 아이디를 선점하기 위해 redis 에 저장
-		if (userAccountRepository.existsByUserId(userId)) {
+		// 회원가입 완료된 경우와 이메일 인증 대기중인 경우 모두 확인해서 중복을 피하기
+		if (userAccountRepository.existsByUserId(userId) || userIdRepository.existsById(userId)) {
 			log.warn("[회원가입] 중복된 아이디 : {}", userId);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					DuplicateCheckResponse.builder()
@@ -120,9 +120,8 @@ public class UserAccountController {
 	@PostMapping("duplicate-check-email")
 	public ResponseEntity<DuplicateCheckResponse> duplicateCheckEmail(String email) {
 
-		// TODO: 2024/02/26 중복확인시 redis 도 확인해서 동시에 같은 아이디로 회원가입 할 수 없도록 추가하기
-		//  중복이 안된다면 해당 이메일을 선점하기위해 redis 에 저장
-		if (userAccountRepository.existsByEmail(email)) {
+		// 회원가입 완료된 경우와 이메일 인증 대기중인 경우 모두 확인해서 중복을 피하기
+		if (userAccountRepository.existsByEmail(email) || emailAuthenticationRepository.existsById(email)) {
 			log.warn("[회원가입] 중복된 이메일 : {}", email);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					DuplicateCheckResponse.builder()
@@ -192,15 +191,9 @@ public class UserAccountController {
 							.build());
 		}
 
-		// TODO: 2024/02/26 예외처리 추가하기
 		// 이메일 인증 전송
-		try {
-			mailService.sendMail(user.getUserId(), user.getUserName(),
-					user.getPhoneNum(), user.getEmail(),
-					bCryptPasswordEncoder.encode(user.getPassword()));
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
+		mailService.sendMail(user.getUserId(), user.getUserName(), user.getPhoneNum(), user.getEmail(),
+				bCryptPasswordEncoder.encode(user.getPassword()));
 
 		log.info("[회원가입 - 인증] 인증을 요청한 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -227,32 +220,19 @@ public class UserAccountController {
 			@RequestParam(name = "email") String email,
 			@RequestParam(name = "certificationNumber") String num
 	) {
-		// TODO: 2024/02/26 예외처리 추가하기
-		boolean isOk;
-		try {
-			isOk = mailService.verifyEmail(email, num);
-		} catch (verifyException e) {
-			throw new RuntimeException(e);
-		}
-
+		boolean isOk = mailService.verifyEmail(email, num);
 		UserAccount user = mailService.getVerifiedUser(email);
-		mailRepository.removeCertification(email);
-
-		if (!isOk) {
-			log.warn("[회원가입 - 인증] 인증실패 : {}", user.getUserId());
+		if (!isOk || user == null) { // 이메일 인증에 실패한 경우
+			log.warn("[회원가입 - 인증] 인증실패 : {}", email);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 					UserAccountRegisterResponse.builder()
-							.userId(user.getUserId())
-							.userName(user.getUserName())
-							.email(user.getEmail())
-							.phoneNum(user.getPhoneNum())
 							.msg("인증을 실패했습니다.")
 							.build()
 			);
 		}
 
 		userAccountRepository.save(user);
-
+		mailService.removeVerifiedUser(user.getUserId(), email);
 		log.info("[회원가입 - 인증] 새로 추가된 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
 				UserAccountRegisterResponse.builder()

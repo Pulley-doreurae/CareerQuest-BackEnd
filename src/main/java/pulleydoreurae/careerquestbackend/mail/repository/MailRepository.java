@@ -17,6 +17,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
  * @author : hanjaeseong
  * @since : 2024/02/04
  */
+@Deprecated
 @Repository
 public class MailRepository {
 
@@ -25,7 +26,7 @@ public class MailRepository {
 
 	private final List<String> keyIdentifier = Arrays.asList("-id", "-password", "-userName", "-phoneNum");
 
-	public MailRepository(@Qualifier("redisMailTemplate") StringRedisTemplate redisMailTemplate) {
+	public MailRepository(StringRedisTemplate redisMailTemplate) {
 		this.redisTemplate = redisMailTemplate;
 	}
 

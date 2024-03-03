@@ -1,11 +1,7 @@
 spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb
   config:
     import:
       - jwt.yml
       - kakao.yml
       - mail.yml
+      - database.yml

@@ -16,11 +16,11 @@ import lombok.Getter;
 public class JwtRefreshToken {
 
 	@Id
-	private final String refreshToken;
 	private final String userId;
+	private final String refreshToken;
 
-	public JwtRefreshToken(String refreshToken, String userId) {
-		this.refreshToken = refreshToken;
+	public JwtRefreshToken(String userId, String refreshToken) {
 		this.userId = userId;
+		this.refreshToken = refreshToken;
 	}
 }

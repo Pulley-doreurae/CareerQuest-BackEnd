@@ -79,6 +79,7 @@ public class JwtTokenProvider {
 	public JwtTokenResponse createJwtResponse(String userId) {
 
 		return JwtTokenResponse.builder()
+				.userId(userId)
 				.token_type("bearer")
 				.access_token(createAccessToken(userId))
 				.expires_in(accessTokenValidTime)

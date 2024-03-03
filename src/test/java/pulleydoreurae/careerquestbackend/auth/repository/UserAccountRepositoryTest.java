@@ -46,7 +46,14 @@ class UserAccountRepositoryTest {
 		UserAccount getUser = userAccountRepository.findByUserId("testId").orElseThrow(() -> {
 			return new UsernameNotFoundException("사용자 정보를 찾을 수 없음");
 		});
-		assertEquals(user, getUser);
+		assertAll(
+				() -> assertEquals(user.getId(), getUser.getId()),
+				() -> assertEquals(user.getUserId(), getUser.getUserId()),
+				() -> assertEquals(user.getUserName(), getUser.getUserName()),
+				() -> assertEquals(user.getEmail(), getUser.getEmail()),
+				() -> assertEquals(user.getPhoneNum(), getUser.getPhoneNum()),
+				() -> assertEquals(user.getRole(), getUser.getRole())
+		);
 	}
 
 	@Test
