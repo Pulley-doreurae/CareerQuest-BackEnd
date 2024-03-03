@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.google.gson.Gson;
@@ -78,9 +79,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 			// 전달받은 사용자 id 와 토큰에서 꺼낸 사용자 id 가 같고 요청한 엑세스토큰이 redis 에 저장된 값과 일치할 때
 			if (username.equals(userId) && accessToken.equals(getAccessToken.get().getAccessToken())) {
 				UserAccount userAccount = userAccountRepository.findByUserId(username) // 해당 사용자 id 로 사용자 정보가 있는지 찾기
-						.orElseThrow();
-				// TODO: 2024/03/1 로그인에 성공한 사람들만 토큰을 부여받기 때문에 여기서 예외를 던진다면
-				//  예상치 못한 오류
+						.orElseThrow(() -> {
+							// 로그인에 성공한 사람들(사용자 정보가 있는 경우)만 토큰을 부여받기 때문에 예외를 던진다면 데이터베이스 오류이거나 로그인 로직에 버그가 있는 것임.
+							return new UsernameNotFoundException("해당 사용자 정보를 찾을 수 없습니다., DB 오류 or 로그인 로직 버그");
+						});
 
 				CustomUserDetails userDetails = new CustomUserDetails(userAccount);
 				Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
