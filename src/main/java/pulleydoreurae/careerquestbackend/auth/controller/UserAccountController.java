@@ -90,7 +90,7 @@ public class UserAccountController {
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
 	@PostMapping("duplicate-check-id")
-	public ResponseEntity<DuplicateCheckResponse> duplicateCheckId(@RequestBody String userId) {
+	public ResponseEntity<DuplicateCheckResponse> duplicateCheckId(String userId) {
 
 		// 회원가입 완료된 경우와 이메일 인증 대기중인 경우 모두 확인해서 중복을 피하기
 		if (userAccountRepository.existsByUserId(userId) || userIdRepository.existsById(userId)) {
@@ -119,7 +119,7 @@ public class UserAccountController {
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
 	@PostMapping("duplicate-check-email")
-	public ResponseEntity<DuplicateCheckResponse> duplicateCheckEmail(@RequestBody String email) {
+	public ResponseEntity<DuplicateCheckResponse> duplicateCheckEmail(String email) {
 
 		// 회원가입 완료된 경우와 이메일 인증 대기중인 경우 모두 확인해서 중복을 피하기
 		if (userAccountRepository.existsByEmail(email) || emailAuthenticationRepository.existsById(email)) {
