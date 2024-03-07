@@ -2,6 +2,7 @@ package pulleydoreurae.careerquestbackend.auth.domain.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -40,10 +41,13 @@ public class LogoutFilter extends OncePerRequestFilter {
 			jwtAccessTokenRepository.deleteById(userId);
 			jwtRefreshTokenRepository.deleteById(userId);
 
+			// 응답을 JSON 형태로 하기위한 hashmap
+			HashMap<String, String> msg = new HashMap<>();
+			msg.put("msg", "로그아웃에 성공하였습니다.");
 			response.setStatus(HttpStatus.OK.value());
 			response.setContentType("application/json;charset=UTF-8");
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-			response.getWriter().write(gson.toJson("로그아웃에 성공하였습니다."));
+			response.getWriter().write(gson.toJson(msg));
 			return;
 		}
 		filterChain.doFilter(request, response);
