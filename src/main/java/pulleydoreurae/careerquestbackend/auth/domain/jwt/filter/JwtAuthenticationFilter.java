@@ -2,6 +2,7 @@ package pulleydoreurae.careerquestbackend.auth.domain.jwt.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 		String authorization = request.getHeader("Authorization");
 		String refreshToken = request.getHeader("RefreshToken");
 		String userId = request.getHeader("userId"); // 사용자의 id 도 함께 전달받기
+		// 응답을 JSON 으로 보내기 위한 hashmap
+		HashMap<String, String> msg = new HashMap<>();
 		if (authorization == null || !authorization.startsWith("Bearer ") || userId == null) {
 			chain.doFilter(request, response);
 			return;
@@ -91,17 +94,19 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				chain.doFilter(request, response);
 			} else {
+				msg.put("msg", "Authorization 이 유효하지 않습니다.");
 				response.setStatus(HttpStatus.BAD_REQUEST.value());
 				response.setContentType("application/json;charset=UTF-8");
 				response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-				response.getWriter().write(gson.toJson("Authorization 이 유효하지 않습니다."));
+				response.getWriter().write(gson.toJson(msg));
 				return;
 			}
 		} else if (refreshToken == null) { // 액세스 토큰이 유효하지 않고 리프레시 토큰이 없다면 400 에러를 리턴
+			msg.put("msg", "Authorization 이 유효하지 않습니다.");
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
 			response.setContentType("application/json;charset=UTF-8");
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-			response.getWriter().write(gson.toJson("Authorization 이 유효하지 않습니다."));
+			response.getWriter().write(gson.toJson(msg));
 			return;
 		}
 
@@ -117,10 +122,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				return;
 			}
 			// 리프레시 토큰이 만료되어 없거나 일치하지 않는다면
+			msg.put("msg", "RefreshToken 이 유효하지 않습니다. 다시 로그인해주세요.");
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
 			response.setContentType("application/json;charset=UTF-8");
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-			response.getWriter().write(gson.toJson("RefreshToken 이 유효하지 않습니다. 다시 로그인해주세요."));
+			response.getWriter().write(gson.toJson(msg));
 		}
 	}
 }

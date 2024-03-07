@@ -509,9 +509,9 @@ Content-Length: 471
 {
   "userId" : "testId",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTUsImV4cCI6MTcwOTI4NTIxNX0.skSHOSz5roH8v1yf52l5fQIDbqDga1Ahe9BjolVRVp0",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDk4MDc0NzIsImV4cCI6MTcwOTgwODA3Mn0.QAu4D31cae7ytspRLgwmAoOnsYnbDlI3DaI5hNhjnzk",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcxMTQ0NDYxNn0.5_yS6u1gUmIbAcJYIUR_llcTvtjVAfikniS18ATdl98",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDk4MDc0NzMsImV4cCI6MTcxMTk2NzQ3M30.iflcTOw_TmpdQEuLSSAhn8ak1GsD_KJloVfNw4SO2z8",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -781,7 +781,7 @@ Content-Length: 133
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
 userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcwOTI4NTIxNn0.8x8kWSnDxPF8Z6CZAa-TlCidS251_0GAYCFr0tjD0go
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDk4MDc0NzMsImV4cCI6MTcwOTgwODA3M30.irGQokXbTGPdkeMpejUbn-bFd8d1r270MYmV319ZCt0
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -801,6 +801,10 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">유효한 액세스 토큰</p></td>
 </tr>
@@ -815,6 +819,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 2
 X-Content-Type-Options: nosniff
@@ -860,6 +867,10 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 액세스 토큰</p></td>
 </tr>
@@ -881,11 +892,37 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 46
+Content-Length: 60
 
-"Authorization 이 유효하지 않습니다."</code></pre>
+{
+  "msg" : "Authorization 이 유효하지 않습니다."
+}</code></pre>
 </div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_응답_5_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 내용</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -900,7 +937,7 @@ Content-Length: 46
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
 userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcxMTQ0NDYxNn0.5_yS6u1gUmIbAcJYIUR_llcTvtjVAfikniS18ATdl98
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDk4MDc0NzMsImV4cCI6MTcxMTk2NzQ3M30.iflcTOw_TmpdQEuLSSAhn8ak1GsD_KJloVfNw4SO2z8
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -919,6 +956,10 @@ Host: localhost:8080</code></pre>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 액세스 토큰</p></td>
@@ -949,7 +990,7 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDkyODQ2MTYsImV4cCI6MTcwOTI4NTIxNn0.8x8kWSnDxPF8Z6CZAa-TlCidS251_0GAYCFr0tjD0go",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDk4MDc0NzMsImV4cCI6MTcwOTgwODA3M30.irGQokXbTGPdkeMpejUbn-bFd8d1r270MYmV319ZCt0",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -1022,6 +1063,10 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 액세스 토큰</p></td>
 </tr>
@@ -1047,11 +1092,37 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 75
+Content-Length: 89
 
-"RefreshToken 이 유효하지 않습니다. 다시 로그인해주세요."</code></pre>
+{
+  "msg" : "RefreshToken 이 유효하지 않습니다. 다시 로그인해주세요."
+}</code></pre>
 </div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_응답_7_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 내용</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1082,6 +1153,12 @@ Host: localhost:8080</code></pre>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그아웃 할 userId</p></td>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
@@ -1099,11 +1176,37 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 40
+Content-Length: 54
 
-"로그아웃에 성공하였습니다."</code></pre>
+{
+  "msg" : "로그아웃에 성공하였습니다."
+}</code></pre>
 </div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_응답_8_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 내용</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1113,7 +1216,7 @@ Content-Length: 40
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-26 18:04:36 +0900
+Last updated 2024-03-07 19:31:06 +0900
 </div>
 </div>
 </body>

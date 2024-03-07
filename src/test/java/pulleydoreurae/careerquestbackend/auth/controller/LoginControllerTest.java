@@ -194,6 +194,7 @@ class LoginControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestHeaders(
+								headerWithName("userId").description("로그인한 userId"),
 								headerWithName("Authorization").description("유효한 액세스 토큰")
 						)));
 
@@ -212,11 +213,16 @@ class LoginControllerTest {
 						.header("Authorization", "Bearer " + invalidJwtToken))
 				.andDo(print())
 				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.msg").exists())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestHeaders(
+								headerWithName("userId").description("로그인한 userId"),
 								headerWithName("Authorization").description("유효하지 않은 액세스 토큰")
+						),
+						responseFields(    // Json 응답 형식
+								fieldWithPath("msg").description("응답 내용")
 						)));
 
 		// Then
@@ -246,6 +252,7 @@ class LoginControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestHeaders(
+								headerWithName("userId").description("로그인한 userId"),
 								headerWithName("Authorization").description("유효하지 않은 액세스 토큰"),
 								headerWithName("RefreshToken").description("유효한 리프레시 토큰")
 						),
@@ -272,12 +279,17 @@ class LoginControllerTest {
 						.header("RefreshToken", invalidRefreshToken))
 				.andDo(print())
 				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.msg").exists())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestHeaders(
+								headerWithName("userId").description("로그인한 userId"),
 								headerWithName("Authorization").description("유효하지 않은 액세스 토큰"),
 								headerWithName("RefreshToken").description("유효하지 않은 리프레시 토큰")
+						),
+						responseFields(    // Json 응답 형식
+								fieldWithPath("msg").description("응답 내용")
 						)));
 
 		// Then
@@ -296,10 +308,15 @@ class LoginControllerTest {
 						.header("userId", "testId"))
 				.andDo(print())
 				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.msg").exists())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestHeaders(
+								headerWithName("userId").description("로그아웃 할 userId")
+						),
+						responseFields(    // Json 응답 형식
+								fieldWithPath("msg").description("응답 내용")
 						)));
 		// Then
 		// 값이 정상적으로 삭제되었는지 확인

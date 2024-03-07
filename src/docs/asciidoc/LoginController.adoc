@@ -24,7 +24,7 @@ operation::login-controller-test/valid-access-token-test[snippets="http-response
 ==== 요청
 operation::login-controller-test/invalid-access-token-test[snippets="http-request,request-headers"]
 ==== 응답
-operation::login-controller-test/invalid-access-token-test[snippets="http-response"]
+operation::login-controller-test/invalid-access-token-test[snippets="http-response,response-fields"]
 === 리프레시 토큰 확인 (유효한 리프레시 토큰)
 ==== 요청
 operation::login-controller-test/valid-refresh-token-test[snippets="http-request,request-headers"]
@@ -34,9 +34,9 @@ operation::login-controller-test/valid-refresh-token-test[snippets="http-respons
 ==== 요청
 operation::login-controller-test/invalid-refresh-token-test[snippets="http-request,request-headers"]
 ==== 응답
-operation::login-controller-test/invalid-refresh-token-test[snippets="http-response"]
+operation::login-controller-test/invalid-refresh-token-test[snippets="http-response,response-fields"]
 === 로그아웃
 ==== 요청
 operation::login-controller-test/logout-test[snippets="http-request,request-headers"]
 ==== 응답
-operation::login-controller-test/logout-test[snippets="http-response"]
+operation::login-controller-test/logout-test[snippets="http-response,response-fields"]
