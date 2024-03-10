@@ -115,6 +115,47 @@ class LoginControllerTest {
 	}
 
 	@Test
+	@DisplayName("로그인 성공 테스트 (email)")
+	void LoginSuccessTestByEmail() throws Exception {
+		// Given
+		UserAccount userAccount = UserAccount.builder()
+				.email("test@email.com")
+				.password(bCryptPasswordEncoder.encode("testPassword"))
+				.build();
+		userAccountRepository.save(userAccount);
+
+		// When
+		mockMvc.perform(post("/api/login")
+						.param("username", "test@email.com")
+						.param("password", "testPassword"))
+				.andDo(print())
+				.andExpect(jsonPath("$.userId").exists())
+				.andExpect(jsonPath("$.token_type").exists())
+				.andExpect(jsonPath("$.access_token").exists())
+				.andExpect(jsonPath("$.expires_in").exists())
+				.andExpect(jsonPath("$.refresh_token").exists())
+				.andExpect(jsonPath("$.refresh_token_expires_in").exists())
+				// Spring REST Docs
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("username").description("로그인 할 이메일"),
+								parameterWithName("password").description("로그인 할 비밀번호")
+						),
+						responseFields(
+								fieldWithPath("userId").description("로그인 시도한 id"),
+								fieldWithPath("token_type").description("토큰 타입"),
+								fieldWithPath("access_token").description("액세스 토큰"),
+								fieldWithPath("expires_in").description("액세스 토큰 유효기간"),
+								fieldWithPath("refresh_token").description("리프레시 토큰"),
+								fieldWithPath("refresh_token_expires_in").description("리프레시 토큰 유효기간")
+						)));
+
+		// Then
+	}
+
+	@Test
 	@DisplayName("로그인 실패 테스트 (사용자를 찾을 수 없음)")
 	void LoginFailTest1() throws Exception {
 		// Given
