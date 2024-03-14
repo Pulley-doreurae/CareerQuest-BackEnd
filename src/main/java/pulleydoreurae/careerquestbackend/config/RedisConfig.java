@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.auth.domain.jwt.config;
+package pulleydoreurae.careerquestbackend.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
