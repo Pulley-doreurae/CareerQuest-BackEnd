@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.auth.config;
+package pulleydoreurae.careerquestbackend.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
