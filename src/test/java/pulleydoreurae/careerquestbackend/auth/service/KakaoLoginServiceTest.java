@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
@@ -40,9 +39,10 @@ import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
  * @since : 2024/01/25
  */
 @SpringBootTest // application.yml 파일을 불러 빈을 생성할 수 있도록 통합테스트 사용
-@TestPropertySource(locations = "classpath:application.yml")
 class KakaoLoginServiceTest {
 
+	@Value("${LOGIN.HOST}")
+	private String host;
 	@Autowired
 	private KakaoLoginService kakaoLoginService;
 	@Autowired
@@ -52,14 +52,14 @@ class KakaoLoginServiceTest {
 
 	@Value("${LOGIN.KAKAO_API_KEY}")
 	String clientId;
-	String redirectUri = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Flogin-kakao%2Fcode"; // URL 인코딩 적용
+	String redirectUri = "http%3A%2F%2Flocalhost%3A8081%2Fapi%2Flogin-kakao%2Fcode"; // URL 인코딩 적용
 	ClientAndServer mockServer;
 	Gson gson = new Gson();
 
 	@BeforeEach
 	void setUp() {
-		// 8080 포트로 MockServer 를 연다. (내부 API 를 사용하는 경우도 있으므로 8080으로 설정)
-		mockServer = ClientAndServer.startClientAndServer(8080);
+		// 8081 포트로 MockServer 를 연다.
+		mockServer = ClientAndServer.startClientAndServer(8081);
 		userAccountRepository.deleteAll();
 	}
 
@@ -77,7 +77,7 @@ class KakaoLoginServiceTest {
 		URI uri = UriComponentsBuilder.fromUriString(url)
 				.queryParam("response_type", "code")
 				.queryParam("client_id", clientId)
-				.queryParam("redirect_uri", "http://localhost:8080/api/login-kakao/code")
+				.queryParam("redirect_uri", host + "/api/login-kakao/code")
 				.queryParam("scope", "account_email")
 				.build()
 				.toUri();
@@ -93,7 +93,7 @@ class KakaoLoginServiceTest {
 	@DisplayName("카카오서버로부터 토큰을 정상적으로 발급받을 수 있는지 테스트")
 	void getTokenTest() {
 		// Given
-		String url = "http://localhost:8080/oauth/token"; // 카카오 API 를 대신할 URL 주소
+		String url = host + "/oauth/token"; // 카카오 API 를 대신할 URL 주소
 
 		// Mock 서버가 리턴할 값 (카카오 API 가 리턴하는 값을 Mocking 한다.)
 		KakaoLoginResponse response = KakaoLoginResponse.builder()
@@ -129,7 +129,7 @@ class KakaoLoginServiceTest {
 	@DisplayName("카카오서버로부터 사용자 정보를 정상적으로 받아오는지 테스트")
 	void getUserDetailsTest() {
 		// Given
-		String url = "http://localhost:8080/v2/user/me";
+		String url = host + "/v2/user/me";
 
 		// Mock 서버에 전달해야할 Header (카카오 API 와 동일하게 Mocking)
 		Header header1 = new Header("Content-type", "application/x-www-form-urlencoded;charset=utf-8");

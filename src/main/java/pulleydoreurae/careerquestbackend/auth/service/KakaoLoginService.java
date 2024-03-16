@@ -40,14 +40,16 @@ public class KakaoLoginService {
 	private final String redirect_uri;
 	private final String response_type = "code";
 	private final String grant_type = "authorization_code";
+	private final String host;
 	private final UserAccountRepository userAccountRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public KakaoLoginService(@Value("${LOGIN.KAKAO_API_KEY}") String clientId,
-			@Value("${LOGIN.REDIRECT_URL}") String redirectUri,
+			@Value("${LOGIN.REDIRECT_URL}") String redirectUri, @Value("${LOGIN.HOST}") String host,
 			UserAccountRepository userAccountRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.clientId = clientId;
 		this.redirect_uri = redirectUri;
+		this.host = host;
 		this.userAccountRepository = userAccountRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
@@ -175,7 +177,7 @@ public class KakaoLoginService {
 		// TODO: 2024/01/24 주소 수정 및 실패에 대한 처리를 추가하기
 		try {
 			JwtTokenResponse getResponse = new RestTemplate().exchange(
-					"http://localhost:8080/api/login",
+					host + "/api/login",
 					HttpMethod.POST,
 					entity,
 					JwtTokenResponse.class
