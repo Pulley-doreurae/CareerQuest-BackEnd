@@ -1,6 +1,5 @@
 package pulleydoreurae.careerquestbackend.support;
 
-import org.junit.jupiter.api.DisplayName;
 import org.springframework.context.annotation.Configuration;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -12,6 +11,7 @@ import org.testcontainers.utility.DockerImageName;
  * @author : parkjihyeok
  * @since : 2024/03/14
  */
+@Configuration
 @Testcontainers
 public class RedisTestContainers {
 
