@@ -34,7 +34,7 @@ import pulleydoreurae.careerquestbackend.support.RedisTestContainers;
 
 /**
  * 로그인을 테스트하기 위한 클래스
- *ㅌㅁ
+ *
  * @author : parkjihyeok
  * @since : 2024/01/17
  */
