@@ -2,12 +2,12 @@ package pulleydoreurae.careerquestbackend.auth.controller;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -72,7 +72,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/register")
+						post("/api/users")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -95,7 +95,7 @@ class UserAccountControllerTest {
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
 										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
-								),
+						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
@@ -128,7 +128,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/register")
+						post("/api/users")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -181,7 +181,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/register")
+						post("/api/users")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -232,7 +232,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/register")
+						post("/api/users")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -282,7 +282,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/register")
+						post("/api/users")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -332,7 +332,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/register")
+						post("/api/users")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -382,7 +382,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/register")
+						post("/api/users")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -424,9 +424,8 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/duplicate-check-id")
-								.with(csrf())
-								.param("userId", "testId"))
+						get("/api/users/username/{userId}", "testId")
+								.with(csrf()))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.field").exists())
 				.andExpect(jsonPath("$.msg").exists())
@@ -434,10 +433,8 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(    // form-data 형식
-								parameterWithName("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								parameterWithName("_csrf").description("csrf 토큰값 (무시하기)")
+						pathParameters( // PathVariable 방식
+								parameterWithName("userId").description("확인할 아이디")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("field").description("요청한 아이디"),
@@ -456,9 +453,8 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/duplicate-check-id")
-								.with(csrf())
-								.param("userId", "testId"))
+						get("/api/users/username/{userId}", "testId")
+								.with(csrf()))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.field").exists())
 				.andExpect(jsonPath("$.msg").exists())
@@ -466,10 +462,8 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(    // form-data 형식
-								parameterWithName("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								parameterWithName("_csrf").description("csrf 토큰값 (무시하기)")
+						pathParameters( // PathVariable 방식
+								parameterWithName("userId").description("확인할 아이디")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("field").description("요청한 아이디"),
@@ -487,9 +481,8 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/duplicate-check-email")
-								.with(csrf())
-								.param("email", "test@email.com"))
+						get("/api/users/email/{email}", "test@email.com")
+								.with(csrf()))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.field").exists())
 				.andExpect(jsonPath("$.msg").exists())
@@ -497,10 +490,8 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(    // form-data 형식
-								parameterWithName("email").description("사용할 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								parameterWithName("_csrf").description("csrf 토큰값 (무시하기)")
+						pathParameters( // PathVariable 방식
+								parameterWithName("email").description("확인할 이메일")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("field").description("요청한 이메일"),
@@ -519,9 +510,8 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/duplicate-check-email")
-								.with(csrf())
-								.param("email", "test@email.com"))
+						get("/api/users/email/{email}", "test@email.com")
+								.with(csrf()))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.field").exists())
 				.andExpect(jsonPath("$.msg").exists())
@@ -529,10 +519,8 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(    // form-data 형식
-								parameterWithName("email").description("사용할 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								parameterWithName("_csrf").description("csrf 토큰값 (무시하기)")
+						pathParameters( // PathVariable 방식
+								parameterWithName("email").description("확인할 이메일")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("field").description("요청한 이메일"),
