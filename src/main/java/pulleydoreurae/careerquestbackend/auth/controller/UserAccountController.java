@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,8 +90,8 @@ public class UserAccountController {
 	 * @param userId 사용자의 아이디 중복확인을 위한 요청
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
-	@PostMapping("duplicate-check-id")
-	public ResponseEntity<DuplicateCheckResponse> duplicateCheckId(String userId) {
+	@GetMapping("/users/username/{userId}")
+	public ResponseEntity<DuplicateCheckResponse> duplicateCheckId(@PathVariable String userId) {
 
 		// 회원가입 완료된 경우와 이메일 인증 대기중인 경우 모두 확인해서 중복을 피하기
 		if (userAccountRepository.existsByUserId(userId) || userIdRepository.existsById(userId)) {
@@ -118,8 +119,8 @@ public class UserAccountController {
 	 * @param email 사용자의 이메일 중복확인을 위한 요청
 	 * @return 중복이라면 400, 중복이 아니라면 200 리턴
 	 */
-	@PostMapping("duplicate-check-email")
-	public ResponseEntity<DuplicateCheckResponse> duplicateCheckEmail(String email) {
+	@GetMapping("/users/email/{email}")
+	public ResponseEntity<DuplicateCheckResponse> duplicateCheckEmail(@PathVariable String email) {
 
 		// 회원가입 완료된 경우와 이메일 인증 대기중인 경우 모두 확인해서 중복을 피하기
 		if (userAccountRepository.existsByEmail(email) || emailAuthenticationRepository.existsById(email)) {
@@ -148,7 +149,7 @@ public class UserAccountController {
 	 * @param bindingResult @Valid 어노테이션으로 유효성 검증에서 에러가 발생하면 해당 에러를 가져올 수 있다.
 	 * @return 회원가입에 요청했었던 정보를 요청 결과와 함께 돌려준다.
 	 */
-	@PostMapping("/register")
+	@PostMapping("/users")
 	public ResponseEntity<UserAccountRegisterResponse> register(@Valid @RequestBody UserAccountRegisterRequest user,
 			BindingResult bindingResult) {
 
