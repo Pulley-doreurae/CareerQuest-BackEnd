@@ -20,8 +20,8 @@ import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.KakaoLoginResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.KakaoUserDetailsResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.KakaoLoginResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.KakaoUserDetailsResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
