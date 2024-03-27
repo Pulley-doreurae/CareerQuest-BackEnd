@@ -11,6 +11,10 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +29,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.auth.domain.dto.UserAccountRegisterRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
 import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
 import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
@@ -53,6 +62,10 @@ class UserAccountControllerTest {
 	private UserInfoUserIdRepository userIdRepository;
 	@MockBean
 	private EmailAuthenticationRepository emailAuthenticationRepository;
+	@MockBean
+	private UserCareerDetailsRepository userCareerDetailsRepository;
+	@MockBean
+	private UserTechnologyStackRepository userTechnologyStackRepository;
 
 	Gson gson = new Gson();
 
@@ -528,6 +541,165 @@ class UserAccountControllerTest {
 						)));
 
 		// Then
+	}
+
+	@Test
+	@DisplayName("12. 회원직무 추가 실패 (사용자 정보를 찾을 수 없음)")
+	@WithMockUser
+	void addCareerFailTest() throws Exception {
+		// Given
+
+		// When
+		mockMvc.perform(
+						post("/api/users/details/careers")
+								.with(csrf())
+								.param("userId", "testId")
+								.param("majorCategory", "1")
+								.param("middleCategory", "1")
+								.param("smallCategory", "1")
+				)
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용자 아이디")
+										.attributes(field("constraints", "String")),
+								parameterWithName("majorCategory").description("대분류 코드(id)")
+										.attributes(field("constraints", "Long")),
+								parameterWithName("middleCategory").description("중분류 코드(id)")
+										.attributes(field("constraints", "Long")),
+								parameterWithName("smallCategory").description("소분류 코드(id)")
+										.attributes(field("constraints", "Long")),
+								parameterWithName("_csrf").description("csrf 코드 (무시)")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 결과")
+						)));
+		// Then
+		verify(userAccountRepository).findByUserId(any());
+	}
+
+	@Test
+	@DisplayName("13. 회원직무 추가 성공")
+	@WithMockUser
+	void addCareerSuccessTest() throws Exception {
+		// Given
+		given(userAccountRepository.findByUserId(any())) // 사용자 id가 들어왔다면
+				.willReturn(Optional.of(new UserAccount()));
+
+		// When
+		mockMvc.perform(
+						post("/api/users/details/careers")
+								.with(csrf())
+								.param("userId", "testId")
+								.param("majorCategory", "1")
+								.param("middleCategory", "1")
+								.param("smallCategory", "1")
+				)
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						formParameters(    // form-data 형식
+								parameterWithName("userId").description("사용자 아이디")
+										.attributes(field("constraints", "String")),
+								parameterWithName("majorCategory").description("대분류 코드(id)")
+										.attributes(field("constraints", "Long")),
+								parameterWithName("middleCategory").description("중분류 코드(id)")
+										.attributes(field("constraints", "Long")),
+								parameterWithName("smallCategory").description("소분류 코드(id)")
+										.attributes(field("constraints", "Long")),
+								parameterWithName("_csrf").description("csrf 코드 (무시)")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 결과")
+						)));
+
+		// Then
+		verify(userAccountRepository).findByUserId(any());
+		verify(userAccountRepository).save(any());
+		verify(userCareerDetailsRepository).save(any());
+	}
+
+	@Test
+	@DisplayName("14. 기술스택 추가 실패 (사용자 정보를 찾을 수 없음)")
+	@WithMockUser
+	void addStacksFailTest() throws Exception {
+		// Given
+		UserTechnologyStackRequest stackRequest = new UserTechnologyStackRequest();
+		stackRequest.setUserId("testId");
+		List<Long> stacks = new ArrayList<>();
+		stacks.add(1L);
+		stacks.add(2L);
+		stacks.add(3L);
+		stacks.add(4L);
+		stackRequest.setStacks(stacks);
+
+		// When
+		mockMvc.perform(
+						post("/api/users/details/stacks")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(stackRequest))
+				)
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(    // form-data 형식
+								fieldWithPath("userId").description("사용자 아이디"),
+								fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 결과")
+						)));
+		// Then
+		verify(userAccountRepository).findByUserId(any());
+	}
+
+	@Test
+	@DisplayName("15. 기술스택 추가 성공")
+	@WithMockUser
+	void addStacksSuccessTest() throws Exception {
+		// Given
+		UserTechnologyStackRequest stackRequest = new UserTechnologyStackRequest();
+		stackRequest.setUserId("testId");
+		List<Long> stacks = new ArrayList<>();
+		stacks.add(1L);
+		stacks.add(2L);
+		stacks.add(3L);
+		stacks.add(4L);
+		stackRequest.setStacks(stacks);
+		given(userAccountRepository.findByUserId(any())).willReturn(Optional.of(new UserAccount()));
+
+		// When
+		mockMvc.perform(
+						post("/api/users/details/stacks")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(stackRequest))
+				)
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(    // form-data 형식
+								fieldWithPath("userId").description("사용자 아이디"),
+								fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 결과")
+						)));
+		// Then
+		verify(userAccountRepository).findByUserId(any());
+		verify(userAccountRepository).save(any());
+		// 4개의 리스트 내용이 전부 저장되는지 검사
+		verify(userTechnologyStackRepository, times(4)).save(any());
 	}
 
 	public static Attribute field(String key, String value) {
