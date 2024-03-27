@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.auth.domain.dto;
+package pulleydoreurae.careerquestbackend.auth.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

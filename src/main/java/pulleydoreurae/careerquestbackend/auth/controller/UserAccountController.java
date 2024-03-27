@@ -1,5 +1,9 @@
 package pulleydoreurae.careerquestbackend.auth.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.DuplicateCheckResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.UserAccountRegisterRequest;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.UserAccountRegisterResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.DuplicateCheckResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.SimpleResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.UserAccountRegisterResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserCareerDetailsRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
 import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
 import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
@@ -34,20 +45,26 @@ import pulleydoreurae.careerquestbackend.mail.service.MailService;
 public class UserAccountController {
 
 	private final UserAccountRepository userAccountRepository;
+	private final UserCareerDetailsRepository userCareerDetailsRepository;
+	private final UserTechnologyStackRepository userTechnologyStackRepository;
+	private final EmailAuthenticationRepository emailAuthenticationRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final MailService mailService;
 	private final UserInfoUserIdRepository userIdRepository;
-	private final EmailAuthenticationRepository emailAuthenticationRepository;
 
 	@Autowired
 	public UserAccountController(UserAccountRepository userAccountRepository,
-			BCryptPasswordEncoder bCryptPasswordEncoder, MailService mailService,
-			UserInfoUserIdRepository userIdRepository, EmailAuthenticationRepository emailAuthenticationRepository) {
+			UserCareerDetailsRepository userCareerDetailsRepository,
+			UserTechnologyStackRepository userTechnologyStackRepository,
+			EmailAuthenticationRepository emailAuthenticationRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+			MailService mailService, UserInfoUserIdRepository userIdRepository) {
 		this.userAccountRepository = userAccountRepository;
+		this.userCareerDetailsRepository = userCareerDetailsRepository;
+		this.userTechnologyStackRepository = userTechnologyStackRepository;
+		this.emailAuthenticationRepository = emailAuthenticationRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.mailService = mailService;
 		this.userIdRepository = userIdRepository;
-		this.emailAuthenticationRepository = emailAuthenticationRepository;
 	}
 
 	/**
@@ -246,5 +263,76 @@ public class UserAccountController {
 						.build()
 		);
 	}
-}
 
+	/**
+	 * 사용자 직무 추가 메서드
+	 *
+	 * @param userCareerDetailsRequest 사용자 직무에 대한 request
+	 * @return 요청에 대한 응답
+	 */
+	@PostMapping("/users/details/careers")
+	public ResponseEntity<SimpleResponse> addCareer(UserCareerDetailsRequest userCareerDetailsRequest) {
+		String userId = userCareerDetailsRequest.getUserId();
+		Optional<UserAccount> optionalUserAccount = userAccountRepository.findByUserId(userId);
+
+		if (optionalUserAccount.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(SimpleResponse.builder()
+							.msg("사용자 정보를 찾을 수 없습니다.")
+							.build());
+		}
+
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
+				.majorCategory(userCareerDetailsRequest.getMajorCategory())
+				.middleCategory(userCareerDetailsRequest.getMiddleCategory())
+				.smallCategory(userCareerDetailsRequest.getSmallCategory())
+				.build();
+		UserAccount user = optionalUserAccount.get();
+		user.setUserCareerDetails(userCareerDetails);
+		userAccountRepository.save(user); // 직무에 대한 정보 저장
+		userCareerDetailsRepository.save(userCareerDetails);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(SimpleResponse.builder()
+						.msg("직무 등록에 성공하였습니다.")
+						.build());
+	}
+
+	/**
+	 * 사용자의 기술스택을 전달받아 저장하는 메서드
+	 *
+	 * @param userTechnologyStackRequest 기술스택에 대한 정보
+	 * @return 요청에 대한 처리
+	 */
+	@PostMapping("/users/details/stacks")
+	public ResponseEntity<SimpleResponse> addStacks(
+			@RequestBody UserTechnologyStackRequest userTechnologyStackRequest) {
+		String userId = userTechnologyStackRequest.getUserId();
+		Optional<UserAccount> optionalUserAccount = userAccountRepository.findByUserId(userId);
+
+		if (optionalUserAccount.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(SimpleResponse.builder()
+							.msg("사용자 정보를 찾을 수 없습니다.")
+							.build());
+		}
+
+		UserAccount user = optionalUserAccount.get();
+		List<UserTechnologyStack> stacks = new ArrayList<>(); // 기술스택을 담을 리스트
+		userTechnologyStackRequest.getStacks().forEach(stackId -> { // 리스트로 넘어온 스택들 데이터베이스에 저장
+			UserTechnologyStack stack = UserTechnologyStack.builder()
+					.userAccount(user)
+					.stackId(stackId)
+					.build();
+			stacks.add(stack);
+			userTechnologyStackRepository.save(stack);
+		});
+
+		user.setStacks(stacks);
+		userAccountRepository.save(user); // 사용자 정보 갱신
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(SimpleResponse.builder()
+						.msg("직무 등록에 성공하였습니다.")
+						.build());
+	}
+}

@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.LoginFailResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.LoginFailResponse;
 
 /**
  * 로그인 실패 핸들러

@@ -25,9 +25,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.KakaoAccount;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.KakaoLoginResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.KakaoUserDetailsResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.KakaoAccountRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.KakaoLoginResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.KakaoUserDetailsResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
@@ -139,7 +139,7 @@ class KakaoLoginServiceTest {
 
 		KakaoUserDetailsResponse response = KakaoUserDetailsResponse.builder()
 				.id(111L)
-				.kakao_account(KakaoAccount.builder()
+				.kakao_account(KakaoAccountRequest.builder()
 						.email("test@email.com")
 						.build())
 				.build();

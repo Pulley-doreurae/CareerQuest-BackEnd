@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.LoginFailResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.LoginFailResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.careerquestbackend.auth.service.KakaoLoginService;
 

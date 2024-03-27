@@ -1,15 +1,22 @@
 package pulleydoreurae.careerquestbackend.auth.domain.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 
 /**
@@ -35,4 +42,13 @@ public class UserAccount extends BaseEntity {
 	@Enumerated(EnumType.STRING)    // enum 을 데이터베이스에 문자열로 저장한다.
 	private UserRole role;
 
+	@Setter
+	@OneToOne // 단방향 매핑, 회원객체가 직무정보에 대한 정보를 가진다.
+	@JoinColumn(name = "user_career_id")
+	private UserCareerDetails userCareerDetails;
+
+	@Setter
+	@OneToMany(mappedBy = "userAccount",cascade = CascadeType.ALL)
+	// 양방향 매핑, 기술스택이 연관관계의 주인이 된다. 회원이 삭제된다면 그 회원의 기술스택도 삭제한다.
+	private List<UserTechnologyStack> stacks;
 }

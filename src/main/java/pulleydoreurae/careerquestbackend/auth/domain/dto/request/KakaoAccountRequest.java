@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.auth.domain.dto;
+package pulleydoreurae.careerquestbackend.auth.domain.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 // TODO: 2024/01/24 카카오로부터 받아올 정보를 정해 추가해야함
-public class KakaoAccount {
+public class KakaoAccountRequest {
 
 	private String email;
 }
