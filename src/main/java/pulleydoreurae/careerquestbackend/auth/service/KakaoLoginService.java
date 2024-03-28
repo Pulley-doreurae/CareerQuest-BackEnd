@@ -203,6 +203,8 @@ public class KakaoLoginService {
 				.phoneNum("000-1111-2222")
 				.password(bCryptPasswordEncoder.encode("kakao-register" + email))
 				.email(email)
+				.birth("00-01-01")
+				.gender("M")
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
 		userAccountRepository.save(user);

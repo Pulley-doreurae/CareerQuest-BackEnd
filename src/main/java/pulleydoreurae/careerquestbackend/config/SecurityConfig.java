@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import pulleydoreurae.careerquestbackend.auth.domain.filter.LoginFilter;
 import pulleydoreurae.careerquestbackend.auth.domain.filter.LogoutFilter;
 import pulleydoreurae.careerquestbackend.auth.domain.handler.LoginFailureHandler;
@@ -83,8 +84,8 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests((auth) ->
 				auth
-						.requestMatchers("/api/login", "/api/register", "/api/verify", "/api/login-kakao/**", "/"
-						, "/api/duplicate-check-id", "/api/duplicate-check-email", "/api-test")
+						.requestMatchers("/api/login", "/api/users", "/api/verify", "/api/login-kakao/**", "/"
+						, "/api/duplicate-check-id", "/api/duplicate-check-email", "/api-test", "/h2-console/**")
 						.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
 						.requestMatchers("/docs/index.html")
 						.permitAll()    // Spring REST Docs 를 보기 위해 모두 접근 가능

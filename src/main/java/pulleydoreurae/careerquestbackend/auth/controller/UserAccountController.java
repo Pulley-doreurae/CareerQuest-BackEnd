@@ -94,6 +94,8 @@ public class UserAccountController {
 							.email(request.getEmail())
 							.userName(request.getUserName())
 							.phoneNum(request.getPhoneNum())
+							.birth(request.getBirth())
+							.gender(request.getGender())
 							.msg(sb.toString())
 							.build()
 			);
@@ -189,6 +191,8 @@ public class UserAccountController {
 							.email(user.getEmail())
 							.userName(user.getUserName())
 							.phoneNum(user.getPhoneNum())
+							.birth(user.getBirth())
+							.gender(user.getGender())
 							.msg("이미 존재하는 아이디입니다.")
 							.build());
 		}
@@ -206,13 +210,15 @@ public class UserAccountController {
 							.email(user.getEmail())
 							.userName(user.getUserName())
 							.phoneNum(user.getPhoneNum())
+							.birth(user.getBirth())
+							.gender(user.getGender())
 							.msg("이미 존재하는 이메일입니다.")
 							.build());
 		}
 
 		// 이메일 인증 전송
 		mailService.sendMail(user.getUserId(), user.getUserName(), user.getPhoneNum(), user.getEmail(),
-				bCryptPasswordEncoder.encode(user.getPassword()));
+				bCryptPasswordEncoder.encode(user.getPassword()), user.getBirth(), user.getGender());
 
 		log.info("[회원가입 - 인증] 인증을 요청한 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -222,6 +228,8 @@ public class UserAccountController {
 						.email(user.getEmail())
 						.userName(user.getUserName())
 						.phoneNum(user.getPhoneNum())
+						.birth(user.getBirth())
+						.gender(user.getGender())
 						.msg("이메일 인증을 요청했습니다.")
 						.build()
 		);
@@ -259,6 +267,8 @@ public class UserAccountController {
 						.userName(user.getUserName())
 						.email(user.getEmail())
 						.phoneNum(user.getPhoneNum())
+						.birth(user.getBirth())
+						.gender(user.getGender())
 						.msg("회원가입에 성공하였습니다.")
 						.build()
 		);

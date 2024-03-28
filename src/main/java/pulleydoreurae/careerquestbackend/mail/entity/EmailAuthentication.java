@@ -21,15 +21,19 @@ public class EmailAuthentication {
 	private final String userName;
 	private final String phoneNum;
 	private final String password;
+	private final String birth;
+	private final String gender;
 	private final String code;
 
 	public EmailAuthentication(String email, String userId, String userName, String phoneNum, String password,
-			String code) {
+			String birth, String gender, String code) {
 		this.email = email;
 		this.userId = userId;
 		this.userName = userName;
 		this.phoneNum = phoneNum;
 		this.password = password;
+		this.birth = birth;
+		this.gender = gender;
 		this.code = code;
 	}
 }

@@ -50,6 +50,7 @@ class KakaoLoginServiceTest {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
 	@Value("${LOGIN.KAKAO_API_KEY}")
 	String clientId;
 	String redirectUri = "http%3A%2F%2Flocalhost%3A8081%2Fapi%2Flogin-kakao%2Fcode"; // URL 인코딩 적용
@@ -173,6 +174,8 @@ class KakaoLoginServiceTest {
 				.phoneNum("000-1111-2222")
 				.password(bCryptPasswordEncoder.encode("kakao-register" + email))
 				.email(email)
+				.birth("00-01-01")
+				.gender("M")
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build());
 
@@ -220,6 +223,8 @@ class KakaoLoginServiceTest {
 				.phoneNum("000-1111-2222")
 				.password("kakao-register" + email)
 				.email(email)
+				.birth("00-01-01")
+				.gender("M")
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
 
@@ -235,6 +240,8 @@ class KakaoLoginServiceTest {
 				() -> assertEquals(user.getPhoneNum(), getUser.getPhoneNum()),
 				() -> assertTrue(bCryptPasswordEncoder.matches(user.getPassword(), getUser.getPassword())),
 				() -> assertEquals(user.getEmail(), getUser.getEmail()),
+				() -> assertEquals(user.getBirth(), getUser.getBirth()),
+				() -> assertEquals(user.getGender(), getUser.getGender()),
 				() -> assertEquals(user.getRole(), getUser.getRole())
 		);
 	}

@@ -6,3 +6,4 @@ spring:
       - kakao.yml
       - mail.yml
       - database.yml
+      - geoIpRoot.yml
