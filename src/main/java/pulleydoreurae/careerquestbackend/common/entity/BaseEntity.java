@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.auth.domain.entity;
+package pulleydoreurae.careerquestbackend.common.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

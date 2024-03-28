@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 
 /**
  * 기술스택 엔티티
