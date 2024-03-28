@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserCareerDetailsRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.DuplicateCheckResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.UserAccountRegisterResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserCareerDetailsRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;

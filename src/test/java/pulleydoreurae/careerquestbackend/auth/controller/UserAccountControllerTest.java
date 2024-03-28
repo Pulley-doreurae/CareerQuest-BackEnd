@@ -35,8 +35,6 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
-import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
-import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
 
 /**
@@ -57,10 +55,6 @@ class UserAccountControllerTest {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@MockBean
 	private MailService mailService;
-	@MockBean
-	private UserInfoUserIdRepository userIdRepository;
-	@MockBean
-	private EmailAuthenticationRepository emailAuthenticationRepository;
 	@MockBean
 	private UserCareerDetailsRepository userCareerDetailsRepository;
 	@MockBean

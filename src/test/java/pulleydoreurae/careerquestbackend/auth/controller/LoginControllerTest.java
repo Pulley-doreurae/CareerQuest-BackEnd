@@ -43,7 +43,7 @@ import pulleydoreurae.careerquestbackend.support.RedisTestContainers;
 @SpringBootTest    // 시큐리티 내부의 로그인 기능을 테스트하려면 @WebMvcTest 로는 어려움, 통합테스트이므로 @WithMockUser 필요 없음
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-//@ExtendWith(RedisTestContainers.class)
+@ExtendWith(RedisTestContainers.class)
 class LoginControllerTest {
 
 	@Autowired
