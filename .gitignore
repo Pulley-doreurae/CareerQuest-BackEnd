@@ -218,3 +218,5 @@ kakao.yml
 jwt.yml
 mail.yml
 database.yml
+geoIpRoot.yml
+
