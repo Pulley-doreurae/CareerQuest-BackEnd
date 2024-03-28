@@ -451,9 +451,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=_IcppOWs4GfPk3ZM4T3b1CfNKwEvPMF0KWOuyTBRhYo3mVoMmrMel9echFbi8EIuhBDv7ET_BmNOWvdZGgGd8VRkvL0OrGk5 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=8vDEPW3DUsHlcHw1W7sOEQmzYhYH7KNaWXA_mKnYtMTWh8Dtw5aiWFyiNqXIRk8MPZY6JGzQT3Q2icZ3OxUPrM-7gvy04_Hf HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 144
+Content-Length: 194
 Host: localhost:8080
 
 {
@@ -461,7 +461,9 @@ Host: localhost:8080
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk"
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M"
 }</code></pre>
 </div>
 </div>
@@ -507,6 +509,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -528,13 +540,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 170
+Content-Length: 220
 
 {
   "userId" : "hgd123",
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
   "msg" : "이메일 인증을 요청했습니다."
 }</code></pre>
 </div>
@@ -577,6 +591,16 @@ Content-Length: 170
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -594,9 +618,9 @@ Content-Length: 170
 <h5 id="_요청_2_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=1g57YCDq9HE7BpLPuaq4TOQrDm0bh0Z_WajSqyCRPDH60yUb5zdDUBbawEcWZfP-3YeMKNxPIwwit3RSOMznnxD3XlCZ6kR5 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=Svo2Wpipru8UaxjzwbpAjNYWkfwk6XK93b22y59viFzLzlhBLs9XaKufnos5CXqQ85d07uYlvJ4S30WQu97U-fldsGr792ol HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 144
+Content-Length: 194
 Host: localhost:8080
 
 {
@@ -604,7 +628,9 @@ Host: localhost:8080
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk"
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M"
 }</code></pre>
 </div>
 </div>
@@ -650,6 +676,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -671,13 +707,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 170
+Content-Length: 220
 
 {
   "userId" : "hgd123",
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
   "msg" : "이미 존재하는 아이디입니다."
 }</code></pre>
 </div>
@@ -720,6 +758,16 @@ Content-Length: 170
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -737,9 +785,9 @@ Content-Length: 170
 <h5 id="_요청_3_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=gpZhUhjiRZ2D9x3kRMzEKiSgb_yNap65e3YEy4Xf44lqyr_jsPAAZX2GJPmukSSBJ-HwEhzCQp27CaqUT0Zi_-Dv0OwM-dyA HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=zHE0X8MO0g_hNMh86OwgqWAhOgxODJmQJ_Xew_bkcsz9JORg_BUFOvs_627MAf9F28EUmllAFzR9Ofi9RZO4p8LcSv_FR9AG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 144
+Content-Length: 194
 Host: localhost:8080
 
 {
@@ -747,7 +795,9 @@ Host: localhost:8080
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk"
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M"
 }</code></pre>
 </div>
 </div>
@@ -793,6 +843,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -814,13 +874,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 170
+Content-Length: 220
 
 {
   "userId" : "hgd123",
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
   "msg" : "이미 존재하는 이메일입니다."
 }</code></pre>
 </div>
@@ -863,6 +925,16 @@ Content-Length: 170
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -880,9 +952,9 @@ Content-Length: 170
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=7v_Gl4CbNQaplW8srDNShSVa7481sx-KzFB9RWI8U5ioglih2Jvwp-OvAzaEowtIlR5mvBBqwrYAh36n-zEffFpeMK6cu2nC HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=hTG6J-HGPjw9bYAx6X1KTKjrAapN5efjVdtiq-b0qoP89Guo4VeJRdj3WA8QC-UI0VB-f5zfLJJ8gdHObL9UkoSWn7HNxl7J HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 142
+Content-Length: 192
 Host: localhost:8080
 
 {
@@ -890,7 +962,9 @@ Host: localhost:8080
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk"
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M"
 }</code></pre>
 </div>
 </div>
@@ -936,6 +1010,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -957,13 +1041,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 181
+Content-Length: 231
 
 {
   "userId" : "hgd1",
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
   "msg" : "아이디는 5자 이상으로 입력해주세요.\n"
 }</code></pre>
 </div>
@@ -1006,6 +1092,16 @@ Content-Length: 181
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1023,9 +1119,9 @@ Content-Length: 181
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=XR4m8wgxUOPm_vZrV4KXb4PIadM4ITOuNXI_wNqnHPa4Nw8EbX0Rkj4FZdLLypRTYq-jWLerROoLQAODURENo7-VeJCJAjhh HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=LAsxEZDsusHOuJ0vCoheSNpfr4iZVDBdJv9O8V6NrhfisccfTW9VcqWPj6Dj3P4XPqVqeONvgumoNlZwFs9-xDy7ni-Gh6Er HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 139
+Content-Length: 189
 Host: localhost:8080
 
 {
@@ -1033,7 +1129,9 @@ Host: localhost:8080
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
-  "password" : "aaa"
+  "password" : "aaa",
+  "birth" : "00-01-01",
+  "gender" : "M"
 }</code></pre>
 </div>
 </div>
@@ -1079,6 +1177,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1100,13 +1208,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 186
+Content-Length: 236
 
 {
   "userId" : "hgd123",
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
   "msg" : "비밀번호는 8자 이상으로 입력해주세요.\n"
 }</code></pre>
 </div>
@@ -1149,6 +1259,16 @@ Content-Length: 186
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1166,9 +1286,9 @@ Content-Length: 186
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=PpuoZ_CCgJuwJIQo40pDA-fdnI1SRNjeZLE3leSm035JFmcqXf3MX8G04_mdE7Ed02d3MoHlsewzcevzB4gHo9TFsB19LlBM HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=KKzqtf1LJ-vN_ZchtxNaZt_jlvZCJ--7Sx45lyinZRHN1M6DH5yO05lyE9PgzPIYgT5uUL7Xu5QjEdqWfCpboRDFUXD07ai2 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 138
+Content-Length: 188
 Host: localhost:8080
 
 {
@@ -1176,7 +1296,9 @@ Host: localhost:8080
   "userName" : "홍길동",
   "email" : "hgd123.com",
   "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk"
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M"
 }</code></pre>
 </div>
 </div>
@@ -1222,6 +1344,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1243,13 +1375,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 163
+Content-Length: 213
 
 {
   "userId" : "hgd123",
   "userName" : "홍길동",
   "email" : "hgd123.com",
   "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
   "msg" : "이메일 형식만 가능합니다.\n"
 }</code></pre>
 </div>
@@ -1292,6 +1426,16 @@ Content-Length: 163
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1309,9 +1453,9 @@ Content-Length: 163
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=W91Ht6mWlfOgNUaLXyVh1jcaGNLzZBOWzd8UhBEQagHX2PX0Pekm1pv1oMKNAyW4bQhV5QQsNbPHBiq7r7ot53IiWDnu4cbF HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=qON3eezJs1KcUUZ5pttNDk-ej6QNqclEkRSd6q6lbxvw1NIVy4dGT9vxgGqxNycbwvZ5PXuposVuy_FpoCGs2pqdDX7C47Ag HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 140
+Content-Length: 190
 Host: localhost:8080
 
 {
@@ -1319,7 +1463,9 @@ Host: localhost:8080
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-11-22",
-  "password" : "wjsansrk"
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M"
 }</code></pre>
 </div>
 </div>
@@ -1365,6 +1511,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1386,13 +1542,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 182
+Content-Length: 232
 
 {
   "userId" : "hgd123",
   "userName" : "홍길동",
   "email" : "hgd123@naver.com",
   "phoneNum" : "010-11-22",
+  "birth" : "00-01-01",
+  "gender" : "M",
   "msg" : "휴대폰 번호 형식에 맞춰 입력해주세요.\n"
 }</code></pre>
 </div>
@@ -1435,6 +1593,16 @@ Content-Length: 182
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1452,7 +1620,7 @@ Content-Length: 182
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=B6soF58vF74aA-cjDwI0Xs_Q5KFq_wFTE3qRVtG9_dpwWlXCZZwYLvkeIo43NtQTPC8AbfuxycBbzzR-ckOpM-fbzONBPzb1 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=0DCRrfkZvzfakdXV9mLiIWipvHLcEURjQuw8vYOddIwVISfesVSgn8wojgb3pebnz0_WRF3IkRPuJndOcY4Pj-b-R-5xQx7o HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1497,7 +1665,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 74
+Content-Length: 77
 
 {
   "field" : "testId",
@@ -1545,7 +1713,7 @@ Content-Length: 74
 <h5 id="_요청_9_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=GK4JQLmDWNrjYOBuRw1ULYx3qi4q8zTvCzmuSU9dJQkLJ3ViLZ1oeIzhPbnOBtBcciBgH7QShxYYxVDCaAmdfnlkHTk_FRYA HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=G6GLjJs9Q_w1RssPQ951LxpX1tZ8HsG5FKdT8zxZHshneZ4AecXv6vgFIZoYI_g3c_NBTi9v-7REe_GUdcVjxws7fKxVS6g3 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1590,7 +1758,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 77
+Content-Length: 80
 
 {
   "field" : "testId",
@@ -1638,7 +1806,7 @@ Content-Length: 77
 <h5 id="_요청_10_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=MgP5oRwxsI_OyeRG3TCDbeoE2KP-zGv9QlaXmRVM1pnyz-RXUzbOkCwJ1rvjqNIl7x23CYk09Zqa_13Qd2GnqiR54KHDqdZj HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=7YsyYaa3u9bjlw5wXnYT_D6oA2iTh6L339XNC_vUjUs0rBibjLpUUZKG3rfOoj1GbFsnxVudLgn35ZDa5-37P83jtH4AnCv- HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1684,7 +1852,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 82
+Content-Length: 85
 
 {
   "field" : "test@email.com",
@@ -1732,7 +1900,7 @@ Content-Length: 82
 <h5 id="_요청_11_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=SDsirVf3iYmuR7H51yWT6PPwLLdQrArfVJiiVlEpHkGo1B0GLQ0blWPB6O-Dc4Wb5win2ZXJAY9kzj_yMqibM2gYLnnMsig3 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=bXYGpklfIg-LcGVKBOCHiJELVPqT4Xmh1cLdlV3VAe2SeKTnWBA3wH1mQTymRAAvN82zuPRoecOg00yM4KDuoGjiZ46lSJPe HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1778,7 +1946,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 85
+Content-Length: 88
 
 {
   "field" : "test@email.com",
@@ -1831,7 +1999,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=zT70eYxaA-rt6g_lEJCJC-YL3eIo4MqLhiTfAhjxO4sVdY_h-lvHH7VqO4nA2D3ddb29MoI88IAQhPKmth3pZ3ySDbpxRe3R</code></pre>
+userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=Tth2TSQVNTDF2O9Vtym0RKRRYQLJPqL-S_k2k7EY6x-Mj9s4KOlBdEItVFLo6oxthQSAJZJjTDqtWsfTfsECoYN5iiq0vupb</code></pre>
 </div>
 </div>
 </div>
@@ -1897,7 +2065,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 60
+Content-Length: 62
 
 {
   "msg" : "사용자 정보를 찾을 수 없습니다."
@@ -1944,7 +2112,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=DPbQKdocvkWR56MH5VtYrD9JiUUH19UiKPBca8uC5YG7BuOPNMG1GOl-2n281sUw1HZsmV1-pHw2tuQPTsloXv3gh-ePYtbs</code></pre>
+userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=2p9NUeLehVwzJrABTvZXYDMB0W8upUorOsGLBhmVItMvzyJP7v54YNC85m8eF9RjedtjAwM5_FYYl3MGWaKyMiyiFbYdrkEu</code></pre>
 </div>
 </div>
 </div>
@@ -2010,7 +2178,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+Content-Length: 57
 
 {
   "msg" : "직무 등록에 성공하였습니다."
@@ -2052,9 +2220,9 @@ Content-Length: 55
 <h5 id="_요청_14_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=ZtVAmm2J4gOB4lY-iKDYnywR3vfLy1jJ7ThnDdsuBl7PCK4VVbR4_1q52zKs22ZfsY3spx0m85b782Hk3wgDaehNMm73as10 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=vd-psgk-lSRpPgXl9YdPX-57vjgXKamwQIHpkU6rCbR-hx5LjO_L0G0OoBBEWmODwap7PdxCkwEjGp6dI7nQpSifMIJHvip- HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 54
+Content-Length: 57
 Host: localhost:8080
 
 {
@@ -2111,7 +2279,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 60
+Content-Length: 62
 
 {
   "msg" : "사용자 정보를 찾을 수 없습니다."
@@ -2153,9 +2321,9 @@ Content-Length: 60
 <h5 id="_요청_15_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=F94xCpK7gU5fTrZCKek7Y_uQ9NEIVLdKA29GkdabxnVrEv2CL-5VPqfYuHhyKtVxGMQPVJ-g2bBqZ4FnNlkgqbCi9ExaIsW2 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=ELkphIZNUv9pdmlqUFZUZt1jeNm_e7XE_H-ohgqUdG2q86RHcYoYvLB7ZchEFwhSM3tgVetWVeCGSYLpxBvJsT7yEQ6al8B_ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 54
+Content-Length: 57
 Host: localhost:8080
 
 {
@@ -2212,7 +2380,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+Content-Length: 57
 
 {
   "msg" : "직무 등록에 성공하였습니다."
@@ -2252,7 +2420,7 @@ Content-Length: 55
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-03-27 16:24:20 +0900
+Last updated 2024-03-28 00:12:29 +0900
 </div>
 </div>
 </body>

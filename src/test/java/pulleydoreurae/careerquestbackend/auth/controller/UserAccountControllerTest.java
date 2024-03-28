@@ -32,7 +32,6 @@ import com.google.gson.Gson;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
@@ -82,6 +81,8 @@ class UserAccountControllerTest {
 		request.setUserName("홍길동");
 		request.setPhoneNum("010-1111-2222");
 		request.setEmail("hgd123@naver.com");
+		request.setBirth("00-01-01");
+		request.setGender("M");
 
 		// When
 		mockMvc.perform(
@@ -94,6 +95,8 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
 				.andExpect(jsonPath("$.phoneNum").exists())
+				.andExpect(jsonPath("$.birth").exists())
+				.andExpect(jsonPath("$.gender").exists())
 				.andDo(print())
 				// Spring REST Docs
 				.andDo(document("{class-name}/{method-name}/",
@@ -107,20 +110,24 @@ class UserAccountControllerTest {
 										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								fieldWithPath("birth").description("사용자 생일"),
+								fieldWithPath("gender").description("사용자 성별")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("birth").description("요청한 생일"),
+								fieldWithPath("gender").description("요청한 성별"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 
 		// Then
 		// 이메일 전송 메서드가 동작했는지 확인
 		verify(mailService).sendMail(request.getUserId(), request.getUserName(), request.getPhoneNum(),
-				request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()));
+				request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(), request.getGender());
 	}
 
 	@Test
@@ -138,6 +145,8 @@ class UserAccountControllerTest {
 		request.setUserName("홍길동");
 		request.setPhoneNum("010-1111-2222");
 		request.setEmail("hgd123@naver.com");
+		request.setBirth("00-01-01");
+		request.setGender("M");
 
 		// When
 		mockMvc.perform(
@@ -149,7 +158,9 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists()).andDo(print())
+				.andExpect(jsonPath("$.phoneNum").exists())
+				.andExpect(jsonPath("$.birth").exists())
+				.andExpect(jsonPath("$.gender").exists()).andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
@@ -161,13 +172,17 @@ class UserAccountControllerTest {
 										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								fieldWithPath("birth").description("사용자 생일"),
+								fieldWithPath("gender").description("사용자 성별")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("birth").description("요청한 생일"),
+								fieldWithPath("gender").description("요청한 성별"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 
@@ -191,6 +206,8 @@ class UserAccountControllerTest {
 		request.setUserName("홍길동");
 		request.setPhoneNum("010-1111-2222");
 		request.setEmail("hgd123@naver.com");
+		request.setBirth("00-01-01");
+		request.setGender("M");
 
 		// When
 		mockMvc.perform(
@@ -202,7 +219,9 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists()).andDo(print())
+				.andExpect(jsonPath("$.phoneNum").exists())
+				.andExpect(jsonPath("$.birth").exists())
+				.andExpect(jsonPath("$.gender").exists()).andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
@@ -214,13 +233,17 @@ class UserAccountControllerTest {
 										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								fieldWithPath("birth").description("사용자 생일"),
+								fieldWithPath("gender").description("사용자 성별")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("birth").description("요청한 생일"),
+								fieldWithPath("gender").description("요청한 성별"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 
@@ -242,6 +265,8 @@ class UserAccountControllerTest {
 		request.setUserName("홍길동");
 		request.setPhoneNum("010-1111-2222");
 		request.setEmail("hgd123@naver.com");
+		request.setBirth("00-01-01");
+		request.setGender("M");
 
 		// When
 		mockMvc.perform(
@@ -254,6 +279,8 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
 				.andExpect(jsonPath("$.phoneNum").exists())
+				.andExpect(jsonPath("$.birth").exists())
+				.andExpect(jsonPath("$.gender").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
@@ -266,13 +293,17 @@ class UserAccountControllerTest {
 										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								fieldWithPath("birth").description("사용자 생일"),
+								fieldWithPath("gender").description("사용자 성별")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("birth").description("요청한 생일"),
+								fieldWithPath("gender").description("요청한 성별"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 
@@ -292,6 +323,8 @@ class UserAccountControllerTest {
 		request.setUserName("홍길동");
 		request.setPhoneNum("010-1111-2222");
 		request.setEmail("hgd123@naver.com");
+		request.setBirth("00-01-01");
+		request.setGender("M");
 
 		// When
 		mockMvc.perform(
@@ -304,6 +337,8 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
 				.andExpect(jsonPath("$.phoneNum").exists())
+				.andExpect(jsonPath("$.birth").exists())
+				.andExpect(jsonPath("$.gender").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
@@ -316,13 +351,17 @@ class UserAccountControllerTest {
 										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								fieldWithPath("birth").description("사용자 생일"),
+								fieldWithPath("gender").description("사용자 성별")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("birth").description("요청한 생일"),
+								fieldWithPath("gender").description("요청한 성별"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 
@@ -342,6 +381,8 @@ class UserAccountControllerTest {
 		request.setUserName("홍길동");
 		request.setPhoneNum("010-1111-2222");
 		request.setEmail("hgd123.com");
+		request.setBirth("00-01-01");
+		request.setGender("M");
 
 		// When
 		mockMvc.perform(
@@ -354,6 +395,8 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
 				.andExpect(jsonPath("$.phoneNum").exists())
+				.andExpect(jsonPath("$.birth").exists())
+				.andExpect(jsonPath("$.gender").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
@@ -366,13 +409,17 @@ class UserAccountControllerTest {
 										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								fieldWithPath("birth").description("사용자 생일"),
+								fieldWithPath("gender").description("사용자 성별")
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("birth").description("요청한 생일"),
+								fieldWithPath("gender").description("요청한 성별"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 
@@ -392,6 +439,8 @@ class UserAccountControllerTest {
 		request.setUserName("홍길동");
 		request.setPhoneNum("010-11-22");
 		request.setEmail("hgd123@naver.com");
+		request.setBirth("00-01-01");
+		request.setGender("M");
 
 		// When
 		mockMvc.perform(
@@ -404,6 +453,8 @@ class UserAccountControllerTest {
 				.andExpect(jsonPath("$.userName").exists())
 				.andExpect(jsonPath("$.email").exists())
 				.andExpect(jsonPath("$.phoneNum").exists())
+				.andExpect(jsonPath("$.birth").exists())
+				.andExpect(jsonPath("$.gender").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
@@ -416,13 +467,18 @@ class UserAccountControllerTest {
 										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
 								fieldWithPath("phoneNum").description("사용자 연락처"),
 								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+								fieldWithPath("birth").description("사용자 생일"),
+								fieldWithPath("gender").description("사용자 성별")
+
 						),
 						responseFields(    // Json 응답 형식
 								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("userName").description("요청한 이름"),
 								fieldWithPath("email").description("요청한 이메일"),
 								fieldWithPath("phoneNum").description("요청한 연락처"),
+								fieldWithPath("birth").description("요청한 생일"),
+								fieldWithPath("gender").description("요청한 성별"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 

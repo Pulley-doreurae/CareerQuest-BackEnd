@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.careerquestbackend.auth.service.KakaoLoginService;
+import pulleydoreurae.careerquestbackend.auth.service.UserAccessLogService;
 
 /**
  * 카카오 로그인 테스트 클래스
@@ -38,6 +39,9 @@ class KakaoLoginControllerTest {
 
 	@MockBean
 	private KakaoLoginService kakaoLoginService;
+
+	@MockBean
+	UserAccessLogService userAccessLogService;
 
 	@Test
 	@DisplayName("카카오 로그인창으로 정상적으로 리다이렉트하는지 확인하는 테스트")

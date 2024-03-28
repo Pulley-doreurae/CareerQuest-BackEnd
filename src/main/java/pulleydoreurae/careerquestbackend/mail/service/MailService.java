@@ -37,7 +37,8 @@ public class MailService {
 	private final EmailAuthenticationRepository emailAuthenticationRepository;
 	private final UserInfoUserIdRepository userInfoUserIdRepository;
 
-	private static final String senderEmail = "admin@chwijunjundan";
+	@Value("${spring.mail.sender}")
+	private static String senderEmail;
 
 	@Value("${spring.mail.domain}")
 	private String domain;
@@ -74,7 +75,8 @@ public class MailService {
 	 *
 	 * @param userId,userName,phoneNum,email,password 인증요청을 한 사용자의 회원정보
 	 */
-	public void sendMail(String userId, String userName, String phoneNum, String email, String password) {
+	public void sendMail(String userId, String userName, String phoneNum, String email
+			, String password, String birth, String gender) {
 
 		String number = createNumber();
 		String verification_url = domain + "/api/verify?certificationNumber=" + number + "&email=" + email;
@@ -95,7 +97,7 @@ public class MailService {
 			helper.setText(content, true);
 		};
 		emailAuthenticationRepository.save(
-				new EmailAuthentication(email, userId, userName, phoneNum, password, number));
+				new EmailAuthentication(email, userId, userName, phoneNum, password, birth, gender, number));
 		// 인증을 기다리는 동안 userId 선점하기 (인증을 기다리는 동안 다른 사용자가 같은 userId 로 회원가입을 막기 위함)
 		// email 의 경우 이메일인증의 키값이므로 따로 저장할 필요 X
 		userInfoUserIdRepository.save(new UserInfoUserId(userId));
@@ -163,6 +165,8 @@ public class MailService {
 				.userName(getAuthentication.getUserName())
 				.phoneNum(getAuthentication.getPhoneNum())
 				.password(getAuthentication.getPassword())
+				.birth(getAuthentication.getBirth())
+				.gender(getAuthentication.getGender())
 				.role(UserRole.ROLE_TEMPORARY_USER)
 				.build();
 	}

@@ -503,15 +503,15 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 471
+X-Frame-Options: SAMEORIGIN
+Content-Length: 478
 
 {
   "userId" : "testId",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE1MjcwMzksImV4cCI6MTcxMTUyNzYzOX0.lAOGwKyA-h8rUy_OYJLzNHPwI1y5xEfW-sE-5GNXvrA",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE2MDIyMTAsImV4cCI6MTcxMTYwMjgxMH0.8EVY7L5StUPeSM08YqIy7-dkzKmrkL083dfUPDVGgJc",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE1MjcwMzksImV4cCI6MTcxMzY4NzAzOX0.K5MSQmn-8q6LXXap2bH5KyD4RcvR2T3iTMctKk1XYao",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE2MDIyMTAsImV4cCI6MTcxMzc2MjIxMH0.9d93cE4_Y3CVPcBlfvb2x6lpGoX9Oqk3iTbNRX59owM",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -628,15 +628,15 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 501
+X-Frame-Options: SAMEORIGIN
+Content-Length: 508
 
 {
   "userId" : "test@email.com",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTUyNzA0MCwiZXhwIjoxNzExNTI3NjQwfQ.p-CjCl02K-OIBpZxOtwbsVF1GxaBLKKROQ0XkAHv6EM",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTYwMjIxMSwiZXhwIjoxNzExNjAyODExfQ.HLXc6DsiSIQfNADtWEM_zYuNr58ENhIqSvbWgfVrlAw",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTUyNzA0MCwiZXhwIjoxNzEzNjg3MDQwfQ.lLGQ4fe1widG_rdi0p0V5lzxRfXluzSxmvNlwndvJxU",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTYwMjIxMSwiZXhwIjoxNzEzNzYyMjExfQ.nKZIYscyGPOf2kWoveDqV7lw7Rf9Wc-3plHJinQTYso",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -753,8 +753,8 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 133
+X-Frame-Options: SAMEORIGIN
+Content-Length: 136
 
 {
   "code" : "401 UNAUTHORIZED",
@@ -854,8 +854,8 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 133
+X-Frame-Options: SAMEORIGIN
+Content-Length: 136
 
 {
   "code" : "401 UNAUTHORIZED",
@@ -906,7 +906,7 @@ Content-Length: 133
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
 userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE1MjcwMzksImV4cCI6MTcxMTUyNzYzOX0.lAOGwKyA-h8rUy_OYJLzNHPwI1y5xEfW-sE-5GNXvrA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE2MDIyMTEsImV4cCI6MTcxMTYwMjgxMX0.LK-ANO6ohWGGFthX8HLeX3qDjk9OaatUhQ38X77ToMQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -954,7 +954,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
 
 hi</code></pre>
 </div>
@@ -1016,8 +1016,8 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 60
+X-Frame-Options: SAMEORIGIN
+Content-Length: 62
 
 {
   "msg" : "Authorization 이 유효하지 않습니다."
@@ -1062,7 +1062,7 @@ Content-Length: 60
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
 userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE1MjcwNDAsImV4cCI6MTcxMzY4NzA0MH0.Wefpj5HbmS0XLIYrcduI2WG2laolFlrp4nxAf4S5Z4w
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE2MDIyMTEsImV4cCI6MTcxMzc2MjIxMX0.OkRk2Ue2Q6ydMQS234r5S96gunqThmN6kTh9re73hQ0
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1110,12 +1110,12 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 229
+X-Frame-Options: SAMEORIGIN
+Content-Length: 233
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE1MjcwNDAsImV4cCI6MTcxMTUyNzY0MH0.nSvDUOTTJrLdU1LBX_Q177K5Nt1ZfKDq9_50dyCvy9A",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE2MDIyMTEsImV4cCI6MTcxMTYwMjgxMX0.LK-ANO6ohWGGFthX8HLeX3qDjk9OaatUhQ38X77ToMQ",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -1216,8 +1216,8 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 89
+X-Frame-Options: SAMEORIGIN
+Content-Length: 91
 
 {
   "msg" : "RefreshToken 이 유효하지 않습니다. 다시 로그인해주세요."
@@ -1300,8 +1300,8 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 54
+X-Frame-Options: SAMEORIGIN
+Content-Length: 56
 
 {
   "msg" : "로그아웃에 성공하였습니다."
@@ -1341,7 +1341,7 @@ Content-Length: 54
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-03-10 17:32:25 +0900
+Last updated 2024-03-28 00:12:29 +0900
 </div>
 </div>
 </body>

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.message.Message;
 
 /**
  * 회원가입 요청 시 전달받는 dto 클래스
@@ -32,4 +33,10 @@ public class UserAccountRegisterRequest {
 	@NotBlank(message = "비밀번호는 필수입니다.")
 	@Size(min = 8, message = "비밀번호는 8자 이상으로 입력해주세요.")    // 비밀번호의 길이는 최소 8자
 	private String password;
+
+	@NotBlank(message = "생년월일은 필수입니다.")
+	private String birth;
+
+	@NotBlank(message = "성별 선택은 필수입니다.")
+	private String gender;
 }

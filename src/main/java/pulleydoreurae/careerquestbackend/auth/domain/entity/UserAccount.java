@@ -38,6 +38,8 @@ public class UserAccount extends BaseEntity {
 	private String email;
 	private String password;
 	private String phoneNum;
+	private String birth;
+	private String gender;
 
 	@Enumerated(EnumType.STRING)    // enum 을 데이터베이스에 문자열로 저장한다.
 	private UserRole role;
