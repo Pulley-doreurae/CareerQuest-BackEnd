@@ -1,32 +1,29 @@
 package pulleydoreurae.careerquestbackend.auth.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Subdivision;
-import jakarta.servlet.http.HttpServletRequest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccessLog;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccessLogRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-
 
 /**
  * 접속기록 Service
@@ -49,7 +46,11 @@ public class UserAccessLogService {
     public void saveLog(HttpServletRequest request,
                                Authentication authentication) throws IOException, GeoIp2Exception {
 
-        UserAccount accessedUserAccount = userAccountRepository.findByUserId(authentication.getName()).get();
+        Optional<UserAccount> userAccount = userAccountRepository.findByUserId(authentication.getName());
+        if(userAccount.isEmpty()){
+            throw new RuntimeException("해당하는 유저가 없습니다.");
+        }
+        UserAccount accessedUserAccount = userAccount.get();
         String ipv4_addr = getClientIPv4(request);
         String ipv6_addr = getClientIPv4(request);
         String accessedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));

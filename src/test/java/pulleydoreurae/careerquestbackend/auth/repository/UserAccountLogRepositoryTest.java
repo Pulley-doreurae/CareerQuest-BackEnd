@@ -1,5 +1,6 @@
 package pulleydoreurae.careerquestbackend.auth.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,11 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccessLog;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * UserAccountLogRepository 클래스를 테스트 하는 클래스

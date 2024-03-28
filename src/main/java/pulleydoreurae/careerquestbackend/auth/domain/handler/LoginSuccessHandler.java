@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccessLog;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.JwtTokenProvider;
@@ -34,6 +35,7 @@ import pulleydoreurae.careerquestbackend.auth.service.UserAccessLogService;
  * @author : parkjihyeok
  * @since : 2024/01/17
  */
+@Slf4j
 @Component
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -73,6 +75,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		try {
 			userAccessLogService.saveLog(request, authentication);
 		} catch (GeoIp2Exception e) {
+			log.error("GeoIp2 오류 : {}", e.getMessage());
 			throw new RuntimeException(e);
 		}
 
