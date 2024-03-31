@@ -23,7 +23,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegi
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserCareerDetailsRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.DuplicateCheckResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.response.SimpleResponse;
+import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.UserAccountRegisterResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
