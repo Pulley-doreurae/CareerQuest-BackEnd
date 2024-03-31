@@ -89,7 +89,7 @@ public class PostController {
 	}
 
 	@DeleteMapping("/posts/{postId}")
-	public ResponseEntity<SimpleResponse> deletePost(@PathVariable Long postId, @RequestBody String userId) {
+	public ResponseEntity<SimpleResponse> deletePost(@PathVariable Long postId, String userId) {
 		if (!postService.deletePost(postId, userId)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(SimpleResponse.builder()
