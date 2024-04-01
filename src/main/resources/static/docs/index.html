@@ -497,6 +497,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_게시글_삭제_성공">게시글 삭제 성공</a></li>
 </ul>
 </li>
+<li><a href="#_커뮤니티_댓글_api_commentcontroller">커뮤니티 댓글 API (CommentController)</a>
+<ul class="sectlevel2">
+<li><a href="#_한_사용자가_작성한_댓글_리스트_조회">한 사용자가 작성한 댓글 리스트 조회</a></li>
+<li><a href="#_한_게시글에_달린_댓글_리스트_조회">한 게시글에 달린 댓글 리스트 조회</a></li>
+<li><a href="#_댓글_작성_실패">댓글 작성 (실패)</a></li>
+<li><a href="#_댓글_작성_성공">댓글 작성 (성공)</a></li>
+<li><a href="#_댓글_수정_실패">댓글 수정 (실패)</a></li>
+<li><a href="#_댓글_수정_성공">댓글 수정 (성공)</a></li>
+<li><a href="#_댓글_삭제_실패">댓글 삭제 (실패)</a></li>
+<li><a href="#_댓글_삭제_성공">댓글 삭제 (성공)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -512,7 +524,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=WWVu6EFZDTaLyQaNuY6np7K-O3N6rhHn1JMlrTi6QbgiSbLnYFcN23hqNAam8D64iqOTk4eJFhJOmXXKtatAlQ-CJ94bcNDS HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=fhWYX8pYixdvgktqeRtF1pi3czzlxssVZK2zl5jb-Xso41LFGCCtZvNsuiBCu35ZTTZx5KzRXgXUpK84XMzQ8_zryBgQhWHx HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 186
 Host: localhost:8080
@@ -679,7 +691,7 @@ Content-Length: 212
 <h5 id="_요청_2_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=4QIzZwt07hPQFNHvipIUvNSM5_3VdyXlw8RGfJx6kv1YSLEVh2MGUDlN13X9JbfZ6b8gheztysXmEkfIpvR3Ha1Mq8thcdMj HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=SCwX-iv6Uf5GvvBuPMVKiFjNXxcAILK6T59ApW6Q1GAbY1YAexx1yhvDNJhripEPWeh-6Tyoci42Q9aXKaZ0lAzy7AUiAGA3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 186
 Host: localhost:8080
@@ -846,7 +858,7 @@ Content-Length: 212
 <h5 id="_요청_3_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=bYYf7KsrOIpwHDUra93tH_2KiieZ8OPGDYK-k5IhAba-5cIjVLEojZ4dCLJdLVQcXfDZLZizpx-pwYLra7HaqqdAMYXdh_Ib HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=CpahooLqjkK-uoNB-nFuFSxLWKQh3NnsanYu51zvScPWqj1aPKWTlrrevCCT2-V5mVxaJhl4dZ0Q5eDBDxcehWncLPvgyQo- HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 186
 Host: localhost:8080
@@ -1013,7 +1025,7 @@ Content-Length: 212
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=vwUntmR9YnT1LG8P9NARM17VepgGQ5QIHHpxtj7BTl06Z96biGBB1VccB03YTw08kf0lBGq0V_lndKYlKEkXjguiL2VbX72s HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=b5j1RQa74vwwqdgymuLxNYrOauVmEfrhhEFkjwOHJIp8WbWNW6nGczPZ05gdy-4K_8_FBbOvR91TKc3M5yJUvDfjQb4fbYC0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 184
 Host: localhost:8080
@@ -1180,7 +1192,7 @@ Content-Length: 223
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=mPnoMtbNHyBjbDzrSr8E6Ews7vAjCv1cds9rhTGQweUdhE5drZvbU7L8KkJOCA7ceZIw3HQYw5JCPMlxE_8PsFSj9oN84Hg4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=o_Djnv2Kzj67yRTgVOaOiz5vL9vkMrzEXilOcEzgnXM3xamFkJLRqcTs_wiW-3HXZ8u6uA0KAuLRBtjpbx17Q3qC_EdS8M_k HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 181
 Host: localhost:8080
@@ -1347,7 +1359,7 @@ Content-Length: 228
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=nncj7m2KwL1ZHDijrvFl7XreKS0lK8ludK4pN0mdZrR8ZyowrRNC2wy49Yl0JFuXzdxRiBnnBE8VGatDTcwaU3r5AIMYVhgC HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=5iCZNMwaA_vfd_B8X2WYcgnXuFfgs4_4ShtZvVtTRPM3ekC71EH7Uv8vNs7yEcVIZkisQm20lTaF1evVeithjWNnIJYHSSHY HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 180
 Host: localhost:8080
@@ -1514,7 +1526,7 @@ Content-Length: 205
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=6Bgv4WhUqz9ZFAAxBR7hILkVkKQgwQfD2oo-OsVc22Sgwvts3y0cg15hzQp0JTYDZDPVFYl0vcVEpTfuu7kPXqdo4l2Q85oO HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=wIy7zTX8ZUKMss0yjOpnPqPSh8fDiaPKC9jyPboFzwa7erdoormPqQLNXCCh1PwD7cdTCpbkqv7z6JDnaruWW9w2qTaKToBZ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 182
 Host: localhost:8080
@@ -1681,7 +1693,7 @@ Content-Length: 224
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=Kd_zsW7iNs1QVTxP1ydAP0SgyL2ugvhyiA4vsS0qSZy2eDQ5HeyXg1_XBfp9YFh74gp0CyCT5dzNsc9f6WtKgR8Yfa7TSVIO HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=XU8jrwZwT-j-Vz-rZnmeSaA-aHGWNShOMqXq64Rhjp8YjWiSPH9Gn2ITeNDTNQqfVFSqLZRaRRDwBxFjA8PT3rNWu6wsugvw HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1774,7 +1786,7 @@ Content-Length: 74
 <h5 id="_요청_9_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=G09zmmg6QPy4DMnGw3ARhc6lPpvyVoppKhAGuzBrITJhhXAiI3xLrgkII5-VOaj39V0l4f_AE6OUM7xEHHU03QgIElBSsEga HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=vMF5aAIpoaFmancD-Y5paqhj2pSpGAFMVtEa9j8Y2BUlj1aE3qROUWMawpVLCBIxmqNdUplU962YLWRhMLR-l1st73BE6mbm HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1867,7 +1879,7 @@ Content-Length: 77
 <h5 id="_요청_10_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=nQqJtXqPIg3QyXG1I4Je6VTTfBq1OQaYx7j-M-uZbDhhaGhv-z67gkq3G2j9qkiEFq9q3WG1UXiHC2O1o4rHAN2rD1pQXQwK HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=rbFRY1MUY6UmplrPkEY0kOXiT_0PauheRfCCXTfylboSCJ6DzNRjB2okApULkW_7qWsA84bUYpw-XYtzIJKxPAKX84JwOv_i HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1961,7 +1973,7 @@ Content-Length: 82
 <h5 id="_요청_11_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=8TXEAMbWoaxsxY8fF_z6X3sPYSSWzkxeA1yh3gEWwmyYVeWTklbwMPewxclBpu56L9HOPhg-TEXwq3tzNTqW52Ik-lj7M4by HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=ogqca24YkHHKP-CJ1sknnui_tAXh0hSyc0Yz55D6xuV8FDCHx2itWVsppxPnWoTtsuQT-omKmTyD5SOfQHAG3_Oc8dVIJVTm HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2060,7 +2072,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=v17EBUNerM7k1imTcx1l_aTlz15Wg86i4ulzspFZjvWIbQqd3DqnZ3pqyq3J5BzxSzBRycDW4j9i5f6PhtlLh6Zqus2xWDmo</code></pre>
+userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=BQw0lHOMY6IzwxTyej1hcLKgHFrq9E-dvPZVOEm8wiwhef_GPTUD8ku4ApseoizGShBVSIvBMWLTzXqwicI0AC_Z8hoYH531</code></pre>
 </div>
 </div>
 </div>
@@ -2173,7 +2185,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=qAkCVW4TfPTlCnsOS4XHD3Z0FBFpDeIAyVeryewR_60f1sTbkG8xbVcrRcLIMx84fKjzOkREOSkNb9ctqm6T-4hwx5oq4aC9</code></pre>
+userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=yp42wkKOlzoCbhg3PPF4LdSKhOU6iX6eQunGMiEH8eEg3nQNqfpXp3O-p1svCnsHDdxMHOPsqdwP7EqzcoikAxNjyNlD7BI6</code></pre>
 </div>
 </div>
 </div>
@@ -2281,7 +2293,7 @@ Content-Length: 55
 <h5 id="_요청_14_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=NmpJuOTCvBIilHapLgiK3QJx1Cgae7M3t_jE310P5i2ZxP8WBwh93dLwjysPo0afGCW-6mBD-Ul4GocahMzz7jlp1E6s_ckn HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=w5181QejIsXaVMq6xG_ALaOQESLhZjxv-PNTBzplD_JqbB6v8alM4z_FFPb3N_iCoUL0HpalPEPRBVpCwMc3YgkHOsVYXXzJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 54
 Host: localhost:8080
@@ -2382,7 +2394,7 @@ Content-Length: 60
 <h5 id="_요청_15_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=BGpu315-I5ReFbVDFhuTzTKffhXahvofP1GNOmBFwdUbCp2eMVhavGoaQPdzIdF3JDanrAKrU3fv58gyB2K4CgYhoOMqbvut HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=94qCcqGOyvj4ccIpQNsZ-WgwRTtyEZNBUllUuldcoTo_VUEsxemzQJC8qcDVSfNKd_YtyV0FaFpFIqtsY21jjmI6wwpcMHNI HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 54
 Host: localhost:8080
@@ -2546,9 +2558,9 @@ Content-Length: 471
 {
   "userId" : "testId",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE4OTEyOTEsImV4cCI6MTcxMTg5MTg5MX0.UOh2IaTo4RXzZIpESikyHLYg6PHgR1iiztCWNDZm7tQ",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxMTk1NzcxNH0.bPnNCPx6gKKEWCSaXsmKapdBdqhhJFZ-ZJ9yL54Q1XA",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE4OTEyOTEsImV4cCI6MTcxNDA1MTI5MX0.j02wDlrna18wDpeEBxlyUdWKpi8Ulb4nl9OLk0pEorM",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxNDExNzExNH0.iq2IpwK5_iq8pCyAAMDb8YU7uLSqv2vApNAKeJhesbM",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -2671,9 +2683,9 @@ Content-Length: 501
 {
   "userId" : "test@email.com",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTg5MTI5MiwiZXhwIjoxNzExODkxODkyfQ.0lqwWm17AKj3qHaGSP_bFp2sWcAymIdUS4xFBI68PSA",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTk1NzExNCwiZXhwIjoxNzExOTU3NzE0fQ.bbJfFy3uMF4NYtLHc8OTEMqitK7TTaj8nbC44oJQsPg",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTg5MTI5MiwiZXhwIjoxNzE0MDUxMjkyfQ.F-RHawzZqviEdEIB7zaRBDOki3KCVpMY-rDt55KxEV0",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTk1NzExNCwiZXhwIjoxNzE0MTE3MTE0fQ.srA4r53S5EbU9WvYVB1a1ZS9wc-UIfgsu-8s_EzAbHA",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -2943,7 +2955,7 @@ Content-Length: 133
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /test HTTP/1.1
 userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE4OTEyOTEsImV4cCI6MTcxMTg5MTg5MX0.UOh2IaTo4RXzZIpESikyHLYg6PHgR1iiztCWNDZm7tQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxMTk1NzcxNH0.bPnNCPx6gKKEWCSaXsmKapdBdqhhJFZ-ZJ9yL54Q1XA
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3099,7 +3111,7 @@ Content-Length: 60
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /test HTTP/1.1
 userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE4OTEyOTIsImV4cCI6MTcxNDA1MTI5Mn0.SVF1Kbd5qQhGdRLRrZYr1jQepw4zw24Aircs-NKHNiU
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxNDExNzExNH0.iq2IpwK5_iq8pCyAAMDb8YU7uLSqv2vApNAKeJhesbM
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3152,7 +3164,7 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE4OTEyOTIsImV4cCI6MTcxMTg5MTg5Mn0.3RDWLLPad28vIJy_7aNlPNpEX3VBtKIDL6-A-Hca53Q",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxMTk1NzcxNH0.bPnNCPx6gKKEWCSaXsmKapdBdqhhJFZ-ZJ9yL54Q1XA",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -3606,7 +3618,7 @@ Content-Length: 178
 <h5 id="_요청_28_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts?_csrf=6dY235yAvz64BkfQtvKg2rSrnUaND1FZ-Nhfy5XXOW4Na0co2uYB7f65iQ-VYnWz1d-U7NLIsH7uPmJ0nb1t_qTvD1s_XXZM HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts?_csrf=x3WKlQg6bGOZE7zpa1xff-uy6uZdw2m5ddEmKv44fLrCPnt6pEXpomleWFq0d4XcWnFrTYrWx4dqol2URrcXGc4BGNn3DhpN HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3629,7 +3641,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 627
+Content-Length: 992
 
 [ {
   "userId" : "testId",
@@ -3637,35 +3649,45 @@ Content-Length: 627
   "content" : "내용1",
   "hit" : 0,
   "likeCount" : 0,
-  "category" : 1
+  "category" : 1,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목2",
   "content" : "내용2",
   "hit" : 0,
   "likeCount" : 0,
-  "category" : 1
+  "category" : 1,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목3",
   "content" : "내용3",
   "hit" : 0,
   "likeCount" : 0,
-  "category" : 1
+  "category" : 1,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목4",
   "content" : "내용4",
   "hit" : 0,
   "likeCount" : 0,
-  "category" : 1
+  "category" : 1,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목5",
   "content" : "내용5",
   "hit" : 0,
   "likeCount" : 0,
-  "category" : 1
+  "category" : 1,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 } ]</code></pre>
 </div>
 </div>
@@ -3716,6 +3738,16 @@ Content-Length: 627
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 수</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일자</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3729,7 +3761,7 @@ Content-Length: 627
 <h5 id="_요청_29_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=bSESOKQyD2ZR5ViVjf0ZOj9iZlJBA_feyC-WpO1ePNWyoYktCEUnDpYAOV58gW3279AtCQkBS2okZcbz_h30kNlqCe2Hkbwc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=GkOxP7agW1b7JjdsGadZZq1fiXYjCD7hF-1xoecgdklER2LGLCaCCISSa2HWFgJZK4ptV8w6pBQUPQ7MINoUktMVT3B2JlP_ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3774,7 +3806,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 123
+Content-Length: 196
 
 {
   "userId" : "testId",
@@ -3782,7 +3814,9 @@ Content-Length: 123
   "content" : "내용1",
   "hit" : 0,
   "likeCount" : 0,
-  "category" : 1
+  "category" : 1,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }</code></pre>
 </div>
 </div>
@@ -3833,6 +3867,16 @@ Content-Length: 123
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 수</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일자</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3846,7 +3890,7 @@ Content-Length: 123
 <h5 id="_요청_30_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=aO6pHFdUS-fPWS-XMkHfZPLcqhKrozCShCzKHmy_x062WliGUdibL2Vjc9Liahf2V2zrXce_h3PPllW_sk_ze1na9yiAYjnn HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=YafO-d7fOrcE9pTbJfx7PLAZmHAxO9jhCPL-FzkvyVYRa-WRVJ_9yOa9WIQpkqfoENFPXoh_tUlUCOzMPsufIg5OqDAnXoak HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 91
 Host: localhost:8080
@@ -3959,7 +4003,7 @@ Content-Length: 55
 <h5 id="_요청_31_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=X0jdP-mTQOiG8TXABHCQra7VN68bgq-tndYswjGU73YzR4mHZ3q4Xo32dImryQXyYV2kz8izGs5455-AqOEU8VOk3UdWfrGw HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=vz3k8N8GrRYx0nHlx1XUnmHKR32zXASui8t0trao_zw8tDD8igTUx-djmXQctxPT8Xjg-1ivah-FbmKD6qlE147Oy18J1lPM HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 91
 Host: localhost:8080
@@ -4072,7 +4116,7 @@ Content-Length: 55
 <h5 id="_요청_32_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=uBs5a8GDlJCQpkzTXQ-sObCyc2jjz3X5wc5kGc3pI_O0ztL82yIAX_SxrfS9lSrnbyKYW4fRXgnVrkzU-foFffrYEJKA_-Of HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=7FtBJAUybOwBYAq3tIx6FM1oljycTnox6JAbCp3HH7VZ-xnviD4gRjYCCIosBDmDg6FOLfwJuwT-K0Mc3fIuM_jwfYFrmSzX HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 109
 Host: localhost:8080
@@ -4207,7 +4251,7 @@ Content-Length: 63
 <h5 id="_요청_33_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=XtxPbX2E0xBcnUuWSE_x-TsMXcVEiCxBPIP7Ozt3KYrjLPL6Pb9-VEjm5XZxrXj3LmLFzglucPxwvh1sWbWYCgNAHb_aG5ef HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=jlwh3aAaUDWX16lCGJlQX2LYycoGyQBngQYCAfm_PoJV7BO16GlF7sF8NFC6tph0L7RkblXu5PNj-jhK5TY3ZJrcD7oz2yrR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 109
 Host: localhost:8080
@@ -4347,7 +4391,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=s55g8zEvjSK9lNH86S23i79M3TehsgBMoUhgQ83dJs1Y8qq-1fpZywlOvRWQ97LN3wCDv4cq8A-R1DVhkypWIPzuFvs9x5KK</code></pre>
+_csrf=H-LR0HoOHeA_xakQutSv-u45cXHVpVe33Omo1a_2IEs8vNswL4fgtBhrLoQS9MwggvmbzdYKXEjlkG-a5Yqb4c6VFHpaju1V</code></pre>
 </div>
 </div>
 </div>
@@ -4374,10 +4418,25 @@ _csrf=s55g8zEvjSK9lNH86S23i79M3TehsgBMoUhgQ83dJs1Y8qq-1fpZywlOvRWQ97LN3wCDv4cq8A
 </table>
 </div>
 <div class="sect4">
-<h5 id="_요청_34_request_fields">Request fields</h5>
-<div class="paragraph">
-<p>Snippet request-fields not found for operation::post-controller-test/delete-post-fail-test</p>
-</div>
+<h5 id="_요청_34_query_parameters">Query parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -4444,7 +4503,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=3TwVqKESIwLT7twxFWs53P9afJcT8NbMNw7eD7wb5yNzL6ymvg8nzpVwFmD-3-UBdkYNv8k5Ua4qkubhVTnqbo0ihhMSTpmU</code></pre>
+_csrf=cPlzsJroUfbOroTmmNwVXFzw_UUiaeHDQBy3CMgzsAT2FiJ2EZoV0q3YaMXjmLzRr_EhaG6S0CcUXtfudinRPvoLgTLDcxdA</code></pre>
 </div>
 </div>
 </div>
@@ -4471,10 +4530,25 @@ _csrf=3TwVqKESIwLT7twxFWs53P9afJcT8NbMNw7eD7wb5yNzL6ymvg8nzpVwFmD-3-UBdkYNv8k5Ua
 </table>
 </div>
 <div class="sect4">
-<h5 id="_요청_35_request_fields">Request fields</h5>
-<div class="paragraph">
-<p>Snippet request-fields not found for operation::post-controller-test/delete-post-success-test</p>
-</div>
+<h5 id="_요청_35_query_parameters">Query parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -4530,11 +4604,1018 @@ Content-Length: 58
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_커뮤니티_댓글_api_commentcontroller">커뮤니티 댓글 API (CommentController)</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_한_사용자가_작성한_댓글_리스트_조회">한 사용자가 작성한 댓글 리스트 조회</h3>
+<div class="sect3">
+<h4 id="_요청_36">요청</h4>
+<div class="sect4">
+<h5 id="_요청_36_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/comments/testId?_csrf=b03eyEkCPF7m6av28UtaQjlNXcN9mcsq7uv-2rk6iBmH3jY8VinmrnAyCWrL0JOXlWZudVt8cKJLoP8Hj47HuI0Iv3vm6FQL HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_36_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/comments/{userId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_36">응답</h4>
+<div class="sect4">
+<h5 id="_응답_36_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 727
+
+[ {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용1",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용2",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용3",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용4",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용5",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_36_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_한_게시글에_달린_댓글_리스트_조회">한 게시글에 달린 댓글 리스트 조회</h3>
+<div class="sect3">
+<h4 id="_요청_37">요청</h4>
+<div class="sect4">
+<h5 id="_요청_37_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/10000/comments?_csrf=Z0wcXmb-A_rG263VJrLZi6eDwZ0mJl8L4Kx6ze37PbGO3hD3AS0taV_NN8zr4si3Qp_tv8Sx7PwQRDkmgp1L-46eXNS97SeW HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_37_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_37">응답</h4>
+<div class="sect4">
+<h5 id="_응답_37_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 727
+
+[ {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용1",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용2",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용3",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용4",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용5",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_37_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_작성_실패">댓글 작성 (실패)</h3>
+<div class="sect3">
+<h4 id="_요청_38">요청</h4>
+<div class="sect4">
+<h5 id="_요청_38_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=cCW0IlMY9Vy-25pfO9-dWbGWMufMUlR4dqs3wfYRv4gQ_nS6QRPSRGN8xmiT46xsXfKpOtKnH9-tNzdVEpsEp84hhu52zBCL HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 55
+Host: localhost:8080
+
+{
+  "userId" : "testId",
+  "content" : "댓글내용"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_38_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_38_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_38">응답</h4>
+<div class="sect4">
+<h5 id="_응답_38_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 52
+
+{
+  "msg" : "댓글 등록에 실패했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_38_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_작성_성공">댓글 작성 (성공)</h3>
+<div class="sect3">
+<h4 id="_요청_39">요청</h4>
+<div class="sect4">
+<h5 id="_요청_39_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=x7z0HaxnBofU8xP6_Ii9i_tUbJSidxPZFs7iuoDmBFv0Qpn1942WLJpSMOT5kXHPn6WJs8hkQazHE3b0L_7Xg-XVNGrGIanC HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 55
+Host: localhost:8080
+
+{
+  "userId" : "testId",
+  "content" : "댓글내용"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_39_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_39_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_39">응답</h4>
+<div class="sect4">
+<h5 id="_응답_39_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 52
+
+{
+  "msg" : "댓글 등록에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_39_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_수정_실패">댓글 수정 (실패)</h3>
+<div class="sect3">
+<h4 id="_요청_40">요청</h4>
+<div class="sect4">
+<h5 id="_요청_40_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=lDfBj5OGX1L0HrX5omR4nTvjsy7ULQI_yHlNb6D2rkI2jxQvpwfyt6K-ZzfZe4HJxklMrAnVnhbkFDESqhp9DZfBmXFS6SdN HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 66
+Host: localhost:8080
+
+{
+  "userId" : "testId",
+  "content" : "수정할 댓글 내용"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_40_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_40_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정 요청자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_40">응답</h4>
+<div class="sect4">
+<h5 id="_응답_40_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 52
+
+{
+  "msg" : "댓글 수정에 실패했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_40_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_수정_성공">댓글 수정 (성공)</h3>
+<div class="sect3">
+<h4 id="_요청_41">요청</h4>
+<div class="sect4">
+<h5 id="_요청_41_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=GNljp0XsTeMe_2yh0Pww61acN9RgCARWHmJrOXHtZhuys4zLLLgGkXCIKdUzxwiZtNEE2WCuGrYBajR7eAZdAEjcUi7R0u37 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 66
+Host: localhost:8080
+
+{
+  "userId" : "testId",
+  "content" : "수정할 댓글 내용"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_41_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_41_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정 요청자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_41">응답</h4>
+<div class="sect4">
+<h5 id="_응답_41_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 52
+
+{
+  "msg" : "댓글 수정에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_41_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_삭제_실패">댓글 삭제 (실패)</h3>
+<div class="sect3">
+<h4 id="_요청_42">요청</h4>
+<div class="sect4">
+<h5 id="_요청_42_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/10000/comments/100?userId=testId HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 102
+
+_csrf=VL4_r3I8UfF4cXdssrG45R2KbGjcFneA-s1SgKK4VMacpvZsZYpenxMLYZBVExIJhJyM0Xy4QQnpckStnKg34ZrdbP6uw8Vb</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_42_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_42_query_parameters">Query parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_42">응답</h4>
+<div class="sect4">
+<h5 id="_응답_42_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 52
+
+{
+  "msg" : "댓글 삭제에 실패했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_42_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_삭제_성공">댓글 삭제 (성공)</h3>
+<div class="sect3">
+<h4 id="_요청_43">요청</h4>
+<div class="sect4">
+<h5 id="_요청_43_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/10000/comments/100?userId=testId HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 102
+
+_csrf=PMTHAQvDG5MmxfQC_tQvX2iGReV_zjsSJYrNcH6HgTLMQL2LC_TzYD36K6sLpJUzzPkbbAqwaIRPrF4_HbL4RU2wt1b7ctzv</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_43_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_43_query_parameters">Query parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_43">응답</h4>
+<div class="sect4">
+<h5 id="_응답_43_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 52
+
+{
+  "msg" : "댓글 삭제에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_43_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-03-31 21:56:23 +0900
+Last updated 2024-04-01 16:37:38 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

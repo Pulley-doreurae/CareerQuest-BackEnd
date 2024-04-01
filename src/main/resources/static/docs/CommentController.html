@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>로그인 및 JWT API</title>
+<title>커뮤니티 댓글 API (CommentController)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -441,50 +441,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_로그인_및_jwt_api">로그인 및 JWT API</h2>
+<h2 id="_커뮤니티_댓글_api_commentcontroller">커뮤니티 댓글 API (CommentController)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_로그인_성공">로그인 성공</h3>
+<h3 id="_한_사용자가_작성한_댓글_리스트_조회">한 사용자가 작성한 댓글 리스트 조회</h3>
 <div class="sect3">
 <h4 id="_요청">요청</h4>
 <div class="sect4">
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/login HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080
-Content-Length: 37
-
-username=testId&amp;password=testPassword</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/comments/testId?_csrf=b03eyEkCPF7m6av28UtaQjlNXcN9mcsq7uv-2rk6iBmH3jY8VinmrnAyCWrL0JOXlWZudVt8cKJLoP8Hj47HuI0Iv3vm6FQL HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_form_parameters">Form parameters</h5>
+<h5 id="_요청_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/comments/{userId}</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">파라미터</th>
-<th class="tableblock halign-left valign-top">제약조건</th>
-<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 아이디</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원아이디</p></td>
 </tr>
 </tbody>
 </table>
@@ -497,23 +486,49 @@ username=testId&amp;password=testPassword</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 471
+Content-Length: 727
 
-{
+[ {
   "userId" : "testId",
-  "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxMTk1NzcxNH0.bPnNCPx6gKKEWCSaXsmKapdBdqhhJFZ-ZJ9yL54Q1XA",
-  "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxNDExNzExNH0.iq2IpwK5_iq8pCyAAMDb8YU7uLSqv2vApNAKeJhesbM",
-  "refresh_token_expires_in" : 2160000000
-}</code></pre>
+  "postId" : 10000,
+  "content" : "내용1",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용2",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용3",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용4",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용5",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -534,34 +549,29 @@ Content-Length: 471
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 시도한 id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>token_type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">토큰 타입</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>access_token</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>expires_in</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰 유효기간</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>refresh_token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>refresh_token_expires_in</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰 유효기간</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일</p></td>
 </tr>
 </tbody>
 </table>
@@ -569,47 +579,36 @@ Content-Length: 471
 </div>
 </div>
 <div class="sect2">
-<h3 id="_로그인_성공_email">로그인 성공 (email)</h3>
+<h3 id="_한_게시글에_달린_댓글_리스트_조회">한 게시글에 달린 댓글 리스트 조회</h3>
 <div class="sect3">
 <h4 id="_요청_2">요청</h4>
 <div class="sect4">
 <h5 id="_요청_2_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/login HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080
-Content-Length: 47
-
-username=test%40email.com&amp;password=testPassword</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/posts/10000/comments?_csrf=Z0wcXmb-A_rG263VJrLZi6eDwZ0mJl8L4Kx6ze37PbGO3hD3AS0taV_NN8zr4si3Qp_tv8Sx7PwQRDkmgp1L-46eXNS97SeW HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_2_form_parameters">Form parameters</h5>
+<h5 id="_요청_2_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">파라미터</th>
-<th class="tableblock halign-left valign-top">제약조건</th>
-<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 이메일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
 </tr>
 </tbody>
 </table>
@@ -622,23 +621,49 @@ username=test%40email.com&amp;password=testPassword</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 501
+Content-Length: 727
 
-{
-  "userId" : "test@email.com",
-  "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTk1NzExNCwiZXhwIjoxNzExOTU3NzE0fQ.bbJfFy3uMF4NYtLHc8OTEMqitK7TTaj8nbC44oJQsPg",
-  "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxMTk1NzExNCwiZXhwIjoxNzE0MTE3MTE0fQ.srA4r53S5EbU9WvYVB1a1ZS9wc-UIfgsu-8s_EzAbHA",
-  "refresh_token_expires_in" : 2160000000
-}</code></pre>
+[ {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용1",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용2",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용3",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용4",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "postId" : 10000,
+  "content" : "내용5",
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -659,34 +684,29 @@ Content-Length: 501
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 시도한 id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>token_type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">토큰 타입</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>access_token</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>expires_in</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰 유효기간</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>refresh_token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>refresh_token_expires_in</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰 유효기간</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일</p></td>
 </tr>
 </tbody>
 </table>
@@ -694,24 +714,49 @@ Content-Length: 501
 </div>
 </div>
 <div class="sect2">
-<h3 id="_로그인_실패_사용자를_찾을_수_없음">로그인 실패 (사용자를 찾을 수 없음)</h3>
+<h3 id="_댓글_작성_실패">댓글 작성 (실패)</h3>
 <div class="sect3">
 <h4 id="_요청_3">요청</h4>
 <div class="sect4">
 <h5 id="_요청_3_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/login HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/posts/10000/comments?_csrf=cCW0IlMY9Vy-25pfO9-dWbGWMufMUlR4dqs3wfYRv4gQ_nS6QRPSRGN8xmiT46xsXfKpOtKnH9-tNzdVEpsEp84hhu52zBCL HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 55
 Host: localhost:8080
-Content-Length: 37
 
-username=testId&amp;password=testPassword</code></pre>
+{
+  "userId" : "testId",
+  "content" : "댓글내용"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_3_form_parameters">Form parameters</h5>
+<h5 id="_요청_3_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_3_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -720,21 +765,21 @@ username=testId&amp;password=testPassword</code></pre>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">파라미터</th>
-<th class="tableblock halign-left valign-top">제약조건</th>
-<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 아이디</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
 </tr>
 </tbody>
 </table>
@@ -746,19 +791,21 @@ username=testId&amp;password=testPassword</code></pre>
 <h5 id="_응답_3_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 401 Unauthorized
-Content-Type: application/json;charset=UTF-8
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 133
+Content-Length: 52
 
 {
-  "code" : "401 UNAUTHORIZED",
-  "error" : "계정이 존재하지 않습니다. 회원가입 진행 후 로그인 해주세요."
+  "msg" : "댓글 등록에 실패했습니다."
 }</code></pre>
 </div>
 </div>
@@ -780,14 +827,9 @@ Content-Length: 133
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">실패 이유</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
 </tr>
 </tbody>
 </table>
@@ -795,24 +837,49 @@ Content-Length: 133
 </div>
 </div>
 <div class="sect2">
-<h3 id="_로그인_실패_비밀번호가_맞지않음">로그인 실패 (비밀번호가 맞지않음)</h3>
+<h3 id="_댓글_작성_성공">댓글 작성 (성공)</h3>
 <div class="sect3">
 <h4 id="_요청_4">요청</h4>
 <div class="sect4">
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/login HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/posts/10000/comments?_csrf=x7z0HaxnBofU8xP6_Ii9i_tUbJSidxPZFs7iuoDmBFv0Qpn1942WLJpSMOT5kXHPn6WJs8hkQazHE3b0L_7Xg-XVNGrGIanC HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 55
 Host: localhost:8080
-Content-Length: 33
 
-username=testId&amp;password=Password</code></pre>
+{
+  "userId" : "testId",
+  "content" : "댓글내용"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_4_form_parameters">Form parameters</h5>
+<h5 id="_요청_4_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_4_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -821,21 +888,21 @@ username=testId&amp;password=Password</code></pre>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">파라미터</th>
-<th class="tableblock halign-left valign-top">제약조건</th>
-<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 아이디</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 할 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
 </tr>
 </tbody>
 </table>
@@ -847,19 +914,21 @@ username=testId&amp;password=Password</code></pre>
 <h5 id="_응답_4_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 401 Unauthorized
-Content-Type: application/json;charset=UTF-8
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 133
+Content-Length: 52
 
 {
-  "code" : "401 UNAUTHORIZED",
-  "error" : "계정이 존재하지 않습니다. 회원가입 진행 후 로그인 해주세요."
+  "msg" : "댓글 등록에 성공했습니다."
 }</code></pre>
 </div>
 </div>
@@ -881,57 +950,86 @@ Content-Length: 133
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">실패 이유</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<hr>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_액세스_확인_유효한_엑세스_토큰">액세스 확인 (유효한 엑세스 토큰)</h3>
+<h3 id="_댓글_수정_실패">댓글 수정 (실패)</h3>
 <div class="sect3">
 <h4 id="_요청_5">요청</h4>
 <div class="sect4">
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
-userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxMTk1NzcxNH0.bPnNCPx6gKKEWCSaXsmKapdBdqhhJFZ-ZJ9yL54Q1XA
-Host: localhost:8080</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=lDfBj5OGX1L0HrX5omR4nTvjsy7ULQI_yHlNb6D2rkI2jxQvpwfyt6K-ZzfZe4HJxklMrAnVnhbkFDESqhp9DZfBmXFS6SdN HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 66
+Host: localhost:8080
+
+{
+  "userId" : "testId",
+  "content" : "수정할 댓글 내용"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_5_request_headers">Request headers</h5>
+<h5 id="_요청_5_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_5_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정 요청자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유효한 액세스 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 내용</p></td>
 </tr>
 </tbody>
 </table>
@@ -943,61 +1041,122 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_5_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 2
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
+Content-Length: 52
 
-hi</code></pre>
+{
+  "msg" : "댓글 수정에 실패했습니다."
+}</code></pre>
 </div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_응답_5_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_액세스_확인_유효하지_않은_엑세스_토큰">액세스 확인 (유효하지 않은 엑세스 토큰)</h3>
+<h3 id="_댓글_수정_성공">댓글 수정 (성공)</h3>
 <div class="sect3">
 <h4 id="_요청_6">요청</h4>
 <div class="sect4">
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
-userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-Host: localhost:8080</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=GNljp0XsTeMe_2yh0Pww61acN9RgCARWHmJrOXHtZhuys4zLLLgGkXCIKdUzxwiZtNEE2WCuGrYBajR7eAZdAEjcUi7R0u37 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 66
+Host: localhost:8080
+
+{
+  "userId" : "testId",
+  "content" : "수정할 댓글 내용"
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_6_request_headers">Request headers</h5>
+<h5 id="_요청_6_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_6_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정 요청자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 액세스 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 내용</p></td>
 </tr>
 </tbody>
 </table>
@@ -1009,18 +1168,21 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_6_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Type: application/json;charset=UTF-8
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 60
+Content-Length: 52
 
 {
-  "msg" : "Authorization 이 유효하지 않습니다."
+  "msg" : "댓글 수정에 성공했습니다."
 }</code></pre>
 </div>
 </div>
@@ -1044,7 +1206,7 @@ Content-Length: 60
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 내용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
 </tr>
 </tbody>
 </table>
@@ -1052,23 +1214,50 @@ Content-Length: 60
 </div>
 </div>
 <div class="sect2">
-<h3 id="_리프레시_토큰_확인_유효한_리프레시_토큰">리프레시 토큰 확인 (유효한 리프레시 토큰)</h3>
+<h3 id="_댓글_삭제_실패">댓글 삭제 (실패)</h3>
 <div class="sect3">
 <h4 id="_요청_7">요청</h4>
 <div class="sect4">
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
-userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxNDExNzExNH0.iq2IpwK5_iq8pCyAAMDb8YU7uLSqv2vApNAKeJhesbM
-Host: localhost:8080</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/posts/10000/comments/100?userId=testId HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 102
+
+_csrf=VL4_r3I8UfF4cXdssrG45R2KbGjcFneA-s1SgKK4VMacpvZsZYpenxMLYZBVExIJhJyM0Xy4QQnpckStnKg34ZrdbP6uw8Vb</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_7_request_headers">Request headers</h5>
+<h5 id="_요청_7_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_7_query_parameters">Query parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1076,22 +1265,14 @@ Host: localhost:8080</code></pre>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 액세스 토큰</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유효한 리프레시 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자 아이디</p></td>
 </tr>
 </tbody>
 </table>
@@ -1103,20 +1284,21 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_7_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 229
+Content-Length: 52
 
 {
-  "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTE5NTcxMTQsImV4cCI6MTcxMTk1NzcxNH0.bPnNCPx6gKKEWCSaXsmKapdBdqhhJFZ-ZJ9yL54Q1XA",
-  "expires_in" : 600000
+  "msg" : "댓글 삭제에 실패했습니다."
 }</code></pre>
 </div>
 </div>
@@ -1138,19 +1320,9 @@ Content-Length: 229
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>token_type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">토큰 타입</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>access_token</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">새로 발급받은 액세스 토큰</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>expires_in</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">새로 발급받은 액세스 토큰 유효기간</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
 </tr>
 </tbody>
 </table>
@@ -1158,23 +1330,50 @@ Content-Length: 229
 </div>
 </div>
 <div class="sect2">
-<h3 id="_리프레시_토큰_확인_유효하지_않은_리프레시_토큰">리프레시 토큰 확인 (유효하지 않은 리프레시 토큰)</h3>
+<h3 id="_댓글_삭제_성공">댓글 삭제 (성공)</h3>
 <div class="sect3">
 <h4 id="_요청_8">요청</h4>
 <div class="sect4">
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
-userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNTgyNjA5NX0.UwTqbudlGSB_lSPof00ju5_aK3T6TL2B8RQ00hCs3xc
-Host: localhost:8080</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/posts/10000/comments/100?userId=testId HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 102
+
+_csrf=PMTHAQvDG5MmxfQC_tQvX2iGReV_zjsSJYrNcH6HgTLMQL2LC_TzYD36K6sLpJUzzPkbbAqwaIRPrF4_HbL4RU2wt1b7ctzv</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_8_request_headers">Request headers</h5>
+<h5 id="_요청_8_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/posts/{postId}/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_8_query_parameters">Query parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1182,22 +1381,14 @@ Host: localhost:8080</code></pre>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인한 userId</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 액세스 토큰</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 리프레시 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자 아이디</p></td>
 </tr>
 </tbody>
 </table>
@@ -1209,18 +1400,21 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_8_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Type: application/json;charset=UTF-8
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 89
+Content-Length: 52
 
 {
-  "msg" : "RefreshToken 이 유효하지 않습니다. 다시 로그인해주세요."
+  "msg" : "댓글 삭제에 성공했습니다."
 }</code></pre>
 </div>
 </div>
@@ -1244,91 +1438,7 @@ Content-Length: 89
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 내용</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_로그아웃">로그아웃</h3>
-<div class="sect3">
-<h4 id="_요청_9">요청</h4>
-<div class="sect4">
-<h5 id="_요청_9_http_request">HTTP request</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/logout HTTP/1.1
-userId: testId
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_요청_9_request_headers">Request headers</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그아웃 할 userId</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_9">응답</h4>
-<div class="sect4">
-<h5 id="_응답_9_http_response">HTTP response</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 54
-
-{
-  "msg" : "로그아웃에 성공하였습니다."
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_응답_9_response_fields">Response fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 내용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
 </tr>
 </tbody>
 </table>
@@ -1341,7 +1451,7 @@ Content-Length: 54
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-03-10 17:32:25 +0900
+Last updated 2024-04-01 16:36:31 +0900
 </div>
 </div>
 </body>

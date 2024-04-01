@@ -282,8 +282,8 @@ class CommentControllerTest {
 								parameterWithName("commentId").description("댓글 id")
 						),
 						requestFields(
-								fieldWithPath("userId").description("댓글 작성자"),
-								fieldWithPath("content").description("댓글 내용")
+								fieldWithPath("userId").description("수정 요청자"),
+								fieldWithPath("content").description("수정할 내용")
 						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
@@ -318,8 +318,8 @@ class CommentControllerTest {
 								parameterWithName("commentId").description("댓글 id")
 						),
 						requestFields(
-								fieldWithPath("userId").description("댓글 작성자"),
-								fieldWithPath("content").description("댓글 내용")
+								fieldWithPath("userId").description("수정 요청자"),
+								fieldWithPath("content").description("수정할 내용")
 						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
@@ -332,19 +332,13 @@ class CommentControllerTest {
 	@WithMockUser
 	void deleteCommentFailTest() throws Exception {
 		// Given
-		CommentRequest request = CommentRequest.builder()
-				.userId("testId")
-				.content("수정할 댓글 내용")
-				.build();
 		given(commentService.deleteComment(any(), any(), any())).willReturn(false);
 
 		// When
 		mockMvc.perform(
 						delete("/api/posts/{postId}/comments/{commentId}", 10000L, 100L)
 								.queryParam("userId", "testId")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
+								.with(csrf()))
 				.andExpect(status().isBadRequest())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
@@ -357,10 +351,6 @@ class CommentControllerTest {
 						queryParameters(
 								parameterWithName("userId").description("요청자 아이디")
 						),
-						requestFields(
-								fieldWithPath("userId").description("댓글 작성자"),
-								fieldWithPath("content").description("댓글 내용")
-						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
 						)));
@@ -372,19 +362,13 @@ class CommentControllerTest {
 	@WithMockUser
 	void deleteCommentSuccessTest() throws Exception {
 		// Given
-		CommentRequest request = CommentRequest.builder()
-				.userId("testId")
-				.content("수정할 댓글 내용")
-				.build();
 		given(commentService.deleteComment(any(), any(), any())).willReturn(true);
 
 		// When
 		mockMvc.perform(
 						delete("/api/posts/{postId}/comments/{commentId}", 10000L, 100L)
 								.queryParam("userId", "testId")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
+								.with(csrf()))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
@@ -396,10 +380,6 @@ class CommentControllerTest {
 						),
 						queryParameters(
 								parameterWithName("userId").description("요청자 아이디")
-						),
-						requestFields(
-								fieldWithPath("userId").description("댓글 작성자"),
-								fieldWithPath("content").description("댓글 내용")
 						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")

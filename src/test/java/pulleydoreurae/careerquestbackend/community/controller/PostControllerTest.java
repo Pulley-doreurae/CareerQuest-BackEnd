@@ -171,8 +171,8 @@ class PostControllerTest {
 								fieldWithPath("category").description("카테고리"),
 								fieldWithPath("hit").description("조회수"),
 								fieldWithPath("likeCount").description("좋아요 수"),
-								fieldWithPath(".createdAt").description("작성일자"),
-								fieldWithPath(".modifiedAt").description("수정일자")
+								fieldWithPath("createdAt").description("작성일자"),
+								fieldWithPath("modifiedAt").description("수정일자")
 						)));
 
 		// Then
