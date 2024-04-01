@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.service.PostService;
@@ -41,8 +40,6 @@ class PostControllerTest {
 	MockMvc mockMvc;
 	@MockBean
 	PostService postService;
-	@MockBean
-	UserAccountRepository userAccountRepository;
 	Gson gson = new Gson();
 
 	@Test
@@ -57,6 +54,8 @@ class PostControllerTest {
 				.category(1L)
 				.hit(0L)
 				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
@@ -66,6 +65,8 @@ class PostControllerTest {
 				.category(1L)
 				.hit(0L)
 				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
@@ -75,6 +76,8 @@ class PostControllerTest {
 				.category(1L)
 				.hit(0L)
 				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
@@ -84,6 +87,8 @@ class PostControllerTest {
 				.category(1L)
 				.hit(0L)
 				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
@@ -93,6 +98,8 @@ class PostControllerTest {
 				.category(1L)
 				.hit(0L)
 				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(postService.getPostResponseList()).willReturn(List.of(post1, post2, post3, post4, post5));
@@ -112,7 +119,9 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].category").description("카테고리"),
 								fieldWithPath("[].hit").description("조회수"),
-								fieldWithPath("[].likeCount").description("좋아요 수")
+								fieldWithPath("[].likeCount").description("좋아요 수"),
+								fieldWithPath("[].createdAt").description("작성일자"),
+								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));
 
 		// Then
@@ -130,6 +139,8 @@ class PostControllerTest {
 				.category(1L)
 				.hit(0L)
 				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
 				.build();
 		given(postService.findByPostId(100L)).willReturn(post);
 
@@ -144,6 +155,8 @@ class PostControllerTest {
 				.andExpect(jsonPath("$.hit").exists())
 				.andExpect(jsonPath("$.likeCount").exists())
 				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.createdAt").exists())
+				.andExpect(jsonPath("$.modifiedAt").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
@@ -157,7 +170,9 @@ class PostControllerTest {
 								fieldWithPath("content").description("내용"),
 								fieldWithPath("category").description("카테고리"),
 								fieldWithPath("hit").description("조회수"),
-								fieldWithPath("likeCount").description("좋아요 수")
+								fieldWithPath("likeCount").description("좋아요 수"),
+								fieldWithPath(".createdAt").description("작성일자"),
+								fieldWithPath(".modifiedAt").description("수정일자")
 						)));
 
 		// Then

@@ -74,7 +74,9 @@ class PostRepositoryTest {
 				() -> assertEquals(post.getContent(), savedPost.getContent()),
 				() -> assertEquals(post.getCategory(), savedPost.getCategory()),
 				() -> assertEquals(post.getHit(), savedPost.getHit()),
-				() -> assertEquals(post.getLikeCount(), savedPost.getLikeCount())
+				() -> assertEquals(post.getLikeCount(), savedPost.getLikeCount()),
+				() -> assertEquals(post.getCreatedAt(), savedPost.getCreatedAt()),
+				() -> assertEquals(post.getModifiedAt(), savedPost.getModifiedAt())
 		);
 	}
 
@@ -177,7 +179,8 @@ class PostRepositoryTest {
 				() -> assertEquals(updatePost.getContent(), updateAndSavedPost.getContent()),
 				() -> assertEquals(updatePost.getCategory(), updateAndSavedPost.getCategory()),
 				() -> assertEquals(updatePost.getHit(), updateAndSavedPost.getHit()),
-				() -> assertEquals(updatePost.getLikeCount(), updateAndSavedPost.getLikeCount())
+				() -> assertEquals(updatePost.getLikeCount(), updateAndSavedPost.getLikeCount()),
+				() -> assertEquals(updatePost.getCreatedAt(), updateAndSavedPost.getCreatedAt())
 		);
 	}
 
