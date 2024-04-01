@@ -48,6 +48,8 @@ public class PostService {
 						.hit(post.getHit())
 						.likeCount(post.getLikeCount())
 						.category(post.getCategory())
+						.createdAt(post.getCreatedAt())
+						.modifiedAt(post.getModifiedAt())
 						.build())
 				.toList();
 	}
@@ -74,6 +76,8 @@ public class PostService {
 				.hit(post.getHit())
 				.likeCount(post.getLikeCount())
 				.category(post.getCategory())
+				.createdAt(post.getCreatedAt())
+				.modifiedAt(post.getModifiedAt())
 				.build();
 	}
 
