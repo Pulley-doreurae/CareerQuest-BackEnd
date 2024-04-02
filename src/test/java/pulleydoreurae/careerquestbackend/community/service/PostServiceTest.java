@@ -316,6 +316,171 @@ class PostServiceTest {
 		assertTrue(result);
 	}
 
+	@Test
+	@DisplayName("12. 게시글 리스트를 카테고리로 불러오는 테스트")
+	void getPostListByCategoryTest() {
+		// Given
+		insertUserAccount();
+		Post post1 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목1")
+				.content("내용1")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post2 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목2")
+				.content("내용2")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post3 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목3")
+				.content("내용3")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post4 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목4")
+				.content("내용4")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post5 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목5")
+				.content("내용5")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post6 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목6")
+				.content("내용6")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post7 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목7")
+				.content("내용7")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		given(postRepository.findAllByCategory(1L)).willReturn(List.of(post1, post2, post3, post4, post5));
+
+		// When
+		List<PostResponse> result = postService.getPostResponseListByCategory(1L);
+
+		// Then
+		List<Post> findAll = postRepository.findAllByCategory(1L);
+		assertEquals(5, result.size());
+		assertThat(result).contains(
+				postToPostResponse(findAll.get(0)),
+				postToPostResponse(findAll.get(1)),
+				postToPostResponse(findAll.get(2)),
+				postToPostResponse(findAll.get(3)),
+				postToPostResponse(findAll.get(4)));
+	}
+
+	@Test
+	@DisplayName("13. 한 사용자가 작성한 게시글 리스트를 불러오는 테스트")
+	void getPostListByUserAccountTest() {
+		// Given
+		insertUserAccount();
+		UserAccount user2 = UserAccount.builder()
+				.userId("testId2")
+				.build();
+
+		given(userAccountRepository.findByUserId("testId2"))
+				.willReturn(Optional.ofNullable(user2));
+
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post1 = Post.builder()
+				.userAccount(user)
+				.title("제목1")
+				.content("내용1")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post2 = Post.builder()
+				.userAccount(user)
+				.title("제목2")
+				.content("내용2")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post3 = Post.builder()
+				.userAccount(user)
+				.title("제목3")
+				.content("내용3")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post4 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId2").get())
+				.title("제목4")
+				.content("내용4")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post5 = Post.builder()
+				.userAccount(user)
+				.title("제목5")
+				.content("내용5")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post6 = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId2").get())
+				.title("제목6")
+				.content("내용6")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+		Post post7 = Post.builder()
+				.userAccount(user)
+				.title("제목7")
+				.content("내용7")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		given(postRepository.findAllByUserAccount(user))
+				.willReturn(List.of(post1, post2, post3, post5, post7));
+
+		// When
+		List<PostResponse> result = postService.getPostListByUserAccount(user);
+
+		// Then
+		List<Post> findAll = postRepository.findAllByUserAccount(user);
+		assertEquals(5, result.size());
+		assertThat(result).contains(
+				postToPostResponse(findAll.get(0)),
+				postToPostResponse(findAll.get(1)),
+				postToPostResponse(findAll.get(2)),
+				postToPostResponse(findAll.get(3)),
+				postToPostResponse(findAll.get(4)));
+	}
+
 	// 사용자 정보 저장 메서드
 	public void insertUserAccount() {
 		UserAccount user = UserAccount.builder()

@@ -207,4 +207,187 @@ class PostRepositoryTest {
 		assertEquals(Optional.empty(), postRepository.findById(savedPost.getId()));
 		assertEquals(0, postRepository.findAll().size());
 	}
+
+	@Test
+	@DisplayName("5. 게시글 카테고리로 리스트를 불러오는 테스트")
+	void findListByCategoryTest() {
+		// Given
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post1 = Post.builder()
+				.userAccount(user)
+				.title("제목1")
+				.content("내용1")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post2 = Post.builder()
+				.userAccount(user)
+				.title("제목2")
+				.content("내용2")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post3 = Post.builder()
+				.userAccount(user)
+				.title("제목3")
+				.content("내용3")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post4 = Post.builder()
+				.userAccount(user)
+				.title("제목4")
+				.content("내용4")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post5 = Post.builder()
+				.userAccount(user)
+				.title("제목5")
+				.content("내용5")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post6 = Post.builder()
+				.userAccount(user)
+				.title("제목6")
+				.content("내용6")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post7 = Post.builder()
+				.userAccount(user)
+				.title("제목7")
+				.content("내용7")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		// When
+		postRepository.save(post1);
+		postRepository.save(post2);
+		postRepository.save(post3);
+		postRepository.save(post4);
+		postRepository.save(post5);
+		postRepository.save(post6);
+		postRepository.save(post7);
+
+		// Then
+		assertEquals(5, postRepository.findAllByCategory(1L).size());
+		assertThat(postRepository.findAllByCategory(1L)).contains(post1, post2, post3, post4, post5);
+	}
+
+	@Test
+	@DisplayName("6. 한 사용자가 작성한 게시글 리스트를 불러오는 테스트")
+	void findListByUserAccountTest() {
+		// Given
+		UserAccount user1 = UserAccount.builder()
+				.userId("testId1")
+				.userName("testName")
+				.email("test@email.com")
+				.phoneNum("010-1111-2222")
+				.password("testPassword")
+				.role(UserRole.ROLE_TEMPORARY_USER)
+				.build();
+		userAccountRepository.save(user1);
+		UserAccount user2 = UserAccount.builder()
+				.userId("testId2")
+				.userName("testName")
+				.email("test@email.com")
+				.phoneNum("010-1111-2222")
+				.password("testPassword")
+				.role(UserRole.ROLE_TEMPORARY_USER)
+				.build();
+		userAccountRepository.save(user2);
+		user1 = userAccountRepository.findByUserId("testId1").get();
+		user2 = userAccountRepository.findByUserId("testId2").get();
+		Post post1 = Post.builder()
+				.userAccount(user1)
+				.title("제목1")
+				.content("내용1")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post2 = Post.builder()
+				.userAccount(user1)
+				.title("제목2")
+				.content("내용2")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post3 = Post.builder()
+				.userAccount(user1)
+				.title("제목3")
+				.content("내용3")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post4 = Post.builder()
+				.userAccount(user2)
+				.title("제목4")
+				.content("내용4")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post5 = Post.builder()
+				.userAccount(user2)
+				.title("제목5")
+				.content("내용5")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post6 = Post.builder()
+				.userAccount(user1)
+				.title("제목6")
+				.content("내용6")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		Post post7 = Post.builder()
+				.userAccount(user2)
+				.title("제목7")
+				.content("내용7")
+				.category(2L)
+				.hit(0L)
+				.likeCount(0L)
+				.build();
+
+		// When
+		postRepository.save(post1);
+		postRepository.save(post2);
+		postRepository.save(post3);
+		postRepository.save(post4);
+		postRepository.save(post5);
+		postRepository.save(post6);
+		postRepository.save(post7);
+
+		// Then
+		assertEquals(4, postRepository.findAllByUserAccount(user1).size());
+		assertThat(postRepository.findAllByUserAccount(user1)).contains(post1, post2, post3, post6);
+	}
 }
