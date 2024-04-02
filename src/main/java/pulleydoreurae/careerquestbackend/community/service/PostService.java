@@ -55,6 +55,50 @@ public class PostService {
 	}
 
 	/**
+	 * 게시글의 카테고리로 리스트를 불러오는 메서드
+	 *
+	 * @param category 카테고리 번호
+	 * @return 카테고리에 맞는 리스트 반환
+	 */
+	public List<PostResponse> getPostResponseListByCategory(Long category) {
+		// TODO: 2024/04/2 페이징 처리 혹은 게시글 양 조절이 필요
+		return postRepository.findAllByCategory(category).stream()
+				.map(post -> PostResponse.builder()
+						.userId(post.getUserAccount().getUserId())
+						.title(post.getTitle())
+						.content(post.getContent())
+						.hit(post.getHit())
+						.likeCount(post.getLikeCount())
+						.category(post.getCategory())
+						.createdAt(post.getCreatedAt())
+						.modifiedAt(post.getModifiedAt())
+						.build())
+				.toList();
+	}
+
+	/**
+	 * 한 사용자가 작성한 리스트를 불러오는 메서드
+	 *
+	 * @param userAccount 회원정보
+	 * @return 회원정보에 맞는 리스트 반환
+	 */
+	public List<PostResponse> getPostListByUserAccount(UserAccount userAccount) {
+		// TODO: 2024/04/2 페이징 처리 혹은 게시글 양 조절이 필요
+		return postRepository.findAllByUserAccount(userAccount).stream()
+				.map(post -> PostResponse.builder()
+						.userId(post.getUserAccount().getUserId())
+						.title(post.getTitle())
+						.content(post.getContent())
+						.hit(post.getHit())
+						.likeCount(post.getLikeCount())
+						.category(post.getCategory())
+						.createdAt(post.getCreatedAt())
+						.modifiedAt(post.getModifiedAt())
+						.build())
+				.toList();
+	}
+
+	/**
 	 * 하나의 게시글을 불러오는 메서드
 	 *
 	 * @param postId 게시글 id
