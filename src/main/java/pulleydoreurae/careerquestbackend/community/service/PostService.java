@@ -79,12 +79,16 @@ public class PostService {
 	/**
 	 * 한 사용자가 작성한 리스트를 불러오는 메서드
 	 *
-	 * @param userAccount 회원정보
+	 * @param userId 회원아이디
 	 * @return 회원정보에 맞는 리스트 반환
 	 */
-	public List<PostResponse> getPostListByUserAccount(UserAccount userAccount) {
+	public List<PostResponse> getPostListByUserAccount(String userId) {
+		UserAccount user = findUserAccount(userId);
+		if (user == null) {
+			return null;
+		}
 		// TODO: 2024/04/2 페이징 처리 혹은 게시글 양 조절이 필요
-		return postRepository.findAllByUserAccount(userAccount).stream()
+		return postRepository.findAllByUserAccount(user).stream()
 				.map(post -> PostResponse.builder()
 						.userId(post.getUserAccount().getUserId())
 						.title(post.getTitle())

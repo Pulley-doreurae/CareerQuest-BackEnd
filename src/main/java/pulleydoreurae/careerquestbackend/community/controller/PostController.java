@@ -44,6 +44,28 @@ public class PostController {
 				.body(posts);
 	}
 
+	@GetMapping("/posts/category/{category}")
+	public ResponseEntity<List<PostResponse>> getPostListByCategory(@PathVariable Long category) {
+		List<PostResponse> posts = postService.getPostResponseListByCategory(category);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(posts);
+	}
+
+	@GetMapping("/posts/user/{userId}")
+	public ResponseEntity<?> getPostListByUserId(@PathVariable String userId) {
+		List<PostResponse> posts = postService.getPostListByUserAccount(userId);
+
+		if (posts == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(SimpleResponse.builder()
+							.msg("해당 사용자 정보를 찾을 수 없습니다.")
+							.build());
+		}
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(posts);
+	}
+
 	@GetMapping("/posts/{postId}")
 	public ResponseEntity<?> getPost(@PathVariable Long postId) {
 		PostResponse post = postService.findByPostId(postId);
