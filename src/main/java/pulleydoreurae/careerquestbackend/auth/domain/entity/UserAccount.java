@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 
 /**
  * 회원가입이나 로그인 시 사용자 정보를 담을 엔티티
@@ -54,4 +56,10 @@ public class UserAccount extends BaseEntity {
 	@OneToMany(mappedBy = "userAccount",cascade = CascadeType.ALL)
 	// 양방향 매핑, 기술스택이 연관관계의 주인이 된다. 회원이 삭제된다면 그 회원의 기술스택도 삭제한다.
 	private List<UserTechnologyStack> stacks;
+
+	@OneToMany(mappedBy = "userAccount")
+	private List<Post> posts;
+
+	@OneToMany(mappedBy = "userAccount")
+	private List<Comment> comments;
 }
