@@ -401,4 +401,174 @@ class PostControllerTest {
 
 		// Then
 	}
+
+	@Test
+	@DisplayName("9. 게시글 리스트 카테고리로 조회 테스트")
+	@WithMockUser
+	void getPostListByCategoryTest() throws Exception {
+		// Given
+		PostResponse post1 = PostResponse.builder()
+				.userId("testId")
+				.title("제목1")
+				.content("내용1")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post2 = PostResponse.builder()
+				.userId("testId")
+				.title("제목2")
+				.content("내용2")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post3 = PostResponse.builder()
+				.userId("testId")
+				.title("제목3")
+				.content("내용3")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post4 = PostResponse.builder()
+				.userId("testId")
+				.title("제목4")
+				.content("내용4")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post5 = PostResponse.builder()
+				.userId("testId")
+				.title("제목5")
+				.content("내용5")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		given(postService.getPostResponseListByCategory(1L)).willReturn(List.of(post1, post2, post3, post4, post5));
+
+		// When
+		mockMvc.perform(
+						get("/api/posts/category/{category}", 1L)
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						responseFields(
+								fieldWithPath("[].userId").description("게시글 작성자"),
+								fieldWithPath("[].title").description("제목"),
+								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].category").description("카테고리"),
+								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].likeCount").description("좋아요 수"),
+								fieldWithPath("[].createdAt").description("작성일자"),
+								fieldWithPath("[].modifiedAt").description("수정일자")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("10. 한 사용자가 작성한 게시글 리스트 조회 테스트")
+	@WithMockUser
+	void getPostListByUserAccountTest() throws Exception {
+		// Given
+		PostResponse post1 = PostResponse.builder()
+				.userId("testId")
+				.title("제목1")
+				.content("내용1")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post2 = PostResponse.builder()
+				.userId("testId")
+				.title("제목2")
+				.content("내용2")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post3 = PostResponse.builder()
+				.userId("testId")
+				.title("제목3")
+				.content("내용3")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post4 = PostResponse.builder()
+				.userId("testId")
+				.title("제목4")
+				.content("내용4")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post5 = PostResponse.builder()
+				.userId("testId")
+				.title("제목5")
+				.content("내용5")
+				.category(1L)
+				.hit(0L)
+				.likeCount(0L)
+				.createdAt("2024.04.01 15:37")
+				.modifiedAt("2024.04.01 15:37")
+				.build();
+
+		given(postService.getPostListByUserAccount("testId")).willReturn(List.of(post1, post2, post3, post4, post5));
+
+		// When
+		mockMvc.perform(
+						get("/api/posts/user/{userId}", "testId")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						responseFields(
+								fieldWithPath("[].userId").description("게시글 작성자"),
+								fieldWithPath("[].title").description("제목"),
+								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].category").description("카테고리"),
+								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].likeCount").description("좋아요 수"),
+								fieldWithPath("[].createdAt").description("작성일자"),
+								fieldWithPath("[].modifiedAt").description("수정일자")
+						)));
+
+		// Then
+	}
 }

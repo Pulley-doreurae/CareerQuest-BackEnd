@@ -468,7 +468,7 @@ class PostServiceTest {
 				.willReturn(List.of(post1, post2, post3, post5, post7));
 
 		// When
-		List<PostResponse> result = postService.getPostListByUserAccount(user);
+		List<PostResponse> result = postService.getPostListByUserAccount("testId");
 
 		// Then
 		List<Post> findAll = postRepository.findAllByUserAccount(user);
