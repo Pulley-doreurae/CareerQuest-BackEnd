@@ -49,9 +49,8 @@ public class Post extends BaseEntity {
 	@Column(nullable = false)
 	private Long hit; // 조회수
 
-	@Setter
-	@Column(nullable = false)
-	private Long likeCount; // 좋아요
+	@OneToMany(mappedBy = "post")
+	private List<PostLike> postLikes; // 좋아요
 
 	@Column(nullable = false)
 	private Long category; // 카테고리
