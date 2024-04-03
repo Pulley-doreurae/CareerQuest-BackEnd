@@ -66,7 +66,6 @@ class CommentRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(post);
 
@@ -104,7 +103,6 @@ class CommentRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(post);
 
@@ -148,7 +146,6 @@ class CommentRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(post);
 
@@ -179,7 +176,6 @@ class CommentRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(post);
 
@@ -234,7 +230,6 @@ class CommentRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(post);
 

@@ -60,7 +60,6 @@ class PostRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		// When
@@ -74,7 +73,7 @@ class PostRepositoryTest {
 				() -> assertEquals(post.getContent(), savedPost.getContent()),
 				() -> assertEquals(post.getCategory(), savedPost.getCategory()),
 				() -> assertEquals(post.getHit(), savedPost.getHit()),
-				() -> assertEquals(post.getLikeCount(), savedPost.getLikeCount()),
+				() -> assertEquals(post.getPostLikes(), savedPost.getPostLikes()),
 				() -> assertEquals(post.getCreatedAt(), savedPost.getCreatedAt()),
 				() -> assertEquals(post.getModifiedAt(), savedPost.getModifiedAt())
 		);
@@ -91,7 +90,6 @@ class PostRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post2 = Post.builder()
@@ -100,7 +98,6 @@ class PostRepositoryTest {
 				.content("내용2")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post3 = Post.builder()
@@ -109,7 +106,6 @@ class PostRepositoryTest {
 				.content("내용3")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post4 = Post.builder()
@@ -118,7 +114,6 @@ class PostRepositoryTest {
 				.content("내용4")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post5 = Post.builder()
@@ -127,7 +122,6 @@ class PostRepositoryTest {
 				.content("내용5")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		// When
@@ -153,7 +147,6 @@ class PostRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(post);
 
@@ -166,7 +159,6 @@ class PostRepositoryTest {
 				.content("수정된 내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(updatePost);
 
@@ -179,7 +171,7 @@ class PostRepositoryTest {
 				() -> assertEquals(updatePost.getContent(), updateAndSavedPost.getContent()),
 				() -> assertEquals(updatePost.getCategory(), updateAndSavedPost.getCategory()),
 				() -> assertEquals(updatePost.getHit(), updateAndSavedPost.getHit()),
-				() -> assertEquals(updatePost.getLikeCount(), updateAndSavedPost.getLikeCount()),
+				() -> assertEquals(updatePost.getPostLikes(), updateAndSavedPost.getPostLikes()),
 				() -> assertEquals(updatePost.getCreatedAt(), updateAndSavedPost.getCreatedAt())
 		);
 	}
@@ -195,7 +187,6 @@ class PostRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		postRepository.save(post);
 
@@ -219,7 +210,6 @@ class PostRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post2 = Post.builder()
@@ -228,7 +218,6 @@ class PostRepositoryTest {
 				.content("내용2")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post3 = Post.builder()
@@ -237,7 +226,6 @@ class PostRepositoryTest {
 				.content("내용3")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post4 = Post.builder()
@@ -246,7 +234,6 @@ class PostRepositoryTest {
 				.content("내용4")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post5 = Post.builder()
@@ -255,7 +242,6 @@ class PostRepositoryTest {
 				.content("내용5")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post6 = Post.builder()
@@ -264,7 +250,6 @@ class PostRepositoryTest {
 				.content("내용6")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post7 = Post.builder()
@@ -273,7 +258,6 @@ class PostRepositoryTest {
 				.content("내용7")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		// When
@@ -320,7 +304,6 @@ class PostRepositoryTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post2 = Post.builder()
@@ -329,7 +312,6 @@ class PostRepositoryTest {
 				.content("내용2")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post3 = Post.builder()
@@ -338,7 +320,6 @@ class PostRepositoryTest {
 				.content("내용3")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post4 = Post.builder()
@@ -347,7 +328,6 @@ class PostRepositoryTest {
 				.content("내용4")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post5 = Post.builder()
@@ -356,7 +336,6 @@ class PostRepositoryTest {
 				.content("내용5")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post6 = Post.builder()
@@ -365,7 +344,6 @@ class PostRepositoryTest {
 				.content("내용6")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		Post post7 = Post.builder()
@@ -374,7 +352,6 @@ class PostRepositoryTest {
 				.content("내용7")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		// When

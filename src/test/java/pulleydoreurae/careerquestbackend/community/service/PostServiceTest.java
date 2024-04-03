@@ -19,6 +19,8 @@ import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
 
 /**
@@ -33,6 +35,10 @@ class PostServiceTest {
 	PostRepository postRepository;
 	@Mock
 	UserAccountRepository userAccountRepository;
+	@Mock
+	CommentRepository commentRepository;
+	@Mock
+	PostLikeRepository postLikeRepository;
 
 	@Test
 	@DisplayName("1. 게시글 리스트를 불러오는 테스트")
@@ -45,7 +51,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post2 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -53,7 +58,6 @@ class PostServiceTest {
 				.content("내용2")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post3 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -61,7 +65,6 @@ class PostServiceTest {
 				.content("내용3")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post4 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -69,7 +72,6 @@ class PostServiceTest {
 				.content("내용4")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post5 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -77,10 +79,11 @@ class PostServiceTest {
 				.content("내용5")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		given(postRepository.findAll()).willReturn(List.of(post1, post2, post3, post4, post5));
+		given(commentRepository.findAllByPost(any())).willReturn(List.of());
+		given(postLikeRepository.findAllByPost(any())).willReturn(List.of());
 
 		// When
 		List<PostResponse> result = postService.getPostResponseList();
@@ -121,7 +124,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
@@ -135,8 +137,7 @@ class PostServiceTest {
 				() -> assertEquals(expect.getTitle(), result.getTitle()),
 				() -> assertEquals(expect.getContent(), result.getContent()),
 				() -> assertEquals(expect.getCategory(), result.getCategory()),
-				() -> assertEquals(expect.getHit(), result.getHit()),
-				() -> assertEquals(expect.getLikeCount(), result.getLikeCount())
+				() -> assertEquals(expect.getHit(), result.getHit())
 		);
 	}
 
@@ -180,7 +181,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
@@ -205,7 +205,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
@@ -230,7 +229,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
@@ -255,7 +253,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
@@ -280,7 +277,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
@@ -305,7 +301,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
@@ -327,7 +322,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post2 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -335,7 +329,6 @@ class PostServiceTest {
 				.content("내용2")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post3 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -343,7 +336,6 @@ class PostServiceTest {
 				.content("내용3")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post4 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -351,7 +343,6 @@ class PostServiceTest {
 				.content("내용4")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post5 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -359,7 +350,6 @@ class PostServiceTest {
 				.content("내용5")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post6 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -367,7 +357,6 @@ class PostServiceTest {
 				.content("내용6")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post7 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -375,10 +364,11 @@ class PostServiceTest {
 				.content("내용7")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
 		given(postRepository.findAllByCategory(1L)).willReturn(List.of(post1, post2, post3, post4, post5));
+		given(commentRepository.findAllByPost(any())).willReturn(List.of());
+		given(postLikeRepository.findAllByPost(any())).willReturn(List.of());
 
 		// When
 		List<PostResponse> result = postService.getPostResponseListByCategory(1L);
@@ -403,8 +393,7 @@ class PostServiceTest {
 				.userId("testId2")
 				.build();
 
-		given(userAccountRepository.findByUserId("testId2"))
-				.willReturn(Optional.ofNullable(user2));
+		given(userAccountRepository.findByUserId("testId2")).willReturn(Optional.ofNullable(user2));
 
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		Post post1 = Post.builder()
@@ -413,7 +402,6 @@ class PostServiceTest {
 				.content("내용1")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post2 = Post.builder()
 				.userAccount(user)
@@ -421,7 +409,6 @@ class PostServiceTest {
 				.content("내용2")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post3 = Post.builder()
 				.userAccount(user)
@@ -429,7 +416,6 @@ class PostServiceTest {
 				.content("내용3")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post4 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId2").get())
@@ -437,7 +423,6 @@ class PostServiceTest {
 				.content("내용4")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post5 = Post.builder()
 				.userAccount(user)
@@ -445,7 +430,6 @@ class PostServiceTest {
 				.content("내용5")
 				.category(1L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post6 = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId2").get())
@@ -453,7 +437,6 @@ class PostServiceTest {
 				.content("내용6")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 		Post post7 = Post.builder()
 				.userAccount(user)
@@ -461,11 +444,11 @@ class PostServiceTest {
 				.content("내용7")
 				.category(2L)
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 
-		given(postRepository.findAllByUserAccount(user))
-				.willReturn(List.of(post1, post2, post3, post5, post7));
+		given(postRepository.findAllByUserAccount(user)).willReturn(List.of(post1, post2, post3, post5, post7));
+		given(commentRepository.findAllByPost(any())).willReturn(List.of());
+		given(postLikeRepository.findAllByPost(any())).willReturn(List.of());
 
 		// When
 		List<PostResponse> result = postService.getPostListByUserAccount("testId");
@@ -498,7 +481,8 @@ class PostServiceTest {
 				.title(post.getTitle())
 				.content(post.getContent())
 				.hit(post.getHit())
-				.likeCount(post.getLikeCount())
+				.commentCount((long)commentRepository.findAllByPost(post).size())
+				.postLikeCount((long)postLikeRepository.findAllByPost(post).size())
 				.category(post.getCategory())
 				.build();
 	}
