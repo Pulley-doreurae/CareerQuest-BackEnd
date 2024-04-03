@@ -1,9 +1,19 @@
 == 커뮤니티 게시글 API (PostController)
 === 게시글 리스트 조회
 ==== 요청
-operation::post-controller-test/get-post-list-test[snippets="http-request"]
+operation::post-controller-test/get-post-list-test[snippets="http-request,query-parameters"]
 ==== 응답
 operation::post-controller-test/get-post-list-test[snippets="http-response,response-fields"]
+=== 게시글 카테고리로 리스트 조회
+==== 요청
+operation::post-controller-test/get-post-list-by-category-test[snippets="http-request,query-parameters"]
+==== 응답
+operation::post-controller-test/get-post-list-by-category-test[snippets="http-response,response-fields"]
+=== 게시글 회원정보로 리스트 조회
+==== 요청
+operation::post-controller-test/get-post-list-by-user-account-test[snippets="http-request,query-parameters"]
+==== 응답
+operation::post-controller-test/get-post-list-by-user-account-test[snippets="http-response,response-fields"]
 === 게시글 단건 조회
 ==== 요청
 operation::post-controller-test/get-post-test[snippets="http-request,path-parameters"]

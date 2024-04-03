@@ -1,12 +1,12 @@
 == 커뮤니티 댓글 API (CommentController)
 === 한 사용자가 작성한 댓글 리스트 조회
 ==== 요청
-operation::comment-controller-test/find-all-by-user-id-test[snippets="http-request,path-parameters"]
+operation::comment-controller-test/find-all-by-user-id-test[snippets="http-request,path-parameters,query-parameters"]
 ==== 응답
 operation::comment-controller-test/find-all-by-user-id-test[snippets="http-response,response-fields"]
 === 한 게시글에 달린 댓글 리스트 조회
 ==== 요청
-operation::comment-controller-test/find-all-by-post-id-test[snippets="http-request,path-parameters"]
+operation::comment-controller-test/find-all-by-post-id-test[snippets="http-request,path-parameters,query-parameters"]
 ==== 응답
 operation::comment-controller-test/find-all-by-post-id-test[snippets="http-response,response-fields"]
 === 댓글 작성 (실패)

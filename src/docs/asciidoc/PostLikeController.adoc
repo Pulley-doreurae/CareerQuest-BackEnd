@@ -11,6 +11,6 @@ operation::post-like-controller-test/change-post-like-success-test[snippets="htt
 operation::post-like-controller-test/change-post-like-success-test[snippets="http-response,response-fields"]
 === 한 사용자가 좋아요 누른 게시글 리스트 조회
 ==== 요청
-operation::post-like-controller-test/find-all-post-like-by-user-account-test[snippets="http-request,path-parameters"]
+operation::post-like-controller-test/find-all-post-like-by-user-account-test[snippets="http-request,path-parameters,query-parameters"]
 ==== 응답
 operation::post-like-controller-test/find-all-post-like-by-user-account-test[snippets="http-response,response-fields"]
