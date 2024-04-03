@@ -12,6 +12,8 @@ import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
 
 /**
@@ -26,11 +28,16 @@ public class PostService {
 
 	private final PostRepository postRepository;
 	private final UserAccountRepository userAccountRepository;
+	private final CommentRepository commentRepository;
+	private final PostLikeRepository postLikeRepository;
 
 	@Autowired
-	public PostService(PostRepository postRepository, UserAccountRepository userAccountRepository) {
+	public PostService(PostRepository postRepository, UserAccountRepository userAccountRepository,
+			CommentRepository commentRepository, PostLikeRepository postLikeRepository) {
 		this.postRepository = postRepository;
 		this.userAccountRepository = userAccountRepository;
+		this.commentRepository = commentRepository;
+		this.postLikeRepository = postLikeRepository;
 	}
 
 	/**
@@ -46,7 +53,8 @@ public class PostService {
 						.title(post.getTitle())
 						.content(post.getContent())
 						.hit(post.getHit())
-						.likeCount(post.getLikeCount())
+						.commentCount(countComment(post.getId()))
+						.postLikeCount(countPostLike(post.getId()))
 						.category(post.getCategory())
 						.createdAt(post.getCreatedAt())
 						.modifiedAt(post.getModifiedAt())
@@ -68,7 +76,8 @@ public class PostService {
 						.title(post.getTitle())
 						.content(post.getContent())
 						.hit(post.getHit())
-						.likeCount(post.getLikeCount())
+						.commentCount(countComment(post.getId()))
+						.postLikeCount(countPostLike(post.getId()))
 						.category(post.getCategory())
 						.createdAt(post.getCreatedAt())
 						.modifiedAt(post.getModifiedAt())
@@ -94,7 +103,8 @@ public class PostService {
 						.title(post.getTitle())
 						.content(post.getContent())
 						.hit(post.getHit())
-						.likeCount(post.getLikeCount())
+						.commentCount(countComment(post.getId()))
+						.postLikeCount(countPostLike(post.getId()))
 						.category(post.getCategory())
 						.createdAt(post.getCreatedAt())
 						.modifiedAt(post.getModifiedAt())
@@ -122,7 +132,8 @@ public class PostService {
 				.title(post.getTitle())
 				.content(post.getContent())
 				.hit(post.getHit())
-				.likeCount(post.getLikeCount())
+				.commentCount(countComment(post.getId()))
+				.postLikeCount(countPostLike(post.getId()))
 				.category(post.getCategory())
 				.createdAt(post.getCreatedAt())
 				.modifiedAt(post.getModifiedAt())
@@ -162,7 +173,7 @@ public class PostService {
 			return false;
 		}
 
-		post = postRequestToPostForUpdate(postId, postRequest, user);
+		post = postRequestToPostForUpdate(post, postRequest, user);
 		postRepository.save(post);
 
 		return true;
@@ -234,28 +245,51 @@ public class PostService {
 				.content(postRequest.getContent())
 				.category(postRequest.getCategory())
 				.hit(0L)
-				.likeCount(0L)
 				.build();
 	}
 
 	/**
 	 * 게시글 수정 요청 -> 게시글 엔티티 변환 메서드 (수정시 사용)
 	 *
-	 * @param postId      수정할 게시글 id
+	 * @param post        수정할 게시글 엔티티 전달
 	 * @param postRequest 수정할 게시글
 	 * @param user        작성자(수정자)
 	 * @return 게시글 엔티티
 	 */
-	private Post postRequestToPostForUpdate(Long postId, PostRequest postRequest, UserAccount user) {
+	private Post postRequestToPostForUpdate(Post post, PostRequest postRequest, UserAccount user) {
 		// 엔티티의 Setter 사용을 막기위해 새로운 post 생성하며 덮어쓰기
+
 		return Post.builder()
-				.id(postId) // id 를 덮어씌어 수정함
+				.id(post.getId()) // id 를 덮어씌어 수정함
 				.userAccount(user)
 				.title(postRequest.getTitle())
 				.content(postRequest.getContent())
 				.category(postRequest.getCategory())
-				.hit(0L)
-				.likeCount(0L)
+				.hit(post.getHit()) // 조회수도 유지
+				.comments(post.getComments()) // 댓글 리스트도 유지
+				.postLikes(post.getPostLikes()) // 좋아요 리스트도 유지
 				.build();
+	}
+
+	/**
+	 * 한 게시글에 달린 댓글을 세어주는 메서드
+	 *
+	 * @param postId 게시글 id
+	 * @return 해당 게시글의 댓글 수
+	 */
+	private Long countComment(Long postId) {
+		Post post = findPost(postId);
+		return (long)commentRepository.findAllByPost(post).size();
+	}
+
+	/**
+	 * 한 게시글에 달린 좋아요를 세어주는 메서드
+	 *
+	 * @param postId 게시글 id
+	 * @return 해당 게시글의 좋아요 수
+	 */
+	private Long countPostLike(Long postId) {
+		Post post = findPost(postId);
+		return (long)postLikeRepository.findAllByPost(post).size();
 	}
 }

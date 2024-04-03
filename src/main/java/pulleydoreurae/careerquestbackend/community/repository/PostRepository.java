@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 
 /**
  * 게시글을 담당하는 Repository

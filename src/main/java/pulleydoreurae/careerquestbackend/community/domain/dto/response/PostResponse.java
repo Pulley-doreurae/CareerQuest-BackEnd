@@ -23,7 +23,8 @@ public class PostResponse {
 	private String title; // 제목
 	private String content; // 내용
 	private Long hit; // 조회수
-	private Long likeCount; // 좋아요
+	private Long commentCount; // 댓글 수
+	private Long postLikeCount; // 좋아요 수
 	private Long category; // 카테고리
 	private String createdAt; // 작성일자
 	private String modifiedAt; // 수정일자
