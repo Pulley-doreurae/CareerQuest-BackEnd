@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,11 +44,11 @@ public class PostService {
 	/**
 	 * 게시글 리스트를 불러오는 메서드
 	 *
+	 * @param pageable 페이지
 	 * @return Repository 에서 가져온 리스트 반환
 	 */
-	public List<PostResponse> getPostResponseList() {
-		// TODO: 2024/03/31 페이징 처리나 불러오는 게시글의 양 조절이 필요
-		return postRepository.findAll().stream()
+	public List<PostResponse> getPostResponseList(Pageable pageable) {
+		return postRepository.findAllByOrderByIdDesc(pageable).stream()
 				.map(post -> PostResponse.builder()
 						.userId(post.getUserAccount().getUserId())
 						.title(post.getTitle())
@@ -66,11 +67,12 @@ public class PostService {
 	 * 게시글의 카테고리로 리스트를 불러오는 메서드
 	 *
 	 * @param category 카테고리 번호
+	 * @param pageable 페이지
 	 * @return 카테고리에 맞는 리스트 반환
 	 */
-	public List<PostResponse> getPostResponseListByCategory(Long category) {
-		// TODO: 2024/04/2 페이징 처리 혹은 게시글 양 조절이 필요
-		return postRepository.findAllByCategory(category).stream()
+	public List<PostResponse> getPostResponseListByCategory(Long category, Pageable pageable) {
+
+		return postRepository.findAllByCategoryOrderByIdDesc(category, pageable).stream()
 				.map(post -> PostResponse.builder()
 						.userId(post.getUserAccount().getUserId())
 						.title(post.getTitle())
@@ -86,18 +88,18 @@ public class PostService {
 	}
 
 	/**
-	 * 한 사용자가 작성한 리스트를 불러오는 메서드
+	 * 한 사용자가 작성한 리스트를 불러오는 메서드 (15 개 씩 페이지로 나눠서 호출함)
 	 *
-	 * @param userId 회원아이디
+	 * @param userId   회원아이디
+	 * @param pageable 페이지
 	 * @return 회원정보에 맞는 리스트 반환
 	 */
-	public List<PostResponse> getPostListByUserAccount(String userId) {
+	public List<PostResponse> getPostListByUserAccount(String userId, Pageable pageable) {
 		UserAccount user = findUserAccount(userId);
 		if (user == null) {
 			return null;
 		}
-		// TODO: 2024/04/2 페이징 처리 혹은 게시글 양 조절이 필요
-		return postRepository.findAllByUserAccount(user).stream()
+		return postRepository.findAllByUserAccountOrderByIdDesc(user, pageable).stream()
 				.map(post -> PostResponse.builder()
 						.userId(post.getUserAccount().getUserId())
 						.title(post.getTitle())

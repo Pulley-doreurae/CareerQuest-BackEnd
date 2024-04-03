@@ -3,6 +3,8 @@ package pulleydoreurae.careerquestbackend.community.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -17,9 +19,11 @@ import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
  */
 public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 
+	Page<PostLike> findAllByPostOrderByIdDesc(Post post, Pageable pageable);
+
 	List<PostLike> findAllByPost(Post post);
 
-	List<PostLike> findAllByUserAccount(UserAccount userAccount);
+	Page<PostLike> findAllByUserAccountOrderByIdDesc(UserAccount userAccount, Pageable pageable);
 
 	Optional<PostLike> findByPostAndUserAccount(Post post, UserAccount userAccount);
 }

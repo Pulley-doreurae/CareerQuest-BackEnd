@@ -3,6 +3,8 @@ package pulleydoreurae.careerquestbackend.community.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,24 +39,28 @@ public class PostController {
 	}
 
 	@GetMapping("/posts")
-	public ResponseEntity<List<PostResponse>> getPostList() {
-		List<PostResponse> posts = postService.getPostResponseList();
+	public ResponseEntity<List<PostResponse>> getPostList(@PageableDefault(size = 15) Pageable pageable) {
+		List<PostResponse> posts = postService.getPostResponseList(pageable);
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(posts);
 	}
 
 	@GetMapping("/posts/category/{category}")
-	public ResponseEntity<List<PostResponse>> getPostListByCategory(@PathVariable Long category) {
-		List<PostResponse> posts = postService.getPostResponseListByCategory(category);
+	public ResponseEntity<List<PostResponse>> getPostListByCategory(@PathVariable Long category,
+			@PageableDefault(size = 15) Pageable pageable) {
+
+		List<PostResponse> posts = postService.getPostResponseListByCategory(category, pageable);
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(posts);
 	}
 
 	@GetMapping("/posts/user/{userId}")
-	public ResponseEntity<?> getPostListByUserId(@PathVariable String userId) {
-		List<PostResponse> posts = postService.getPostListByUserAccount(userId);
+	public ResponseEntity<?> getPostListByUserId(@PathVariable String userId,
+			@PageableDefault(size = 15) Pageable pageable) {
+
+		List<PostResponse> posts = postService.getPostListByUserAccount(userId, pageable);
 
 		if (posts == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)

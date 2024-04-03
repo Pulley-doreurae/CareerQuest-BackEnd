@@ -88,18 +88,22 @@ class CommentControllerTest {
 				.modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(commentService.findListByUserAccount("testId")).willReturn(
+		given(commentService.findListByUserAccount(any(), any())).willReturn(
 				List.of(comment1, comment2, comment3, comment4, comment5));
 
 		// When
 		mockMvc.perform(
 						get("/api/comments/{userId}", "testId")
+								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("page").description("페이지 정보 (0부터 시작)")
+						),
 						pathParameters(
 								parameterWithName("userId").description("회원아이디")
 						),
@@ -158,12 +162,13 @@ class CommentControllerTest {
 				.modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(commentService.findListByPostId(10000L)).willReturn(
+		given(commentService.findListByPostId(any(), any())).willReturn(
 				List.of(comment1, comment2, comment3, comment4, comment5));
 
 		// When
 		mockMvc.perform(
 						get("/api/posts/{postId}/comments", 10000L)
+								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
 				.andDo(print())
@@ -172,6 +177,9 @@ class CommentControllerTest {
 						preprocessResponse(prettyPrint()),
 						pathParameters(
 								parameterWithName("postId").description("게시글 id")
+						),
+						queryParameters(
+								parameterWithName("page").description("페이지 정보 (0부터 시작)")
 						),
 						responseFields(
 								fieldWithPath("[].userId").description("댓글 작성자"),
@@ -188,14 +196,14 @@ class CommentControllerTest {
 	@DisplayName("3. 댓글 등록 테스트 (실패)")
 	@WithMockUser
 	void saveCommentFailTest() throws Exception {
-	    // Given
+		// Given
 		CommentRequest request = CommentRequest.builder()
 				.userId("testId")
 				.content("댓글내용")
 				.build();
 		given(commentService.saveComment(any())).willReturn(false);
 
-	    // When
+		// When
 		mockMvc.perform(
 						post("/api/posts/{postId}/comments", 10000L)
 								.with(csrf())
@@ -216,7 +224,7 @@ class CommentControllerTest {
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
 						)));
-	    // Then
+		// Then
 	}
 
 	@Test
@@ -253,7 +261,6 @@ class CommentControllerTest {
 						)));
 		// Then
 	}
-
 
 	@Test
 	@DisplayName("5. 댓글 수정 테스트 (실패)")

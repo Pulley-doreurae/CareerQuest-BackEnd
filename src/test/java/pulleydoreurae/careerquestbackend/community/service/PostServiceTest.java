@@ -13,6 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
@@ -81,22 +85,21 @@ class PostServiceTest {
 				.hit(0L)
 				.build();
 
-		given(postRepository.findAll()).willReturn(List.of(post1, post2, post3, post4, post5));
-		given(commentRepository.findAllByPost(any())).willReturn(List.of());
-		given(postLikeRepository.findAllByPost(any())).willReturn(List.of());
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
+		Page<Post> list = new PageImpl<>(List.of(post3, post4, post5), pageable, 3);
+
+		given(postRepository.findAllByOrderByIdDesc(pageable)).willReturn(list);
 
 		// When
-		List<PostResponse> result = postService.getPostResponseList();
+		List<PostResponse> result = postService.getPostResponseList(pageable);
 
 		// Then
-		List<Post> findAll = postRepository.findAll();
-		assertEquals(5, result.size());
+		Page<Post> findAll = postRepository.findAllByOrderByIdDesc(pageable);
+		assertEquals(3, result.size());
 		assertThat(result).contains(
-				postToPostResponse(findAll.get(0)),
-				postToPostResponse(findAll.get(1)),
-				postToPostResponse(findAll.get(2)),
-				postToPostResponse(findAll.get(3)),
-				postToPostResponse(findAll.get(4)));
+				postToPostResponse(findAll.getContent().get(0)),
+				postToPostResponse(findAll.getContent().get(1)),
+				postToPostResponse(findAll.getContent().get(2)));
 	}
 
 	@Test
@@ -366,22 +369,21 @@ class PostServiceTest {
 				.hit(0L)
 				.build();
 
-		given(postRepository.findAllByCategory(1L)).willReturn(List.of(post1, post2, post3, post4, post5));
-		given(commentRepository.findAllByPost(any())).willReturn(List.of());
-		given(postLikeRepository.findAllByPost(any())).willReturn(List.of());
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
+		Page<Post> list = new PageImpl<>(List.of(post3, post5, post7), pageable, 3);
+
+		given(postRepository.findAllByCategoryOrderByIdDesc(1L, pageable)).willReturn(list);
 
 		// When
-		List<PostResponse> result = postService.getPostResponseListByCategory(1L);
+		List<PostResponse> result = postService.getPostResponseListByCategory(1L, pageable);
 
 		// Then
-		List<Post> findAll = postRepository.findAllByCategory(1L);
-		assertEquals(5, result.size());
+		Page<Post> findAll = postRepository.findAllByCategoryOrderByIdDesc(1L, pageable);
+		assertEquals(3, result.size());
 		assertThat(result).contains(
-				postToPostResponse(findAll.get(0)),
-				postToPostResponse(findAll.get(1)),
-				postToPostResponse(findAll.get(2)),
-				postToPostResponse(findAll.get(3)),
-				postToPostResponse(findAll.get(4)));
+				postToPostResponse(findAll.getContent().get(0)),
+				postToPostResponse(findAll.getContent().get(1)),
+				postToPostResponse(findAll.getContent().get(2)));
 	}
 
 	@Test
@@ -446,22 +448,21 @@ class PostServiceTest {
 				.hit(0L)
 				.build();
 
-		given(postRepository.findAllByUserAccount(user)).willReturn(List.of(post1, post2, post3, post5, post7));
-		given(commentRepository.findAllByPost(any())).willReturn(List.of());
-		given(postLikeRepository.findAllByPost(any())).willReturn(List.of());
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
+		Page<Post> list = new PageImpl<>(List.of(post3, post5, post7), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
+
+		given(postRepository.findAllByUserAccountOrderByIdDesc(user, pageable)).willReturn(list);
 
 		// When
-		List<PostResponse> result = postService.getPostListByUserAccount("testId");
+		List<PostResponse> result = postService.getPostListByUserAccount("testId", pageable);
 
 		// Then
-		List<Post> findAll = postRepository.findAllByUserAccount(user);
-		assertEquals(5, result.size());
+		Page<Post> findAll = postRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
+		assertEquals(3, result.size());
 		assertThat(result).contains(
-				postToPostResponse(findAll.get(0)),
-				postToPostResponse(findAll.get(1)),
-				postToPostResponse(findAll.get(2)),
-				postToPostResponse(findAll.get(3)),
-				postToPostResponse(findAll.get(4)));
+				postToPostResponse(findAll.getContent().get(0)),
+				postToPostResponse(findAll.getContent().get(1)),
+				postToPostResponse(findAll.getContent().get(2)));
 	}
 
 	// 사용자 정보 저장 메서드

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ public class PostLikeService {
 	public boolean changePostLike(PostLikeRequest postLikeRequest) {
 		UserAccount user = findUserAccount(postLikeRequest.getUserId());
 		Post post = findPost(postLikeRequest.getPostId());
-
+		// TODO: 2024/04/3 페이지 추가
 		if (user == null || post == null) {
 			return false;
 		}
@@ -76,14 +77,15 @@ public class PostLikeService {
 	/**
 	 * 한 사용자가 좋아요 누른 게시글 리스트를 반환하는 메서드
 	 *
-	 * @param userId 사용자 아이디
+	 * @param userId   사용자 아이디
+	 * @param pageable 페이지
 	 * @return 게시글 리스트
 	 */
-	public List<PostResponse> findAllPostLikeByUserAccount(String userId) {
+	public List<PostResponse> findAllPostLikeByUserAccount(String userId, Pageable pageable) {
 		UserAccount user = findUserAccount(userId);
 		List<PostResponse> list = new ArrayList<>();
-
-		postLikeRepository.findAllByUserAccount(user)
+		// TODO: 2024/04/3 페이지 추가
+		postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable)
 				.forEach(postLike -> {
 					Post post = postLike.getPost();
 					PostResponse postResponse = PostResponse.builder()

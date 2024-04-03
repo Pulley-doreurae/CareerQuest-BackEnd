@@ -3,6 +3,8 @@ package pulleydoreurae.careerquestbackend.community.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,17 +39,20 @@ public class CommentController {
 	}
 
 	@GetMapping("/comments/{userId}")
-	public ResponseEntity<List<CommentResponse>> findAllByUserId(@PathVariable String userId) {
-		List<CommentResponse> comments = commentService.findListByUserAccount(userId);
+	public ResponseEntity<List<CommentResponse>> findAllByUserId(@PathVariable String userId,
+			@PageableDefault(size = 30) Pageable pageable) {
+
+		List<CommentResponse> comments = commentService.findListByUserAccount(userId, pageable);
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(comments);
 	}
 
 	@GetMapping("/posts/{postId}/comments")
-	public ResponseEntity<List<CommentResponse>> findAllByPostId(@PathVariable Long postId) {
-		List<CommentResponse> comments = commentService.findListByPostId(postId);
+	public ResponseEntity<List<CommentResponse>> findAllByPostId(@PathVariable Long postId,
+			@PageableDefault(size = 30) Pageable pageable) {
 
+		List<CommentResponse> comments = commentService.findListByPostId(postId, pageable);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(comments);
 	}

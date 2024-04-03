@@ -2,6 +2,8 @@ package pulleydoreurae.careerquestbackend.community.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,9 +52,11 @@ public class PostLikeController {
 	}
 
 	@GetMapping("/posts/likes/{userId}")
-	public ResponseEntity<List<PostResponse>> findAllPostLikeByUserAccount(@PathVariable String userId) {
-		List<PostResponse> result = postLikeService.findAllPostLikeByUserAccount(userId);
+	public ResponseEntity<List<PostResponse>> findAllPostLikeByUserAccount(@PathVariable String userId,
+			@PageableDefault(size = 15) Pageable pageable) {
 
+		List<PostResponse> result = postLikeService.findAllPostLikeByUserAccount(userId, pageable);
+		// TODO: 2024/04/3 페이지 추가
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(result);
 	}

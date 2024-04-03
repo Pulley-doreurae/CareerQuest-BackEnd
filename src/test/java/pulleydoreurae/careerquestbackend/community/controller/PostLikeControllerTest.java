@@ -21,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
 import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
@@ -159,11 +160,12 @@ class PostLikeControllerTest {
 				.postLikeCount(0L)
 				.category(1L)
 				.build();
-		given(postLikeService.findAllPostLikeByUserAccount(any())).willReturn(
+		given(postLikeService.findAllPostLikeByUserAccount(any(), any())).willReturn(
 				List.of(postResponse1, postResponse2, postResponse3, postResponse4, postResponse5));
 
 		// When
 		mockMvc.perform(get("/api/posts/likes/{userId}", "testId")
+						.queryParam("page", "0")
 						.with(csrf()))
 				.andExpect(status().isOk())
 				.andDo(print())
@@ -172,6 +174,9 @@ class PostLikeControllerTest {
 						preprocessResponse(prettyPrint()),
 						pathParameters(
 								parameterWithName("userId").description("요청자 id")
+						),
+						queryParameters(
+								parameterWithName("page").description("페이지 정보 (0부터 시작)")
 						),
 						responseFields(
 								fieldWithPath("[].userId").description("게시글 작성자"),

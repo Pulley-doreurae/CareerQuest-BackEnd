@@ -2,6 +2,8 @@ package pulleydoreurae.careerquestbackend.community.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -16,7 +18,9 @@ import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
  */
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-	List<Comment> findAllByUserAccount(UserAccount userAccount);
+	Page<Comment> findAllByUserAccountOrderByIdDesc(UserAccount userAccount, Pageable pageable);
+
+	Page<Comment> findAllByPostOrderByIdDesc(Post post, Pageable pageable);
 
 	List<Comment> findAllByPost(Post post);
 }

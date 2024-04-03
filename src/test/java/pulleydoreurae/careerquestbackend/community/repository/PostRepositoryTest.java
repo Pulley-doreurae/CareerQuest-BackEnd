@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -132,8 +134,11 @@ class PostRepositoryTest {
 		postRepository.save(post5);
 
 		// Then
-		assertEquals(5, postRepository.findAll().size());
-		assertThat(postRepository.findAll()).contains(post1, post2, post3, post4, post5);
+		Pageable pageable = PageRequest.of(0, 3);
+		assertEquals(3, postRepository.findAllByOrderByIdDesc(pageable).getSize());
+		assertEquals(5, postRepository.findAllByOrderByIdDesc(pageable).getTotalElements());
+		assertEquals(2, postRepository.findAllByOrderByIdDesc(pageable).getTotalPages());
+		assertThat(postRepository.findAllByOrderByIdDesc(pageable)).contains(post3, post4, post5);
 	}
 
 	@Test
@@ -268,10 +273,14 @@ class PostRepositoryTest {
 		postRepository.save(post5);
 		postRepository.save(post6);
 		postRepository.save(post7);
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 
 		// Then
-		assertEquals(5, postRepository.findAllByCategory(1L).size());
-		assertThat(postRepository.findAllByCategory(1L)).contains(post1, post2, post3, post4, post5);
+		assertEquals(2, postRepository.findAllByCategoryOrderByIdDesc(1L, pageable).getTotalPages());
+		assertEquals(5, postRepository.findAllByCategoryOrderByIdDesc(1L, pageable).getTotalElements());
+		assertEquals(3, postRepository.findAllByCategoryOrderByIdDesc(1L, pageable).getSize());
+		assertThat(postRepository.findAllByCategoryOrderByIdDesc(1L, pageable))
+				.contains(post3, post4, post5); // 3개씩 자른다면 맨 뒤에 입력된 3개가 출력되어야 함
 	}
 
 	@Test
@@ -362,9 +371,11 @@ class PostRepositoryTest {
 		postRepository.save(post5);
 		postRepository.save(post6);
 		postRepository.save(post7);
-
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		// Then
-		assertEquals(4, postRepository.findAllByUserAccount(user1).size());
-		assertThat(postRepository.findAllByUserAccount(user1)).contains(post1, post2, post3, post6);
+		assertEquals(3, postRepository.findAllByUserAccountOrderByIdDesc(user1, pageable).getSize());
+		assertEquals(4, postRepository.findAllByUserAccountOrderByIdDesc(user1, pageable).getTotalElements());
+		assertEquals(2, postRepository.findAllByUserAccountOrderByIdDesc(user1, pageable).getTotalPages());
+		assertThat(postRepository.findAllByUserAccountOrderByIdDesc(user1, pageable)).contains(post2, post3, post6);
 	}
 }

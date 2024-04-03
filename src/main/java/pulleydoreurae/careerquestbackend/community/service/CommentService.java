@@ -3,6 +3,7 @@ package pulleydoreurae.careerquestbackend.community.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -106,13 +107,13 @@ public class CommentService {
 	/**
 	 * 한 게시글에 작성된 댓글리스트를 반환하는 메서드
 	 *
-	 * @param postId 게시글 id
+	 * @param postId   게시글 id
+	 * @param pageable 페이지
 	 * @return 댓글 리스트
 	 */
-	public List<CommentResponse> findListByPostId(Long postId) {
+	public List<CommentResponse> findListByPostId(Long postId, Pageable pageable) {
 		Post post = findPost(postId);
-
-		return commentRepository.findAllByPost(post).stream()
+		return commentRepository.findAllByPostOrderByIdDesc(post, pageable).stream()
 				.map(comment -> CommentResponse.builder()
 						.userId(comment.getUserAccount().getUserId())
 						.postId(comment.getPost().getId())
@@ -125,13 +126,13 @@ public class CommentService {
 	/**
 	 * 한 사용자가 작성한 댓글리스트를 반환하는 메서드
 	 *
-	 * @param userId 작성자 아이디
+	 * @param userId   작성자 아이디
+	 * @param pageable 페이지
 	 * @return 댓글 리스트
 	 */
-	public List<CommentResponse> findListByUserAccount(String userId) {
+	public List<CommentResponse> findListByUserAccount(String userId, Pageable pageable) {
 		UserAccount user = findUserAccount(userId);
-
-		return commentRepository.findAllByUserAccount(user).stream()
+		return commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable).stream()
 				.map(comment -> CommentResponse.builder()
 						.userId(comment.getUserAccount().getUserId())
 						.postId(comment.getPost().getId())

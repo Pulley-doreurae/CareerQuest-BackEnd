@@ -2,7 +2,6 @@ package pulleydoreurae.careerquestbackend.community.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -11,6 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -78,8 +80,9 @@ class PostLikeRepositoryTest {
 		PostLike result = postLikeRepository.findByPostAndUserAccount(post, user).get();
 
 		// Then
-		assertEquals(1, postLikeRepository.findAllByPost(post).size());
-		assertEquals(1, postLikeRepository.findAllByUserAccount(user).size());
+		Pageable pageable = PageRequest.of(0, 3);
+		assertEquals(1, postLikeRepository.findAllByPostOrderByIdDesc(post, pageable).getTotalElements());
+		assertEquals(1, postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable).getTotalElements());
 
 		assertAll(
 				() -> assertEquals(postLike.getPost(), result.getPost()),
@@ -113,8 +116,9 @@ class PostLikeRepositoryTest {
 		postLikeRepository.deleteById(get.getId());
 
 		// Then
-		assertEquals(0, postLikeRepository.findAllByUserAccount(user).size());
-		assertEquals(0, postLikeRepository.findAllByPost(post).size());
+		Pageable pageable = PageRequest.of(0, 3);
+		assertEquals(0, postLikeRepository.findAllByPostOrderByIdDesc(post, pageable).getTotalElements());
+		assertEquals(0, postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable).getTotalElements());
 
 		assertEquals(Optional.empty(), postLikeRepository.findByPostAndUserAccount(post, user));
 	}
@@ -155,10 +159,13 @@ class PostLikeRepositoryTest {
 		postLikeRepository.save(postLike5);
 
 		// When
-		List<PostLike> result = postLikeRepository.findAllByPost(post);
+		Pageable pageable = PageRequest.of(0, 3);
+		Page<PostLike> result = postLikeRepository.findAllByPostOrderByIdDesc(post, pageable);
 
 		// Then
-		assertEquals(5, result.size());
+		assertEquals(3, result.getSize());
+		assertEquals(5, result.getTotalElements());
+		assertEquals(2, result.getTotalPages());
 	}
 
 	@Test
@@ -190,9 +197,12 @@ class PostLikeRepositoryTest {
 		postLikeRepository.save(postLike5);
 
 		// When
-		List<PostLike> result = postLikeRepository.findAllByUserAccount(user);
+		Pageable pageable = PageRequest.of(0, 3);
+		Page<PostLike> result = postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
 
 		// Then
-		assertEquals(5, result.size());
+		assertEquals(3, result.getSize());
+		assertEquals(5, result.getTotalElements());
+		assertEquals(2, result.getTotalPages());
 	}
 }

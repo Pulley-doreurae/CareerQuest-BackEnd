@@ -3,7 +3,6 @@ package pulleydoreurae.careerquestbackend.community.repository;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +11,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -211,11 +213,14 @@ class CommentRepositoryTest {
 		commentRepository.save(comment5);
 
 		// When
-		List<Comment> result = commentRepository.findAllByPost(post);
+		Pageable pageable = PageRequest.of(0, 3);
+		Page<Comment> result = commentRepository.findAllByPostOrderByIdDesc(post, pageable);
 
 		// Then
-		assertEquals(5, result.size());
-		assertThat(result).contains(comment1, comment2, comment3, comment4, comment5);
+		assertEquals(2, result.getTotalPages());
+		assertEquals(5, result.getTotalElements());
+		assertEquals(3, result.getSize());
+		assertThat(result).contains(comment3, comment4, comment5);
 	}
 
 	@Test
@@ -265,10 +270,13 @@ class CommentRepositoryTest {
 		commentRepository.save(comment5);
 
 		// When
-		List<Comment> result = commentRepository.findAllByUserAccount(user);
+		Pageable pageable = PageRequest.of(0, 3);
+		Page<Comment> result = commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
 
 		// Then
-		assertEquals(5, result.size());
-		assertThat(result).contains(comment1, comment2, comment3, comment4, comment5);
+		assertEquals(3, result.getSize());
+		assertEquals(2, result.getTotalPages());
+		assertEquals(5, result.getTotalElements());
+		assertThat(result).contains(comment3, comment4, comment5);
 	}
 }

@@ -107,17 +107,21 @@ class PostControllerTest {
 				.modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(postService.getPostResponseList()).willReturn(List.of(post1, post2, post3, post4, post5));
+		given(postService.getPostResponseList(any())).willReturn(List.of(post1, post2, post3, post4, post5));
 
 		// When
 		mockMvc.perform(
 						get("/api/posts")
+								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
+						),
 						responseFields(
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
@@ -466,17 +470,22 @@ class PostControllerTest {
 				.modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(postService.getPostResponseListByCategory(1L)).willReturn(List.of(post1, post2, post3, post4, post5));
+		given(postService.getPostResponseListByCategory(any(), any()))
+				.willReturn(List.of(post1, post2, post3, post4, post5));
 
 		// When
 		mockMvc.perform(
 						get("/api/posts/category/{category}", 1L)
+								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
+						),
 						responseFields(
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
@@ -547,17 +556,22 @@ class PostControllerTest {
 				.modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(postService.getPostListByUserAccount("testId")).willReturn(List.of(post1, post2, post3, post4, post5));
+		given(postService.getPostListByUserAccount(any(), any()))
+				.willReturn(List.of(post1, post2, post3, post4, post5));
 
 		// When
 		mockMvc.perform(
 						get("/api/posts/user/{userId}", "testId")
+								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
+						),
 						responseFields(
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),

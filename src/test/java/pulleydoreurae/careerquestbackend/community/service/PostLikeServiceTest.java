@@ -13,6 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
@@ -105,7 +109,7 @@ class PostLikeServiceTest {
 	@Test
 	@DisplayName("3. 좋아요 증가 테스트 (성공)")
 	void postLikePlusSuccessTest() {
-	    // Given
+		// Given
 		UserAccount user = UserAccount.builder()
 				.userId("testId")
 				.build();
@@ -117,8 +121,7 @@ class PostLikeServiceTest {
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
 		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
 
-
-	    // When
+		// When
 		PostLikeRequest request = PostLikeRequest.builder()
 				.postId(10000L)
 				.userId("testId")
@@ -229,7 +232,7 @@ class PostLikeServiceTest {
 	@Test
 	@DisplayName("7. 한 회원이 좋아요 누른 게시글 불러오기")
 	void findAllPostLikeByUserAccountTest() {
-	    // Given
+		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post1 = Post.builder().userAccount(user).id(10001L).title("제목1").build();
 		Post post2 = Post.builder().userAccount(user).id(10002L).title("제목2").build();
@@ -242,28 +245,28 @@ class PostLikeServiceTest {
 		PostLike postLike4 = PostLike.builder().userAccount(user).post(post4).build();
 		PostLike postLike5 = PostLike.builder().userAccount(user).post(post5).build();
 
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
+		Page<PostLike> list = new PageImpl<>(
+				List.of(postLike3, postLike4, postLike5), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
+
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-		given(postRepository.findById(10001L)).willReturn(Optional.of(post1));
-		given(postRepository.findById(10002L)).willReturn(Optional.of(post2));
 		given(postRepository.findById(10003L)).willReturn(Optional.of(post3));
 		given(postRepository.findById(10004L)).willReturn(Optional.of(post4));
 		given(postRepository.findById(10005L)).willReturn(Optional.of(post5));
-		given(postLikeRepository.findAllByUserAccount(user))
-				.willReturn(List.of(postLike1, postLike2, postLike3, postLike4, postLike5));
+		given(postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable))
+				.willReturn(list);
 
-	    // When
-		List<PostResponse> result = postLikeService.findAllPostLikeByUserAccount(user.getUserId());
+		// When
+		List<PostResponse> result = postLikeService.findAllPostLikeByUserAccount(user.getUserId(), pageable);
 
 		// Then
-		assertEquals(5, result.size());
+		assertEquals(3, result.size());
 		assertThat(result).contains(
-				postToPostResponse(post1),
-				postToPostResponse(post2),
 				postToPostResponse(post3),
 				postToPostResponse(post4),
 				postToPostResponse(post5)
 		);
-		verify(postLikeRepository).findAllByUserAccount(user);
+		verify(postLikeRepository).findAllByUserAccountOrderByIdDesc(user, pageable);
 	}
 
 	// Post -> PostResponse 변환 메서드

@@ -14,6 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
@@ -560,22 +564,23 @@ class CommentServiceTest {
 				.post(post)
 				.content("댓글 내용5")
 				.build();
+
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
+		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable,
+				3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findAllByPost(post)).willReturn(
-				List.of(comment1, comment2, comment3, comment4, comment5));
+		given(commentRepository.findAllByPostOrderByIdDesc(post, pageable)).willReturn(pageList);
 
 		// When
-		List<Comment> list = commentRepository.findAllByPost(post);
-		List<CommentResponse> result = commentService.findListByPostId(post.getId());
+		Page<Comment> list = commentRepository.findAllByPostOrderByIdDesc(post, pageable);
+		List<CommentResponse> result = commentService.findListByPostId(post.getId(), pageable);
 
 		// Then
-		assertEquals(5, result.size());
+		assertEquals(3, result.size());
 		assertThat(result).contains(
-				commentToCommentResponse(list.get(0)),
-				commentToCommentResponse(list.get(1)),
-				commentToCommentResponse(list.get(2)),
-				commentToCommentResponse(list.get(3)),
-				commentToCommentResponse(list.get(4))
+				commentToCommentResponse(list.getContent().get(0)),
+				commentToCommentResponse(list.getContent().get(1)),
+				commentToCommentResponse(list.getContent().get(2))
 		);
 	}
 
@@ -616,22 +621,23 @@ class CommentServiceTest {
 				.post(post)
 				.content("댓글 내용5")
 				.build();
+
+		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
+		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable,
+				3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(commentRepository.findAllByUserAccount(user)).willReturn(
-				List.of(comment1, comment2, comment3, comment4, comment5));
+		given(commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable)).willReturn(pageList);
 
 		// When
-		List<Comment> list = commentRepository.findAllByUserAccount(user);
-		List<CommentResponse> result = commentService.findListByUserAccount(user.getUserId());
+		Page<Comment> list = commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
+		List<CommentResponse> result = commentService.findListByUserAccount(user.getUserId(), pageable);
 
 		// Then
-		assertEquals(5, result.size());
+		assertEquals(3, result.size());
 		assertThat(result).contains(
-				commentToCommentResponse(list.get(0)),
-				commentToCommentResponse(list.get(1)),
-				commentToCommentResponse(list.get(2)),
-				commentToCommentResponse(list.get(3)),
-				commentToCommentResponse(list.get(4))
+				commentToCommentResponse(list.getContent().get(0)),
+				commentToCommentResponse(list.getContent().get(1)),
+				commentToCommentResponse(list.getContent().get(2))
 		);
 	}
 
