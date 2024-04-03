@@ -1,0 +1,16 @@
+== 커뮤니티 좋아요 API (PostLikeController)
+=== 좋아요 상태 변경 실패
+==== 요청
+operation::post-like-controller-test/change-post-like-fail-test[snippets="http-request"]
+==== 응답
+operation::post-like-controller-test/change-post-like-fail-test[snippets="http-response,response-fields"]
+=== 좋아요 상태 변경 성공
+==== 요청
+operation::post-like-controller-test/change-post-like-success-test[snippets="http-request"]
+==== 응답
+operation::post-like-controller-test/change-post-like-success-test[snippets="http-response,response-fields"]
+=== 한 사용자가 좋아요 누른 게시글 리스트 조회
+==== 요청
+operation::post-like-controller-test/find-all-post-like-by-user-account-test[snippets="http-request,path-parameters"]
+==== 응답
+operation::post-like-controller-test/find-all-post-like-by-user-account-test[snippets="http-response,response-fields"]
