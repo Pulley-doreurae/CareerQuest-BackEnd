@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -60,19 +61,7 @@ public class PostService {
 	 * @return Repository 에서 가져온 리스트 반환
 	 */
 	public List<PostResponse> getPostResponseList(Pageable pageable) {
-		return postRepository.findAllByOrderByIdDesc(pageable).stream()
-				.map(post -> PostResponse.builder()
-						.userId(post.getUserAccount().getUserId())
-						.title(post.getTitle())
-						.content(post.getContent())
-						.hit(post.getHit())
-						.commentCount(countComment(post.getId()))
-						.postLikeCount(countPostLike(post.getId()))
-						.category(post.getCategory())
-						.createdAt(post.getCreatedAt())
-						.modifiedAt(post.getModifiedAt())
-						.build())
-				.toList();
+		return postListToPostResponseList(postRepository.findAllByOrderByIdDesc(pageable));
 	}
 
 	/**
@@ -84,19 +73,7 @@ public class PostService {
 	 */
 	public List<PostResponse> getPostResponseListByCategory(Long category, Pageable pageable) {
 
-		return postRepository.findAllByCategoryOrderByIdDesc(category, pageable).stream()
-				.map(post -> PostResponse.builder()
-						.userId(post.getUserAccount().getUserId())
-						.title(post.getTitle())
-						.content(post.getContent())
-						.hit(post.getHit())
-						.commentCount(countComment(post.getId()))
-						.postLikeCount(countPostLike(post.getId()))
-						.category(post.getCategory())
-						.createdAt(post.getCreatedAt())
-						.modifiedAt(post.getModifiedAt())
-						.build())
-				.toList();
+		return postListToPostResponseList(postRepository.findAllByCategoryOrderByIdDesc(category, pageable));
 	}
 
 	/**
@@ -111,19 +88,28 @@ public class PostService {
 		if (user == null) {
 			return null;
 		}
-		return postRepository.findAllByUserAccountOrderByIdDesc(user, pageable).stream()
-				.map(post -> PostResponse.builder()
-						.userId(post.getUserAccount().getUserId())
-						.title(post.getTitle())
-						.content(post.getContent())
-						.hit(post.getHit())
-						.commentCount(countComment(post.getId()))
-						.postLikeCount(countPostLike(post.getId()))
-						.category(post.getCategory())
-						.createdAt(post.getCreatedAt())
-						.modifiedAt(post.getModifiedAt())
-						.build())
-				.toList();
+		return postListToPostResponseList(postRepository.findAllByUserAccountOrderByIdDesc(user, pageable));
+	}
+
+	/**
+	 * 게시글 검색 메서드
+	 *
+	 * @param keyword 키워드
+	 * @param category 카테고리 (필수값 X)
+	 * @param pageable 페이지
+	 * @return 검색결과
+	 */
+	public List<PostResponse> searchPosts(String keyword, Long category, Pageable pageable) {
+
+		// 카테고리 없이 전체 검색
+		if (category == null) {
+			return postListToPostResponseList(
+					postRepository.searchByKeyword(keyword, pageable));
+		}
+
+		// 카테고리 포함 검색
+		return postListToPostResponseList(
+				postRepository.searchByKeywordAndCategory(keyword, category, pageable));
 	}
 
 	/**
@@ -223,6 +209,22 @@ public class PostService {
 		postRepository.deleteById(postId);
 
 		return true;
+	}
+
+	private List<PostResponse> postListToPostResponseList(Page<Post> postList) {
+		return postList.stream()
+				.map(post -> PostResponse.builder()
+						.userId(post.getUserAccount().getUserId())
+						.title(post.getTitle())
+						.content(post.getContent())
+						.hit(post.getHit())
+						.commentCount(countComment(post.getId()))
+						.postLikeCount(countPostLike(post.getId()))
+						.category(post.getCategory())
+						.createdAt(post.getCreatedAt())
+						.modifiedAt(post.getModifiedAt())
+						.build())
+				.toList();
 	}
 
 	/**
