@@ -48,22 +48,15 @@ class CommentServiceTest {
 	@DisplayName("1. 댓글 저장 테스트 (실패 - 회원정보를 찾을 수 없음)")
 	void saveCommentFailTest1() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L) // 해당 번호까지는 테스트에서 올라갈 일이 없으므로 특정한 값으로 지정해서 정확한 테스트 시도
-				.userAccount(user)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L) // 해당 번호까지는 테스트에서 올라갈 일이 없으므로 특정한 값으로 지정해서 정확한 테스트 시도
+				.userAccount(user).title("제목1").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.empty());
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 
 		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.saveComment(request);
@@ -77,22 +70,14 @@ class CommentServiceTest {
 	@DisplayName("2. 댓글 저장 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
 	void saveCommentFailTest2() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.empty());
 
 		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.saveComment(request);
@@ -106,22 +91,14 @@ class CommentServiceTest {
 	@DisplayName("3. 댓글 저장 테스트 (성공)")
 	void saveCommentSuccessTest() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 
 		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.saveComment(request);
@@ -135,29 +112,16 @@ class CommentServiceTest {
 	@DisplayName("4. 댓글 수정 테스트 (실패 - 회원정보를 찾을 수 없음)")
 	void updateCommentFailTest1() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.empty());
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
 
 		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.updateComment(request, post.getId());
@@ -171,29 +135,16 @@ class CommentServiceTest {
 	@DisplayName("5. 댓글 수정 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
 	void updateCommentFailTest2() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.empty());
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
 
 		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.updateComment(request, post.getId());
@@ -207,29 +158,16 @@ class CommentServiceTest {
 	@DisplayName("6. 댓글 수정 테스트 (실패 - 댓글정보를 찾을 수 없음)")
 	void updateCommentFailTest3() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.empty());
 
 		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.updateComment(request, post.getId());
@@ -243,29 +181,16 @@ class CommentServiceTest {
 	@DisplayName("7. 댓글 수정 테스트 (실패 - 게시글과 댓글이 연결되지 않음)")
 	void updateCommentFailTest4() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(100L)).willReturn(Optional.empty());
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
 
-		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(100L) // 잘못된 게시글 정보로 요청
-				.content("댓글 내용")
-				.build();
+		CommentRequest request = CommentRequest.builder().userId(user.getUserId()).postId(100L) // 잘못된 게시글 정보로 요청
+				.content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.updateComment(request, post.getId());
@@ -279,29 +204,16 @@ class CommentServiceTest {
 	@DisplayName("8. 댓글 수정 테스트 (실패 - 작성자와 수정자가 다름)")
 	void updateCommentFailTest5() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId("test")).willReturn(Optional.empty());
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
 
 		CommentRequest request = CommentRequest.builder()
-				.userId("test")
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId("test").postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.updateComment(request, post.getId());
@@ -315,29 +227,16 @@ class CommentServiceTest {
 	@DisplayName("9. 게시글 수정 테스트 (성공)")
 	void updateCommentSuccessTest() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
 
 		CommentRequest request = CommentRequest.builder()
-				.userId(user.getUserId())
-				.postId(post.getId())
-				.content("댓글 내용")
-				.build();
+				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
 		boolean result = commentService.updateComment(request, post.getId());
@@ -351,20 +250,10 @@ class CommentServiceTest {
 	@DisplayName("10. 댓글 삭제 테스트 (실패 - 회원정보를 찾을 수 없음)")
 	void deleteCommentFailTest1() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.empty());
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
@@ -381,20 +270,10 @@ class CommentServiceTest {
 	@DisplayName("11. 댓글 삭제 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
 	void deleteCommentFailTest2() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.empty());
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
@@ -411,20 +290,10 @@ class CommentServiceTest {
 	@DisplayName("12. 댓글 삭제 테스트 (실패 - 댓글정보를 찾을 수 없음)")
 	void deleteCommentFailTest3() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.empty());
@@ -441,20 +310,10 @@ class CommentServiceTest {
 	@DisplayName("13. 댓글 삭제 테스트 (실패 - 게시글과 댓글이 연결되지 않음)")
 	void deleteCommentFailTest4() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(100L)).willReturn(Optional.empty());
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
@@ -471,20 +330,10 @@ class CommentServiceTest {
 	@DisplayName("14. 댓글 삭제 테스트 (실패 - 작성자와 수정자가 다름)")
 	void deleteCommentFailTest5() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId("test")).willReturn(Optional.empty());
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
@@ -501,20 +350,10 @@ class CommentServiceTest {
 	@DisplayName("15. 댓글 삭제 테스트 (성공)")
 	void deleteCommentSuccessTest() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment = Comment.builder()
-				.id(10000L)
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
@@ -531,43 +370,18 @@ class CommentServiceTest {
 	@DisplayName("16. 한 게시글에 작성된 댓글리스트 테스트")
 	void findListByPostIdTest() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment1 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용1")
-				.build();
-		Comment comment2 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용2")
-				.build();
-		Comment comment3 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용3")
-				.build();
-		Comment comment4 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용4")
-				.build();
-		Comment comment5 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용5")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
-		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable,
-				3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
+		// 3개씩 자른다면 마지막 3개가 반환되어야 함
+		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
+
 		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
 		given(commentRepository.findAllByPostOrderByIdDesc(post, pageable)).willReturn(pageList);
 
@@ -588,43 +402,18 @@ class CommentServiceTest {
 	@DisplayName("17. 한 사용자가 작성한 댓글리스트 테스트")
 	void findListByUserAccountTest() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.id(10000L)
-				.userAccount(user)
-				.title("제목1")
-				.build();
-		Comment comment1 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용1")
-				.build();
-		Comment comment2 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용2")
-				.build();
-		Comment comment3 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용3")
-				.build();
-		Comment comment4 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용4")
-				.build();
-		Comment comment5 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용5")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
-		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable,
-				3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
+		// 3개씩 자른다면 마지막 3개가 반환되어야 함
+		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
+
 		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
 		given(commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable)).willReturn(pageList);
 

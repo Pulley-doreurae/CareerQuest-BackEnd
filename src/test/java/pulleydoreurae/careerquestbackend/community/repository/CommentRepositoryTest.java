@@ -38,14 +38,8 @@ class CommentRepositoryTest {
 
 	@BeforeEach
 	void beforeEach() {
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.userName("testName")
-				.email("test@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").userName("testName").email("test@email.com")
+				.phoneNum("010-1111-2222").password("testPassword").role(UserRole.ROLE_TEMPORARY_USER).build();
 		userAccountRepository.save(user);
 	}
 
@@ -62,21 +56,11 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder()
-				.userAccount(user)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
 		postRepository.save(post);
 
 		// When
-		Comment comment = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// Then
@@ -99,20 +83,10 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder()
-				.userAccount(user)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
 		postRepository.save(post);
 
-		Comment comment = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// When
@@ -142,20 +116,10 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder()
-				.userAccount(user)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
 		postRepository.save(post);
 
-		Comment comment = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
+		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// When
@@ -172,40 +136,15 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder()
-				.userAccount(user)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
 		postRepository.save(post);
 
-		Comment comment1 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용1")
-				.build();
-		Comment comment2 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용2")
-				.build();
-		Comment comment3 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용3")
-				.build();
-		Comment comment4 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용4")
-				.build();
-		Comment comment5 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용5")
-				.build();
+		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+
 		commentRepository.save(comment1);
 		commentRepository.save(comment2);
 		commentRepository.save(comment3);
@@ -229,40 +168,15 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder()
-				.userAccount(user)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
 		postRepository.save(post);
 
-		Comment comment1 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용1")
-				.build();
-		Comment comment2 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용2")
-				.build();
-		Comment comment3 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용3")
-				.build();
-		Comment comment4 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용4")
-				.build();
-		Comment comment5 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용5")
-				.build();
+		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+
 		commentRepository.save(comment1);
 		commentRepository.save(comment2);
 		commentRepository.save(comment3);

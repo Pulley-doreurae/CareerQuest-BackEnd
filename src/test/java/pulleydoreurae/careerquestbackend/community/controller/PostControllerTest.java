@@ -48,63 +48,28 @@ class PostControllerTest {
 	void getPostListTest() throws Exception {
 		// Given
 		PostResponse post1 = PostResponse.builder()
-				.userId("testId")
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
-				.userId("testId")
-				.title("제목2")
-				.content("내용2")
-				.category(1L)
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
-				.userId("testId")
-				.title("제목3")
-				.content("내용3")
-				.category(1L)
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
-				.userId("testId")
-				.title("제목4")
-				.content("내용4")
-				.category(1L)
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
-				.userId("testId")
-				.title("제목5")
-				.content("내용5")
-				.category(1L)
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(postService.getPostResponseList(any())).willReturn(List.of(post1, post2, post3, post4, post5));
@@ -143,15 +108,8 @@ class PostControllerTest {
 	void getPostTest() throws Exception {
 		// Given
 		PostResponse post = PostResponse.builder()
-				.userId("testId")
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 		given(postService.findByPostId(any(), any(), any())).willReturn(post);
 
@@ -196,11 +154,7 @@ class PostControllerTest {
 	@WithMockUser
 	void savePostFailTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder()
-				.userId("testId")
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
+		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").category(1L)
 				.build();
 
 		given(postService.savePost(any())).willReturn(false);
@@ -235,11 +189,7 @@ class PostControllerTest {
 	@WithMockUser
 	void savePostSuccessTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder()
-				.userId("testId")
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
+		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").category(1L)
 				.build();
 
 		given(postService.savePost(any())).willReturn(true);
@@ -274,11 +224,7 @@ class PostControllerTest {
 	@WithMockUser
 	void updatePostFailTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder()
-				.userId("testId")
-				.title("수정할 제목")
-				.content("수정할 내용")
-				.category(1L)
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").category(1L)
 				.build();
 
 		given(postService.updatePost(any(), any())).willReturn(false);
@@ -316,11 +262,7 @@ class PostControllerTest {
 	@WithMockUser
 	void updatePostSuccessTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder()
-				.userId("testId")
-				.title("수정할 제목")
-				.content("수정할 내용")
-				.category(1L)
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").category(1L)
 				.build();
 
 		given(postService.updatePost(any(), any())).willReturn(true);
@@ -421,53 +363,28 @@ class PostControllerTest {
 	void getPostListByCategoryTest() throws Exception {
 		// Given
 		PostResponse post1 = PostResponse.builder()
-				.userId("testId")
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
-				.userId("testId")
-				.title("제목2")
-				.content("내용2")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
-				.userId("testId")
-				.title("제목3")
-				.content("내용3")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
-				.userId("testId")
-				.title("제목4")
-				.content("내용4")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
-				.userId("testId")
-				.title("제목5")
-				.content("내용5")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(postService.getPostResponseListByCategory(any(), any()))
@@ -507,53 +424,28 @@ class PostControllerTest {
 	void getPostListByUserAccountTest() throws Exception {
 		// Given
 		PostResponse post1 = PostResponse.builder()
-				.userId("testId")
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
-				.userId("testId")
-				.title("제목2")
-				.content("내용2")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
-				.userId("testId")
-				.title("제목3")
-				.content("내용3")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
-				.userId("testId")
-				.title("제목4")
-				.content("내용4")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
-				.userId("testId")
-				.title("제목5")
-				.content("내용5")
-				.category(1L)
-				.hit(0L)
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(postService.getPostListByUserAccount(any(), any()))

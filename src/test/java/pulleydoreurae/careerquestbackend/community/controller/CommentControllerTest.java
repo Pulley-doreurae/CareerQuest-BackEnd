@@ -49,43 +49,23 @@ class CommentControllerTest {
 	@WithMockUser
 	void findAllByUserIdTest() throws Exception {
 		// Given
-		CommentResponse comment1 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용1")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment1 = CommentResponse.builder().userId("testId").postId(10000L).content("내용1")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
-		CommentResponse comment2 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용2")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment2 = CommentResponse.builder().userId("testId").postId(10000L).content("내용2")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment3 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용3")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment3 = CommentResponse.builder().userId("testId").postId(10000L).content("내용3")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment4 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용4")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment4 = CommentResponse.builder().userId("testId").postId(10000L).content("내용4")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment5 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용5")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment5 = CommentResponse.builder().userId("testId").postId(10000L).content("내용5")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(commentService.findListByUserAccount(any(), any())).willReturn(
@@ -123,43 +103,23 @@ class CommentControllerTest {
 	@WithMockUser
 	void findAllByPostIdTest() throws Exception {
 		// Given
-		CommentResponse comment1 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용1")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment1 = CommentResponse.builder().userId("testId").postId(10000L).content("내용1")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
-		CommentResponse comment2 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용2")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment2 = CommentResponse.builder().userId("testId").postId(10000L).content("내용2")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment3 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용3")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment3 = CommentResponse.builder().userId("testId").postId(10000L).content("내용3")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment4 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용4")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment4 = CommentResponse.builder().userId("testId").postId(10000L).content("내용4")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment5 = CommentResponse.builder()
-				.userId("testId")
-				.postId(10000L)
-				.content("내용5")
-				.createdAt("2024.04.01 15:37")
-				.modifiedAt("2024.04.01 15:37")
+		CommentResponse comment5 = CommentResponse.builder().userId("testId").postId(10000L).content("내용5")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(commentService.findListByPostId(any(), any())).willReturn(
@@ -197,10 +157,7 @@ class CommentControllerTest {
 	@WithMockUser
 	void saveCommentFailTest() throws Exception {
 		// Given
-		CommentRequest request = CommentRequest.builder()
-				.userId("testId")
-				.content("댓글내용")
-				.build();
+		CommentRequest request = CommentRequest.builder().userId("testId").content("댓글내용").build();
 		given(commentService.saveComment(any())).willReturn(false);
 
 		// When
@@ -232,10 +189,7 @@ class CommentControllerTest {
 	@WithMockUser
 	void saveCommentSuccessTest() throws Exception {
 		// Given
-		CommentRequest request = CommentRequest.builder()
-				.userId("testId")
-				.content("댓글내용")
-				.build();
+		CommentRequest request = CommentRequest.builder().userId("testId").content("댓글내용").build();
 		given(commentService.saveComment(any())).willReturn(true);
 
 		// When
@@ -267,10 +221,7 @@ class CommentControllerTest {
 	@WithMockUser
 	void updateCommentFailTest() throws Exception {
 		// Given
-		CommentRequest request = CommentRequest.builder()
-				.userId("testId")
-				.content("수정할 댓글 내용")
-				.build();
+		CommentRequest request = CommentRequest.builder().userId("testId").content("수정할 댓글 내용").build();
 		given(commentService.updateComment(any(), any())).willReturn(false);
 
 		// When
@@ -303,10 +254,7 @@ class CommentControllerTest {
 	@WithMockUser
 	void updateCommentSuccessTest() throws Exception {
 		// Given
-		CommentRequest request = CommentRequest.builder()
-				.userId("testId")
-				.content("수정할 댓글 내용")
-				.build();
+		CommentRequest request = CommentRequest.builder().userId("testId").content("수정할 댓글 내용").build();
 		given(commentService.updateComment(any(), any())).willReturn(true);
 
 		// When

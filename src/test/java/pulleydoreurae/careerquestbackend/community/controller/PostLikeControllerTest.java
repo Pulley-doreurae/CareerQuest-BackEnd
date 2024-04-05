@@ -47,11 +47,7 @@ class PostLikeControllerTest {
 	@WithMockUser
 	void changePostLikeFailTest() throws Exception {
 		// Given
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(0)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(0).build();
 		given(postLikeService.changePostLike(any())).willReturn(false);
 
 		// When
@@ -81,11 +77,7 @@ class PostLikeControllerTest {
 	@WithMockUser
 	void changePostLikeSuccessTest() throws Exception {
 		// Given
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(0)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(0).build();
 		given(postLikeService.changePostLike(any())).willReturn(true);
 
 		// When
@@ -116,50 +108,21 @@ class PostLikeControllerTest {
 	void findAllPostLikeByUserAccountTest() throws Exception {
 		// Given
 		PostResponse postResponse1 = PostResponse.builder()
-				.userId("testId")
-				.title("제목1")
-				.content("내용1")
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.category(1L)
+				.userId("testId").title("제목1").content("내용1").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.build();
 		PostResponse postResponse2 = PostResponse.builder()
-				.userId("testId")
-				.title("제목2")
-				.content("내용2")
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.category(1L)
+				.userId("testId").title("제목2").content("내용2").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.build();
 		PostResponse postResponse3 = PostResponse.builder()
-				.userId("testId")
-				.title("제목3")
-				.content("내용3")
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.category(1L)
+				.userId("testId").title("제목3").content("내용3").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.build();
 		PostResponse postResponse4 = PostResponse.builder()
-				.userId("testId")
-				.title("제목4")
-				.content("내용4")
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.category(1L)
+				.userId("testId").title("제목4").content("내용4").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.build();
 		PostResponse postResponse5 = PostResponse.builder()
-				.userId("testId")
-				.title("제목5")
-				.content("내용5")
-				.hit(0L)
-				.commentCount(0L)
-				.postLikeCount(0L)
-				.category(1L)
+				.userId("testId").title("제목5").content("내용5").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.build();
+
 		given(postLikeService.findAllPostLikeByUserAccount(any(), any())).willReturn(
 				List.of(postResponse1, postResponse2, postResponse3, postResponse4, postResponse5));
 

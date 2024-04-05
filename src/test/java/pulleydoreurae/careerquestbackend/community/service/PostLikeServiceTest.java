@@ -51,23 +51,14 @@ class PostLikeServiceTest {
 	@DisplayName("1. 좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")
 	void postLikePlusFail1Test() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(10000L)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
+
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.empty());
 		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(0)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(0).build();
 
 		// Then
 		boolean result = postLikeService.changePostLike(request);
@@ -81,14 +72,8 @@ class PostLikeServiceTest {
 	@DisplayName("2. 좋아요 증가 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
 	void postLikePlusFail2Test() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(10000L)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
 		given(postRepository.findById(10000L)).willReturn(Optional.empty());
 
@@ -110,14 +95,9 @@ class PostLikeServiceTest {
 	@DisplayName("3. 좋아요 증가 테스트 (성공)")
 	void postLikePlusSuccessTest() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(10000L)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
+
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
 		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
 
@@ -140,23 +120,14 @@ class PostLikeServiceTest {
 	@DisplayName("4. 좋아요 감소 테스트 (실패 - 회원정보를 찾을 수 없음)")
 	void postLikeMinusFail1Test() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(10000L)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
+
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.empty());
 		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(1)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
 
 		// Then
 		boolean result = postLikeService.changePostLike(request);
@@ -170,23 +141,13 @@ class PostLikeServiceTest {
 	@DisplayName("5. 좋아요 감소 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
 	void postLikeMinusFail2Test() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(10000L)
-				.title("제목1")
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
 		given(postRepository.findById(10000L)).willReturn(Optional.empty());
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(1)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
 		boolean result = postLikeService.changePostLike(request);
 
 		// Then
@@ -198,28 +159,16 @@ class PostLikeServiceTest {
 	@DisplayName("6. 좋아요 감소 테스트 (성공)")
 	void postLikeMinusSuccessTest() {
 		// Given
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(10000L)
-				.title("제목1")
-				.build();
-		PostLike postLike = PostLike.builder()
-				.userAccount(user)
-				.post(post)
-				.build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
+		PostLike postLike = PostLike.builder().userAccount(user).post(post).build();
+
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
 		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
 		given(postLikeRepository.findByPostAndUserAccount(post, user)).willReturn(Optional.of(postLike));
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(1)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
 
 		// Then
 		boolean result = postLikeService.changePostLike(request);

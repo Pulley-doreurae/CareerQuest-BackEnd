@@ -58,41 +58,20 @@ class PostServiceTest {
 	void getPostListTest() {
 		// Given
 		insertUserAccount();
-		Post post1 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post2 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목2")
-				.content("내용2")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post3 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목3")
-				.content("내용3")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post4 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목4")
-				.content("내용4")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post5 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목5")
-				.content("내용5")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post1 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목1").content("내용1").category(1L).hit(0L).build();
+
+		Post post2 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목2").content("내용2").category(1L).hit(0L).build();
+
+		Post post3 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목3").content("내용3").category(1L).hit(0L).build();
+
+		Post post4 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목4").content("내용4").category(1L).hit(0L).build();
+
+		Post post5 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목5").content("내용5").category(1L).hit(0L).build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		Page<Post> list = new PageImpl<>(List.of(post3, post4, post5), pageable, 3);
@@ -132,15 +111,11 @@ class PostServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
+
 		insertUserAccount();
-		Post post = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", post.getId())));
 
@@ -196,15 +171,9 @@ class PostServiceTest {
 		// Given
 		given(userAccountRepository.findByUserId(any())).willReturn(Optional.empty());
 		Post post = Post.builder()
-				.userAccount(UserAccount.builder()
-						.userId("testId")
-						.build())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+				.userAccount(UserAccount.builder().userId("testId").build())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
@@ -220,15 +189,9 @@ class PostServiceTest {
 		// Given
 		insertUserAccount();
 		Post post = Post.builder()
-				.userAccount(UserAccount.builder()
-						.userId("test")
-						.build())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+				.userAccount(UserAccount.builder().userId("test").build())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
@@ -243,16 +206,9 @@ class PostServiceTest {
 	void updatePostSuccessTest() {
 		// Given
 		insertUserAccount();
-		Post post = Post.builder()
-				.userAccount(UserAccount.builder()
-						.userId("testId")
-						.build())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
@@ -267,16 +223,9 @@ class PostServiceTest {
 	void deletePostFailTest1() {
 		// Given
 		given(userAccountRepository.findByUserId(any())).willReturn(Optional.empty());
-		Post post = Post.builder()
-				.userAccount(UserAccount.builder()
-						.userId("testId")
-						.build())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
@@ -291,16 +240,9 @@ class PostServiceTest {
 	void deletePostFailTest2() {
 		// Given
 		insertUserAccount();
-		Post post = Post.builder()
-				.userAccount(UserAccount.builder()
-						.userId("test")
-						.build())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(UserAccount.builder().userId("test").build())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
@@ -315,16 +257,9 @@ class PostServiceTest {
 	void deletePostSuccessTest() {
 		// Given
 		insertUserAccount();
-		Post post = Post.builder()
-				.userAccount(UserAccount.builder()
-						.userId("testId")
-						.build())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
@@ -339,55 +274,26 @@ class PostServiceTest {
 	void getPostListByCategoryTest() {
 		// Given
 		insertUserAccount();
-		Post post1 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post2 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목2")
-				.content("내용2")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post3 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목3")
-				.content("내용3")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post4 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목4")
-				.content("내용4")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post5 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목5")
-				.content("내용5")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post6 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목6")
-				.content("내용6")
-				.category(2L)
-				.hit(0L)
-				.build();
-		Post post7 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목7")
-				.content("내용7")
-				.category(2L)
-				.hit(0L)
-				.build();
+		Post post1 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목1").content("내용1").category(1L).hit(0L).build();
+
+		Post post2 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목2").content("내용2").category(1L).hit(0L).build();
+
+		Post post3 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목3").content("내용3").category(1L).hit(0L).build();
+
+		Post post4 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목4").content("내용4").category(1L).hit(0L).build();
+
+		Post post5 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목5").content("내용5").category(1L).hit(0L).build();
+
+		Post post6 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목6").content("내용6").category(2L).hit(0L).build();
+
+		Post post7 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.title("제목7").content("내용7").category(2L).hit(0L).build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		Page<Post> list = new PageImpl<>(List.of(post3, post5, post7), pageable, 3);
@@ -411,62 +317,22 @@ class PostServiceTest {
 	void getPostListByUserAccountTest() {
 		// Given
 		insertUserAccount();
-		UserAccount user2 = UserAccount.builder()
-				.userId("testId2")
-				.build();
+		UserAccount user2 = UserAccount.builder().userId("testId2").build();
 
 		given(userAccountRepository.findByUserId("testId2")).willReturn(Optional.ofNullable(user2));
 
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = Post.builder()
-				.userAccount(user)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post2 = Post.builder()
-				.userAccount(user)
-				.title("제목2")
-				.content("내용2")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post3 = Post.builder()
-				.userAccount(user)
-				.title("제목3")
-				.content("내용3")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post4 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId2").get())
-				.title("제목4")
-				.content("내용4")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post5 = Post.builder()
-				.userAccount(user)
-				.title("제목5")
-				.content("내용5")
-				.category(1L)
-				.hit(0L)
-				.build();
-		Post post6 = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId2").get())
-				.title("제목6")
-				.content("내용6")
-				.category(2L)
-				.hit(0L)
-				.build();
-		Post post7 = Post.builder()
-				.userAccount(user)
-				.title("제목7")
-				.content("내용7")
-				.category(2L)
-				.hit(0L)
-				.build();
+		Post post1 = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("내용2").category(1L).hit(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("제목3").content("내용3").category(1L).hit(0L).build();
+		Post post4 = Post.builder().userAccount(userAccountRepository.findByUserId("testId2").get())
+				.title("제목4").content("내용4").category(1L).hit(0L).build();
+
+		Post post5 = Post.builder().userAccount(user).title("제목5").content("내용5").category(1L).hit(0L).build();
+		Post post6 = Post.builder().userAccount(userAccountRepository.findByUserId("testId2").get())
+				.title("제목6").content("내용6").category(2L).hit(0L).build();
+
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("내용7").category(2L).hit(0L).build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		Page<Post> list = new PageImpl<>(List.of(post3, post5, post7), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
@@ -492,14 +358,9 @@ class PostServiceTest {
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
 		insertUserAccount();
-		Post post = Post.builder()
-				.userAccount(userAccountRepository.findByUserId("testId").get())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.category(1L)
-				.hit(0L)
-				.build();
+		Post post = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", 1L)));
 
@@ -544,7 +405,7 @@ class PostServiceTest {
 	@Test
 	@DisplayName("검색어로만 검색하는 테스트")
 	void searchPostsTest1() {
-	    // Given
+		// Given
 		insertUserAccount();
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
@@ -576,7 +437,7 @@ class PostServiceTest {
 	@Test
 	@DisplayName("검색어와 카테고리로 검색하는 테스트")
 	void searchPostsTest2() {
-	    // Given
+		// Given
 		insertUserAccount();
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
