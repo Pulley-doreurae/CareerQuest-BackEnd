@@ -1,7 +1,6 @@
 package pulleydoreurae.careerquestbackend.support;
 
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import org.springframework.context.annotation.Configuration;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -11,9 +10,13 @@ import org.testcontainers.utility.DockerImageName;
  * @author : parkjihyeok
  * @since : 2024/03/14
  */
-public class RedisTestContainers implements BeforeAllCallback {
-	public void beforeAll(ExtensionContext context) throws Exception {
-		GenericContainer redis = new GenericContainer(DockerImageName.parse("redis:6-alpine"))
+@Configuration
+public class RedisTestContainers {
+
+	private static final GenericContainer redis;
+
+	static {
+		redis = new GenericContainer(DockerImageName.parse("redis:6-alpine"))
 				.withExposedPorts(6379);
 		redis.start();
 		System.setProperty("spring.data.redis.host", redis.getHost());
