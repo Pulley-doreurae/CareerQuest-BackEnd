@@ -11,8 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -377,5 +379,67 @@ class PostRepositoryTest {
 		assertEquals(4, postRepository.findAllByUserAccountOrderByIdDesc(user1, pageable).getTotalElements());
 		assertEquals(2, postRepository.findAllByUserAccountOrderByIdDesc(user1, pageable).getTotalPages());
 		assertThat(postRepository.findAllByUserAccountOrderByIdDesc(user1, pageable)).contains(post2, post3, post6);
+	}
+
+	@Test
+	@DisplayName("검색어로 검색한 리스트를 정상적으로 불러오는지 테스트")
+	void searchByKeywordTest() {
+		// Given
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").category(1L).hit(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").category(1L).hit(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").category(1L).hit(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("제목5").content("내용5").category(1L).hit(0L).build();
+		Post post6 = Post.builder().userAccount(user).title("제목6").content("내용6").category(2L).hit(0L).build();
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("내용7").category(2L).hit(0L).build();
+
+		// When
+		postRepository.save(post1);
+		postRepository.save(post2);
+		postRepository.save(post3);
+		postRepository.save(post4);
+		postRepository.save(post5);
+		postRepository.save(post6);
+		postRepository.save(post7);
+		Pageable pageable = PageRequest.of(0, 3, Sort.by("id").descending()); // 한 페이지에 3개씩 자르기
+
+		// Then
+		Page<Post> result = postRepository.searchByKeyword("검색어", pageable);
+		assertEquals(2, result.getTotalPages());
+		assertEquals(4, result.getTotalElements());
+		assertEquals(3, result.getSize());
+		assertThat(result).contains(post2, post3, post4); // 3개씩 자른다면 맨 뒤에 입력된 3개가 출력되어야 함
+	}
+
+	@Test
+	@DisplayName("검색어와 카테고리로 검색한 리스트를 정상적으로 불러오는지 테스트")
+	void searchByKeywordAndCategoryTest() {
+		// Given
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").category(2L).hit(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").category(1L).hit(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").category(2L).hit(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("검색어").content("내용5").category(1L).hit(0L).build();
+		Post post6 = Post.builder().userAccount(user).title("검색어").content("검색어").category(2L).hit(0L).build();
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("검색어").category(2L).hit(0L).build();
+
+		// When
+		postRepository.save(post1);
+		postRepository.save(post2);
+		postRepository.save(post3);
+		postRepository.save(post4);
+		postRepository.save(post5);
+		postRepository.save(post6);
+		postRepository.save(post7);
+		Pageable pageable = PageRequest.of(0, 3, Sort.by("id").descending()); // 한 페이지에 3개씩 자르기
+
+		// Then
+		Page<Post> result = postRepository.searchByKeywordAndCategory("검색어", 2L, pageable);
+		assertEquals(2, result.getTotalPages());
+		assertEquals(4, result.getTotalElements());
+		assertEquals(3, result.getSize());
+		assertThat(result).contains(post4, post6, post7); // 3개씩 자른다면 맨 뒤에 입력된 3개가 출력되어야 함
 	}
 }

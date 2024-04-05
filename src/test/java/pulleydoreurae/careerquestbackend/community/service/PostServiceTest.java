@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -538,6 +539,68 @@ class PostServiceTest {
 		assertThat(response.getCookies()).isNotNull();
 		assertThat(response.getCookies()[0].getName()).isEqualTo("UUID");
 		assertThat(response.getCookies()[0].getValue()).isEqualTo(uuid);
+	}
+
+	@Test
+	@DisplayName("검색어로만 검색하는 테스트")
+	void searchPostsTest1() {
+	    // Given
+		insertUserAccount();
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").category(2L).hit(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").category(1L).hit(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").category(2L).hit(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("검색어").content("내용5").category(1L).hit(0L).build();
+		Post post6 = Post.builder().userAccount(user).title("검색어").content("검색어").category(2L).hit(0L).build();
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("검색어").category(2L).hit(0L).build();
+
+		// When
+
+		Pageable pageable = PageRequest.of(0, 3, Sort.by("id").descending()); // 한 페이지에 3개씩 자르기
+		Page<Post> list = new PageImpl<>(List.of(post5, post6, post7), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
+		given(postRepository.searchByKeyword("검색어", pageable)).willReturn(list);
+
+		// When
+		List<PostResponse> result = postService.searchPosts("검색어", null, pageable);
+
+		// Then
+		Page<Post> findAll = postRepository.searchByKeyword("검색어", pageable);
+		assertEquals(3, result.size());
+		assertThat(result).contains(
+				postToPostResponse(findAll.getContent().get(0)),
+				postToPostResponse(findAll.getContent().get(1)),
+				postToPostResponse(findAll.getContent().get(2)));
+	}
+
+	@Test
+	@DisplayName("검색어와 카테고리로 검색하는 테스트")
+	void searchPostsTest2() {
+	    // Given
+		insertUserAccount();
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").category(2L).hit(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").category(1L).hit(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").category(2L).hit(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("검색어").content("내용5").category(1L).hit(0L).build();
+		Post post6 = Post.builder().userAccount(user).title("검색어").content("검색어").category(2L).hit(0L).build();
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("검색어").category(2L).hit(0L).build();
+
+		Pageable pageable = PageRequest.of(0, 3, Sort.by("id").descending()); // 한 페이지에 3개씩 자르기
+		Page<Post> list = new PageImpl<>(List.of(post4, post6, post7), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
+		given(postRepository.searchByKeywordAndCategory("검색어", 2L, pageable)).willReturn(list);
+
+		// When
+		List<PostResponse> result = postService.searchPosts("검색어", 2L, pageable);
+
+		// Then
+		Page<Post> findAll = postRepository.searchByKeywordAndCategory("검색어", 2L, pageable);
+		assertEquals(3, result.size());
+		assertThat(result).contains(
+				postToPostResponse(findAll.getContent().get(0)),
+				postToPostResponse(findAll.getContent().get(1)),
+				postToPostResponse(findAll.getContent().get(2)));
 	}
 
 	// 사용자 정보 저장 메서드

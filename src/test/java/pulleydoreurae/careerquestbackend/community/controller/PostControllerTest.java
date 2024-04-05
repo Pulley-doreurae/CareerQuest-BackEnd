@@ -586,4 +586,112 @@ class PostControllerTest {
 
 		// Then
 	}
+
+	@Test
+	@DisplayName("검색어로 검색한 게시글 리스트 조회 테스트")
+	@WithMockUser
+	void searchPostsTest1() throws Exception {
+		// Given
+		PostResponse post1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		given(postService.searchPosts(any(), any(), any()))
+				.willReturn(List.of(post4, post5));
+
+		// When
+		mockMvc.perform(
+						get("/api/posts/search")
+								.queryParam("keyword", "검색어")
+								.queryParam("page", "0")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("keyword").description("검색어"),
+								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
+						),
+						responseFields(
+								fieldWithPath("[].userId").description("게시글 작성자"),
+								fieldWithPath("[].title").description("제목"),
+								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].category").description("카테고리"),
+								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].commentCount").description("댓글 수"),
+								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].createdAt").description("작성일자"),
+								fieldWithPath("[].modifiedAt").description("수정일자")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("검색어와 카테고리로 검색한 게시글 리스트 조회 테스트")
+	@WithMockUser
+	void searchPostsTest2() throws Exception {
+		// Given
+		PostResponse post1 = PostResponse.builder().userId("testId").title("검색어").content("내용1").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post2 = PostResponse.builder().userId("testId").title("검색어").content("내용2").category(2L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("검색어").category(1L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").category(2L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").category(2L).hit(0L)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+
+		given(postService.searchPosts(any(), any(), any()))
+				.willReturn(List.of(post2, post4, post5));
+
+		// When
+		mockMvc.perform(
+						get("/api/posts/search")
+								.queryParam("keyword", "검색어")
+								.queryParam("category", "2")
+								.queryParam("page", "0")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("keyword").description("검색어"),
+								parameterWithName("category").description("카테고리 id"),
+								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
+						),
+						responseFields(
+								fieldWithPath("[].userId").description("게시글 작성자"),
+								fieldWithPath("[].title").description("제목"),
+								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].category").description("카테고리"),
+								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].commentCount").description("댓글 수"),
+								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].createdAt").description("작성일자"),
+								fieldWithPath("[].modifiedAt").description("수정일자")
+						)));
+
+		// Then
+	}
 }
