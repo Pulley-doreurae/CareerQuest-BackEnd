@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
@@ -73,8 +75,10 @@ public class PostController {
 	}
 
 	@GetMapping("/posts/{postId}")
-	public ResponseEntity<?> getPost(@PathVariable Long postId) {
-		PostResponse post = postService.findByPostId(postId);
+	public ResponseEntity<?> getPost(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable Long postId) {
+
+		PostResponse post = postService.findByPostId(request, response, postId);
 
 		if (post == null) { // 게시글을 찾을 수 없다면
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
