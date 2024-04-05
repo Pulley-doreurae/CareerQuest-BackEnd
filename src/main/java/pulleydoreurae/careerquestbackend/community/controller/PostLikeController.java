@@ -56,7 +56,7 @@ public class PostLikeController {
 			@PageableDefault(size = 15) Pageable pageable) {
 
 		List<PostResponse> result = postLikeService.findAllPostLikeByUserAccount(userId, pageable);
-		// TODO: 2024/04/3 페이지 추가
+
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(result);
 	}

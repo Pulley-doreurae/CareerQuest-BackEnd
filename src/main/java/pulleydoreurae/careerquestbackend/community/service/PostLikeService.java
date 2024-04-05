@@ -53,7 +53,7 @@ public class PostLikeService {
 	public boolean changePostLike(PostLikeRequest postLikeRequest) {
 		UserAccount user = findUserAccount(postLikeRequest.getUserId());
 		Post post = findPost(postLikeRequest.getPostId());
-		// TODO: 2024/04/3 페이지 추가
+
 		if (user == null || post == null) {
 			return false;
 		}
@@ -84,7 +84,7 @@ public class PostLikeService {
 	public List<PostResponse> findAllPostLikeByUserAccount(String userId, Pageable pageable) {
 		UserAccount user = findUserAccount(userId);
 		List<PostResponse> list = new ArrayList<>();
-		// TODO: 2024/04/3 페이지 추가
+
 		postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable)
 				.forEach(postLike -> {
 					Post post = postLike.getPost();
