@@ -14,6 +14,16 @@ operation::post-controller-test/get-post-list-by-category-test[snippets="http-re
 operation::post-controller-test/get-post-list-by-user-account-test[snippets="http-request,query-parameters"]
 ==== 응답
 operation::post-controller-test/get-post-list-by-user-account-test[snippets="http-response,response-fields"]
+=== 게시글 검색어로 검색
+==== 요청
+operation::post-controller-test/search-posts-test1[snippets="http-request,query-parameters"]
+==== 응답
+operation::post-controller-test/search-posts-test1[snippets="http-response,response-fields"]
+=== 게시글 검색어와 카테고리로 검색
+==== 요청
+operation::post-controller-test/search-posts-test2[snippets="http-request,query-parameters"]
+==== 응답
+operation::post-controller-test/search-posts-test2[snippets="http-response,response-fields"]
 === 게시글 단건 조회
 ==== 요청
 operation::post-controller-test/get-post-test[snippets="http-request,path-parameters"]
