@@ -153,7 +153,7 @@ class PostControllerTest {
 				.createdAt("2024.04.01 15:37")
 				.modifiedAt("2024.04.01 15:37")
 				.build();
-		given(postService.findByPostId(100L)).willReturn(post);
+		given(postService.findByPostId(any(), any(), any())).willReturn(post);
 
 		// When
 		mockMvc.perform(

@@ -17,15 +17,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepository;
 
 /**
  * @author : parkjihyeok
@@ -43,6 +49,8 @@ class PostServiceTest {
 	CommentRepository commentRepository;
 	@Mock
 	PostLikeRepository postLikeRepository;
+	@Mock
+	PostViewCheckRepository postViewCheckRepository;
 
 	@Test
 	@DisplayName("1. 게시글 리스트를 불러오는 테스트")
@@ -106,19 +114,23 @@ class PostServiceTest {
 	@DisplayName("2. 게시글 단건 조회 (실패)")
 	void findByPostIdFailTest() {
 		// Given
+		HttpServletRequest request = new MockHttpServletRequest();
+		HttpServletResponse response = new MockHttpServletResponse();
 		given(postRepository.findById(100L)).willReturn(Optional.empty());
 
 		// When
-		PostResponse result = postService.findByPostId(100L);
+		PostResponse result = postService.findByPostId(request, response, 100L);
 
 		// Then
 		assertNull(result);
 	}
 
 	@Test
-	@DisplayName("3. 게시글 단건 조회 (성공)")
+	@DisplayName("3. 게시글 단건 조회 (성공 - 조회수 증가 X)")
 	void findByPostIdSuccessTest() {
 		// Given
+		HttpServletRequest request = new MockHttpServletRequest();
+		HttpServletResponse response = new MockHttpServletResponse();
 		insertUserAccount();
 		Post post = Post.builder()
 				.userAccount(userAccountRepository.findByUserId("testId").get())
@@ -129,9 +141,16 @@ class PostServiceTest {
 				.hit(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
+		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", post.getId())));
 
 		// When
-		PostResponse result = postService.findByPostId(100L);
+		// 이미 해당 게시글이 같은 사용자에 의해 방문되었다면 조회수는 증가하지 않음을 테스트한다.
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		PostResponse result = postService.findByPostId(request, response, 100L);
 		PostResponse expect = postToPostResponse(post);
 
 		// Then
@@ -140,7 +159,7 @@ class PostServiceTest {
 				() -> assertEquals(expect.getTitle(), result.getTitle()),
 				() -> assertEquals(expect.getContent(), result.getContent()),
 				() -> assertEquals(expect.getCategory(), result.getCategory()),
-				() -> assertEquals(expect.getHit(), result.getHit())
+				() -> assertEquals(0, result.getHit())
 		);
 	}
 
@@ -463,6 +482,62 @@ class PostServiceTest {
 				postToPostResponse(findAll.getContent().get(0)),
 				postToPostResponse(findAll.getContent().get(1)),
 				postToPostResponse(findAll.getContent().get(2)));
+	}
+
+	@Test
+	@DisplayName("14. 게시글 단건 조회 (성공 - 조회수 증가 O 모두 다른 사용자의 요청)")
+	void findByPostIdSuccess2Test() {
+		// Given
+		HttpServletRequest request = new MockHttpServletRequest();
+		HttpServletResponse response = new MockHttpServletResponse();
+		insertUserAccount();
+		Post post = Post.builder()
+				.userAccount(userAccountRepository.findByUserId("testId").get())
+				.id(100L)
+				.title("제목1")
+				.content("내용1")
+				.category(1L)
+				.hit(0L)
+				.build();
+		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
+		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", 1L)));
+
+		// When
+		// 게시글이 모두 다른 사용자들의 요청에 의해 호출되는 경우
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		postService.findByPostId(request, response, 100L);
+		PostResponse result = postService.findByPostId(request, response, 100L);
+		PostResponse expect = postToPostResponse(post);
+
+		// Then
+		assertAll(
+				() -> assertEquals(expect.getUserId(), result.getUserId()),
+				() -> assertEquals(expect.getTitle(), result.getTitle()),
+				() -> assertEquals(expect.getContent(), result.getContent()),
+				() -> assertEquals(expect.getCategory(), result.getCategory()),
+				() -> assertEquals(6, result.getHit())
+		);
+	}
+
+	@Test
+	@DisplayName("15. UUID 값이 정상적으로 생성되는지 테스트")
+	public void testGetUUIDWithNoExistingCookie() {
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
+		// getUUID 메서드 실행
+		String uuid = postService.getUUID(request, response);
+
+		// UUID 값 검증
+		assertThat(uuid).isNotNull();
+
+		// 새로 생성된 쿠키 검증
+		assertThat(response.getCookies()).isNotNull();
+		assertThat(response.getCookies()[0].getName()).isEqualTo("UUID");
+		assertThat(response.getCookies()[0].getValue()).isEqualTo(uuid);
 	}
 
 	// 사용자 정보 저장 메서드
