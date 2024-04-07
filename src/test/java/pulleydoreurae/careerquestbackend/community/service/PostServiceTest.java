@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +34,7 @@ import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
@@ -135,6 +142,7 @@ class PostServiceTest {
 				() -> assertEquals(expect.getTitle(), result.getTitle()),
 				() -> assertEquals(expect.getContent(), result.getContent()),
 				() -> assertEquals(expect.getCategory(), result.getCategory()),
+				() -> assertEquals(0, result.getIsLiked()), // 좋아요 상태는 0
 				() -> assertEquals(0, result.getHit())
 		);
 	}
@@ -462,6 +470,87 @@ class PostServiceTest {
 				postToPostResponse(findAll.getContent().get(0)),
 				postToPostResponse(findAll.getContent().get(1)),
 				postToPostResponse(findAll.getContent().get(2)));
+	}
+
+	@Test
+	@DisplayName("게시글 단건 조회 (성공 - 좋아요 상태 0)")
+	void findByPostIdSuccessAndIsLikedTest1() {
+		// Given
+		HttpServletRequest request = new MockHttpServletRequest();
+		HttpServletResponse response = new MockHttpServletResponse();
+
+		insertUserAccount();
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post = Post.builder().userAccount(user)
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
+		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
+		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", post.getId())));
+
+		// When
+		// 이미 해당 게시글이 같은 사용자에 의해 방문되었다면 조회수는 증가하지 않음을 테스트한다.
+		PostResponse result = postService.findByPostId(request, response, 100L);
+		PostResponse expect = postToPostResponse(post);
+
+		// Then
+		assertAll(
+				() -> assertEquals(expect.getUserId(), result.getUserId()),
+				() -> assertEquals(expect.getTitle(), result.getTitle()),
+				() -> assertEquals(expect.getContent(), result.getContent()),
+				() -> assertEquals(expect.getCategory(), result.getCategory()),
+				() -> assertEquals(0, result.getIsLiked()), // 좋아요 상태는 1
+				() -> assertEquals(0, result.getHit())
+		);
+	}
+
+	@Test
+	@DisplayName("게시글 단건 조회 (성공 - 좋아요 상태 1)")
+	void findByPostIdSuccessAndIsLikedTest2() {
+		// Given
+		HttpServletRequest request = new MockHttpServletRequest();
+		HttpServletResponse response = new MockHttpServletResponse();
+
+		// Authentication Mocking
+		Authentication authentication = new UsernamePasswordAuthenticationToken("testId", null,
+				AuthorityUtils.createAuthorityList("ROLE_USER"));
+
+		// SecurityContext 에 Authentication 객체 설정
+		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+		securityContext.setAuthentication(authentication);
+		SecurityContextHolder.setContext(securityContext);
+
+		insertUserAccount();
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+
+		List<PostLike> list = new ArrayList<>();
+		Post post = Post.builder().userAccount(user)
+				.id(100L).title("제목1").content("내용1").category(1L).postLikes(list).hit(0L).build();
+
+		PostLike postLike = PostLike.builder()
+				.userAccount(user)
+				.post(post)
+				.build();
+		list.add(postLike);
+
+		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
+		given(postViewCheckRepository.findById(any()))
+				.willReturn(Optional.of(new PostViewCheck("user", post.getId())));
+		given(postLikeRepository.existsByPostAndUserAccount(post, user)).willReturn(true);
+
+		// When
+		// 이미 해당 게시글이 같은 사용자에 의해 방문되었다면 조회수는 증가하지 않음을 테스트한다.
+		PostResponse result = postService.findByPostId(request, response, 100L);
+		PostResponse expect = postToPostResponse(post);
+
+		// Then
+		assertAll(
+				() -> assertEquals(expect.getUserId(), result.getUserId()),
+				() -> assertEquals(expect.getTitle(), result.getTitle()),
+				() -> assertEquals(expect.getContent(), result.getContent()),
+				() -> assertEquals(expect.getCategory(), result.getCategory()),
+				() -> assertEquals(1, result.getIsLiked()), // 좋아요 상태는 1
+				() -> assertEquals(0, result.getHit())
+		);
 	}
 
 	// 사용자 정보 저장 메서드

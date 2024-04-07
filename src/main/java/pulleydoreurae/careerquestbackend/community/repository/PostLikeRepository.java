@@ -26,4 +26,6 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 	Page<PostLike> findAllByUserAccountOrderByIdDesc(UserAccount userAccount, Pageable pageable);
 
 	Optional<PostLike> findByPostAndUserAccount(Post post, UserAccount userAccount);
+
+	boolean existsByPostAndUserAccount(Post post, UserAccount userAccount);
 }

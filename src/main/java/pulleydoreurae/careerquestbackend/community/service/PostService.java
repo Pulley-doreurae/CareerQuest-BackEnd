@@ -94,7 +94,7 @@ public class PostService {
 	/**
 	 * 게시글 검색 메서드
 	 *
-	 * @param keyword 키워드
+	 * @param keyword  키워드
 	 * @param category 카테고리 (필수값 X)
 	 * @param pageable 페이지
 	 * @return 검색결과
@@ -140,6 +140,11 @@ public class PostService {
 			postViewCheckRepository.save(new PostViewCheck(name, postId)); // 지정한 시간동안 저장
 		}
 
+		// userId 로 회원을 가져온다.
+		UserAccount user = findUserAccount(name);
+		// null 이거나 좋아요 누른 정보를 가져올 수 없다면 0, 눌렀다면 1
+		int isLiked = postLikeRepository.existsByPostAndUserAccount(post, user) ? 1 : 0;
+
 		return PostResponse.builder()
 				.userId(post.getUserAccount().getUserId())
 				.title(post.getTitle())
@@ -148,6 +153,7 @@ public class PostService {
 				.commentCount(countComment(post.getId()))
 				.postLikeCount(countPostLike(post.getId()))
 				.category(post.getCategory())
+				.isLiked(isLiked)
 				.createdAt(post.getCreatedAt())
 				.modifiedAt(post.getModifiedAt())
 				.build();

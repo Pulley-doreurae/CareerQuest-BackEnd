@@ -26,6 +26,7 @@ public class PostResponse {
 	private Long commentCount; // 댓글 수
 	private Long postLikeCount; // 좋아요 수
 	private Long category; // 카테고리
+	private Integer isLiked; // 좋아요 상태 0 이면 누르지 않음 1이면 누름
 	private String createdAt; // 작성일자
 	private String modifiedAt; // 수정일자
 }

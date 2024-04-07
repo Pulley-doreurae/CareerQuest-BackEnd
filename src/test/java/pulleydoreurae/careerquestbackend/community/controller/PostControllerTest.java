@@ -49,27 +49,27 @@ class PostControllerTest {
 		// Given
 		PostResponse post1 = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
 				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
 				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
 				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
 				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(postService.getPostResponseList(any())).willReturn(List.of(post1, post2, post3, post4, post5));
@@ -95,6 +95,7 @@ class PostControllerTest {
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
 								fieldWithPath("[].createdAt").description("작성일자"),
 								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));
@@ -109,7 +110,7 @@ class PostControllerTest {
 		// Given
 		PostResponse post = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 		given(postService.findByPostId(any(), any(), any())).willReturn(post);
 
@@ -125,6 +126,7 @@ class PostControllerTest {
 				.andExpect(jsonPath("$.commentCount").exists())
 				.andExpect(jsonPath("$.postLikeCount").exists())
 				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.isLiked").exists())
 				.andExpect(jsonPath("$.createdAt").exists())
 				.andExpect(jsonPath("$.modifiedAt").exists())
 				.andDo(print())
@@ -142,6 +144,7 @@ class PostControllerTest {
 								fieldWithPath("hit").description("조회수"),
 								fieldWithPath("commentCount").description("댓글 수"),
 								fieldWithPath("postLikeCount").description("좋아요 수"),
+								fieldWithPath("isLiked").description("좋아요 상태"),
 								fieldWithPath("createdAt").description("작성일자"),
 								fieldWithPath("modifiedAt").description("수정일자")
 						)));
@@ -364,27 +367,27 @@ class PostControllerTest {
 		// Given
 		PostResponse post1 = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
 				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
 				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
 				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
 				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(postService.getPostResponseListByCategory(any(), any()))
@@ -411,6 +414,7 @@ class PostControllerTest {
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
 								fieldWithPath("[].createdAt").description("작성일자"),
 								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));
@@ -472,6 +476,7 @@ class PostControllerTest {
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
 								fieldWithPath("[].createdAt").description("작성일자"),
 								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));
@@ -525,6 +530,7 @@ class PostControllerTest {
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
 								fieldWithPath("[].createdAt").description("작성일자"),
 								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));
@@ -580,6 +586,7 @@ class PostControllerTest {
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
 								fieldWithPath("[].createdAt").description("작성일자"),
 								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));

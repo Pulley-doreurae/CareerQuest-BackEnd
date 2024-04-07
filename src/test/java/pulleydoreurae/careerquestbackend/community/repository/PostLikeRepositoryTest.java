@@ -178,4 +178,29 @@ class PostLikeRepositoryTest {
 		assertEquals(5, result.getTotalElements());
 		assertEquals(2, result.getTotalPages());
 	}
+
+	@Test
+	@DisplayName("좋아요가 존재하는지 테스트")
+	void existTest() {
+		// Given
+		UserAccount user = userAccountRepository.findByUserId("testId").get();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
+		postRepository.save(post);
+		PostLike postLike = PostLike.builder().post(post).userAccount(user).build();
+		postLikeRepository.save(postLike);
+
+		// When
+		boolean result1 = postLikeRepository.existsByPostAndUserAccount(null, null);
+		boolean result2 = postLikeRepository.existsByPostAndUserAccount(post, null);
+		boolean result3 = postLikeRepository.existsByPostAndUserAccount(null, user);
+		boolean result4 = postLikeRepository.existsByPostAndUserAccount(post, user);
+
+		// Then
+		assertAll(
+				() -> assertFalse(result1),
+				() -> assertFalse(result2),
+				() -> assertFalse(result3),
+				() -> assertTrue(result4)
+		);
+	}
 }
