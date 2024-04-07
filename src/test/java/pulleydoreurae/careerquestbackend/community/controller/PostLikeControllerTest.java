@@ -155,4 +155,89 @@ class PostLikeControllerTest {
 
 		// Then
 	}
+
+	@Test
+	@DisplayName("좋아요 상태 변환 검증 실패(postId 없음)")
+	@WithMockUser
+	void changePostLikeValidFail1Test() throws Exception {
+		// Given
+		PostLikeRequest request = PostLikeRequest.builder().userId("testId").isLiked(0).build();
+
+		// When
+		mockMvc.perform(post("/api/posts/likes")
+						.contentType(MediaType.APPLICATION_JSON)
+						.with(csrf())
+						.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("userId").description("요청자 id"),
+								fieldWithPath("isLiked").description("현재 좋아요 상태")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 처리 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("좋아요 상태 변환 검증 실패(userId 없음)")
+	@WithMockUser
+	void changePostLikeValidFail2Test() throws Exception {
+		// Given
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("").isLiked(0).build();
+
+		// When
+		mockMvc.perform(post("/api/posts/likes")
+						.contentType(MediaType.APPLICATION_JSON)
+						.with(csrf())
+						.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("postId").description("좋아요 상태를 변환할 게시글 id"),
+								fieldWithPath("userId").description("요청자 id"),
+								fieldWithPath("isLiked").description("현재 좋아요 상태")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 처리 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("좋아요 상태 변환 검증 실패(isLiked 없음)")
+	@WithMockUser
+	void changePostLikeValidFail3Test() throws Exception {
+		// Given
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("").build();
+
+		// When
+		mockMvc.perform(post("/api/posts/likes")
+						.contentType(MediaType.APPLICATION_JSON)
+						.with(csrf())
+						.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("postId").description("좋아요 상태를 변환할 게시글 id"),
+								fieldWithPath("userId").description("요청자 id")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 처리 결과")
+						)));
+
+		// Then
+	}
 }
