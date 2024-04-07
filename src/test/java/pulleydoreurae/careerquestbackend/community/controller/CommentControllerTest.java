@@ -341,4 +341,134 @@ class CommentControllerTest {
 						)));
 		// Then
 	}
+
+	@Test
+	@DisplayName("댓글 등록 테스트 (검증 실패 - userId 없음)")
+	@WithMockUser
+	void saveCommentValidFail1Test() throws Exception {
+		// Given
+		CommentRequest request = CommentRequest.builder().userId("").content("댓글내용").build();
+
+		// When
+		mockMvc.perform(
+						post("/api/posts/{postId}/comments", 10000L)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("postId").description("게시글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("댓글 작성자"),
+								fieldWithPath("content").description("댓글 내용")
+						),
+						responseFields(
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+		// Then
+	}
+
+	@Test
+	@DisplayName("댓글 등록 테스트 (검증 실패 - 내용 없음)")
+	@WithMockUser
+	void saveCommentValidFail2Test() throws Exception {
+		// Given
+		CommentRequest request = CommentRequest.builder().userId("testId").content("").build();
+
+		// When
+		mockMvc.perform(
+						post("/api/posts/{postId}/comments", 10000L)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("postId").description("게시글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("댓글 작성자"),
+								fieldWithPath("content").description("댓글 내용")
+						),
+						responseFields(
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+		// Then
+	}
+
+	@Test
+	@DisplayName("댓글 수정 테스트 (검증 실패 - userId 없음)")
+	@WithMockUser
+	void updateCommentValidFail1Test() throws Exception {
+		// Given
+		CommentRequest request = CommentRequest.builder().userId("").content("댓글내용").build();
+
+		// When
+		mockMvc.perform(
+						patch("/api/posts/{postId}/comments/{commentId}", 10000L, 100L)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("postId").description("게시글 id"),
+								parameterWithName("commentId").description("댓글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("댓글 작성자"),
+								fieldWithPath("content").description("댓글 내용")
+						),
+						responseFields(
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+		// Then
+	}
+
+	@Test
+	@DisplayName("댓글 수정 테스트 (검증 실패 - 내용 없음)")
+	@WithMockUser
+	void updateCommentValidFail2Test() throws Exception {
+		// Given
+		CommentRequest request = CommentRequest.builder().userId("testId").content("").build();
+
+		// When
+		mockMvc.perform(
+						patch("/api/posts/{postId}/comments/{commentId}", 10000L, 100L)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("postId").description("게시글 id"),
+								parameterWithName("commentId").description("댓글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("댓글 작성자"),
+								fieldWithPath("content").description("댓글 내용")
+						),
+						responseFields(
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+		// Then
+	}
 }
