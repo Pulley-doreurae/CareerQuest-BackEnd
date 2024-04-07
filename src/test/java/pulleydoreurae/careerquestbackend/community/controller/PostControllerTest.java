@@ -586,4 +586,326 @@ class PostControllerTest {
 
 		// Then
 	}
+
+	@Test
+	@DisplayName("게시글 작성 테스트 (검증 실패 - userId 없음)")
+	@WithMockUser
+	void savePostValidFail1Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("").title("수정할 제목").content("수정할 내용").category(1L)
+				.build();
+
+		// When
+		mockMvc.perform(
+						post("/api/posts")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("category").description("카테고리 번호")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 작성 테스트 (검증 실패 - 제목 없음)")
+	@WithMockUser
+	void savePostValidFail2Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("testId").title("").content("수정할 내용").category(1L)
+				.build();
+
+		// When
+		mockMvc.perform(
+						post("/api/posts")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("category").description("카테고리 번호")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 작성 테스트 (검증 실패 - 내용 없음)")
+	@WithMockUser
+	void savePostValidFail3Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("").category(1L)
+				.build();
+
+		// When
+		mockMvc.perform(
+						post("/api/posts")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("category").description("카테고리 번호")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 작성 테스트 (검증 실패 - 카테고리 없음)")
+	@WithMockUser
+	void savePostValidFail4Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용")
+				.build();
+
+		// When
+		mockMvc.perform(
+						post("/api/posts")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").doesNotExist())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 수정 테스트 (검증 실패 - userId 없음)")
+	@WithMockUser
+	void updatePostValidFail1Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("").title("수정할 제목").content("수정할 내용").category(1L)
+				.build();
+
+		// When
+		mockMvc.perform(
+						patch("/api/posts/{postId}", 100)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters( // PathVariable 방식
+								parameterWithName("postId").description("수정할 게시글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("category").description("카테고리 번호")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 수정 테스트 (검증 실패 - 제목 없음)")
+	@WithMockUser
+	void updatePostValidFail2Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("testId").title("").content("수정할 내용").category(1L)
+				.build();
+
+		// When
+		mockMvc.perform(
+						patch("/api/posts/{postId}", 100)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters( // PathVariable 방식
+								parameterWithName("postId").description("수정할 게시글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("category").description("카테고리 번호")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 수정 테스트 (검증 실패 - 내용 없음)")
+	@WithMockUser
+	void updatePostValidFail3Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("").category(1L)
+				.build();
+
+		// When
+		mockMvc.perform(
+						patch("/api/posts/{postId}", 100)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters( // PathVariable 방식
+								parameterWithName("postId").description("수정할 게시글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("category").description("카테고리 번호")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 수정 테스트 (검증 실패 - 카테고리 없음)")
+	@WithMockUser
+	void updatePostValidFail4Test() throws Exception {
+		// Given
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용")
+				.build();
+
+		// When
+		mockMvc.perform(
+						patch("/api/posts/{postId}", 100)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.category").doesNotExist())
+				.andExpect(jsonPath("$.errors").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters( // PathVariable 방식
+								parameterWithName("postId").description("수정할 게시글 id")
+						),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용")
+						),
+						responseFields(
+								fieldWithPath("title").description("요청한 제목"),
+								fieldWithPath("content").description("요청한 내용"),
+								fieldWithPath("category").description("요청한 카테고리"),
+								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
 }

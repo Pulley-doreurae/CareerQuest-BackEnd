@@ -8,6 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostFailResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.service.PostService;
 
@@ -105,7 +109,15 @@ public class PostController {
 	}
 
 	@PostMapping("/posts")
-	public ResponseEntity<SimpleResponse> savePost(@RequestBody PostRequest postRequest) {
+	public ResponseEntity<?> savePost(@Valid @RequestBody PostRequest postRequest,
+			BindingResult bindingResult) {
+
+		// 검증
+		ResponseEntity<PostFailResponse> BAD_REQUEST = validCheck(postRequest, bindingResult);
+		if (BAD_REQUEST != null) {
+			return BAD_REQUEST;
+		}
+
 		if (!postService.savePost(postRequest)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(SimpleResponse.builder()
@@ -120,7 +132,15 @@ public class PostController {
 	}
 
 	@PatchMapping("/posts/{postId}")
-	public ResponseEntity<SimpleResponse> updatePost(@PathVariable Long postId, @RequestBody PostRequest postRequest) {
+	public ResponseEntity<?> updatePost(@PathVariable Long postId,
+			@Valid @RequestBody PostRequest postRequest, BindingResult bindingResult) {
+
+		// 검증
+		ResponseEntity<PostFailResponse> BAD_REQUEST = validCheck(postRequest, bindingResult);
+		if (BAD_REQUEST != null) {
+			return BAD_REQUEST;
+		}
+
 		if (!postService.updatePost(postId, postRequest)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(SimpleResponse.builder()
@@ -145,5 +165,31 @@ public class PostController {
 				.body(SimpleResponse.builder()
 						.msg("게시글 삭제에 성공하였습니다.")
 						.build());
+	}
+
+	/**
+	 * 검증 메서드
+	 *
+	 * @param postRequest   게시글 요청 (검증에 실패하더라도 입력한 값은 그대로 돌려준다.)
+	 * @param bindingResult 검증 결과
+	 * @return 검증결과 에러가 없다면 null 에러가 있다면 해당 에러를 담은 ResponseEntity 반환
+	 */
+	private ResponseEntity<PostFailResponse> validCheck(PostRequest postRequest, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			String[] errors = new String[bindingResult.getAllErrors().size()];
+			int index = 0;
+			for (ObjectError error : bindingResult.getAllErrors()) {
+				errors[index++] = error.getDefaultMessage();
+			}
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(PostFailResponse.builder()
+							.title(postRequest.getTitle())
+							.content(postRequest.getContent())
+							.category(postRequest.getCategory())
+							.errors(errors)
+							.build());
+		}
+		return null;
 	}
 }
