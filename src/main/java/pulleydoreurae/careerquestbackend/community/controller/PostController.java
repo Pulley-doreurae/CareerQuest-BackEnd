@@ -19,14 +19,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostFailResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.service.PostService;
 
 /**
@@ -71,10 +74,7 @@ public class PostController {
 		List<PostResponse> posts = postService.getPostListByUserAccount(userId, pageable);
 
 		if (posts == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(SimpleResponse.builder()
-							.msg("해당 사용자 정보를 찾을 수 없습니다.")
-							.build());
+			return makeBadRequestUsingSimpleResponse("해당 사용자 정보를 찾을 수 없습니다.");
 		}
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(posts);
@@ -98,14 +98,23 @@ public class PostController {
 		PostResponse post = postService.findByPostId(request, response, postId);
 
 		if (post == null) { // 게시글을 찾을 수 없다면
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(SimpleResponse.builder()
-							.msg("해당 게시글을 찾을 수 없습니다.")
-							.build());
+			return makeBadRequestUsingSimpleResponse("해당 게시글을 찾을 수 없습니다.");
 		}
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(post);
+	}
+
+	@PostMapping("/posts/image")
+	public ResponseEntity<?> saveImage(List<MultipartFile> images) {
+		try {
+			List<String> imagesName = postService.saveImage(images);
+
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(imagesName);
+		} catch (RuntimeException e) { // 저장에 실패하면 RuntimeException 발생
+			return makeBadRequestUsingSimpleResponse("사진 업로드에 실패했습니다. 다시 시도해주세요.");
+		}
 	}
 
 	@PostMapping("/posts")
@@ -118,17 +127,18 @@ public class PostController {
 			return BAD_REQUEST;
 		}
 
-		if (!postService.savePost(postRequest)) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+		try {
+			boolean isSaved = postService.savePost(postRequest);
+			if (!isSaved) {
+				return makeBadRequestUsingSimpleResponse("게시글 저장에 실패했습니다.");
+			}
+			return ResponseEntity.status(HttpStatus.OK)
 					.body(SimpleResponse.builder()
-							.msg("게시글 저장에 실패했습니다.")
+							.msg("게시글 등록에 성공했습니다.")
 							.build());
+		} catch (RuntimeException e) {
+			return makeBadRequestUsingSimpleResponse("게시글 저장에 실패했습니다.");
 		}
-
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(SimpleResponse.builder()
-						.msg("게시글 등록에 성공했습니다.")
-						.build());
 	}
 
 	@PatchMapping("/posts/{postId}")
@@ -142,10 +152,7 @@ public class PostController {
 		}
 
 		if (!postService.updatePost(postId, postRequest)) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(SimpleResponse.builder()
-							.msg("해당 게시글을 수정할 수 없습니다.")
-							.build());
+			return makeBadRequestUsingSimpleResponse("해당 게시글을 수정할 수 없습니다.");
 		}
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(SimpleResponse.builder()
@@ -156,14 +163,24 @@ public class PostController {
 	@DeleteMapping("/posts/{postId}")
 	public ResponseEntity<SimpleResponse> deletePost(@PathVariable Long postId, String userId) {
 		if (!postService.deletePost(postId, userId)) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(SimpleResponse.builder()
-							.msg("해당 게시글을 삭제할 수 없습니다.")
-							.build());
+			return makeBadRequestUsingSimpleResponse("해당 게시글을 삭제할 수 없습니다.");
 		}
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(SimpleResponse.builder()
 						.msg("게시글 삭제에 성공하였습니다.")
+						.build());
+	}
+
+	/**
+	 * SimpleResponse 형태의 BAD_REQUEST 생성 메서드
+	 *
+	 * @param message 작성할 메시지
+	 * @return 완성된 BAD_REQUEST
+	 */
+	private ResponseEntity<SimpleResponse> makeBadRequestUsingSimpleResponse(String message) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(SimpleResponse.builder()
+						.msg(message)
 						.build());
 	}
 
