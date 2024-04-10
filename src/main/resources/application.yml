@@ -6,3 +6,4 @@ spring:
       - mail.yml
       - database.yml
       - geoIpRoot.yml
+      - path.yml
