@@ -1,5 +1,7 @@
 package pulleydoreurae.careerquestbackend.community.domain.dto.request;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -30,4 +32,6 @@ public class PostRequest {
 
 	@NotNull(message = "카테고리는 필수입니다.")
 	private Long category; // 카테고리
+
+	private List<String> images; // 저장한 사진 파일명을 담은 리스트 (null 가능)
 }

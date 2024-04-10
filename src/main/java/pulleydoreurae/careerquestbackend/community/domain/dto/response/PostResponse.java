@@ -1,5 +1,7 @@
 package pulleydoreurae.careerquestbackend.community.domain.dto.response;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -22,6 +24,7 @@ public class PostResponse {
 	private String userId; // 작성자
 	private String title; // 제목
 	private String content; // 내용
+	private List<String> images; // 사진 리스트
 	private Long hit; // 조회수
 	private Long commentCount; // 댓글 수
 	private Long postLikeCount; // 좋아요 수
