@@ -21,22 +21,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepository;
@@ -59,6 +64,12 @@ class PostServiceTest {
 	PostLikeRepository postLikeRepository;
 	@Mock
 	PostViewCheckRepository postViewCheckRepository;
+	@Mock
+	PostImageRepository postImageRepository;
+	@Mock
+	FileManagementService fileManagementService;
+
+	// TODO: 2024/04/9 게시글 리스트, 조회에 사진이 정상적으로 출력하는지 테스트 코드 작성, 사진이 정상적으로 저장되는지 테스트 코드 작성
 
 	@Test
 	@DisplayName("1. 게시글 리스트를 불러오는 테스트")
@@ -154,7 +165,7 @@ class PostServiceTest {
 		given(userAccountRepository.findByUserId(any())).willReturn(Optional.empty());
 
 		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L));
+		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
 		assertFalse(result);
@@ -167,7 +178,7 @@ class PostServiceTest {
 		insertUserAccount();
 
 		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L));
+		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
 		assertTrue(result);
@@ -185,7 +196,7 @@ class PostServiceTest {
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L));
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
 		assertFalse(result);
@@ -203,7 +214,7 @@ class PostServiceTest {
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L));
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
 		assertFalse(result);
@@ -220,7 +231,7 @@ class PostServiceTest {
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L));
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
 		assertTrue(result);
@@ -269,12 +280,15 @@ class PostServiceTest {
 				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
 
 		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
+		given(postImageRepository.findAllByPost(any())).willReturn(List.of());
+		given(postImageRepository.findAllByPost(any())).willReturn(null);
 
 		// When
 		boolean result = postService.deletePost(100L, "testId");
 
 		// Then
 		assertTrue(result);
+		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
 	}
 
 	@Test
@@ -553,6 +567,129 @@ class PostServiceTest {
 		);
 	}
 
+	@Test
+	@DisplayName("사진 서버 저장 테스트 (성공)")
+	void saveImageSuccessTest() {
+		// Given
+		given(fileManagementService.saveFile(any(), any())).willReturn("anyString()");
+
+		// When
+		MockMultipartFile file1 = new MockMultipartFile("test1", "Test1.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file2 = new MockMultipartFile("test2", "Test2.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file3 = new MockMultipartFile("test3", "Test3.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file4 = new MockMultipartFile("test4", "Test4.png", "image/png", "사진내용".getBytes());
+
+		// Then
+		assertDoesNotThrow(() -> postService.saveImage(List.of(file1, file2, file3, file4)));
+	}
+
+	@Test
+	@DisplayName("사진 서버 저장 테스트 (실패)")
+	void saveImageFailTest() {
+		// Given
+		given(fileManagementService.saveFile(any(), any())).willReturn(null);
+
+		// When
+		MockMultipartFile file1 = new MockMultipartFile("test1", "Test1.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file2 = new MockMultipartFile("test2", "Test2.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file3 = new MockMultipartFile("test3", "Test3.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file4 = new MockMultipartFile("test4", "Test4.png", "image/png", "사진내용".getBytes());
+
+		// Then
+		assertThrows(RuntimeException.class, () -> postService.saveImage(List.of(file1, file2, file3, file4)));
+	}
+
+
+	@Test
+	@DisplayName("게시글 사진과 함께 등록 테스트 (성공)")
+	void savePostWithImageSuccessTest() {
+		// Given
+		String image1 = "image1.png";
+		String image2 = "image2.png";
+		String image3 = "image3.png";
+		String image4 = "image4.png";
+		String image5 = "image5.png";
+		List<String> images = List.of(image1, image2, image3, image4, image5);
+		insertUserAccount();
+
+		// When
+		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images));
+
+		// Then
+		assertTrue(result);
+	}
+
+	@Test
+	@DisplayName("게시글 사진과 함께 등록 테스트 (실패)")
+	void savePostWithImageFailTest() {
+		// Given
+		String image1 = "image1.png";
+		String image2 = "image2.png";
+		String image3 = "image3.png";
+		String image4 = "image4.png";
+		String image5 = "image5.png";
+		List<String> images = List.of(image1, image2, image3, image4, image5);
+
+		// When
+		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images));
+
+		// Then
+		assertFalse(result);
+		// 저장된 이미지를 삭제하는 메서드가 동작했는지 검증
+		verify(fileManagementService).deleteFile(anyList(), any());
+	}
+
+	@Test
+	@DisplayName("이미지 수정 테스트")
+	void updateImagesTest() {
+	    // Given
+		PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
+		PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
+		PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
+		PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
+		PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
+		List<PostImage> images = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
+		given(postImageRepository.findAllByPost(any())).willReturn(images);
+		given(postImageRepository.existsByFileName("image2.png")).willReturn(true);
+		given(postImageRepository.existsByFileName("image3.png")).willReturn(true);
+
+		String image2 = "image2.png";
+		String image3 = "image3.png";
+		String image6 = "image6.png";
+		List<String> input = List.of(image2, image3, image6);
+	    // When
+		postService.updateImages(input, new Post());
+
+	    // Then
+		verify(fileManagementService).deleteFile(anyList(), any());
+		// 2, 3 을 제외한 1, 4, 5 가 삭제됨
+		verify(postImageRepository, times(3)).deleteByFileName(any());
+		// 2, 3, 6이 데이터베이스에 있는지 각각 확인
+		verify(postImageRepository, times(3)).existsByFileName(any());
+		// 데이터베이스에 없는 6만 저장하므로 1번만 실행
+		verify(postImageRepository).save(any());
+	}
+
+	@Test
+	@DisplayName("게시글 사진과 함께 삭제 테스트 (성공)")
+	void deletePostWithImagesSuccessTest() {
+		// Given
+		insertUserAccount();
+		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
+				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+
+		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
+		given(postImageRepository.findAllByPost(any())).willReturn(List.of());
+		given(postImageRepository.findAllByPost(any())).willReturn(anyList());
+
+		// When
+		boolean result = postService.deletePost(100L, "testId");
+
+		// Then
+		assertTrue(result);
+		verify(fileManagementService).deleteFile(anyList(), any());
+	}
+
 	// 사용자 정보 저장 메서드
 	public void insertUserAccount() {
 		UserAccount user = UserAccount.builder()
@@ -569,6 +706,7 @@ class PostServiceTest {
 				.userId(post.getUserAccount().getUserId())
 				.title(post.getTitle())
 				.content(post.getContent())
+				.images(List.of())
 				.hit(post.getHit())
 				.commentCount((long)commentRepository.findAllByPost(post).size())
 				.postLikeCount((long)postLikeRepository.findAllByPost(post).size())
