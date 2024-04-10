@@ -19,8 +19,10 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 
@@ -91,6 +93,7 @@ class PostControllerTest {
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
@@ -140,6 +143,7 @@ class PostControllerTest {
 								fieldWithPath("userId").description("게시글 작성자"),
 								fieldWithPath("title").description("제목"),
 								fieldWithPath("content").description("내용"),
+								fieldWithPath("images").description("사진 리스트"),
 								fieldWithPath("category").description("카테고리"),
 								fieldWithPath("hit").description("조회수"),
 								fieldWithPath("commentCount").description("댓글 수"),
@@ -410,6 +414,7 @@ class PostControllerTest {
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
@@ -472,6 +477,7 @@ class PostControllerTest {
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
@@ -526,6 +532,7 @@ class PostControllerTest {
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
@@ -582,6 +589,7 @@ class PostControllerTest {
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
@@ -911,6 +919,216 @@ class PostControllerTest {
 								fieldWithPath("content").description("요청한 내용"),
 								fieldWithPath("category").description("요청한 카테고리"),
 								fieldWithPath("errors").description("요청에 대한 검증 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("사진 저장 테스트")
+	@WithMockUser
+	void saveImageSuccessTest() throws Exception {
+		// Given
+		MockMultipartFile file1 = new MockMultipartFile("images", "Test1.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file2 = new MockMultipartFile("images", "Test2.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file3 = new MockMultipartFile("images", "Test3.png", "image/png", "사진내용".getBytes());
+		MockMultipartFile file4 = new MockMultipartFile("images", "Test4.png", "image/png", "사진내용".getBytes());
+		List<MultipartFile> images = List.of(file1, file2, file3, file4);
+		given(postService.saveImage(images))
+				.willReturn(List.of("UUID:Test1.png", "UUID:Test2.png", "UUID:Test3.png", "UUID:Test4.png"));
+
+		// When
+		mockMvc.perform(
+						multipart("/api/posts/image")
+								.file(file1)
+								.file(file2)
+								.file(file3)
+								.file(file4)
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						responseFields(
+								fieldWithPath("[]").description("업로드된 이미지 파일의 이름 목록")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 저장 테스트 (사진 포함)")
+	@WithMockUser
+	void savePostWithImageSuccessTest() throws Exception {
+		// Given
+		String image1 = "image1.png";
+		String image2 = "image2.png";
+		String image3 = "image3.png";
+		String image4 = "image4.png";
+		String image5 = "image5.png";
+		List<String> images = List.of(image1, image2, image3, image4, image5);
+		PostRequest request = PostRequest.builder()
+				.userId("testId").title("제목1").content("내용1").images(images).category(1L)
+				.build();
+
+		given(postService.savePost(any())).willReturn(true);
+
+		// When
+		mockMvc.perform(
+						post("/api/posts")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.msg").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("userId").description("작성자 id"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("images").description("사진 저장 요청 후 서버로 부터 전달받은 이미지 파일의 이름 목록"),
+								fieldWithPath("category").description("카테고리 번호")
+						),
+						responseFields(
+								fieldWithPath("msg").description("요청에 대한 처리 결과")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 단건 조회 테스트 (사진 포함)")
+	@WithMockUser
+	void getPostWithImageTest() throws Exception {
+		// Given
+		String image1 = "image1.png";
+		String image2 = "image2.png";
+		String image3 = "image3.png";
+		String image4 = "image4.png";
+		String image5 = "image5.png";
+		List<String> images = List.of(image1, image2, image3, image4, image5);
+
+		PostResponse post = PostResponse.builder()
+				.userId("testId").title("제목1").content("내용1").images(images).
+				category(1L).hit(0L).commentCount(0L).postLikeCount(0L).isLiked(0)
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+		given(postService.findByPostId(any(), any(), any())).willReturn(post);
+
+		// When
+		mockMvc.perform(
+						get("/api/posts/{postId}", "100")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.userId").exists())
+				.andExpect(jsonPath("$.title").exists())
+				.andExpect(jsonPath("$.content").exists())
+				.andExpect(jsonPath("$.images").exists())
+				.andExpect(jsonPath("$.hit").exists())
+				.andExpect(jsonPath("$.commentCount").exists())
+				.andExpect(jsonPath("$.postLikeCount").exists())
+				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.isLiked").exists())
+				.andExpect(jsonPath("$.createdAt").exists())
+				.andExpect(jsonPath("$.modifiedAt").exists())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters( // PathVariable 방식
+								parameterWithName("postId").description("조회할 게시글 id")
+						),
+						responseFields(
+								fieldWithPath("userId").description("게시글 작성자"),
+								fieldWithPath("title").description("제목"),
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("images").description("사진 리스트"),
+								fieldWithPath("category").description("카테고리"),
+								fieldWithPath("hit").description("조회수"),
+								fieldWithPath("commentCount").description("댓글 수"),
+								fieldWithPath("postLikeCount").description("좋아요 수"),
+								fieldWithPath("isLiked").description("좋아요 상태"),
+								fieldWithPath("createdAt").description("작성일자"),
+								fieldWithPath("modifiedAt").description("수정일자")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 리스트 조회 테스트 (사진 포함)")
+	@WithMockUser
+	void getPostWithImageListTest() throws Exception {
+		// Given
+		String image1 = "image1.png";
+		String image2 = "image2.png";
+		String image3 = "image3.png";
+		String image4 = "image4.png";
+		String image5 = "image5.png";
+		List<String> images = List.of(image1, image2, image3, image4, image5);
+		// 편의상 모두 동일한 사진을 가진다고 가정
+
+		PostResponse post1 = PostResponse.builder()
+				.userId("testId").title("제목1").content("내용1").images(images)
+				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post2 = PostResponse.builder()
+				.userId("testId").title("제목2").content("내용2").images(images)
+				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post3 = PostResponse.builder()
+				.userId("testId").title("제목3").content("내용3").images(images)
+				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post4 = PostResponse.builder()
+				.userId("testId").title("제목4").content("내용4").images(images)
+				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		PostResponse post5 = PostResponse.builder()
+				.userId("testId").title("제목5").content("내용5").images(images)
+				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		given(postService.getPostResponseList(any())).willReturn(List.of(post1, post2, post3, post4, post5));
+
+		// When
+		mockMvc.perform(
+						get("/api/posts")
+								.queryParam("page", "0")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
+						),
+						responseFields(
+								fieldWithPath("[].userId").description("게시글 작성자"),
+								fieldWithPath("[].title").description("제목"),
+								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].images").description("사진 리스트"),
+								fieldWithPath("[].category").description("카테고리"),
+								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].commentCount").description("댓글 수"),
+								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
+								fieldWithPath("[].createdAt").description("작성일자"),
+								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));
 
 		// Then

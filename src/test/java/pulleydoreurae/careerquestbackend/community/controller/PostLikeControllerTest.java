@@ -150,6 +150,7 @@ class PostLikeControllerTest {
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
 								fieldWithPath("[].hit").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
