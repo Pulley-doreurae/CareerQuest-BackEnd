@@ -46,6 +46,8 @@ class PostLikeServiceTest {
 	CommentRepository commentRepository;
 	@Mock
 	PostLikeRepository postLikeRepository;
+	@Mock
+	CommonCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("1. 좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")
@@ -54,8 +56,8 @@ class PostLikeServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.empty());
-		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
+		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
+		given(commonCommunityService.findPost(10000L)).willReturn(post);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(0).build();
@@ -74,8 +76,8 @@ class PostLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-		given(postRepository.findById(10000L)).willReturn(Optional.empty());
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonCommunityService.findPost(10000L)).willReturn(null);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder()
@@ -98,8 +100,8 @@ class PostLikeServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonCommunityService.findPost(10000L)).willReturn(post);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder()
@@ -123,8 +125,8 @@ class PostLikeServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.empty());
-		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
+		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
+		given(commonCommunityService.findPost(10000L)).willReturn(post);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
@@ -143,8 +145,8 @@ class PostLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-		given(postRepository.findById(10000L)).willReturn(Optional.empty());
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonCommunityService.findPost(10000L)).willReturn(null);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
@@ -163,9 +165,9 @@ class PostLikeServiceTest {
 		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 		PostLike postLike = PostLike.builder().userAccount(user).post(post).build();
 
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-		given(postRepository.findById(10000L)).willReturn(Optional.of(post));
-		given(postLikeRepository.findByPostAndUserAccount(post, user)).willReturn(Optional.of(postLike));
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonCommunityService.findPost(10000L)).willReturn(post);
+		given(commonCommunityService.findPostLike(post, user)).willReturn(postLike);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
@@ -198,10 +200,10 @@ class PostLikeServiceTest {
 		Page<PostLike> list = new PageImpl<>(
 				List.of(postLike3, postLike4, postLike5), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
 
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-		given(postRepository.findById(10003L)).willReturn(Optional.of(post3));
-		given(postRepository.findById(10004L)).willReturn(Optional.of(post4));
-		given(postRepository.findById(10005L)).willReturn(Optional.of(post5));
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonCommunityService.postToPostResponse(post3, 0)).willReturn(postToPostResponse(post3));
+		given(commonCommunityService.postToPostResponse(post4, 0)).willReturn(postToPostResponse(post4));
+		given(commonCommunityService.postToPostResponse(post5, 0)).willReturn(postToPostResponse(post5));
 		given(postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable))
 				.willReturn(list);
 
@@ -210,12 +212,16 @@ class PostLikeServiceTest {
 
 		// Then
 		assertEquals(3, result.size());
+		System.out.println(result.get(0));
 		assertThat(result).contains(
 				postToPostResponse(post3),
 				postToPostResponse(post4),
 				postToPostResponse(post5)
 		);
 		verify(postLikeRepository).findAllByUserAccountOrderByIdDesc(user, pageable);
+		verify(commonCommunityService).postToPostResponse(post3, 0);
+		verify(commonCommunityService).postToPostResponse(post4, 0);
+		verify(commonCommunityService).postToPostResponse(post5, 0);
 	}
 
 	// Post -> PostResponse 변환 메서드
@@ -225,8 +231,8 @@ class PostLikeServiceTest {
 				.title(post.getTitle())
 				.content(post.getContent())
 				.hit(post.getHit())
-				.commentCount((long)commentRepository.findAllByPost(post).size())
-				.postLikeCount((long)postLikeRepository.findAllByPost(post).size())
+				.commentCount(0L)
+				.postLikeCount(0L)
 				.category(post.getCategory())
 				.build();
 	}

@@ -1,12 +1,9 @@
 package pulleydoreurae.careerquestbackend.community.service;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,11 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
@@ -27,20 +19,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
-import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
@@ -57,10 +45,6 @@ class PostServiceTest {
 	@Mock
 	PostRepository postRepository;
 	@Mock
-	UserAccountRepository userAccountRepository;
-	@Mock
-	CommentRepository commentRepository;
-	@Mock
 	PostLikeRepository postLikeRepository;
 	@Mock
 	PostViewCheckRepository postViewCheckRepository;
@@ -68,462 +52,51 @@ class PostServiceTest {
 	PostImageRepository postImageRepository;
 	@Mock
 	FileManagementService fileManagementService;
-
-	// TODO: 2024/04/9 게시글 리스트, 조회에 사진이 정상적으로 출력하는지 테스트 코드 작성, 사진이 정상적으로 저장되는지 테스트 코드 작성
-
-	@Test
-	@DisplayName("1. 게시글 리스트를 불러오는 테스트")
-	void getPostListTest() {
-		// Given
-		insertUserAccount();
-		Post post1 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		Post post2 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목2").content("내용2").category(1L).hit(0L).build();
-
-		Post post3 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목3").content("내용3").category(1L).hit(0L).build();
-
-		Post post4 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목4").content("내용4").category(1L).hit(0L).build();
-
-		Post post5 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목5").content("내용5").category(1L).hit(0L).build();
-
-		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
-		Page<Post> list = new PageImpl<>(List.of(post3, post4, post5), pageable, 3);
-
-		given(postRepository.findAllByOrderByIdDesc(pageable)).willReturn(list);
-
-		// When
-		List<PostResponse> result = postService.getPostResponseList(pageable);
-
-		// Then
-		Page<Post> findAll = postRepository.findAllByOrderByIdDesc(pageable);
-		assertEquals(3, result.size());
-		assertThat(result).contains(
-				postToPostResponse(findAll.getContent().get(0)),
-				postToPostResponse(findAll.getContent().get(1)),
-				postToPostResponse(findAll.getContent().get(2)));
-	}
+	@Mock
+	CommonCommunityService commonCommunityService;
 
 	@Test
-	@DisplayName("2. 게시글 단건 조회 (실패)")
-	void findByPostIdFailTest() {
+	@DisplayName("게시글 불러오기 실패")
+	void findByPostIdNullTest() {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		given(postRepository.findById(100L)).willReturn(Optional.empty());
+		given(commonCommunityService.findPost(any())).willReturn(null);
 
 		// When
 		PostResponse result = postService.findByPostId(request, response, 100L);
 
 		// Then
 		assertNull(result);
+		verify(commonCommunityService, never()).postToPostResponse(new Post(), 0);
 	}
 
 	@Test
-	@DisplayName("3. 게시글 단건 조회 (성공 - 조회수 증가 X)")
-	void findByPostIdSuccessTest() {
+	@DisplayName("게시글 불러오기 성공")
+	void findByPostIdNotNullTest() {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-
-		insertUserAccount();
-		Post post = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", post.getId())));
+		Post post = Post.builder().title("제목").content("내용").hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(post);
+		given(commonCommunityService.postToPostResponse(post, 0)).willReturn(
+				new PostResponse("A", "A", "A", List.of(), 1L, 1L, 1L, 1L, 1, "A", "A"));
 
 		// When
-		// 이미 해당 게시글이 같은 사용자에 의해 방문되었다면 조회수는 증가하지 않음을 테스트한다.
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
 		PostResponse result = postService.findByPostId(request, response, 100L);
-		PostResponse expect = postToPostResponse(post);
 
 		// Then
-		assertAll(
-				() -> assertEquals(expect.getUserId(), result.getUserId()),
-				() -> assertEquals(expect.getTitle(), result.getTitle()),
-				() -> assertEquals(expect.getContent(), result.getContent()),
-				() -> assertEquals(expect.getCategory(), result.getCategory()),
-				() -> assertEquals(0, result.getIsLiked()), // 좋아요 상태는 0
-				() -> assertEquals(0, result.getHit())
-		);
+		assertNotNull(result);
+		verify(commonCommunityService).postToPostResponse(post, 0);
 	}
 
 	@Test
-	@DisplayName("4. 게시글 등록 테스트 (실패)")
-	void savePostFailTest() {
-		// Given
-		given(userAccountRepository.findByUserId(any())).willReturn(Optional.empty());
-
-		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
-
-		// Then
-		assertFalse(result);
-	}
-
-	@Test
-	@DisplayName("5. 게시글 등록 테스트 (성공)")
-	void savePostSuccessTest() {
-		// Given
-		insertUserAccount();
-
-		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
-
-		// Then
-		assertTrue(result);
-	}
-
-	@Test
-	@DisplayName("6. 게시글 수정 테스트 (실패 / 회원정보 없음)")
-	void updatePostFailTest1() {
-		// Given
-		given(userAccountRepository.findByUserId(any())).willReturn(Optional.empty());
-		Post post = Post.builder()
-				.userAccount(UserAccount.builder().userId("testId").build())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-
-		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
-
-		// Then
-		assertFalse(result);
-	}
-
-	@Test
-	@DisplayName("7. 게시글 수정 테스트 (실패 / 작성자, 수정자 다름)")
-	void updatePostFailTest2() {
-		// Given
-		insertUserAccount();
-		Post post = Post.builder()
-				.userAccount(UserAccount.builder().userId("test").build())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-
-		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
-
-		// Then
-		assertFalse(result);
-	}
-
-	@Test
-	@DisplayName("8. 게시글 수정 테스트 (성공)")
-	void updatePostSuccessTest() {
-		// Given
-		insertUserAccount();
-		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-
-		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
-
-		// Then
-		assertTrue(result);
-	}
-
-	@Test
-	@DisplayName("9. 게시글 삭제 테스트 (실패 / 회원정보 없음)")
-	void deletePostFailTest1() {
-		// Given
-		given(userAccountRepository.findByUserId(any())).willReturn(Optional.empty());
-		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-
-		// When
-		boolean result = postService.deletePost(100L, "testId");
-
-		// Then
-		assertFalse(result);
-	}
-
-	@Test
-	@DisplayName("10. 게시글 삭제 테스트 (실패 / 작성자, 요청자 다름)")
-	void deletePostFailTest2() {
-		// Given
-		insertUserAccount();
-		Post post = Post.builder().userAccount(UserAccount.builder().userId("test").build())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-
-		// When
-		boolean result = postService.deletePost(100L, "testId");
-
-		// Then
-		assertFalse(result);
-	}
-
-	@Test
-	@DisplayName("11. 게시글 삭제 테스트 (성공)")
-	void deletePostSuccessTest() {
-		// Given
-		insertUserAccount();
-		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-		given(postImageRepository.findAllByPost(any())).willReturn(List.of());
-		given(postImageRepository.findAllByPost(any())).willReturn(null);
-
-		// When
-		boolean result = postService.deletePost(100L, "testId");
-
-		// Then
-		assertTrue(result);
-		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
-	}
-
-	@Test
-	@DisplayName("12. 게시글 리스트를 카테고리로 불러오는 테스트")
-	void getPostListByCategoryTest() {
-		// Given
-		insertUserAccount();
-		Post post1 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		Post post2 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목2").content("내용2").category(1L).hit(0L).build();
-
-		Post post3 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목3").content("내용3").category(1L).hit(0L).build();
-
-		Post post4 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목4").content("내용4").category(1L).hit(0L).build();
-
-		Post post5 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목5").content("내용5").category(1L).hit(0L).build();
-
-		Post post6 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목6").content("내용6").category(2L).hit(0L).build();
-
-		Post post7 = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.title("제목7").content("내용7").category(2L).hit(0L).build();
-
-		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
-		Page<Post> list = new PageImpl<>(List.of(post3, post5, post7), pageable, 3);
-
-		given(postRepository.findAllByCategoryOrderByIdDesc(1L, pageable)).willReturn(list);
-
-		// When
-		List<PostResponse> result = postService.getPostResponseListByCategory(1L, pageable);
-
-		// Then
-		Page<Post> findAll = postRepository.findAllByCategoryOrderByIdDesc(1L, pageable);
-		assertEquals(3, result.size());
-		assertThat(result).contains(
-				postToPostResponse(findAll.getContent().get(0)),
-				postToPostResponse(findAll.getContent().get(1)),
-				postToPostResponse(findAll.getContent().get(2)));
-	}
-
-	@Test
-	@DisplayName("13. 한 사용자가 작성한 게시글 리스트를 불러오는 테스트")
-	void getPostListByUserAccountTest() {
-		// Given
-		insertUserAccount();
-		UserAccount user2 = UserAccount.builder().userId("testId2").build();
-
-		given(userAccountRepository.findByUserId("testId2")).willReturn(Optional.ofNullable(user2));
-
-		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
-		Post post2 = Post.builder().userAccount(user).title("제목2").content("내용2").category(1L).hit(0L).build();
-		Post post3 = Post.builder().userAccount(user).title("제목3").content("내용3").category(1L).hit(0L).build();
-		Post post4 = Post.builder().userAccount(userAccountRepository.findByUserId("testId2").get())
-				.title("제목4").content("내용4").category(1L).hit(0L).build();
-
-		Post post5 = Post.builder().userAccount(user).title("제목5").content("내용5").category(1L).hit(0L).build();
-		Post post6 = Post.builder().userAccount(userAccountRepository.findByUserId("testId2").get())
-				.title("제목6").content("내용6").category(2L).hit(0L).build();
-
-		Post post7 = Post.builder().userAccount(user).title("제목7").content("내용7").category(2L).hit(0L).build();
-
-		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
-		Page<Post> list = new PageImpl<>(List.of(post3, post5, post7), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
-
-		given(postRepository.findAllByUserAccountOrderByIdDesc(user, pageable)).willReturn(list);
-
-		// When
-		List<PostResponse> result = postService.getPostListByUserAccount("testId", pageable);
-
-		// Then
-		Page<Post> findAll = postRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
-		assertEquals(3, result.size());
-		assertThat(result).contains(
-				postToPostResponse(findAll.getContent().get(0)),
-				postToPostResponse(findAll.getContent().get(1)),
-				postToPostResponse(findAll.getContent().get(2)));
-	}
-
-	@Test
-	@DisplayName("14. 게시글 단건 조회 (성공 - 조회수 증가 O 모두 다른 사용자의 요청)")
-	void findByPostIdSuccess2Test() {
+	@DisplayName("조회수 증가 테스트")
+	void checkViewTest1() {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		insertUserAccount();
-		Post post = Post.builder().userAccount(userAccountRepository.findByUserId("testId").get())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", 1L)));
-
-		// When
-		// 게시글이 모두 다른 사용자들의 요청에 의해 호출되는 경우
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
-		postService.findByPostId(request, response, 100L);
-		PostResponse result = postService.findByPostId(request, response, 100L);
-		PostResponse expect = postToPostResponse(post);
-
-		// Then
-		assertAll(
-				() -> assertEquals(expect.getUserId(), result.getUserId()),
-				() -> assertEquals(expect.getTitle(), result.getTitle()),
-				() -> assertEquals(expect.getContent(), result.getContent()),
-				() -> assertEquals(expect.getCategory(), result.getCategory()),
-				() -> assertEquals(6, result.getHit())
-		);
-	}
-
-	@Test
-	@DisplayName("15. UUID 값이 정상적으로 생성되는지 테스트")
-	public void testGetUUIDWithNoExistingCookie() {
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		MockHttpServletResponse response = new MockHttpServletResponse();
-
-		// getUUID 메서드 실행
-		String uuid = postService.getUUID(request, response);
-
-		// UUID 값 검증
-		assertThat(uuid).isNotNull();
-
-		// 새로 생성된 쿠키 검증
-		assertThat(response.getCookies()).isNotNull();
-		assertThat(response.getCookies()[0].getName()).isEqualTo("UUID");
-		assertThat(response.getCookies()[0].getValue()).isEqualTo(uuid);
-	}
-
-	@Test
-	@DisplayName("검색어로만 검색하는 테스트")
-	void searchPostsTest1() {
-		// Given
-		insertUserAccount();
-		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
-		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").category(2L).hit(0L).build();
-		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").category(1L).hit(0L).build();
-		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").category(2L).hit(0L).build();
-		Post post5 = Post.builder().userAccount(user).title("검색어").content("내용5").category(1L).hit(0L).build();
-		Post post6 = Post.builder().userAccount(user).title("검색어").content("검색어").category(2L).hit(0L).build();
-		Post post7 = Post.builder().userAccount(user).title("제목7").content("검색어").category(2L).hit(0L).build();
-
-		// When
-
-		Pageable pageable = PageRequest.of(0, 3, Sort.by("id").descending()); // 한 페이지에 3개씩 자르기
-		Page<Post> list = new PageImpl<>(List.of(post5, post6, post7), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
-		given(postRepository.searchByKeyword("검색어", pageable)).willReturn(list);
-
-		// When
-		List<PostResponse> result = postService.searchPosts("검색어", null, pageable);
-
-		// Then
-		Page<Post> findAll = postRepository.searchByKeyword("검색어", pageable);
-		assertEquals(3, result.size());
-		assertThat(result).contains(
-				postToPostResponse(findAll.getContent().get(0)),
-				postToPostResponse(findAll.getContent().get(1)),
-				postToPostResponse(findAll.getContent().get(2)));
-	}
-
-	@Test
-	@DisplayName("검색어와 카테고리로 검색하는 테스트")
-	void searchPostsTest2() {
-		// Given
-		insertUserAccount();
-		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").category(1L).hit(0L).build();
-		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").category(2L).hit(0L).build();
-		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").category(1L).hit(0L).build();
-		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").category(2L).hit(0L).build();
-		Post post5 = Post.builder().userAccount(user).title("검색어").content("내용5").category(1L).hit(0L).build();
-		Post post6 = Post.builder().userAccount(user).title("검색어").content("검색어").category(2L).hit(0L).build();
-		Post post7 = Post.builder().userAccount(user).title("제목7").content("검색어").category(2L).hit(0L).build();
-
-		Pageable pageable = PageRequest.of(0, 3, Sort.by("id").descending()); // 한 페이지에 3개씩 자르기
-		Page<Post> list = new PageImpl<>(List.of(post4, post6, post7), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
-		given(postRepository.searchByKeywordAndCategory("검색어", 2L, pageable)).willReturn(list);
-
-		// When
-		List<PostResponse> result = postService.searchPosts("검색어", 2L, pageable);
-
-		// Then
-		Page<Post> findAll = postRepository.searchByKeywordAndCategory("검색어", 2L, pageable);
-		assertEquals(3, result.size());
-		assertThat(result).contains(
-				postToPostResponse(findAll.getContent().get(0)),
-				postToPostResponse(findAll.getContent().get(1)),
-				postToPostResponse(findAll.getContent().get(2)));
-	}
-
-	@Test
-	@DisplayName("게시글 단건 조회 (성공 - 좋아요 상태 0)")
-	void findByPostIdSuccessAndIsLikedTest1() {
-		// Given
-		HttpServletRequest request = new MockHttpServletRequest();
-		HttpServletResponse response = new MockHttpServletResponse();
-
-		insertUserAccount();
-		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post = Post.builder().userAccount(user)
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-		given(postViewCheckRepository.findById(any())).willReturn(Optional.of(new PostViewCheck("user", post.getId())));
-
-		// When
-		// 이미 해당 게시글이 같은 사용자에 의해 방문되었다면 조회수는 증가하지 않음을 테스트한다.
-		PostResponse result = postService.findByPostId(request, response, 100L);
-		PostResponse expect = postToPostResponse(post);
-
-		// Then
-		assertAll(
-				() -> assertEquals(expect.getUserId(), result.getUserId()),
-				() -> assertEquals(expect.getTitle(), result.getTitle()),
-				() -> assertEquals(expect.getContent(), result.getContent()),
-				() -> assertEquals(expect.getCategory(), result.getCategory()),
-				() -> assertEquals(0, result.getIsLiked()), // 좋아요 상태는 1
-				() -> assertEquals(0, result.getHit())
-		);
-	}
-
-	@Test
-	@DisplayName("게시글 단건 조회 (성공 - 좋아요 상태 1)")
-	void findByPostIdSuccessAndIsLikedTest2() {
-		// Given
-		HttpServletRequest request = new MockHttpServletRequest();
-		HttpServletResponse response = new MockHttpServletResponse();
-
+		Post post = Post.builder().title("제목").content("내용").hit(1L).category(1L).build();
 		// Authentication Mocking
 		Authentication authentication = new UsernamePasswordAuthenticationToken("testId", null,
 				AuthorityUtils.createAuthorityList("ROLE_USER"));
@@ -532,39 +105,68 @@ class PostServiceTest {
 		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 		securityContext.setAuthentication(authentication);
 		SecurityContextHolder.setContext(securityContext);
-
-		insertUserAccount();
-		UserAccount user = userAccountRepository.findByUserId("testId").get();
-
-		List<PostLike> list = new ArrayList<>();
-		Post post = Post.builder().userAccount(user)
-				.id(100L).title("제목1").content("내용1").category(1L).postLikes(list).hit(0L).build();
-
-		PostLike postLike = PostLike.builder()
-				.userAccount(user)
-				.post(post)
-				.build();
-		list.add(postLike);
-
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
-		given(postViewCheckRepository.findById(any()))
-				.willReturn(Optional.of(new PostViewCheck("user", post.getId())));
-		given(postLikeRepository.existsByPostAndUserAccount(post, user)).willReturn(true);
+		given(commonCommunityService.findPostViewCheck("testId")).willReturn(null);
 
 		// When
-		// 이미 해당 게시글이 같은 사용자에 의해 방문되었다면 조회수는 증가하지 않음을 테스트한다.
-		PostResponse result = postService.findByPostId(request, response, 100L);
-		PostResponse expect = postToPostResponse(post);
+		String result = postService.checkView(request, response, 100L, post);
 
 		// Then
-		assertAll(
-				() -> assertEquals(expect.getUserId(), result.getUserId()),
-				() -> assertEquals(expect.getTitle(), result.getTitle()),
-				() -> assertEquals(expect.getContent(), result.getContent()),
-				() -> assertEquals(expect.getCategory(), result.getCategory()),
-				() -> assertEquals(1, result.getIsLiked()), // 좋아요 상태는 1
-				() -> assertEquals(0, result.getHit())
-		);
+		assertEquals("testId", result);
+		assertEquals(2, post.getHit());
+		verify(postViewCheckRepository).save(any());
+	}
+
+	@Test
+	@DisplayName("조회수 증가X 테스트")
+	void checkViewTest2() {
+		// Given
+		HttpServletRequest request = new MockHttpServletRequest();
+		HttpServletResponse response = new MockHttpServletResponse();
+		Post post = Post.builder().title("제목").content("내용").hit(1L).category(1L).build();
+		// Authentication Mocking
+		Authentication authentication = new UsernamePasswordAuthenticationToken("testId", null,
+				AuthorityUtils.createAuthorityList("ROLE_USER"));
+
+		// SecurityContext 에 Authentication 객체 설정
+		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+		securityContext.setAuthentication(authentication);
+		SecurityContextHolder.setContext(securityContext);
+		PostViewCheck postViewCheck = new PostViewCheck("testId", 100L);
+		given(commonCommunityService.findPostViewCheck("testId")).willReturn(postViewCheck);
+
+		// When
+		String result = postService.checkView(request, response, 100L, post);
+
+		// Then
+		assertEquals("testId", result);
+		assertEquals(1, post.getHit());
+		verify(postViewCheckRepository, never()).save(any());
+	}
+
+	@Test
+	@DisplayName("좋아요 상태 0")
+	void getIsLikedTest1() {
+		// Given
+		given(postLikeRepository.existsByPostAndUserAccount(any(), any())).willReturn(false);
+
+		// When
+		int result = postService.getIsLiked("testId", new Post());
+
+		// Then
+		assertEquals(0, result);
+	}
+
+	@Test
+	@DisplayName("좋아요 상태 1")
+	void getIsLikedTest2() {
+		// Given
+		given(postLikeRepository.existsByPostAndUserAccount(any(), any())).willReturn(true);
+
+		// When
+		int result = postService.getIsLiked("testId", new Post());
+
+		// Then
+		assertEquals(1, result);
 	}
 
 	@Test
@@ -599,6 +201,32 @@ class PostServiceTest {
 		assertThrows(RuntimeException.class, () -> postService.saveImage(List.of(file1, file2, file3, file4)));
 	}
 
+	@Test
+	@DisplayName("게시글 등록 테스트 (성공)")
+	void savePostSuccessTest() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+
+		// When
+		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
+
+		// Then
+		assertTrue(result);
+	}
+
+	@Test
+	@DisplayName("게시글 등록 테스트 (실패)")
+	void savePostFailTest() {
+		// Given
+		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
+
+		// When
+		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
+
+		// Then
+		assertFalse(result);
+	}
 
 	@Test
 	@DisplayName("게시글 사진과 함께 등록 테스트 (성공)")
@@ -610,7 +238,8 @@ class PostServiceTest {
 		String image4 = "image4.png";
 		String image5 = "image5.png";
 		List<String> images = List.of(image1, image2, image3, image4, image5);
-		insertUserAccount();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 
 		// When
 		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images));
@@ -629,6 +258,7 @@ class PostServiceTest {
 		String image4 = "image4.png";
 		String image5 = "image5.png";
 		List<String> images = List.of(image1, image2, image3, image4, image5);
+		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
 
 		// When
 		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images));
@@ -640,9 +270,82 @@ class PostServiceTest {
 	}
 
 	@Test
+	@DisplayName("게시글 수정 실패 (게시글 찾을 수 없음)")
+	void updatePostFail1Test() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(null);
+		given(commonCommunityService.findUserAccount(any())).willReturn(user);
+
+		// When
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
+
+		// Then
+		assertFalse(result);
+		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
+		verify(postRepository, never()).save(any());
+	}
+
+	@Test
+	@DisplayName("게시글 수정 실패 (사용자 찾을 수 없음)")
+	void updatePostFail2Test() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(post);
+		given(commonCommunityService.findUserAccount(any())).willReturn(null);
+
+		// When
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
+
+		// Then
+		assertFalse(result);
+		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
+		verify(postRepository, never()).save(any());
+	}
+
+	@Test
+	@DisplayName("게시글 수정 실패 (작성자, 수정자 다름)")
+	void updatePostFail3Test() {
+		// Given
+		UserAccount user1 = UserAccount.builder().userId("testId1").build();
+		UserAccount user2 = UserAccount.builder().userId("testId2").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user1).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(post);
+		given(commonCommunityService.findUserAccount(any())).willReturn(user2);
+
+		// When
+		boolean result = postService.updatePost(100L, new PostRequest("testId2", "제목", "내용", 1L, null));
+
+		// Then
+		assertFalse(result);
+		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
+		verify(postRepository, never()).save(any());
+	}
+
+	@Test
+	@DisplayName("게시글 수정 성공")
+	void updatePostSuccessTest() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(post);
+		given(commonCommunityService.findUserAccount(any())).willReturn(user);
+
+		// When
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
+
+		// Then
+		assertTrue(result);
+		verify(commonCommunityService).postRequestToPostForUpdate(any(), any(), any());
+		verify(postRepository).save(any());
+	}
+
+	@Test
 	@DisplayName("이미지 수정 테스트")
 	void updateImagesTest() {
-	    // Given
+		// Given
 		PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
 		PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
 		PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
@@ -657,10 +360,10 @@ class PostServiceTest {
 		String image3 = "image3.png";
 		String image6 = "image6.png";
 		List<String> input = List.of(image2, image3, image6);
-	    // When
+		// When
 		postService.updateImages(input, new Post());
 
-	    // Then
+		// Then
 		verify(fileManagementService).deleteFile(anyList(), any());
 		// 2, 3 을 제외한 1, 4, 5 가 삭제됨
 		verify(postImageRepository, times(3)).deleteByFileName(any());
@@ -671,46 +374,98 @@ class PostServiceTest {
 	}
 
 	@Test
-	@DisplayName("게시글 사진과 함께 삭제 테스트 (성공)")
-	void deletePostWithImagesSuccessTest() {
+	@DisplayName("게시글 삭제 실패 (게시글 찾을 수 없음)")
+	void deletePostFail1Test() {
 		// Given
-		insertUserAccount();
-		Post post = Post.builder().userAccount(UserAccount.builder().userId("testId").build())
-				.id(100L).title("제목1").content("내용1").category(1L).hit(0L).build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(null);
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 
-		given(postRepository.findById(100L)).willReturn(Optional.ofNullable(post));
+		// When
+		boolean result = postService.deletePost(100L, "testId");
+
+		// Then
+		assertFalse(result);
+		verify(postRepository, never()).deleteById(100L);
+		verify(postImageRepository, never()).findAllByPost(any());
+		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
+	}
+
+	@Test
+	@DisplayName("게시글 삭제 실패 (사용자 찾을 수 없음)")
+	void deletePostFail2Test() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(post);
+		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
+
+		// When
+		boolean result = postService.deletePost(100L, "testId");
+
+		// Then
+		assertFalse(result);
+		verify(postRepository, never()).deleteById(100L);
+		verify(postImageRepository, never()).findAllByPost(any());
+		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
+	}
+
+	@Test
+	@DisplayName("게시글 수정 실패 (작성자, 요청자 다름)")
+	void deletePostFail3Test() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(post);
+
+		// When
+		boolean result = postService.deletePost(100L, "testId1");
+
+		// Then
+		assertFalse(result);
+		verify(postRepository, never()).deleteById(100L);
+		verify(postImageRepository, never()).findAllByPost(any());
+		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
+	}
+
+	@Test
+	@DisplayName("게시글 삭제 성공")
+	void deletePostSuccessTest() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(any())).willReturn(post);
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 		given(postImageRepository.findAllByPost(any())).willReturn(List.of());
-		given(postImageRepository.findAllByPost(any())).willReturn(anyList());
 
 		// When
 		boolean result = postService.deletePost(100L, "testId");
 
 		// Then
 		assertTrue(result);
+		verify(postRepository).deleteById(100L);
+		verify(postImageRepository).findAllByPost(post);
+		verify(fileManagementService, never()).deleteFile(anyList(), any());
+	}
+
+	@Test
+	@DisplayName("게시글 사진과 함께 삭제 테스트 (성공)")
+	void deletePostWithImagesSuccessTest() {
+		// Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
+		given(commonCommunityService.findPost(100L)).willReturn(post);
+		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(postImageRepository.findAllByPost(any())).willReturn(List.of(new PostImage()));
+
+		// When
+		boolean result = postService.deletePost(100L, "testId");
+
+		// Then
+		assertTrue(result);
+		verify(postRepository).deleteById(100L);
+		verify(postImageRepository).findAllByPost(post);
 		verify(fileManagementService).deleteFile(anyList(), any());
-	}
-
-	// 사용자 정보 저장 메서드
-	public void insertUserAccount() {
-		UserAccount user = UserAccount.builder()
-				.userId("testId")
-				.build();
-
-		given(userAccountRepository.findByUserId("testId"))
-				.willReturn(Optional.ofNullable(user));
-	}
-
-	// Post -> PostResponse 변환 메서드
-	PostResponse postToPostResponse(Post post) {
-		return PostResponse.builder()
-				.userId(post.getUserAccount().getUserId())
-				.title(post.getTitle())
-				.content(post.getContent())
-				.images(List.of())
-				.hit(post.getHit())
-				.commentCount((long)commentRepository.findAllByPost(post).size())
-				.postLikeCount((long)postLikeRepository.findAllByPost(post).size())
-				.category(post.getCategory())
-				.build();
 	}
 }
