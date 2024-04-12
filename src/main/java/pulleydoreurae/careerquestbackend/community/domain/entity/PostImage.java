@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.auth.domain.entity;
+package pulleydoreurae.careerquestbackend.community.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,25 +14,26 @@ import lombok.NoArgsConstructor;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 
 /**
- * 기술스택 엔티티
+ * 게시글에 사용되는 이미지 Entity
  *
  * @author : parkjihyeok
- * @since : 2024/03/26
+ * @since : 2024/04/08
  */
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserTechnologyStack extends BaseEntity {
+public class PostImage extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private UserAccount userAccount; // 회원정보
 	@Column(nullable = false)
-	private Long stackId; // 기술스택 id
+	private String fileName;
+
+	@ManyToOne
+	@JoinColumn(nullable = false, name = "post_id")
+	private Post post;
 }

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,7 +31,6 @@ import pulleydoreurae.careerquestbackend.auth.domain.jwt.repository.JwtAccessTok
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.repository.JwtRefreshTokenRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.auth.service.UserAccessLogService;
-import pulleydoreurae.careerquestbackend.support.RedisTestContainers;
 
 /**
  * 로그인을 테스트하기 위한 클래스
@@ -43,7 +41,6 @@ import pulleydoreurae.careerquestbackend.support.RedisTestContainers;
 @SpringBootTest    // 시큐리티 내부의 로그인 기능을 테스트하려면 @WebMvcTest 로는 어려움, 통합테스트이므로 @WithMockUser 필요 없음
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-@ExtendWith(RedisTestContainers.class)
 class LoginControllerTest {
 
 	@Autowired

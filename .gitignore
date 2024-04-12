@@ -220,3 +220,11 @@ mail.yml
 database.yml
 geoIpRoot.yml
 
+# yml 파일 서버로 전송하는 스크립트
+client_yml.sh
+client_yml-2.sh
+
+# 도커 관련파일 (아직 미완성이기 때문에 gitignore에 포함)
+docker-compose.yml
+Dockerfile
+path.yml
