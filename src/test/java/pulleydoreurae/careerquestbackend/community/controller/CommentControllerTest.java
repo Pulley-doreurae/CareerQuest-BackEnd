@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -158,7 +159,7 @@ class CommentControllerTest {
 	void saveCommentFailTest() throws Exception {
 		// Given
 		CommentRequest request = CommentRequest.builder().userId("testId").content("댓글내용").build();
-		given(commentService.saveComment(any())).willReturn(false);
+		doThrow(new UsernameNotFoundException("댓글 등록 실패")).when(commentService).saveComment(any());
 
 		// When
 		mockMvc.perform(
@@ -190,7 +191,6 @@ class CommentControllerTest {
 	void saveCommentSuccessTest() throws Exception {
 		// Given
 		CommentRequest request = CommentRequest.builder().userId("testId").content("댓글내용").build();
-		given(commentService.saveComment(any())).willReturn(true);
 
 		// When
 		mockMvc.perform(

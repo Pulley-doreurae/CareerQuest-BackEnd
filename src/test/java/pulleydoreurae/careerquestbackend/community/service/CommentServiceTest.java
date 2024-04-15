@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,15 +17,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.exception.CommentNotFoundException;
+import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
 import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
-import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
 
 /**
  * @author : parkjihyeok
@@ -38,11 +38,9 @@ class CommentServiceTest {
 	@InjectMocks
 	CommentService commentService;
 	@Mock
-	UserAccountRepository userAccountRepository;
-	@Mock
-	PostRepository postRepository;
-	@Mock
 	CommentRepository commentRepository;
+	@Mock
+	CommonCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("1. 댓글 저장 테스트 (실패 - 회원정보를 찾을 수 없음)")
@@ -52,17 +50,16 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L) // 해당 번호까지는 테스트에서 올라갈 일이 없으므로 특정한 값으로 지정해서 정확한 테스트 시도
 				.userAccount(user).title("제목1").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.empty());
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
+		given(commonCommunityService.findUserAccount(user.getUserId()))
+				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		CommentRequest request = CommentRequest.builder()
 				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
-		boolean result = commentService.saveComment(request);
 
 		// Then
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class, () -> commentService.saveComment(request));
 		verify(commentRepository, never()).save(any()); // 해당 메서드가 한번도 호출되지 않았는지 확인
 	}
 
@@ -73,17 +70,17 @@ class CommentServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.empty());
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId()))
+				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		CommentRequest request = CommentRequest.builder()
 				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
-		boolean result = commentService.saveComment(request);
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostNotFoundException.class, () -> commentService.saveComment(request));
 		verify(commentRepository, never()).save(any()); // 해당 메서드가 한번도 호출되지 않았는지 확인
 	}
 
@@ -94,17 +91,16 @@ class CommentServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
 
 		CommentRequest request = CommentRequest.builder()
 				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
-		boolean result = commentService.saveComment(request);
 
 		// Then
-		assertTrue(result);
+		assertDoesNotThrow(() -> commentService.saveComment(request));
 		verify(commentRepository).save(any()); // 해당 메서드가 호출되었는지 확인
 	}
 
@@ -116,18 +112,16 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.empty());
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId()))
+				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		CommentRequest request = CommentRequest.builder()
 				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
-		boolean result = commentService.updateComment(request, post.getId());
 
 		// Then
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class, () -> commentService.updateComment(request, post.getId()));
 		verify(commentRepository, never()).save(any());
 	}
 
@@ -139,18 +133,17 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.empty());
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId()))
+				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		CommentRequest request = CommentRequest.builder()
 				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
-		boolean result = commentService.updateComment(request, post.getId());
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostNotFoundException.class, () -> commentService.updateComment(request, post.getId()));
 		verify(commentRepository, never()).save(any());
 	}
 
@@ -162,18 +155,18 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.empty());
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
+		given(commonCommunityService.findComment(comment.getId()))
+				.willThrow(new CommentNotFoundException("댓글정보를 찾을 수 없습니다."));
 
 		CommentRequest request = CommentRequest.builder()
 				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
 
 		// When
-		boolean result = commentService.updateComment(request, post.getId());
 
 		// Then
-		assertFalse(result);
+		assertThrows(CommentNotFoundException.class, () -> commentService.updateComment(request, post.getId()));
 		verify(commentRepository, never()).save(any());
 	}
 
@@ -185,9 +178,10 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(100L)).willReturn(Optional.empty());
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(100L))
+				.willReturn(Post.builder().id(100L).userAccount(user).title("제목1").build());
+		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		CommentRequest request = CommentRequest.builder().userId(user.getUserId()).postId(100L) // 잘못된 게시글 정보로 요청
 				.content("댓글 내용").build();
@@ -208,9 +202,10 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId("test")).willReturn(Optional.empty());
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount("test"))
+				.willReturn(UserAccount.builder().userId("test").build());
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
+		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		CommentRequest request = CommentRequest.builder()
 				.userId("test").postId(post.getId()).content("댓글 내용").build();
@@ -231,9 +226,9 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
+		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		CommentRequest request = CommentRequest.builder()
 				.userId(user.getUserId()).postId(post.getId()).content("댓글 내용").build();
@@ -254,15 +249,14 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.empty());
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId()))
+				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
-		boolean result = commentService.deleteComment(comment.getId(), post.getId(), user.getUserId());
 
 		// Then
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class,
+				() -> commentService.deleteComment(comment.getId(), post.getId(), user.getUserId()));
 		verify(commentRepository, never()).deleteById(any());
 	}
 
@@ -274,15 +268,15 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.empty());
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId()))
+				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
-		boolean result = commentService.deleteComment(comment.getId(), post.getId(), user.getUserId());
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostNotFoundException.class,
+				() -> commentService.deleteComment(comment.getId(), post.getId(), user.getUserId()));
 		verify(commentRepository, never()).deleteById(any());
 	}
 
@@ -294,15 +288,16 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.empty());
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
+		given(commonCommunityService.findComment(comment.getId()))
+				.willThrow(new CommentNotFoundException("댓글정보를 찾을 수 없습니다."));
 
 		// When
-		boolean result = commentService.deleteComment(comment.getId(), post.getId(), user.getUserId());
 
 		// Then
-		assertFalse(result);
+		assertThrows(CommentNotFoundException.class,
+				() -> commentService.deleteComment(comment.getId(), post.getId(), user.getUserId()));
 		verify(commentRepository, never()).deleteById(any());
 	}
 
@@ -314,9 +309,10 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(100L)).willReturn(Optional.empty());
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(100L))
+				.willReturn(Post.builder().id(100L).userAccount(user).title("제목1").build());
+		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		// When
 		boolean result = commentService.deleteComment(comment.getId(), 100L, user.getUserId());
@@ -334,9 +330,10 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId("test")).willReturn(Optional.empty());
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount("test"))
+				.willReturn(UserAccount.builder().userId("test").build());
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
+		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		// When
 		boolean result = commentService.deleteComment(comment.getId(), post.getId(), "test");
@@ -354,9 +351,9 @@ class CommentServiceTest {
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
-		given(commentRepository.findById(comment.getId())).willReturn(Optional.of(comment));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
+		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		// When
 		boolean result = commentService.deleteComment(comment.getId(), post.getId(), user.getUserId());
@@ -382,7 +379,7 @@ class CommentServiceTest {
 		// 3개씩 자른다면 마지막 3개가 반환되어야 함
 		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
 
-		given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
+		given(commonCommunityService.findPost(post.getId())).willReturn(post);
 		given(commentRepository.findAllByPostOrderByIdDesc(post, pageable)).willReturn(pageList);
 
 		// When
@@ -414,7 +411,7 @@ class CommentServiceTest {
 		// 3개씩 자른다면 마지막 3개가 반환되어야 함
 		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
 
-		given(userAccountRepository.findByUserId(user.getUserId())).willReturn(Optional.of(user));
+		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable)).willReturn(pageList);
 
 		// When
