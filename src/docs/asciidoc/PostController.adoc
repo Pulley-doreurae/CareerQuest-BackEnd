@@ -29,6 +29,12 @@ operation::post-controller-test/search-posts-test1[snippets="http-response,respo
 operation::post-controller-test/search-posts-test2[snippets="http-request,query-parameters"]
 ==== 응답
 operation::post-controller-test/search-posts-test2[snippets="http-response,response-fields"]
+=== 게시글 이미지 조회 (이미지 태그에 넣을 값)
+==== 요청
+operation::post-controller-test/get-image-resource-test[snippets="http-request,path-parameters"]
+==== 응답
+태그에 해당 url 을 넣으면 그에 해당하는 이미지 출력 (현재는 Mock 객체이기 때문에 없음)
+
 === 게시글 단건 조회
 ==== 요청
 operation::post-controller-test/get-post-test[snippets="http-request,path-parameters"]

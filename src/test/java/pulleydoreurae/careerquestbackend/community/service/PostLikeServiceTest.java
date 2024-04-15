@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,16 +16,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
-import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
 
 /**
  * @author : parkjihyeok
@@ -39,12 +37,6 @@ class PostLikeServiceTest {
 	@InjectMocks
 	PostLikeService postLikeService;
 	@Mock
-	UserAccountRepository userAccountRepository;
-	@Mock
-	PostRepository postRepository;
-	@Mock
-	CommentRepository commentRepository;
-	@Mock
 	PostLikeRepository postLikeRepository;
 	@Mock
 	CommonCommunityService commonCommunityService;
@@ -54,18 +46,15 @@ class PostLikeServiceTest {
 	void postLikePlusFail1Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
-		given(commonCommunityService.findPost(10000L)).willReturn(post);
+		given(commonCommunityService.findUserAccount("testId"))
+				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(0).build();
 
 		// Then
-		boolean result = postLikeService.changePostLike(request);
-
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class, () -> postLikeService.changePostLike(request));
 		verify(postLikeRepository, never()).save(any());
 		verify(postLikeRepository, never()).delete(any());
 	}
@@ -77,7 +66,8 @@ class PostLikeServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.findPost(10000L)).willReturn(null);
+		given(commonCommunityService.findPost(10000L))
+				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder()
@@ -85,10 +75,9 @@ class PostLikeServiceTest {
 				.userId("testId")
 				.isLiked(0)
 				.build();
-		boolean result = postLikeService.changePostLike(request);
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostNotFoundException.class, () -> postLikeService.changePostLike(request));
 		verify(postLikeRepository, never()).save(any());
 		verify(postLikeRepository, never()).delete(any());
 	}
@@ -123,18 +112,15 @@ class PostLikeServiceTest {
 	void postLikeMinusFail1Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
-		given(commonCommunityService.findPost(10000L)).willReturn(post);
+		given(commonCommunityService.findUserAccount("testId"))
+				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
 
 		// Then
-		boolean result = postLikeService.changePostLike(request);
-
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class, () -> postLikeService.changePostLike(request));
 		verify(postLikeRepository, never()).save(any());
 		verify(postLikeRepository, never()).delete(any());
 	}
@@ -146,14 +132,14 @@ class PostLikeServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.findPost(10000L)).willReturn(null);
+		given(commonCommunityService.findPost(10000L))
+				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
-		boolean result = postLikeService.changePostLike(request);
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostNotFoundException.class, () -> postLikeService.changePostLike(request));
 		verify(postLikeRepository, never()).save(any());
 	}
 

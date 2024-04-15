@@ -18,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
@@ -164,7 +166,7 @@ class PostControllerTest {
 		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").category(1L)
 				.build();
 
-		given(postService.savePost(any())).willReturn(false);
+		doThrow(new UsernameNotFoundException("게시글 저장에 실패했습니다.")).when(postService).savePost(any());
 
 		// When
 		mockMvc.perform(
@@ -198,8 +200,6 @@ class PostControllerTest {
 		// Given
 		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").category(1L)
 				.build();
-
-		given(postService.savePost(any())).willReturn(true);
 
 		// When
 		mockMvc.perform(
@@ -939,7 +939,7 @@ class PostControllerTest {
 
 		// When
 		mockMvc.perform(
-						multipart("/api/posts/image")
+						multipart("/api/posts/images")
 								.file(file1)
 								.file(file2)
 								.file(file3)
@@ -972,8 +972,6 @@ class PostControllerTest {
 				.userId("testId").title("제목1").content("내용1").images(images).category(1L)
 				.build();
 
-		given(postService.savePost(any())).willReturn(true);
-
 		// When
 		mockMvc.perform(
 						post("/api/posts")
@@ -1005,11 +1003,11 @@ class PostControllerTest {
 	@WithMockUser
 	void getPostWithImageTest() throws Exception {
 		// Given
-		String image1 = "image1.png";
-		String image2 = "image2.png";
-		String image3 = "image3.png";
-		String image4 = "image4.png";
-		String image5 = "image5.png";
+		String image1 = "/api/posts/images/UUID:image1.png";
+		String image2 = "/api/posts/images/UUID:image2.png";
+		String image3 = "/api/posts/images/UUID:image3.png";
+		String image4 = "/api/posts/images/UUID:image4.png";
+		String image5 = "/api/posts/images/UUID:image5.png";
 		List<String> images = List.of(image1, image2, image3, image4, image5);
 
 		PostResponse post = PostResponse.builder()
@@ -1064,11 +1062,11 @@ class PostControllerTest {
 	@WithMockUser
 	void getPostWithImageListTest() throws Exception {
 		// Given
-		String image1 = "image1.png";
-		String image2 = "image2.png";
-		String image3 = "image3.png";
-		String image4 = "image4.png";
-		String image5 = "image5.png";
+		String image1 = "/api/posts/images/UUID:image1.png";
+		String image2 = "/api/posts/images/UUID:image2.png";
+		String image3 = "/api/posts/images/UUID:image3.png";
+		String image4 = "/api/posts/images/UUID:image4.png";
+		String image5 = "/api/posts/images/UUID:image5.png";
 		List<String> images = List.of(image1, image2, image3, image4, image5);
 		// 편의상 모두 동일한 사진을 가진다고 가정
 
@@ -1131,6 +1129,29 @@ class PostControllerTest {
 								fieldWithPath("[].modifiedAt").description("수정일자")
 						)));
 
+		// Then
+	}
+
+	@Test
+	@DisplayName("이미지 요청 테스트")
+	@WithMockUser
+	void getImageResourceTest() throws Exception {
+	    // Given
+		String fileName = "testImage.png";
+		given(postService.getImageResource(fileName)).willReturn(mock(UrlResource.class));
+
+		// When
+		mockMvc.perform(
+						get("/api/posts/images/{fileName}", fileName)
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters( // PathVariable 방식
+								parameterWithName("fileName").description("요청할 파일명")
+						)));
 		// Then
 	}
 }

@@ -44,9 +44,6 @@ public class PostLikeService {
 		UserAccount user = commonCommunityService.findUserAccount(postLikeRequest.getUserId());
 		Post post = commonCommunityService.findPost(postLikeRequest.getPostId());
 
-		if (user == null || post == null) {
-			return false;
-		}
 		if (postLikeRequest.getIsLiked() == 0) { // 증가
 			PostLike postLike = PostLike.builder()
 					.userAccount(user)
@@ -55,11 +52,9 @@ public class PostLikeService {
 			postLikeRepository.save(postLike);
 		} else if (postLikeRequest.getIsLiked() == 1) { // 감소
 			PostLike postLike = commonCommunityService.findPostLike(post, user);
-
-			if (postLike == null) {
-				return false;
-			}
 			postLikeRepository.delete(postLike);
+		} else { // 잘못된 요청일때
+			return false;
 		}
 		return true;
 	}

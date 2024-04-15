@@ -1,8 +1,10 @@
 package pulleydoreurae.careerquestbackend.community.controller;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -24,12 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostFailResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.service.PostService;
 
 /**
@@ -73,9 +73,6 @@ public class PostController {
 
 		List<PostResponse> posts = postService.getPostListByUserAccount(userId, pageable);
 
-		if (posts == null) {
-			return makeBadRequestUsingSimpleResponse("해당 사용자 정보를 찾을 수 없습니다.");
-		}
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(posts);
 	}
@@ -97,24 +94,20 @@ public class PostController {
 
 		PostResponse post = postService.findByPostId(request, response, postId);
 
-		if (post == null) { // 게시글을 찾을 수 없다면
-			return makeBadRequestUsingSimpleResponse("해당 게시글을 찾을 수 없습니다.");
-		}
-
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(post);
 	}
 
-	@PostMapping("/posts/image")
-	public ResponseEntity<?> saveImage(List<MultipartFile> images) {
-		try {
-			List<String> imagesName = postService.saveImage(images);
+	@GetMapping("/posts/images/{fileName}")
+	public Resource getImage(@PathVariable String fileName) throws MalformedURLException {
+		return postService.getImageResource(fileName);
+	}
 
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(imagesName);
-		} catch (RuntimeException e) { // 저장에 실패하면 RuntimeException 발생
-			return makeBadRequestUsingSimpleResponse("사진 업로드에 실패했습니다. 다시 시도해주세요.");
-		}
+	@PostMapping("/posts/images")
+	public ResponseEntity<List<String>> saveImage(List<MultipartFile> images) {
+		List<String> imagesName = postService.saveImage(images);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(imagesName);
 	}
 
 	@PostMapping("/posts")
@@ -127,18 +120,12 @@ public class PostController {
 			return BAD_REQUEST;
 		}
 
-		try {
-			boolean isSaved = postService.savePost(postRequest);
-			if (!isSaved) {
-				return makeBadRequestUsingSimpleResponse("게시글 저장에 실패했습니다.");
-			}
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(SimpleResponse.builder()
-							.msg("게시글 등록에 성공했습니다.")
-							.build());
-		} catch (RuntimeException e) {
-			return makeBadRequestUsingSimpleResponse("게시글 저장에 실패했습니다.");
-		}
+		postService.savePost(postRequest);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(SimpleResponse.builder()
+						.msg("게시글 등록에 성공했습니다.")
+						.build());
 	}
 
 	@PatchMapping("/posts/{postId}")

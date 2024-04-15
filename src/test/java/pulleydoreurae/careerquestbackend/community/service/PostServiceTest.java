@@ -3,6 +3,7 @@ package pulleydoreurae.careerquestbackend.community.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
@@ -19,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +33,7 @@ import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostRespo
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
 import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
@@ -40,6 +45,10 @@ import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepos
  */
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
+
+	@Value("${IMAGES_PATH}")
+	String IMAGES_PATH;
+
 	@InjectMocks
 	PostService postService;
 	@Mock
@@ -61,13 +70,12 @@ class PostServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		given(commonCommunityService.findPost(any())).willReturn(null);
+		given(commonCommunityService.findPost(100L)).willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
-		PostResponse result = postService.findByPostId(request, response, 100L);
 
 		// Then
-		assertNull(result);
+		assertThrows(PostNotFoundException.class, () -> postService.findByPostId(request, response, 100L));
 		verify(commonCommunityService, never()).postToPostResponse(new Post(), 0);
 	}
 
@@ -209,23 +217,22 @@ class PostServiceTest {
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 
 		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
-		assertTrue(result);
+		assertDoesNotThrow(() -> postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null)));
 	}
 
 	@Test
 	@DisplayName("게시글 등록 테스트 (실패)")
 	void savePostFailTest() {
 		// Given
-		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
+		given(commonCommunityService.findUserAccount("testId")).willThrow(UsernameNotFoundException.class);
 
 		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class, () ->
+				postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null)));
 	}
 
 	@Test
@@ -242,10 +249,9 @@ class PostServiceTest {
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 
 		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images));
 
 		// Then
-		assertTrue(result);
+		assertDoesNotThrow(() -> postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images)));
 	}
 
 	@Test
@@ -258,13 +264,13 @@ class PostServiceTest {
 		String image4 = "image4.png";
 		String image5 = "image5.png";
 		List<String> images = List.of(image1, image2, image3, image4, image5);
-		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
+		given(commonCommunityService.findUserAccount("testId")).willThrow(UsernameNotFoundException.class);
 
 		// When
-		boolean result = postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images));
 
 		// Then
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class, () ->
+				postService.savePost(new PostRequest("testId", "제목", "내용", 1L, images)));
 		// 저장된 이미지를 삭제하는 메서드가 동작했는지 검증
 		verify(fileManagementService).deleteFile(anyList(), any());
 	}
@@ -273,16 +279,13 @@ class PostServiceTest {
 	@DisplayName("게시글 수정 실패 (게시글 찾을 수 없음)")
 	void updatePostFail1Test() {
 		// Given
-		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
-		given(commonCommunityService.findPost(any())).willReturn(null);
-		given(commonCommunityService.findUserAccount(any())).willReturn(user);
+		given(commonCommunityService.findPost(any())).willThrow(new PostNotFoundException("게시글을 찾을 수 없습니다."));
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostNotFoundException.class,
+				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null)));
 		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository, never()).save(any());
 	}
@@ -294,13 +297,14 @@ class PostServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
-		given(commonCommunityService.findUserAccount(any())).willReturn(null);
+		given(commonCommunityService.findUserAccount(any()))
+				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
 
 		// Then
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class,
+				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null)));
 		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository, never()).save(any());
 	}
@@ -377,16 +381,12 @@ class PostServiceTest {
 	@DisplayName("게시글 삭제 실패 (게시글 찾을 수 없음)")
 	void deletePostFail1Test() {
 		// Given
-		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
-		given(commonCommunityService.findPost(any())).willReturn(null);
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonCommunityService.findPost(any())).willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
-		boolean result = postService.deletePost(100L, "testId");
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostNotFoundException.class, () -> postService.deletePost(100L, "testId"));
 		verify(postRepository, never()).deleteById(100L);
 		verify(postImageRepository, never()).findAllByPost(any());
 		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
@@ -396,16 +396,13 @@ class PostServiceTest {
 	@DisplayName("게시글 삭제 실패 (사용자 찾을 수 없음)")
 	void deletePostFail2Test() {
 		// Given
-		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
-		given(commonCommunityService.findPost(any())).willReturn(post);
-		given(commonCommunityService.findUserAccount("testId")).willReturn(null);
+		given(commonCommunityService.findUserAccount("testId"))
+				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
-		boolean result = postService.deletePost(100L, "testId");
 
 		// Then
-		assertFalse(result);
+		assertThrows(UsernameNotFoundException.class, () -> postService.deletePost(100L, "testId"));
 		verify(postRepository, never()).deleteById(100L);
 		verify(postImageRepository, never()).findAllByPost(any());
 		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
@@ -417,7 +414,9 @@ class PostServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user).hit(1L).category(1L).build();
-		given(commonCommunityService.findPost(any())).willReturn(post);
+		given(commonCommunityService.findPost(100L)).willReturn(post);
+		given(commonCommunityService.findUserAccount("testId1"))
+				.willReturn(UserAccount.builder().userId("testId1").build());
 
 		// When
 		boolean result = postService.deletePost(100L, "testId1");
@@ -467,5 +466,31 @@ class PostServiceTest {
 		verify(postRepository).deleteById(100L);
 		verify(postImageRepository).findAllByPost(post);
 		verify(fileManagementService).deleteFile(anyList(), any());
+	}
+
+	@Test
+	@DisplayName("저장된 이미지 조회 실패")
+	void getImageResourceFailTest() {
+		// Given
+		given(postImageRepository.existsByFileName(any())).willReturn(false);
+
+		// When
+
+		// Then
+		assertThrows(MalformedURLException.class, () -> postService.getImageResource("test.png"));
+	}
+
+	@Test
+	@DisplayName("저장된 이미지 조회 성공")
+	void getImageResourceSuccessTest() throws MalformedURLException {
+	    // Given
+		given(postImageRepository.existsByFileName(any())).willReturn(true);
+		UrlResource urlResource = new UrlResource("file:" + IMAGES_PATH + "test.png");
+
+	    // When
+		UrlResource result = postService.getImageResource("test.png");
+
+		// Then
+		assertEquals(urlResource, result);
 	}
 }
