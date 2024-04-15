@@ -46,9 +46,7 @@ public class PostLikeController {
 			return BAD_REQUEST;
 		}
 
-		boolean result = postLikeService.changePostLike(postLikeRequest);
-
-		if (!result) {
+		if (!postLikeService.changePostLike(postLikeRequest)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(SimpleResponse.builder()
 							.msg("좋아요 상태 변경에 실패했습니다.")

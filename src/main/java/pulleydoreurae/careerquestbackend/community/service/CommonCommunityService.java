@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.Cookie;
@@ -15,10 +17,13 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.community.exception.CommentNotFoundException;
+import pulleydoreurae.careerquestbackend.community.exception.PostLikeNotFoundException;
+import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
 import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
@@ -34,6 +39,9 @@ import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepos
 @Slf4j
 @Service
 public class CommonCommunityService {
+
+	@Value("${IMAGES_PATH}")
+	private String IMAGES_PATH;
 
 	private final PostRepository postRepository;
 	private final UserAccountRepository userAccountRepository;
@@ -55,7 +63,8 @@ public class CommonCommunityService {
 
 	/**
 	 * 게시글 Entity -> 게시글 Response 변환 메서드
-	 * @param post 게시글 정보
+	 *
+	 * @param post    게시글 정보
 	 * @param isLiked 좋아요 정보 (리스트를 출력할땐 0? 혹은 방법찾아보기)
 	 * @return 변환된 객체
 	 */
@@ -98,10 +107,26 @@ public class CommonCommunityService {
 		Optional<Post> findPost = postRepository.findById(postId);
 
 		if (findPost.isEmpty()) {
-			log.warn("게시글을 찾을 수 없습니다. postId = {}", postId);
-			return null;
+			log.error("게시글을 찾을 수 없습니다. postId = {}", postId);
+			throw new PostNotFoundException("요청한 게시글 정보를 찾을 수 없습니다.");
 		}
 		return findPost.get();
+	}
+
+	/**
+	 * 댓글 id 로 댓글을 찾아오는 메서드
+	 *
+	 * @param commentId 댓글 id
+	 * @return 해당하는 댓글이 있다면 댓글을, 없다면 null 리턴
+	 */
+	public Comment findComment(Long commentId) {
+		Optional<Comment> optionalComment = commentRepository.findById(commentId);
+
+		if (optionalComment.isEmpty()) {
+			log.error("commentId = {} 의 댓글 정보를 찾을 수 없습니다.", commentId);
+			throw new CommentNotFoundException("요청한 댓글 정보를 찾을 수 없습니다.");
+		}
+		return optionalComment.get();
 	}
 
 	/**
@@ -116,7 +141,7 @@ public class CommonCommunityService {
 		// 회원정보를 찾을 수 없다면
 		if (findUser.isEmpty()) {
 			log.error("{} 의 회원 정보를 찾을 수 없습니다.", userId);
-			return null;
+			throw new UsernameNotFoundException("요청한 회원 정보를 찾을 수 없습니다.");
 		}
 		return findUser.get();
 	}
@@ -194,7 +219,6 @@ public class CommonCommunityService {
 		return (long)postLikeRepository.findAllByPost(post).size();
 	}
 
-
 	/**
 	 * 회원정보가 없는 사용자를 식별하기 위해 쿠키에 UUID 를 추가하고 해당 UUID를 리턴하는 메서드
 	 *
@@ -232,7 +256,7 @@ public class CommonCommunityService {
 	 */
 	public List<String> postImageToStringList(Post post) {
 		return postImageRepository.findAllByPost(post).stream()
-				.map(PostImage::getFileName)
+				.map(image -> IMAGES_PATH + image.getFileName())
 				.toList();
 	}
 
@@ -248,7 +272,7 @@ public class CommonCommunityService {
 
 		if (optionalPostLike.isEmpty()) {
 			log.error("좋아요 정보를 찾을 수 없습니다. post = {},  user = {}", post, user);
-			return null;
+			throw new PostLikeNotFoundException("요청한 좋아요 정보를 찾을 수 없습니다.");
 		}
 		return optionalPostLike.get();
 	}

@@ -72,13 +72,7 @@ public class CommentController {
 		}
 
 		commentRequest.setPostId(postId);
-
-		if (!commentService.saveComment(commentRequest)) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(SimpleResponse.builder()
-							.msg("댓글 등록에 실패했습니다.")
-							.build());
-		}
+		commentService.saveComment(commentRequest);
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(SimpleResponse.builder()

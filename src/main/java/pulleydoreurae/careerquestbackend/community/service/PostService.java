@@ -1,14 +1,17 @@
 package pulleydoreurae.careerquestbackend.community.service;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +26,8 @@ import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostRespo
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.community.exception.FileSaveException;
+import pulleydoreurae.careerquestbackend.community.exception.PostSaveException;
 import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
@@ -45,8 +50,8 @@ public class PostService {
 	private final PostImageRepository postImageRepository;
 	private final FileManagementService fileManagementService;
 
-	@Value("${IMAGES_PATH}")
-	private String IMAGE_PATH;
+	@Value("${IMAGES_SAVE_PATH}")
+	private String IMAGES_SAVE_PATH;
 
 	@Autowired
 	public PostService(PostRepository postRepository, CommonCommunityService commonCommunityService,
@@ -92,9 +97,7 @@ public class PostService {
 	 */
 	public List<PostResponse> getPostListByUserAccount(String userId, Pageable pageable) {
 		UserAccount user = commonCommunityService.findUserAccount(userId);
-		if (user == null) {
-			return null;
-		}
+
 		return commonCommunityService.postListToPostResponseList(
 				postRepository.findAllByUserAccountOrderByIdDesc(user, pageable));
 	}
@@ -128,14 +131,25 @@ public class PostService {
 	 */
 	public PostResponse findByPostId(HttpServletRequest request, HttpServletResponse response, Long postId) {
 		Post post = commonCommunityService.findPost(postId);
-		if (post == null) {
-			return null;
-		}
 
 		String userId = checkView(request, response, postId, post);
 		int isLiked = getIsLiked(userId, post);
 		// 게시글 단건 요청은 게시글 좋아요 정보가 필요하므로 좋아요 정보를 넘기기
 		return commonCommunityService.postToPostResponse(post, isLiked);
+	}
+
+	/**
+	 * 저장된 사진을 반환하는 메서드
+	 *
+	 * @param fileName 저장된 파일명
+	 * @return 전달받은 파일명으로 UrlResource 생성하여 반환
+	 * @throws MalformedURLException 저장된 파일명이 아닌 경우 예외를 던진다.
+	 */
+	public UrlResource getImageResource(String fileName) throws MalformedURLException {
+		if (!postImageRepository.existsByFileName(fileName)) {
+			throw new MalformedURLException("잘못된 URL 요청입니다.");
+		}
+		return new UrlResource("file:" + IMAGES_SAVE_PATH + fileName);
 	}
 
 	/**
@@ -189,11 +203,11 @@ public class PostService {
 	public List<String> saveImage(List<MultipartFile> images) {
 		List<String> successFiles = new ArrayList<>();
 		images.forEach(image -> {
-			String savedFile = fileManagementService.saveFile(image, IMAGE_PATH);
+			String savedFile = fileManagementService.saveFile(image, IMAGES_SAVE_PATH);
 			// 파일 저장에 한건이라도 실패한다면
 			if (savedFile == null) {
-				fileManagementService.deleteFile(successFiles, IMAGE_PATH);
-				throw new RuntimeException("파일 저장에 실패했습니다.");
+				fileManagementService.deleteFile(successFiles, IMAGES_SAVE_PATH);
+				throw new FileSaveException("사진 저장에 실패했습니다.");
 			}
 			successFiles.add(savedFile);
 		});
@@ -204,46 +218,51 @@ public class PostService {
 	 * 게시글 저장 메서드
 	 *
 	 * @param postRequest 게시글 요청
-	 * @return 게시글 저장에 성공하면 true 실패하면 false 리턴
 	 */
 	@Transactional // 사진 저장과 게시글 저장을 하나의 트랜잭션으로 묶음
-	public boolean savePost(PostRequest postRequest) {
-		UserAccount user = commonCommunityService.findUserAccount(postRequest.getUserId());
+	public void savePost(PostRequest postRequest) {
 		List<String> fileNames = postRequest.getImages();
-
-		// 사용자 정보를 확인할 수 없다면 (저장에 실패한다면)
-		if (user == null) {
+		try {
+			UserAccount user = commonCommunityService.findUserAccount(postRequest.getUserId());
+			Post post = commonCommunityService.postRequestToPost(postRequest, user);
+			try {
+				postRepository.save(post);
+				// 게시글 저장이 무사히 완료되고 사진이 서버에 저장되어 있다면 데이터베이스에 해당 정보 입력
+				if (fileNames != null) {
+					saveImages(fileNames, post);
+				}
+			} catch (Exception e) {
+				log.error("게시글 저장 실패 {}", e.getMessage());
+				// 예외가 발생해 게시글 저장에 실패한 경우 미리 저장한 사진 정보를 삭제한다.
+				if (fileNames != null) {
+					fileManagementService.deleteFile(fileNames, IMAGES_SAVE_PATH);
+				}
+				throw new PostSaveException("게시글 저장에 실패했습니다.");
+			}
+		} catch (UsernameNotFoundException e) {
+			// 사용자를 찾지 못한 경우
 			// 서버에 저장된 사진이 있을경우 삭제
 			if (fileNames != null) {
-				fileManagementService.deleteFile(fileNames, IMAGE_PATH);
+				fileManagementService.deleteFile(fileNames, IMAGES_SAVE_PATH);
 			}
-			return false;
+			throw e;
 		}
+	}
 
-		Post post = commonCommunityService.postRequestToPost(postRequest, user);
-		try {
-			postRepository.save(post);
-		} catch (Exception e) {
-			log.error("게시글 저장 실패 {}", e.getMessage());
-			// 예외가 발생해 게시글 저장에 실패한 경우 미리 저장한 사진 정보를 삭제한다.
-			if (fileNames != null) {
-				fileManagementService.deleteFile(fileNames, IMAGE_PATH);
-			}
-			throw new RuntimeException("게시글 저장에 실패했습니다.");
-		}
-
-		// 게시글 저장이 무사히 완료되고 사진이 서버에 저장되어 있다면 데이터베이스에 해당 정보 입력
-		if (fileNames != null) {
-			fileNames.forEach(fileName -> {
-				PostImage image = PostImage.builder()
-						.post(post)
-						.fileName(fileName)
-						.build();
-				postImageRepository.save(image);
-			});
-		}
-
-		return true;
+	/**
+	 * 서버에 저장된 파일들을 데이터베이스에 저장하는 메서드
+	 *
+	 * @param fileNames 서버에 저장된 파일명 리스트
+	 * @param post 게시글 정보
+	 */
+	private void saveImages(List<String> fileNames, Post post) {
+		fileNames.forEach(fileName -> {
+			PostImage image = PostImage.builder()
+					.post(post)
+					.fileName(fileName)
+					.build();
+			postImageRepository.save(image);
+		});
 	}
 
 	/**
@@ -256,11 +275,12 @@ public class PostService {
 	public boolean updatePost(Long postId, PostRequest postRequest) {
 		Post post = commonCommunityService.findPost(postId);
 		UserAccount user = commonCommunityService.findUserAccount(postRequest.getUserId());
-		// 게시글을 찾지못하거나, 회원정보가 없거나(null 인 경우), 작성자와 수정자가 다르다면 실패
-		if (post == null || user == null || !post.getUserAccount().getUserId().equals(user.getUserId())) {
+		// 작성자와 수정자가 다르다면 실패
+		if (!post.getUserAccount().getUserId().equals(user.getUserId())) {
 			return false;
 		}
 
+		// 이미지 내용이 있다면 수정처리
 		if (postRequest.getImages() != null) {
 			updateImages(postRequest.getImages(), post);
 		}
@@ -281,8 +301,8 @@ public class PostService {
 	public boolean deletePost(Long postId, String userId) {
 		UserAccount user = commonCommunityService.findUserAccount(userId);
 		Post post = commonCommunityService.findPost(postId);
-		// 게시글을 찾지못하거나, 회원정보가 없거나(null 인 경우), 작성자와 요청자가 다르다면 실패 (권한 없음)
-		if (post == null || user == null || !post.getUserAccount().getUserId().equals(user.getUserId())) {
+		// 작성자와 요청자가 다르다면 실패 (권한 없음)
+		if (!post.getUserAccount().getUserId().equals(user.getUserId())) {
 			return false;
 		}
 		postRepository.deleteById(postId);
@@ -290,7 +310,7 @@ public class PostService {
 		List<PostImage> fileNames = postImageRepository.findAllByPost(post);
 		// 저장된 사진 파일이 존재한다면 게시글 삭제하면서 사진도 삭제
 		if (!fileNames.isEmpty()) {
-			fileManagementService.deleteFile(fileNames.stream().map(PostImage::getFileName).toList(), IMAGE_PATH);
+			fileManagementService.deleteFile(fileNames.stream().map(PostImage::getFileName).toList(), IMAGES_SAVE_PATH);
 		}
 
 		return true;
@@ -309,7 +329,7 @@ public class PostService {
 				.filter(fileName -> !images.contains(fileName)).toList();
 
 		// 서버에서 먼저 파일들 삭제
-		fileManagementService.deleteFile(fileNamesToDelete, IMAGE_PATH);
+		fileManagementService.deleteFile(fileNamesToDelete, IMAGES_SAVE_PATH);
 		// 삭제한 파일들 데이터베이스에서 삭제
 		fileNamesToDelete.forEach(postImageRepository::deleteByFileName);
 
