@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Random;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -40,6 +41,7 @@ public class MailService {
 	@Value("${spring.mail.sender}")
 	private static String senderEmail;
 
+	@Getter
 	@Value("${spring.mail.domain}")
 	private String domain;
 
@@ -71,15 +73,41 @@ public class MailService {
 	}
 
 	/**
-	 * 인증링크 이메일을 전송하는 메서드
+	 * 이메일 인증 메서드
 	 *
-	 * @param userId,userName,phoneNum,email,password 인증요청을 한 사용자의 회원정보
+	 * @param userId    회원아이디
+	 * @param userName  회원이름
+	 * @param phoneNum  전화번호
+	 * @param email     이메일
+	 * @param password  비밀번호
+	 * @param birth     생년월일
+	 * @param gender    성별
 	 */
-	public void sendMail(String userId, String userName, String phoneNum, String email
+	public void emailAuthentication(String userId, String userName, String phoneNum, String email
 			, String password, String birth, String gender) {
 
 		String number = createNumber();
 		String verification_url = domain + "/api/verify?certificationNumber=" + number + "&email=" + email;
+
+		//sendMail(email, verification_url, "mailForm", "취준진담 이메일 인증");
+
+		emailAuthenticationRepository.save(
+				new EmailAuthentication(email, userId, userName, phoneNum, password, birth, gender, number));
+		// 인증을 기다리는 동안 userId 선점하기 (인증을 기다리는 동안 다른 사용자가 같은 userId 로 회원가입을 막기 위함)
+		// email 의 경우 이메일인증의 키값이므로 따로 저장할 필요 X
+		userInfoUserIdRepository.save(new UserInfoUserId(userId));
+		log.info("[회원가입 - 인증] : {} 의 회원가입을 위한 객체저장 및 메일전송", email);
+		log.info("[회원가입 - 인증] : {} 의 회원가입을 위한 번호", number);
+	}
+
+	/**
+	 * 이메일을 전송하는 메서드
+	 *
+	 * @param email        받는 이메일
+	 * @param url_link    메일 폼에 들어가는 링크
+	 * @param subject    이메일 제목
+	 */
+	public void sendMail(String email, String url_link, String template, String subject) {
 
 		MimeMessagePreparator preparatory = mimeMessage -> {
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
@@ -87,22 +115,16 @@ public class MailService {
 			//template 명: src/main/resources/templates 하단에 작성된 html 파일 명
 			Context context = new Context();
 
-			String content = templateEngine.process("mailForm", context);
-			content = content.replace("@{verification_url}", verification_url);
+			String content = templateEngine.process(template, context);
+			content = content.replace("@{url_zone}", url_link);
 
 			helper.setTo(email);
 			helper.setFrom(senderEmail);
-			helper.setSubject("취준진담 이메일 인증");
+			helper.setSubject(subject);
 
 			helper.setText(content, true);
 		};
-		emailAuthenticationRepository.save(
-				new EmailAuthentication(email, userId, userName, phoneNum, password, birth, gender, number));
-		// 인증을 기다리는 동안 userId 선점하기 (인증을 기다리는 동안 다른 사용자가 같은 userId 로 회원가입을 막기 위함)
-		// email 의 경우 이메일인증의 키값이므로 따로 저장할 필요 X
-		userInfoUserIdRepository.save(new UserInfoUserId(userId));
 		javaMailSender.send(preparatory);
-		log.info("[회원가입 - 인증] : {} 의 회원가입을 위한 객체저장 및 메일전송", email);
 	}
 
 	/**
