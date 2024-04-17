@@ -66,4 +66,15 @@ public class UserAccount extends BaseEntity {
 
 	@OneToMany(mappedBy = "userAccount")
 	private List<PostLike> postLikes;
+
+	public void updatePassword(String password) {
+		this.password = password;
+	}
+	public void updateEmail(String email) {
+		this.email = email;
+	}
+
+	public void updatePhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
 }

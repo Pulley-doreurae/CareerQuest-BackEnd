@@ -9,22 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserCareerDetailsRequest;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.response.DuplicateCheckResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.*;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.*;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
+import pulleydoreurae.careerquestbackend.auth.service.UserAccountService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.response.UserAccountRegisterResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
@@ -51,13 +44,15 @@ public class UserAccountController {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final MailService mailService;
 	private final UserInfoUserIdRepository userIdRepository;
+	private final UserAccountService userAccountService;
 
 	@Autowired
 	public UserAccountController(UserAccountRepository userAccountRepository,
 			UserCareerDetailsRepository userCareerDetailsRepository,
 			UserTechnologyStackRepository userTechnologyStackRepository,
 			EmailAuthenticationRepository emailAuthenticationRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
-			MailService mailService, UserInfoUserIdRepository userIdRepository) {
+			MailService mailService, UserInfoUserIdRepository userIdRepository,
+								 UserAccountService userAccountService) {
 		this.userAccountRepository = userAccountRepository;
 		this.userCareerDetailsRepository = userCareerDetailsRepository;
 		this.userTechnologyStackRepository = userTechnologyStackRepository;
@@ -65,6 +60,7 @@ public class UserAccountController {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.mailService = mailService;
 		this.userIdRepository = userIdRepository;
+		this.userAccountService = userAccountService;
 	}
 
 	/**
@@ -217,7 +213,7 @@ public class UserAccountController {
 		}
 
 		// 이메일 인증 전송
-		mailService.sendMail(user.getUserId(), user.getUserName(), user.getPhoneNum(), user.getEmail(),
+		mailService.emailAuthentication(user.getUserId(), user.getUserName(), user.getPhoneNum(), user.getEmail(),
 				bCryptPasswordEncoder.encode(user.getPassword()), user.getBirth(), user.getGender());
 
 		log.info("[회원가입 - 인증] 인증을 요청한 회원 : {}", user.getUserId());
@@ -344,5 +340,355 @@ public class UserAccountController {
 				.body(SimpleResponse.builder()
 						.msg("직무 등록에 성공하였습니다.")
 						.build());
+	}
+
+	/**
+	 * 비밀번호 변경링크를 보내주는 메서드
+	 *
+	 * @param userIdRequest 찾고싶은 계정의 ID가 담겨있는 Request
+	 * @return 요청에 대한 응답
+	 */
+	@PostMapping("/users/help/sendPassword")
+	public ResponseEntity<UserIdResponse> findPassword(@RequestBody UserIdRequest userIdRequest) {
+
+		UserAccount user = userAccountService.findUserByUserId(userIdRequest.getUserId());
+
+		if (user == null) {
+			log.info("[비밀번호 - 찾기] 찾기를 요청한 회원 : {}", userIdRequest.getUserId());
+			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", userIdRequest.getUserId());
+
+		} else {
+			userAccountService.findPassword(user.getUserId(), user.getEmail());
+		}
+
+		log.info("[비밀번호 - 찾기] 찾기를 요청한 회원 : {}", user.getUserId());
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserIdResponse.builder()
+						.userId(user.getUserId())
+						.msg("이메일 인증을 요청했습니다.")
+						.build()
+		);
+	}
+
+	/**
+	 * 비밀번호를 바꾸는 폼을 보여주는 곳
+	 * uuid에 해당하는 유저가 비밀번호 변경 요청을 한 리스트에 있는지 확인하는 메서드
+	 *
+	 * @param uuid 변경할 유저의 식별번호
+	 * @return 요청에 대한 응답을 반환
+	 */
+	@GetMapping("/users/help/{uuid}")
+	public ResponseEntity<UserIdResponse> checkFindPassword(@PathVariable String uuid) {
+		String userId = userAccountService.checkUserIdByUuid(uuid);
+
+		if (userId == null) {
+			log.info("[비밀번호 - 찾기] 찾기를 요청한 UUID : {}", uuid);
+			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", null);
+		}
+
+		log.info("[비밀번호 - 찾기] 찾기를 요청한 회원 : {}", userId);
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserIdResponse.builder()
+						.userId(userId)
+						.msg("일치하는 계정이 있습니다.")
+						.build()
+		);
+	}
+
+	/**
+	 * 비밀번호를 변경하는 메서드
+	 *
+	 * @param uuid                          변경할 유저의 식별번호
+	 * @param userFindPasswordChangeRequest 변경할 비빌번호가 들어있는 Request
+	 * @param bindingResult                 @Valid 어노테이션에서 생기는 오류는 담는 변수
+	 * @return 요청에 대해 userId와 응답을 반환
+	 */
+	@PostMapping("/users/help/{uuid}")
+	public ResponseEntity<UserIdResponse> changePassword(@PathVariable String uuid,
+														 @Valid @RequestBody UserFindPasswordChangeRequest userFindPasswordChangeRequest, BindingResult bindingResult) {
+		String userId = userAccountService.checkUserIdByUuid(uuid);
+
+		if (userId == null) {
+			log.warn("[비밀번호 - 찾기] 유효성 검사 실패 : uuid에 맞는 userId가 없음");
+			return makeBadRequestUsingUserIdResponse("uuid에 맞는 userId가 없습니다", null);
+		}
+
+		if (bindingResult.hasErrors()) {
+			return makeBadRequestByBindingResult("[비밀번호 - 찾기] 유효성 검사 실패 : {}", userId, bindingResult);
+		}
+
+		if (!userFindPasswordChangeRequest.getPassword1().equals(userFindPasswordChangeRequest.getPassword2())) {
+			log.warn("[비밀번호 - 찾기] 유효성 검사 실패 : {}", userId);
+			return makeBadRequestUsingUserIdResponse("비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.", userId);
+		}
+
+		userAccountService.updatePassword(userId,
+				bCryptPasswordEncoder.encode(userFindPasswordChangeRequest.getPassword1()));
+		userAccountService.deleteHelpUser(uuid);
+
+		log.info("[비밀번호 - 찾기] 비밀번호 변경을 한 회원 : {}", userId);
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserIdResponse.builder()
+						.userId(userId)
+						.msg("비밀번호를 변경하였습니다.")
+						.build()
+		);
+	}
+
+	/**
+	 * 유저를 삭제하는 메서드
+	 *
+	 * @param userDeleteRequest 삭제할 유저와 해당 유저의 확인 비밀번호를 받는 Request
+	 * @param bindingResult     @Valid 어노테이션에서 나오는 오류를 담는 변수
+	 * @return 요청에 대해 userId와 응답을 반환
+	 */
+	@PostMapping("/users/delete")
+	public ResponseEntity<UserIdResponse> deleteUser(@Valid @RequestBody UserDeleteRequest userDeleteRequest,
+													 BindingResult bindingResult) {
+
+		UserAccount user = userAccountService.findUserByUserId(userDeleteRequest.getUserId());
+
+		if (user == null) {
+			log.warn("[회원 - 탈퇴] 유효성 검사 실패 : userId의 정보가 없음");
+			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", userDeleteRequest.getUserId());
+		}
+
+		if (bindingResult.hasErrors()) {
+			return makeBadRequestByBindingResult("[회원 - 탈퇴] 유효성 검사 실패 : {}", user.getUserId(), bindingResult);
+		}
+
+		if (!userAccountService.isCurrentPassword(user,
+				userDeleteRequest.getPassword())) {
+			log.warn("[회원 - 탈퇴] 유효성 검사 실패 : {}", user.getUserId());
+			return makeBadRequestUsingUserIdResponse("본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다.", user.getUserId());
+		}
+
+		userAccountService.deleteUser(user);
+		log.info("[회원 - 탈퇴] 탈퇴를 요청한 회원 : {}", userDeleteRequest.getUserId());
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserIdResponse.builder()
+						.userId(userDeleteRequest.getUserId())
+						.msg("일치하는 계정이 있습니다.")
+						.build()
+		);
+	}
+
+	/**
+	 * 유저의 정보를 열람하는 메서드
+	 *
+	 * @param userIdRequest 정보를 열람하고 싶은 userId
+	 * @return 요청에 대한 유저정보를 반환
+	 */
+	@GetMapping("/users/details/info")
+	public ResponseEntity<?> showUserDetails(@RequestBody UserIdRequest userIdRequest) {
+
+		UserAccount user = userAccountService.findUserByUserId(userIdRequest.getUserId());
+
+		if (user == null) {
+			log.warn("[회원 - 정보 보기] 정보 열람 실패 회원 : {}", userIdRequest.getUserId());
+			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", userIdRequest.getUserId());
+		}
+
+		List<String> stacks = userAccountService.getTechnologyStack(user);
+
+		log.info("[회원 - 정보 보기] 정보를 열람할 회원 : {}", user.getUserId());
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserDetailsResponse.builder()
+						.userId(user.getUserId())
+						.email(user.getEmail())
+						.majorCategory(user.getUserCareerDetails().getMajorCategory())
+						.middleCategory(user.getUserCareerDetails().getMiddleCategory())
+						.smallCategory(user.getUserCareerDetails().getSmallCategory())
+						.technologyStacks(stacks)
+						.build()
+		);
+	}
+
+	/**
+	 * 유저 정보를 수정하는 메서드
+	 *
+	 * @param showUserDetailsToChangeRequest 수정할 정보가 들어있는 Request
+	 * @param bindingResult                  @Valid 어노테이션에서 나오는 오류를 담는 변수
+	 * @return 요청에 대한 userId와 응답을 반환
+	 */
+	@PostMapping("/users/details/changeInfo")
+	@ResponseBody
+	public ResponseEntity<?> showUserDetailsToChange(@Valid @RequestBody ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest,
+													 BindingResult bindingResult) {
+
+		UserAccount user = userAccountService.findUserByUserId(showUserDetailsToChangeRequest.getUserId());
+
+		if (user == null) {
+			log.warn("[회원 - 정보 변경] 유효성 검사 실패 : userId의 정보가 없음");
+			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", showUserDetailsToChangeRequest.getUserId());
+		}
+
+		if (bindingResult.hasErrors()) {
+			return makeBadRequestByBindingResult("[회원 - 정보 변경] 유효성 검사 실패 : {}", user.getUserId(), bindingResult);
+		}
+
+		if (userAccountService.isCurrentPassword(user,
+				showUserDetailsToChangeRequest.getPassword())) {
+
+			userAccountService.updateDetails(user, showUserDetailsToChangeRequest);
+			List<String> stacks = userAccountService.getTechnologyStack(user);
+
+			return ResponseEntity.status(HttpStatus.OK).body(
+					ShowUserDetailsToChangeResponse.builder()
+							.userId(user.getUserId())
+							.phoneNum(user.getPhoneNum())
+							.majorCategory(user.getUserCareerDetails().getMajorCategory())
+							.middleCategory(user.getUserCareerDetails().getMiddleCategory())
+							.smallCategory(user.getUserCareerDetails().getSmallCategory())
+							.technologyStacks(stacks)
+							.build()
+			);
+		} else {
+
+			return makeBadRequestUsingUserIdResponse("비밀번호가 다릅니다", user.getUserId());
+		}
+	}
+
+	/**
+	 * 유저의 비빌번호를 변경하는 메서드
+	 *
+	 * @param userPasswordUpdateRequest 변경할 유저의 현재 비밀번호와 변경할 비빌번호, 변경할 비밀번호 확인이 들어있는 Reqyest
+	 * @param bindingResult             @Valid 어노테이션에서 나오는 오류를 담는 변수
+	 * @return 요청에 대한 userId와 응답을 반환
+	 */
+	@PostMapping("/users/details/update/password")
+	public ResponseEntity<UserIdResponse> updateUserPassword(@Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest,
+															 BindingResult bindingResult) {
+
+		UserAccount user = userAccountService.findUserByUserId(userPasswordUpdateRequest.getUserId());
+
+		if (user == null) {
+			log.warn("[회원 - 비밀번호 변경] 유효성 검사 실패 : userId의 정보가 없음");
+			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", userPasswordUpdateRequest.getUserId());
+		}
+
+		if (bindingResult.hasErrors()) {
+			return makeBadRequestByBindingResult("[회원 - 비밀번호 변경] 유효성 검사 실패 : {}", user.getUserId(), bindingResult);
+		}
+
+		if (!userAccountService.isCurrentPassword(user,
+				userPasswordUpdateRequest.getCurrentPassword())) {
+			log.warn("[회원 - 비밀번호 변경] 유효성 검사 실패 : {}", user.getUserId());
+			return makeBadRequestUsingUserIdResponse("본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다.", user.getUserId());
+		} else {
+			if (!userPasswordUpdateRequest.getNewPassword1().equals(userPasswordUpdateRequest.getNewPassword2())) {
+				log.warn("[회원 - 비밀번호 변경] 유효성 검사 실패 : {}", user.getUserId());
+				return makeBadRequestUsingUserIdResponse("새로운 비밀번호와 새로운 비밀번호 확인이 서로 일치하지 않습니다.", user.getUserId());
+			} else {
+				userAccountService.updatePassword(user.getUserId(),
+						bCryptPasswordEncoder.encode(userPasswordUpdateRequest.getNewPassword1()));
+
+				log.info("[회원 - 비밀번호 변경] 비밀번호 변경을 한 회원 : {}", user.getUserId());
+				return ResponseEntity.status(HttpStatus.OK).body(
+						UserIdResponse.builder()
+								.userId(user.getUserId())
+								.msg("비밀번호를 변경하였습니다.")
+								.build()
+				);
+			}
+		}
+	}
+
+	/**
+	 * 유저의 이메일 변경을 위한 메일 전송을 하는 메서드
+	 *
+	 * @param userChangeEmailRequest 변경할 이메일과 userId가 들어있는 Request
+	 * @param bindingResult          @Valid 어노테이션에서 나오는 오류를 담는 변수
+	 * @return 요청에대한 userId와 응답을 리턴
+	 */
+	@PostMapping("/users/details/update/email")
+	public ResponseEntity<UserIdResponse> sendUserEmailToUpdate(@Valid @RequestBody UserChangeEmailRequest userChangeEmailRequest
+			, BindingResult bindingResult) {
+		UserAccount user = userAccountService.findUserByUserId(userChangeEmailRequest.getUserId());
+		if (user == null) {
+			log.warn("[회원 - 이메일 변경] 유효성 검사 실패 : userId의 정보가 없음");
+			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", userChangeEmailRequest.getUserId());
+		}
+
+		if (bindingResult.hasErrors()) {
+			return makeBadRequestByBindingResult("[회원 - 이메일 변경] 유효성 검사 실패 : {}", user.getUserId(), bindingResult);
+		}
+
+		userAccountService.sendUpdateEmailLink(userChangeEmailRequest.getUserId(), userChangeEmailRequest.getEmail());
+
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserIdResponse.builder()
+						.userId(user.getUserId())
+						.msg("변경할 이메일 주소로 인증 메일을 보냈습니다.")
+						.build()
+		);
+	}
+
+	/**
+	 * 유저의 이메일 변경 요청을 확인하여 변경을 해주는 메서드
+	 *
+	 * @param uuid 이메일 변경을 요청한 유저의 식별자
+	 * @return 요청에 대한 userId와 응답을 반환
+	 */
+	@GetMapping("/users/details/update/email/{uuid}")
+	public ResponseEntity<?> checkUserEmailToUpdate(@PathVariable String uuid) {
+
+		ChangeUserEmail changeUserEmail = userAccountService.checkUpdateEmailUserIdByUuid(uuid);
+
+		if (changeUserEmail == null) {
+			log.info("[회원 - 이메일 변경] 찾기를 요청한 UUID : {}", uuid);
+			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", null);
+		}
+
+		log.info("[회원 - 이메일 변경] 찾기를 요청한 회원 : {}", changeUserEmail.getUserId());
+		userAccountService.updateEmail(changeUserEmail);
+		return ResponseEntity.status(HttpStatus.OK).body(
+				UserIdResponse.builder()
+						.userId(changeUserEmail.getUserId())
+						.msg("이메일을 변경했습니다.")
+						.build()
+		);
+	}
+
+	/**
+	 * UserIdResponse 형태의 BAD_REQUEST 생성 메서드
+	 *
+	 * @param message 작성할 메세지
+	 * @param userId  요청한 userId
+	 * @return 완성된 BAD_REQUEST
+	 */
+	private ResponseEntity<UserIdResponse> makeBadRequestUsingUserIdResponse(String message, String userId) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+				UserIdResponse.builder()
+						.userId(userId)
+						.msg(message)
+						.build());
+	}
+
+	/**
+	 * 검증 실패 메서드
+	 *
+	 * @param logMessage    검증 실패시 나오는 메세지
+	 * @param userId        요청한 userId
+	 * @param bindingResult 검증 결과
+	 * @return              에러를 담은 ResponseEntity 반환
+	 */
+	private ResponseEntity<UserIdResponse> makeBadRequestByBindingResult(String logMessage, String userId, BindingResult bindingResult) {
+
+		StringBuilder sb = new StringBuilder();
+		bindingResult.getAllErrors().forEach(objectError -> {
+			String message = objectError.getDefaultMessage();
+			sb.append(message).append("\\n");
+		});
+
+		log.warn(logMessage, sb);
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+				UserIdResponse.builder()
+						.userId(userId)
+						.msg(sb.toString())
+						.build()
+		);
+
 	}
 }
