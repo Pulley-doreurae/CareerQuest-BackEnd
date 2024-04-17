@@ -89,7 +89,7 @@ public class MailService {
 		String number = createNumber();
 		String verification_url = domain + "/api/verify?certificationNumber=" + number + "&email=" + email;
 
-		//sendMail(email, verification_url, "mailForm", "취준진담 이메일 인증");
+		sendMail(email, verification_url, "mailForm", "취준진담 이메일 인증");
 
 		emailAuthenticationRepository.save(
 				new EmailAuthentication(email, userId, userName, phoneNum, password, birth, gender, number));
