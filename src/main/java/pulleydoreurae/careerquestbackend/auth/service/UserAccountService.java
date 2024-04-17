@@ -62,7 +62,7 @@ public class UserAccountService implements Serializable {
 		log.info("[비밀번호 찾기 - 인증] : {} 의 비밀번호 찾기를 위한 객체저장 및 메일전송", email);
 		log.info("[비밀번호 찾기 - 인증] : {} 의 비밀번호 찾기를 위한 UUID", uuid);
 
-		//mailService.sendMail(email, verification_url, "findPasswordForm", "취준진담 비밀번호 찾기");
+		mailService.sendMail(email, verification_url, "findPasswordForm", "취준진담 비밀번호 찾기");
 	}
 
 	/**
@@ -117,16 +117,11 @@ public class UserAccountService implements Serializable {
 	}
 
 	/**
-	 * 현재 보고싶은 보고싶은 userId가 자신의 계정인지 확인하는 메서드
+	 * 이메일 변경 주소로 인증 링크를 보내주는 메서드
 	 *
-	 * @param userId    확인하고 싶은 userId
-	 * @return [ true - 자신의 계정 | false - 타인의 계정 ] 반환
+	 * @param userId	이메일 변경을 요청한 userId
+	 * @param email		변경할 이메일 주소
 	 */
-	public boolean isMyself(String userId) {
-		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-		return userName != null && userName.equals(userId);
-	}
-
 	public void sendUpdateEmailLink(String userId, String email){
 		String uuid = UUID.randomUUID().toString();
 		String verification_url = mailService.getDomain() + "/api/users/details/update/email/" + uuid;
@@ -135,7 +130,7 @@ public class UserAccountService implements Serializable {
 		log.info("[회원 - 이메일 변경] : {} 의 이메일 변경을 위한 객체저장 및 메일전송", email);
 		log.info("[회원 - 이메일 변경] : {} 의 이메일 변경을 위한 UUID", uuid);
 
-		// mailService.sendMail(email, verification_url, "findPasswordForm", "취준진담 이메일 변경");
+		mailService.sendMail(email, verification_url, "updateEmailForm", "취준진담 이메일 변경");
 	}
 
 	public ChangeUserEmail checkUpdateEmailUserIdByUuid(String uuid){

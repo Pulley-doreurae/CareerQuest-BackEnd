@@ -629,11 +629,11 @@ class UserAccountControllerTest {
 								parameterWithName("userId").description("사용자 아이디")
 										.attributes(field("constraints", "String")),
 								parameterWithName("majorCategory").description("대분류 코드(id)")
-										.attributes(field("constraints", "Long")),
+										.attributes(field("constraints", "String")),
 								parameterWithName("middleCategory").description("중분류 코드(id)")
-										.attributes(field("constraints", "Long")),
+										.attributes(field("constraints", "String")),
 								parameterWithName("smallCategory").description("소분류 코드(id)")
-										.attributes(field("constraints", "Long")),
+										.attributes(field("constraints", "String")),
 								parameterWithName("_csrf").description("csrf 코드 (무시)")
 						),
 						responseFields(
@@ -644,7 +644,45 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("13. 회원직무 추가 성공")
+	@DisplayName("13. 회원직무 추가 실패 (유효성 검사 실패)")
+	@WithMockUser
+	void addCareerFailTest2() throws Exception {
+		// Given
+
+		// When
+		mockMvc.perform(
+				post("/api/users/details/careers")
+					.with(csrf())
+					.param("userId", "id ")
+					.param("majorCategory", "1")
+					.param("middleCategory", "1")
+					.param("smallCategory", "1")
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				formParameters(    // form-data 형식
+					parameterWithName("userId").description("사용자 아이디")
+						.attributes(field("constraints", "String")),
+					parameterWithName("majorCategory").description("대분류 코드(id)")
+						.attributes(field("constraints", "String")),
+					parameterWithName("middleCategory").description("중분류 코드(id)")
+						.attributes(field("constraints", "String")),
+					parameterWithName("smallCategory").description("소분류 코드(id)")
+						.attributes(field("constraints", "String")),
+					parameterWithName("_csrf").description("csrf 코드 (무시)")
+				),
+				responseFields(
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
+		// Then
+	}
+
+	@Test
+	@DisplayName("14. 회원직무 추가 성공")
 	@WithMockUser
 	void addCareerSuccessTest() throws Exception {
 		// Given
@@ -687,7 +725,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("14. 기술스택 추가 실패 (사용자 정보를 찾을 수 없음)")
+	@DisplayName("15. 기술스택 추가 실패 (사용자 정보를 찾을 수 없음)")
 	@WithMockUser
 	void addStacksFailTest() throws Exception {
 		// Given
@@ -724,7 +762,45 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("15. 기술스택 추가 성공")
+	@DisplayName("16. 기술스택 추가 실패 (유효성 검사 실패)")
+	@WithMockUser
+	void addStacksFailTest2() throws Exception {
+		// Given
+		UserTechnologyStackRequest stackRequest = new UserTechnologyStackRequest();
+		stackRequest.setUserId("Id ");
+		List<String> stacks = new ArrayList<>();
+		stacks.add("1L");
+		stacks.add("2L");
+		stacks.add("3L");
+		stacks.add("4L");
+		stackRequest.setStacks(stacks);
+
+		// When
+		mockMvc.perform(
+				post("/api/users/details/stacks")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(stackRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(    // form-data 형식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
+				),
+				responseFields(
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
+		// Then
+		verify(userAccountRepository).findByUserId(any());
+	}
+
+	@Test
+	@DisplayName("17. 기술스택 추가 성공")
 	@WithMockUser
 	void addStacksSuccessTest() throws Exception {
 		// Given
@@ -765,7 +841,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("16. 회원 비밀번호 찾기 링크 발송 성공")
+	@DisplayName("18. 회원 비밀번호 찾기 링크 발송 성공")
 	@WithMockUser
 	void sendFindPasswordLinkSuccess() throws Exception {
 		// Given
@@ -808,7 +884,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("17. 회원 비밀번호 찾기 링크 발송 실패 (id에 해당하는 유저가 없음)")
+	@DisplayName("19. 회원 비밀번호 찾기 링크 발송 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
 	void sendFindPasswordLinkFailed() throws Exception {
 		// Given
@@ -840,9 +916,40 @@ class UserAccountControllerTest {
 		// Then
 	}
 
+	@Test
+	@DisplayName("20. 회원 비밀번호 찾기 링크 발송 실패 (유효성 검사 실패)")
+	@WithMockUser
+	void sendFindPasswordLinkFailed2() throws Exception {
+		// Given
+		String userId = "id ";
+		UserIdRequest userIdRequest = new UserIdRequest();
+		userIdRequest.setUserId(userId);
+
+		// When
+		mockMvc.perform(
+				post("/api/users/help/sendPassword")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userIdRequest)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // form-data 요청 방식
+					fieldWithPath("userId").description("사용자 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
+		// Then
+	}
+
 
 	@Test
-	@DisplayName("18. 회원 비밀번호 찾기 링크 접속 성공")
+	@DisplayName("21. 회원 비밀번호 찾기 링크 접속 성공")
 	@WithMockUser
 	void successPasswordLinkAccess() throws Exception {
 		// Given
@@ -872,7 +979,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("19. 회원 비밀번호 찾기 링크 접속 실패 (uuid가 없음)")
+	@DisplayName("22. 회원 비밀번호 찾기 링크 접속 실패 (uuid가 없음)")
 	@WithMockUser
 	void failedPasswordLinkAccess() throws Exception {
 		// Given
@@ -901,7 +1008,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("20. 회원 비밀번호 찾기 링크로 비밀번호 변경 성공")
+	@DisplayName("23. 회원 비밀번호 찾기 링크로 비밀번호 변경 성공")
 	@WithMockUser
 	void successPasswordChange() throws Exception {
 		// Given
@@ -952,7 +1059,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("21. 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (요청한 uuid에 맞는 userId가 없음)")
+	@DisplayName("24. 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (요청한 uuid에 맞는 userId가 없음)")
 	@WithMockUser
 	void failedPasswordChange1() throws Exception {
 		// Given
@@ -991,7 +1098,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("22. 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호 입력 유효성 검사 실패)")
+	@DisplayName("25. 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호 입력 유효성 검사 실패)")
 	@WithMockUser
 	void failedPasswordChange2() throws Exception {
 		// Given
@@ -1021,7 +1128,7 @@ class UserAccountControllerTest {
 								.content(gson.toJson(userFindPasswordChangeRequest))
 				)
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
+				.andExpect(jsonPath("$.userId").isEmpty())
 				.andExpect(jsonPath("$.msg").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
@@ -1039,7 +1146,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("23. 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호와 비밀번호 확인이 서로 일치하지 않음)")
+	@DisplayName("26. 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호와 비밀번호 확인이 서로 일치하지 않음)")
 	@WithMockUser
 	void failedPasswordChange3() throws Exception {
 		// Given
@@ -1088,7 +1195,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("24. 회원 삭제 성공")
+	@DisplayName("27. 회원 삭제 성공")
 	@WithMockUser
 	void successDeleteUser() throws Exception {
 		// Given
@@ -1136,7 +1243,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("25. 회원 삭제 실패 (id에 해당하는 유저가 없음)")
+	@DisplayName("28. 회원 삭제 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
 	void failedDeleteUser1() throws Exception {
 		// Given
@@ -1184,7 +1291,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("26. 회원 삭제 실패 (본인확인 비밀번호 유효성 검사 실패)")
+	@DisplayName("29. 회원 삭제 실패 (본인확인 비밀번호 유효성 검사 실패)")
 	@WithMockUser
 	void failedDeleteUser2() throws Exception {
 		// Given
@@ -1198,7 +1305,7 @@ class UserAccountControllerTest {
 				.build();
 
 		UserDeleteRequest userDeleteRequest = new UserDeleteRequest();
-		userDeleteRequest.setUserId("user_1");
+		userDeleteRequest.setUserId("id ");
 		userDeleteRequest.setPassword("");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
@@ -1231,7 +1338,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("27. 회원 삭제 실패 (본인확인 비밀번호가 일치하지 않음)")
+	@DisplayName("30. 회원 삭제 실패 (본인확인 비밀번호가 일치하지 않음)")
 	@WithMockUser
 	void failedDeleteUser3() throws Exception {
 		// Given
@@ -1277,7 +1384,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("28. 회원 정보 열람 성공")
+	@DisplayName("31. 회원 정보 열람 성공")
 	@WithMockUser
 	void successShowUserDetail() throws Exception {
 		// Given
@@ -1354,7 +1461,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("29. 회원 정보 열람 실패 (id에 해당하는 유저가 없음)")
+	@DisplayName("32. 회원 정보 열람 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
 	void failedShowUserDetail() throws Exception {
 		// Given
@@ -1388,7 +1495,39 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("30. 회원 정보 수정 성공 ")
+	@DisplayName("33. 회원 정보 열람 실패 (유효성 검사 실패)")
+	@WithMockUser
+	void failedShowUserDetail2() throws Exception {
+		// Given
+
+		UserIdRequest userIdRequest = new UserIdRequest();
+		userIdRequest.setUserId("id ");
+
+		// When
+		mockMvc.perform(
+				get("/api/users/details/info")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userIdRequest)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
+		// Then
+	}
+
+	@Test
+	@DisplayName("34. 회원 정보 수정 성공 ")
 	@WithMockUser
 	void successChangeUserDetail() throws Exception {
 		// Given
@@ -1469,7 +1608,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("31. 회원 정보 수정 실패 (id에 해당하는 유저가 없음)")
+	@DisplayName("35. 회원 정보 수정 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
 	void failedChangeUserDetail1() throws Exception {
 		// Given
@@ -1522,7 +1661,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("32. 회원 정보 수정 실패 (유효성 검사 실패 : 비밀번호 공백)")
+	@DisplayName("36. 회원 정보 수정 실패 (유효성 검사 실패)")
 	@WithMockUser
 	void failedChangeUserDetail2() throws Exception {
 		// Given
@@ -1533,8 +1672,8 @@ class UserAccountControllerTest {
 		Collections.sort(changeStack);
 
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
-		showUserDetailsToChangeRequest.setUserId("user_1");
-		showUserDetailsToChangeRequest.setPhoneNum("010-9999-8888");
+		showUserDetailsToChangeRequest.setUserId("id ");
+		showUserDetailsToChangeRequest.setPhoneNum("010-9-8");
 		showUserDetailsToChangeRequest.setMajorCategory("대분류_2");
 		showUserDetailsToChangeRequest.setMiddleCategory("중분류_2");
 		showUserDetailsToChangeRequest.setSmallCategory("소분류_2");
@@ -1574,7 +1713,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("33. 회원 정보 수정 실패 (유저의 비밀번호가 일치하지 않음)")
+	@DisplayName("37. 회원 정보 수정 실패 (유저의 비밀번호가 일치하지 않음)")
 	@WithMockUser
 	void failedChangeUserDetail3() throws Exception {
 		// Given
@@ -1626,7 +1765,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("34. 회원 비밀번호 변경 성공")
+	@DisplayName("38. 회원 비밀번호 변경 성공")
 	@WithMockUser
 	void successChangeUserPassword() throws Exception {
 		// Given
@@ -1670,7 +1809,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("35. 회원 비밀번호 변경 실패 (id에 해당하는 유저가 없음)")
+	@DisplayName("39. 회원 비밀번호 변경 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
 	void failedChangeUserPassword1() throws Exception {
 		// Given
@@ -1710,14 +1849,14 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("36. 회원 비밀번호 변경 실패 (비밀번호 유효성 검사 실패)")
+	@DisplayName("40. 회원 비밀번호 변경 실패 (유효성 검사 실패)")
 	@WithMockUser
 	void failedChangeUserPassword2() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
 
 		UserPasswordUpdateRequest userPasswordUpdateRequest = new UserPasswordUpdateRequest();
-		userPasswordUpdateRequest.setUserId("user_1");
+		userPasswordUpdateRequest.setUserId("id ");
 		userPasswordUpdateRequest.setCurrentPassword("");
 		userPasswordUpdateRequest.setNewPassword1("word");
 		userPasswordUpdateRequest.setNewPassword2("word");
@@ -1753,7 +1892,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("37. 회원 비밀번호 변경 실패 (본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않음)")
+	@DisplayName("41. 회원 비밀번호 변경 실패 (본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않음)")
 	@WithMockUser
 	void failedChangeUserPassword3() throws Exception {
 		// Given
@@ -1797,7 +1936,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("38. 회원 비밀번호 변경 실패 (로운 비밀번호와 새로운 비밀번호 확인이 서로 일치하지 않음)")
+	@DisplayName("42. 회원 비밀번호 변경 실패 (새로운 비밀번호와 새로운 비밀번호 확인이 서로 일치하지 않음)")
 	@WithMockUser
 	void failedChangeUserPassword4() throws Exception {
 		// Given
@@ -1840,7 +1979,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("39. 회원 이메일 변경 메일 전송 성공")
+	@DisplayName("43. 회원 이메일 변경 메일 전송 성공")
 	@WithMockUser
 	void successSendEmailToChange() throws Exception {
 		// Given
@@ -1879,7 +2018,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("40. 회원 이메일 변경 메일 전송 실패 (id에 해당하는 유저가 없음)")
+	@DisplayName("44. 회원 이메일 변경 메일 전송 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
 	void failedSendEmailToChange1() throws Exception {
 		// Given
@@ -1915,14 +2054,14 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("41. 회원 이메일 변경 메일 전송 실패 (이메일 유효성 검사 실패)")
+	@DisplayName("45. 회원 이메일 변경 메일 전송 실패 (유효성 검사 실패)")
 	@WithMockUser
 	void failedSendEmailToChange2() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
 
 		UserChangeEmailRequest userChangeEmailRequest = new UserChangeEmailRequest();
-		userChangeEmailRequest.setUserId("user_1");
+		userChangeEmailRequest.setUserId("id ");
 		userChangeEmailRequest.setEmail("newTest");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
@@ -1953,7 +2092,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("42. 회원 이메일 변경 성공")
+	@DisplayName("46. 회원 이메일 변경 성공")
 	@WithMockUser
 	void successChangeEmail() throws Exception {
 		// Given
@@ -1987,7 +2126,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("43. 회원 이메일 변경 실패 (uuid에 일치하는 계정이 없음)")
+	@DisplayName("47. 회원 이메일 변경 실패 (uuid에 일치하는 계정이 없음)")
 	@WithMockUser
 	void failedChangeEmail1() throws Exception {
 		// Given
