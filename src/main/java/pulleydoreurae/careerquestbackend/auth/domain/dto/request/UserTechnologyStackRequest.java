@@ -16,5 +16,5 @@ import lombok.Setter;
 public class UserTechnologyStackRequest {
 
 	private String userId; // 회원아이디
-	private List<Long> stacks; // 기술스택 id
+	private List<String> stacks; // 기술스택 id
 }

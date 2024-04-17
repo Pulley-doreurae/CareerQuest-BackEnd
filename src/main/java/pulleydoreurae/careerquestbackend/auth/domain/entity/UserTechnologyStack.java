@@ -34,5 +34,5 @@ public class UserTechnologyStack extends BaseEntity {
 	@JoinColumn(name = "user_id", nullable = false)
 	private UserAccount userAccount; // 회원정보
 	@Column(nullable = false)
-	private Long stackId; // 기술스택 id
+	private String stackId; // 기술스택
 }

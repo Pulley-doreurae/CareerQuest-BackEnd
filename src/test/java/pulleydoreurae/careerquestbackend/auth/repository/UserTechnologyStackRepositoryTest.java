@@ -44,22 +44,22 @@ class UserTechnologyStackRepositoryTest {
 		userAccountRepository.save(user);
 
 		UserTechnologyStack stack1 = UserTechnologyStack.builder()
-				.stackId(1L)
+				.stackId("1L")
 				.userAccount(user)
 				.build();
 
 		UserTechnologyStack stack2 = UserTechnologyStack.builder()
-				.stackId(2L)
+				.stackId("2L")
 				.userAccount(user)
 				.build();
 
 		UserTechnologyStack stack3 = UserTechnologyStack.builder()
-				.stackId(3L)
+				.stackId("3L")
 				.userAccount(user)
 				.build();
 
 		UserTechnologyStack stack4 = UserTechnologyStack.builder()
-				.stackId(4L)
+				.stackId("4L")
 				.userAccount(user)
 				.build();
 
@@ -100,7 +100,7 @@ class UserTechnologyStackRepositoryTest {
 		UserAccount user = userAccountRepository.findByUserId(userId).orElseThrow();
 
 		UserTechnologyStack stack5 = UserTechnologyStack.builder()
-				.stackId(5L)
+				.stackId("5L")
 				.userAccount(user)
 				.build();
 		userAccountRepository.save(user);
