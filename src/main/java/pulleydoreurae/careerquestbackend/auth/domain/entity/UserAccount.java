@@ -39,8 +39,11 @@ public class UserAccount extends BaseEntity {
 	private Long id;
 	private String userId;
 	private String userName;
+	@Setter
 	private String email;
+	@Setter
 	private String password;
+	@Setter
 	private String phoneNum;
 	private String birth;
 	private String gender;
@@ -54,7 +57,7 @@ public class UserAccount extends BaseEntity {
 	private UserCareerDetails userCareerDetails;
 
 	@Setter
-	@OneToMany(mappedBy = "userAccount",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
 	// 양방향 매핑, 기술스택이 연관관계의 주인이 된다. 회원이 삭제된다면 그 회원의 기술스택도 삭제한다.
 	private List<UserTechnologyStack> stacks;
 
@@ -67,14 +70,4 @@ public class UserAccount extends BaseEntity {
 	@OneToMany(mappedBy = "userAccount")
 	private List<PostLike> postLikes;
 
-	public void updatePassword(String password) {
-		this.password = password;
-	}
-	public void updateEmail(String email) {
-		this.email = email;
-	}
-
-	public void updatePhoneNum(String phoneNum) {
-		this.phoneNum = phoneNum;
-	}
 }

@@ -41,9 +41,11 @@ public class MailService {
 	@Value("${spring.mail.sender}")
 	private static String senderEmail;
 
-	@Getter
 	@Value("${spring.mail.domain}")
 	private String domain;
+
+	@Value("${VERIFY_EMAIL_PATH}")
+	private String verifyEmailPath;
 
 	private final SpringTemplateEngine templateEngine;
 
@@ -87,7 +89,7 @@ public class MailService {
 			, String password, String birth, String gender) {
 
 		String number = createNumber();
-		String verification_url = domain + "/api/verify?certificationNumber=" + number + "&email=" + email;
+		String verification_url = domain + verifyEmailPath + number + "&email=" + email;
 
 		sendMail(email, verification_url, "mailForm", "취준진담 이메일 인증");
 
@@ -97,7 +99,6 @@ public class MailService {
 		// email 의 경우 이메일인증의 키값이므로 따로 저장할 필요 X
 		userInfoUserIdRepository.save(new UserInfoUserId(userId));
 		log.info("[회원가입 - 인증] : {} 의 회원가입을 위한 객체저장 및 메일전송", email);
-		log.info("[회원가입 - 인증] : {} 의 회원가입을 위한 번호", number);
 	}
 
 	/**

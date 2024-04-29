@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.*;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.*;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.HelpUserPassword;
 import pulleydoreurae.careerquestbackend.auth.service.UserAccountService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -280,26 +281,18 @@ public class UserAccountController {
 	public ResponseEntity<?> addCareer(@Valid UserCareerDetailsRequest userCareerDetailsRequest,
 		BindingResult bindingResult) {
 
-		if(bindingResult.hasErrors()){
-			return makeBadRequestByBindingResult("[회원 - 직무 추가] 유효성 검사 실패 : {}", userCareerDetailsRequest.getUserId(), bindingResult);
+		if(bindingResult.hasErrors()) {
+			return makeBadRequestByBindingResult("[회원 - 직무 추가] 유효성 검사 실패 : {}", userCareerDetailsRequest.getUserId(),
+				bindingResult);
 		}
 
-		String userId = userCareerDetailsRequest.getUserId();
-		Optional<UserAccount> optionalUserAccount = userAccountRepository.findByUserId(userId);
-
-		if (optionalUserAccount.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(SimpleResponse.builder()
-							.msg("사용자 정보를 찾을 수 없습니다.")
-							.build());
-		}
+		UserAccount user = userAccountService.findUserByUserId(userCareerDetailsRequest.getUserId());
 
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
 				.majorCategory(userCareerDetailsRequest.getMajorCategory())
 				.middleCategory(userCareerDetailsRequest.getMiddleCategory())
 				.smallCategory(userCareerDetailsRequest.getSmallCategory())
 				.build();
-		UserAccount user = optionalUserAccount.get();
 		user.setUserCareerDetails(userCareerDetails);
 		userAccountRepository.save(user); // 직무에 대한 정보 저장
 		userCareerDetailsRepository.save(userCareerDetails);
@@ -318,21 +311,14 @@ public class UserAccountController {
 	@PostMapping("/users/details/stacks")
 	public ResponseEntity<?> addStacks(
 			@Valid @RequestBody UserTechnologyStackRequest userTechnologyStackRequest, BindingResult bindingResult) {
-		String userId = userTechnologyStackRequest.getUserId();
-		Optional<UserAccount> optionalUserAccount = userAccountRepository.findByUserId(userId);
+
 
 		if(bindingResult.hasErrors()){
 			return makeBadRequestByBindingResult("[회원 - 기술스택 추가] 유효성 검사 실패 : {}", userTechnologyStackRequest.getUserId(), bindingResult);
 		}
 
-		if (optionalUserAccount.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(SimpleResponse.builder()
-							.msg("사용자 정보를 찾을 수 없습니다.")
-							.build());
-		}
+		UserAccount user = userAccountService.findUserByUserId(userTechnologyStackRequest.getUserId());
 
-		UserAccount user = optionalUserAccount.get();
 		List<UserTechnologyStack> stacks = new ArrayList<>(); // 기술스택을 담을 리스트
 		userTechnologyStackRequest.getStacks().forEach(stackId -> { // 리스트로 넘어온 스택들 데이터베이스에 저장
 			UserTechnologyStack stack = UserTechnologyStack.builder()
@@ -367,13 +353,7 @@ public class UserAccountController {
 
 		UserAccount user = userAccountService.findUserByUserId(userIdRequest.getUserId());
 
-		if (user == null) {
-			log.info("[비밀번호 - 찾기] 찾기를 요청한 회원 : {}", userIdRequest.getUserId());
-			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", userIdRequest.getUserId());
-
-		} else {
-			userAccountService.findPassword(user.getUserId(), user.getEmail());
-		}
+		userAccountService.findPassword(user.getUserId(), user.getEmail());
 
 		log.info("[비밀번호 - 찾기] 찾기를 요청한 회원 : {}", user.getUserId());
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -395,10 +375,7 @@ public class UserAccountController {
 	public ResponseEntity<UserIdResponse> checkFindPassword(@PathVariable String uuid) {
 		String userId = userAccountService.checkUserIdByUuid(uuid);
 
-		if (userId == null) {
-			log.info("[비밀번호 - 찾기] 찾기를 요청한 UUID : {}", uuid);
-			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", null);
-		}
+		if (userId == null) return makeBadRequestUsingUserIdResponse("[비밀번호 - 찾기] 일치하는 계저이 없습니다.", null);
 
 		log.info("[비밀번호 - 찾기] 찾기를 요청한 회원 : {}", userId);
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -426,10 +403,8 @@ public class UserAccountController {
 		}
 
 		String userId = userAccountService.checkUserIdByUuid(uuid);
-		if (userId == null) {
-			log.warn("[비밀번호 - 찾기] 유효성 검사 실패 : uuid에 맞는 userId가 없음");
-			return makeBadRequestUsingUserIdResponse("uuid에 맞는 userId가 없습니다", null);
-		}
+
+		if (userId == null) return makeBadRequestUsingUserIdResponse("[비밀번호 - 찾기] 일치하는 계저이 없습니다.", null);
 
 		if (!userFindPasswordChangeRequest.getPassword1().equals(userFindPasswordChangeRequest.getPassword2())) {
 			log.warn("[비밀번호 - 찾기] 유효성 검사 실패 : {}", userId);
@@ -466,12 +441,6 @@ public class UserAccountController {
 
 		UserAccount user = userAccountService.findUserByUserId(userDeleteRequest.getUserId());
 
-		if (user == null) {
-			log.warn("[회원 - 탈퇴] 유효성 검사 실패 : userId의 정보가 없음");
-			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", userDeleteRequest.getUserId());
-		}
-
-
 		if (!userAccountService.isCurrentPassword(user,
 				userDeleteRequest.getPassword())) {
 			log.warn("[회원 - 탈퇴] 유효성 검사 실패 : {}", user.getUserId());
@@ -502,11 +471,6 @@ public class UserAccountController {
 		}
 
 		UserAccount user = userAccountService.findUserByUserId(userIdRequest.getUserId());
-
-		if (user == null) {
-			log.warn("[회원 - 정보 보기] 정보 열람 실패 회원 : {}", userIdRequest.getUserId());
-			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", userIdRequest.getUserId());
-		}
 
 		List<String> stacks = userAccountService.getTechnologyStack(user);
 
@@ -540,11 +504,6 @@ public class UserAccountController {
 		}
 
 		UserAccount user = userAccountService.findUserByUserId(showUserDetailsToChangeRequest.getUserId());
-
-		if (user == null) {
-			log.warn("[회원 - 정보 변경] 유효성 검사 실패 : userId의 정보가 없음");
-			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", showUserDetailsToChangeRequest.getUserId());
-		}
 
 		if (userAccountService.isCurrentPassword(user,
 				showUserDetailsToChangeRequest.getPassword())) {
@@ -585,11 +544,6 @@ public class UserAccountController {
 
 		UserAccount user = userAccountService.findUserByUserId(userPasswordUpdateRequest.getUserId());
 
-		if (user == null) {
-			log.warn("[회원 - 비밀번호 변경] 유효성 검사 실패 : userId의 정보가 없음");
-			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", userPasswordUpdateRequest.getUserId());
-		}
-
 		if (!userAccountService.isCurrentPassword(user,
 				userPasswordUpdateRequest.getCurrentPassword())) {
 			log.warn("[회원 - 비밀번호 변경] 유효성 검사 실패 : {}", user.getUserId());
@@ -629,10 +583,6 @@ public class UserAccountController {
 		}
 
 		UserAccount user = userAccountService.findUserByUserId(userChangeEmailRequest.getUserId());
-		if (user == null) {
-			log.warn("[회원 - 이메일 변경] 유효성 검사 실패 : userId의 정보가 없음");
-			return makeBadRequestUsingUserIdResponse("userId의 정보가 없음", userChangeEmailRequest.getUserId());
-		}
 
 		userAccountService.sendUpdateEmailLink(userChangeEmailRequest.getUserId(), userChangeEmailRequest.getEmail());
 
@@ -654,11 +604,6 @@ public class UserAccountController {
 	public ResponseEntity<?> checkUserEmailToUpdate(@PathVariable String uuid) {
 
 		ChangeUserEmail changeUserEmail = userAccountService.checkUpdateEmailUserIdByUuid(uuid);
-
-		if (changeUserEmail == null) {
-			log.info("[회원 - 이메일 변경] 찾기를 요청한 UUID : {}", uuid);
-			return makeBadRequestUsingUserIdResponse("일치하는 계정이 없습니다", null);
-		}
 
 		log.info("[회원 - 이메일 변경] 찾기를 요청한 회원 : {}", changeUserEmail.getUserId());
 		userAccountService.updateEmail(changeUserEmail);

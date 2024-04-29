@@ -2,7 +2,10 @@ package pulleydoreurae.careerquestbackend.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowUserDetailsToChangeRequest;
@@ -32,7 +35,17 @@ public class UserAccountService implements Serializable {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final MailService mailService;
 
-	private static final long serialVersionUID = 6494678977089006639L;
+	@Value("${spring.mail.domain}")
+	private String domain;
+
+	@Value("${FIND_PASSWORD_PATH}")
+	private String findPasswordPath;
+
+	@Value("${UPDATE_EMAIL_PATH}")
+	private String updateEmailPath;
+
+	@Value("${serialVersionUID}")
+	private static long serialVersionUID;
 
 	/**
 	 * userId에 해당하는 UserAccount를 찾는 메서드
@@ -40,11 +53,14 @@ public class UserAccountService implements Serializable {
 	 * @param userId 찾고싶은 userId
 	 */
 	public UserAccount findUserByUserId(String userId) {
-		Optional<UserAccount> user = userAccountRepository.findByUserId(userId);
-		if (user.isEmpty()) {
-			user = userAccountRepository.findByEmail(userId);
+		Optional<UserAccount> findUser = userAccountRepository.findByUserId(userId);
+
+		// 회원정보를 찾을 수 없다면
+		if (findUser.isEmpty()) {
+			log.error("{} 의 회원 정보를 찾을 수 없습니다.", userId);
+			throw new UsernameNotFoundException("요청한 회원 정보를 찾을 수 없습니다.");
 		}
-		return user.orElse(null);
+		return findUser.get();
 	}
 
 	/**
@@ -55,7 +71,7 @@ public class UserAccountService implements Serializable {
 	 */
 	public void findPassword(String userId, String email) {
 		String uuid = UUID.randomUUID().toString();
-		String verification_url = mailService.getDomain() + "/api/users/help/" + uuid;
+		String verification_url = domain + findPasswordPath + uuid;
 
 		helpUserPasswordRepository.save(new HelpUserPassword(uuid, userId));
 
@@ -73,7 +89,13 @@ public class UserAccountService implements Serializable {
 	 */
 	public String checkUserIdByUuid(String uuid) {
 		Optional<HelpUserPassword> helpUser = helpUserPasswordRepository.findById(uuid);
-		return helpUser.map(HelpUserPassword::getHelpUserId).orElse(null);
+
+		// uuid가 없다면
+		if (helpUser.isEmpty()) {
+			log.error("{} 의 해당하는 정보를 찾을 수 없습니다.", uuid);
+			throw new UsernameNotFoundException("요청한 회원 정보를 찾을 수 없습니다.");
+		}
+		return helpUser.get().getHelpUserId();
 	}
 
 	/**
@@ -86,7 +108,7 @@ public class UserAccountService implements Serializable {
 		Optional<UserAccount> userAccount = userAccountRepository.findByUserId(userId);
 		if (userAccount.isPresent()) {
 			UserAccount user = userAccount.get();
-			user.updatePassword(password);
+			user.setPassword(password);
 			userAccountRepository.save(user);
 		}
 	}
@@ -124,7 +146,7 @@ public class UserAccountService implements Serializable {
 	 */
 	public void sendUpdateEmailLink(String userId, String email){
 		String uuid = UUID.randomUUID().toString();
-		String verification_url = mailService.getDomain() + "/api/users/details/update/email/" + uuid;
+		String verification_url = domain + updateEmailPath + uuid;
 
 		changeUserEmailRepository.save(new ChangeUserEmail(uuid, userId, email));
 		log.info("[회원 - 이메일 변경] : {} 의 이메일 변경을 위한 객체저장 및 메일전송", email);
@@ -135,14 +157,20 @@ public class UserAccountService implements Serializable {
 
 	public ChangeUserEmail checkUpdateEmailUserIdByUuid(String uuid){
 		Optional<ChangeUserEmail> helpUser = changeUserEmailRepository.findById(uuid);
-        return helpUser.orElse(null);
+
+		// uuid가 없다면
+		if (helpUser.isEmpty()) {
+			log.error("{} 의 해당하는 정보를 찾을 수 없습니다.", uuid);
+			throw new UsernameNotFoundException("요청한 회원 정보를 찾을 수 없습니다.");
+		}
+		return helpUser.get();
 	}
 
 	public void updateEmail(ChangeUserEmail changeUser){
 		Optional<UserAccount> userAccount = userAccountRepository.findByUserId(changeUser.getUserId());
 		if (userAccount.isPresent()) {
 			UserAccount user = userAccount.get();
-			user.updateEmail(changeUser.getEmail());
+			user.setEmail(changeUser.getEmail());
 			userAccountRepository.save(user);
 		}
 		changeUserEmailRepository.delete(changeUser);
@@ -150,7 +178,7 @@ public class UserAccountService implements Serializable {
 
 	public void updateDetails(UserAccount user, ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest) {
 
-		user.updatePhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
+		user.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
 
 		UserCareerDetails updateUserCareerDetails = UserCareerDetails.builder()
 				.id(user.getUserCareerDetails().getId()) // 동일한 id 로 덮어쓰기

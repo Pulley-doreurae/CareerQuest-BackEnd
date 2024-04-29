@@ -7,3 +7,4 @@ spring:
       - database.yml
       - geoIpRoot.yml
       - path.yml
+      - serial.yml
