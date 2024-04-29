@@ -640,7 +640,7 @@ class UserAccountControllerTest {
 								fieldWithPath("msg").description("요청에 대한 결과")
 						)));
 		// Then
-		verify(userAccountRepository).findByUserId(any());
+		verify(userAccountService).findUserByUserId(any());
 	}
 
 	@Test
@@ -686,8 +686,8 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void addCareerSuccessTest() throws Exception {
 		// Given
-		given(userAccountRepository.findByUserId(any())) // 사용자 id가 들어왔다면
-				.willReturn(Optional.of(new UserAccount()));
+		given(userAccountService.findUserByUserId(any())) // 사용자 id가 들어왔다면
+				.willReturn(new UserAccount());
 
 		// When
 		mockMvc.perform(
@@ -719,7 +719,7 @@ class UserAccountControllerTest {
 						)));
 
 		// Then
-		verify(userAccountRepository).findByUserId(any());
+		verify(userAccountService).findUserByUserId(any());
 		verify(userAccountRepository).save(any());
 		verify(userCareerDetailsRepository).save(any());
 	}
@@ -758,7 +758,7 @@ class UserAccountControllerTest {
 								fieldWithPath("msg").description("요청에 대한 결과")
 						)));
 		// Then
-		verify(userAccountRepository).findByUserId(any());
+		verify(userAccountService).findUserByUserId(any());
 	}
 
 	@Test
@@ -796,7 +796,7 @@ class UserAccountControllerTest {
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
 		// Then
-		verify(userAccountRepository).findByUserId(any());
+
 	}
 
 	@Test
@@ -812,7 +812,7 @@ class UserAccountControllerTest {
 		stacks.add("3L");
 		stacks.add("4L");
 		stackRequest.setStacks(stacks);
-		given(userAccountRepository.findByUserId(any())).willReturn(Optional.of(new UserAccount()));
+		given(userAccountService.findUserByUserId(any())).willReturn(new UserAccount());
 
 		// When
 		mockMvc.perform(
@@ -834,7 +834,7 @@ class UserAccountControllerTest {
 								fieldWithPath("msg").description("요청에 대한 결과")
 						)));
 		// Then
-		verify(userAccountRepository).findByUserId(any());
+		verify(userAccountService).findUserByUserId(any());
 		verify(userAccountRepository).save(any());
 		// 4개의 리스트 내용이 전부 저장되는지 검사
 		verify(userTechnologyStackRepository, times(4)).save(any());
@@ -910,7 +910,6 @@ class UserAccountControllerTest {
 								fieldWithPath("userId").description("사용자 아이디")
 						),
 						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("msg").description("요청에 대한 결과")
 						)));
 		// Then
@@ -1478,7 +1477,6 @@ class UserAccountControllerTest {
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(userIdRequest)))
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.msg").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
@@ -1488,7 +1486,6 @@ class UserAccountControllerTest {
 								fieldWithPath("userId").description("사용자 아이디")
 						),
 						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
 								fieldWithPath("msg").description("요청에 대한 처리결과")
 						)));
 		// Then
@@ -1558,7 +1555,7 @@ class UserAccountControllerTest {
 		showUserDetailsToChangeRequest.setPassword("testPassword");
 
 		UserAccount changeUser = user;
-		changeUser.updatePhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
+		changeUser.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
 		changeUser.setUserCareerDetails(UserCareerDetails.builder().majorCategory("대분류_2").middleCategory("중분류_2").smallCategory("소분류_2").build());
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
@@ -1637,7 +1634,6 @@ class UserAccountControllerTest {
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(showUserDetailsToChangeRequest)))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.userId").exists())
 			.andExpect(jsonPath("$.msg").exists())
 			.andDo(print())
 			.andDo(document("{class-name}/{method-name}/",
@@ -1653,7 +1649,6 @@ class UserAccountControllerTest {
 					fieldWithPath("password").description("사용자 비밀번호")
 				),
 				responseFields( // Json 응답 형식
-					fieldWithPath("userId").description("요청한 아이디"),
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
 
@@ -1828,7 +1823,6 @@ class UserAccountControllerTest {
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userPasswordUpdateRequest)))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.userId").exists())
 			.andExpect(jsonPath("$.msg").exists())
 			.andDo(print())
 			.andDo(document("{class-name}/{method-name}/",
@@ -1841,7 +1835,6 @@ class UserAccountControllerTest {
 					fieldWithPath("newPassword2").description("사용자 새로운 비밀번호 확인")
 				),
 				responseFields( // Json 응답 형식
-					fieldWithPath("userId").description("요청한 아이디"),
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
 
@@ -2035,7 +2028,6 @@ class UserAccountControllerTest {
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userChangeEmailRequest)))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.userId").exists())
 			.andExpect(jsonPath("$.msg").exists())
 			.andDo(print())
 			.andDo(document("{class-name}/{method-name}/",
@@ -2046,7 +2038,6 @@ class UserAccountControllerTest {
 					fieldWithPath("email").description("사용자가 변경할 이메일 주소")
 				),
 				responseFields( // Json 응답 형식
-					fieldWithPath("userId").description("요청한 아이디"),
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
 
@@ -2138,7 +2129,6 @@ class UserAccountControllerTest {
 				get("/api/users/details/update/email/{uuid}", "0123-4567-89AB-CDEF")
 					.with(csrf()))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.userId").isEmpty())
 			.andExpect(jsonPath("$.msg").exists())
 			.andDo(print())
 			.andDo(document("{class-name}/{method-name}/",
@@ -2148,7 +2138,6 @@ class UserAccountControllerTest {
 					parameterWithName("uuid").description("이메일 변경 유저 식별자")
 				),
 				responseFields( // Json 응답 형식
-					fieldWithPath("userId").description("요청한 아이디"),
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
 
