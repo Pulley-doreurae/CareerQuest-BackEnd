@@ -74,3 +74,156 @@ operation::user-account-controller-test/add-stacks-fail-test[snippets="http-resp
 operation::user-account-controller-test/add-stacks-success-test[snippets="http-request,request-fields"]
 ==== 응답
 operation::user-account-controller-test/add-stacks-success-test[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크 발송 성공
+==== 요청
+operation::user-account-controller-test/send-find-password-link-success[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/send-find-password-link-success[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크 발송 실패 (회원 정보를 찾을 수 없음)
+==== 요청
+operation::user-account-controller-test/send-find-password-link-failed[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/send-find-password-link-failed[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크 발송 실패 (유효성 검사 실패)
+==== 요청
+operation::user-account-controller-test/send-find-password-link-failed2[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/send-find-password-link-failed2[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크 접속 성공
+==== 요청
+operation::user-account-controller-test/success-password-link-access[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/success-password-link-access[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크 접속 실패 (uuid가 없음)
+==== 요청
+operation::user-account-controller-test/failed-password-link-access[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/failed-password-link-access[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크로 비밀번호 변경 성공
+==== 요청
+operation::user-account-controller-test/success-password-change[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/success-password-change[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (uuid가 없음)
+==== 요청
+operation::user-account-controller-test/failed-password-change1[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/failed-password-change1[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호 입력 유효성 검사 실패)
+==== 요청
+operation::user-account-controller-test/failed-password-change2[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/failed-password-change2[snippets="http-response,response-fields"]
+=== 회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호와 비밀번호 확인이 서로 일치하지 않음)
+==== 요청
+operation::user-account-controller-test/failed-password-change3[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/failed-password-change3[snippets="http-response,response-fields"]
+=== 회원 삭제 성공
+==== 요청
+operation::user-account-controller-test/success-delete-user[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/success-delete-user[snippets="http-response,response-fields"]
+=== 회원 삭제 실패 (회원 정보를 찾을 수 없음)
+==== 요청
+operation::user-account-controller-test/failed-delete-user1[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-delete-user1[snippets="http-response,response-fields"]
+=== 회원 삭제 실패 (본인확인 비밀번호 유효성 검사 실패)
+==== 요청
+operation::user-account-controller-test/failed-delete-user2[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-delete-user2[snippets="http-response,response-fields"]
+=== 회원 삭제 실패 (본인확인 비밀번호가 일치하지 않음)
+==== 요청
+operation::user-account-controller-test/failed-delete-user3[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-delete-user3[snippets="http-response,response-fields"]
+=== 회원 정보 열람 성공
+==== 요청
+operation::user-account-controller-test/success-show-user-detail[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/success-show-user-detail[snippets="http-response,response-fields"]
+=== 회원 정보 열람 실패 (회원 정보를 찾을 수 없음)
+==== 요청
+operation::user-account-controller-test/failed-show-user-detail[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-show-user-detail[snippets="http-response,response-fields"]
+=== 회원 정보 열람 실패 (유효성 검사 실패)
+==== 요청
+operation::user-account-controller-test/failed-show-user-detail2[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-show-user-detail2[snippets="http-response,response-fields"]
+=== 회원 정보 수정 성공
+==== 요청
+operation::user-account-controller-test/success-change-user-detail[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/success-change-user-detail[snippets="http-response,response-fields"]
+=== 회원 정보 수정 실패 (회원 정보를 찾을 수 없음)
+==== 요청
+operation::user-account-controller-test/failed-change-user-detail[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-change-user-detail[snippets="http-response,response-fields"]
+=== 회원 정보 수정 실패 (유효성 검사 실패)
+==== 요청
+operation::user-account-controller-test/failed-change-user-detail2[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-change-user-detail2[snippets="http-response,response-fields"]
+=== 회원 정보 수정 실패 (유저의 비밀번호가 일치하지 않음)
+==== 요청
+operation::user-account-controller-test/failed-change-user-detail3[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-change-user-detail3[snippets="http-response,response-fields"]
+=== 회원 비밀번호 변경 성공
+==== 요청
+operation::user-account-controller-test/success-change-user-password[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/success-change-user-password[snippets="http-response,response-fields"]
+=== 회원 비밀번호 변경 성공 (회원 정보를 찾을 수 없음)
+==== 요청
+operation::user-account-controller-test/failed-change-user-password[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-change-user-password[snippets="http-response,response-fields"]
+=== 회원 비밀번호 변경 성공 (유효성 검사 실패)
+==== 요청
+operation::user-account-controller-test/failed-change-user-password2[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-change-user-password2[snippets="http-response,response-fields"]
+=== 회원 비밀번호 변경 성공 (유저의 비밀번호가 일치하지 않음)
+==== 요청
+operation::user-account-controller-test/failed-change-user-password3[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-change-user-password3[snippets="http-response,response-fields"]
+=== 회원 비밀번호 변경 성공 (새로운 비밀번호가 서로 일치하지 않음)
+==== 요청
+operation::user-account-controller-test/failed-change-user-password4[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-change-user-password4[snippets="http-response,response-fields"]
+=== 회원 이메일 변경 메일 전송 성공
+==== 요청
+operation::user-account-controller-test/success-send-email-to-change[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/success-send-email-to-change[snippets="http-response,response-fields"]
+=== 회원 이메일 변경 메일 전송 실패 (회원 정보를 찾을 수 없음)
+==== 요청
+operation::user-account-controller-test/failed-send-email-to-change[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-send-email-to-change[snippets="http-response,response-fields"]
+=== 회원 이메일 변경 메일 전송 실패 (유효성 검사 실패)
+==== 요청
+operation::user-account-controller-test/failed-send-email-to-change2[snippets="http-request,request-fields"]
+==== 응답
+operation::user-account-controller-test/failed-send-email-to-change2[snippets="http-response,response-fields"]
+=== 회원 이메일 변경 성공
+==== 요청
+operation::user-account-controller-test/success-change-email[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/success-change-email[snippets="http-response,response-fields"]
+=== 회원 이메일 변경 실패 (uuid에 일치하는 유저가 없음)
+==== 요청
+operation::user-account-controller-test/failed-change-email[snippets="http-request,path-parameters"]
+==== 응답
+operation::user-account-controller-test/failed-change-email[snippets="http-response,response-fields"]
+
+
+

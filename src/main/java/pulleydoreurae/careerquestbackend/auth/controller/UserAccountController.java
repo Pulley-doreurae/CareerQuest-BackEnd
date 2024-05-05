@@ -344,7 +344,7 @@ public class UserAccountController {
 	 * @param userIdRequest 찾고싶은 계정의 ID가 담겨있는 Request
 	 * @return 요청에 대한 응답
 	 */
-	@PostMapping("/users/help/sendPassword")
+	@PostMapping("/users/help/password")
 	public ResponseEntity<UserIdResponse> findPassword(@Valid @RequestBody UserIdRequest userIdRequest, BindingResult bindingResult) {
 
 		if(bindingResult.hasErrors()){
@@ -494,7 +494,7 @@ public class UserAccountController {
 	 * @param bindingResult                  @Valid 어노테이션에서 나오는 오류를 담는 변수
 	 * @return 요청에 대한 userId와 응답을 반환
 	 */
-	@PostMapping("/users/details/changeInfo")
+	@PostMapping("/users/details/info")
 	@ResponseBody
 	public ResponseEntity<?> showUserDetailsToChange(@Valid @RequestBody ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest,
 													 BindingResult bindingResult) {
@@ -534,7 +534,7 @@ public class UserAccountController {
 	 * @param bindingResult             @Valid 어노테이션에서 나오는 오류를 담는 변수
 	 * @return 요청에 대한 userId와 응답을 반환
 	 */
-	@PostMapping("/users/details/update/password")
+	@PostMapping("/users/details/password")
 	public ResponseEntity<UserIdResponse> updateUserPassword(@Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest,
 															 BindingResult bindingResult) {
 
@@ -574,7 +574,7 @@ public class UserAccountController {
 	 * @param bindingResult          @Valid 어노테이션에서 나오는 오류를 담는 변수
 	 * @return 요청에대한 userId와 응답을 리턴
 	 */
-	@PostMapping("/users/details/update/email")
+	@PostMapping("/users/details/email")
 	public ResponseEntity<UserIdResponse> sendUserEmailToUpdate(@Valid @RequestBody UserChangeEmailRequest userChangeEmailRequest
 			, BindingResult bindingResult) {
 
@@ -600,7 +600,7 @@ public class UserAccountController {
 	 * @param uuid 이메일 변경을 요청한 유저의 식별자
 	 * @return 요청에 대한 userId와 응답을 반환
 	 */
-	@GetMapping("/users/details/update/email/{uuid}")
+	@GetMapping("/users/details/email/{uuid}")
 	public ResponseEntity<?> checkUserEmailToUpdate(@PathVariable String uuid) {
 
 		ChangeUserEmail changeUserEmail = userAccountService.checkUpdateEmailUserIdByUuid(uuid);

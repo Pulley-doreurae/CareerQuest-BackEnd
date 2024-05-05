@@ -703,7 +703,7 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						formParameters(    // form-data 형식
+						formParameters(    // json 형식
 								parameterWithName("userId").description("사용자 아이디")
 										.attributes(field("constraints", "String")),
 								parameterWithName("majorCategory").description("대분류 코드(id)")
@@ -750,15 +750,16 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						requestFields(    // form-data 형식
+						requestFields(    // Json 형식
 								fieldWithPath("userId").description("사용자 아이디"),
 								fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
 						),
-						responseFields(
+						responseFields(		// Json 응답 형식
 								fieldWithPath("msg").description("요청에 대한 결과")
 						)));
 		// Then
 		verify(userAccountService).findUserByUserId(any());
+
 	}
 
 	@Test
@@ -787,11 +788,11 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields(    // form-data 형식
+				requestFields(    // Json 형식
 					fieldWithPath("userId").description("사용자 아이디"),
 					fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
 				),
-				responseFields(
+				responseFields(	 // Json 응답 형식
 					fieldWithPath("userId").description("요청한 사용자"),
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
@@ -826,11 +827,11 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						requestFields(    // form-data 형식
+						requestFields(    // Json 방식
 								fieldWithPath("userId").description("사용자 아이디"),
 								fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
 						),
-						responseFields(
+						responseFields(		// Json 응답 형식
 								fieldWithPath("msg").description("요청에 대한 결과")
 						)));
 		// Then
@@ -862,7 +863,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/sendPassword")
+						post("/api/users/help/password")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(userIdRequest)))
@@ -872,7 +873,7 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						requestFields( // form-data 방식
+						requestFields( // Json 방식
 								fieldWithPath("userId").description("사용자 아이디")
 						),
 					responseFields(    // Json 응답 형식
@@ -896,7 +897,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/sendPassword")
+						post("/api/users/help/password")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(userIdRequest)))
@@ -906,7 +907,7 @@ class UserAccountControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						requestFields( // form-data 요청 방식
+						requestFields(  // Json 형식
 								fieldWithPath("userId").description("사용자 아이디")
 						),
 						responseFields(    // Json 응답 형식
@@ -926,7 +927,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/help/sendPassword")
+				post("/api/users/help/password")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userIdRequest)))
@@ -936,7 +937,7 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields( // form-data 요청 방식
+				requestFields( // Json 형식
 					fieldWithPath("userId").description("사용자 아이디")
 				),
 				responseFields(    // Json 응답 형식
@@ -1567,7 +1568,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/details/changeInfo")
+						post("/api/users/details/info")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(showUserDetailsToChangeRequest)))
@@ -1607,7 +1608,7 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("35. 회원 정보 수정 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
-	void failedChangeUserDetail1() throws Exception {
+	void failedChangeUserDetail() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
 
@@ -1629,7 +1630,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/changeInfo")
+				post("/api/users/details/info")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(showUserDetailsToChangeRequest)))
@@ -1679,7 +1680,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/changeInfo")
+				post("/api/users/details/info")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(showUserDetailsToChangeRequest)))
@@ -1731,7 +1732,7 @@ class UserAccountControllerTest {
 		given(userAccountService.isCurrentPassword(user,"password")).willReturn(false);
 		// When
 		mockMvc.perform(
-				post("/api/users/details/changeInfo")
+				post("/api/users/details/info")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(showUserDetailsToChangeRequest)))
@@ -1777,7 +1778,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/password")
+				post("/api/users/details/password")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userPasswordUpdateRequest)))
@@ -1806,7 +1807,7 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("39. 회원 비밀번호 변경 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
-	void failedChangeUserPassword1() throws Exception {
+	void failedChangeUserPassword() throws Exception {
 		// Given
 		UserPasswordUpdateRequest userPasswordUpdateRequest = new UserPasswordUpdateRequest();
 		userPasswordUpdateRequest.setUserId("user_1");
@@ -1818,7 +1819,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/password")
+				post("/api/users/details/password")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userPasswordUpdateRequest)))
@@ -1858,7 +1859,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/password")
+				post("/api/users/details/password")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userPasswordUpdateRequest)))
@@ -1903,7 +1904,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/password")
+				post("/api/users/details/password")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userPasswordUpdateRequest)))
@@ -1946,7 +1947,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/password")
+				post("/api/users/details/password")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userPasswordUpdateRequest)))
@@ -1986,7 +1987,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/email")
+				post("/api/users/details/email")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userChangeEmailRequest)))
@@ -2013,7 +2014,7 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("44. 회원 이메일 변경 메일 전송 실패 (id에 해당하는 유저가 없음)")
 	@WithMockUser
-	void failedSendEmailToChange1() throws Exception {
+	void failedSendEmailToChange() throws Exception {
 		// Given
 		UserChangeEmailRequest userChangeEmailRequest = new UserChangeEmailRequest();
 		userChangeEmailRequest.setUserId("user_1");
@@ -2023,7 +2024,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/email")
+				post("/api/users/details/email")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userChangeEmailRequest)))
@@ -2059,7 +2060,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				post("/api/users/details/update/email")
+				post("/api/users/details/email")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(userChangeEmailRequest)))
@@ -2095,7 +2096,7 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-				get("/api/users/details/update/email/{uuid}", "0123-4567-89AB-CDEF")
+				get("/api/users/details/email/{uuid}", "0123-4567-89AB-CDEF")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.userId").exists())
@@ -2119,14 +2120,14 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("47. 회원 이메일 변경 실패 (uuid에 일치하는 계정이 없음)")
 	@WithMockUser
-	void failedChangeEmail1() throws Exception {
+	void failedChangeEmail() throws Exception {
 		// Given
 		String uuid = "0123-4567-89AB-CDEF";
 		given(userAccountService.checkUpdateEmailUserIdByUuid(uuid)).willReturn(null);
 
 		// When
 		mockMvc.perform(
-				get("/api/users/details/update/email/{uuid}", "0123-4567-89AB-CDEF")
+				get("/api/users/details/email/{uuid}", "0123-4567-89AB-CDEF")
 					.with(csrf()))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.msg").exists())
@@ -2134,7 +2135,7 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				pathParameters( // Json 방식
+				pathParameters( // pathVarialbles 방식
 					parameterWithName("uuid").description("이메일 변경 유저 식별자")
 				),
 				responseFields( // Json 응답 형식
