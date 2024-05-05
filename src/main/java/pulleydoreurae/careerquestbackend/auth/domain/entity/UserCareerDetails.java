@@ -29,7 +29,7 @@ public class UserCareerDetails  extends BaseEntity {
 	private Long id;
 
 	@Column(nullable = false) // 최소한 대분류는 null 일 수 없다.
-	private Long majorCategory; // 대분류
-	private Long middleCategory; // 중분류
-	private Long smallCategory; // 소분류
+	private String majorCategory; // 대분류
+	private String middleCategory; // 중분류
+	private String smallCategory; // 소분류
 }

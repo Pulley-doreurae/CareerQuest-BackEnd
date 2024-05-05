@@ -54,9 +54,9 @@ class UserCareerDetailsRepositoryTest {
 	void addNewCareerTest() {
 		// Given
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory(1L)
-				.middleCategory(1L)
-				.smallCategory(1L)
+				.majorCategory("1L")
+				.middleCategory("1L")
+				.smallCategory("1L")
 				.build();
 
 		// When
@@ -69,11 +69,11 @@ class UserCareerDetailsRepositoryTest {
 	@Test
 	@DisplayName("2. 직무 업데이트 테스트")
 	void updateCareerTest() {
-	    // Given
+		// Given
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory(1L)
-				.middleCategory(1L)
-				.smallCategory(1L)
+				.majorCategory("1L")
+				.middleCategory("1L")
+				.smallCategory("1L")
 				.build();
 
 		// When
@@ -86,9 +86,9 @@ class UserCareerDetailsRepositoryTest {
 
 		UserCareerDetails updateUserCareerDetails = UserCareerDetails.builder()
 				.id(user.getUserCareerDetails().getId()) // 동일한 id 로 덮어쓰기
-				.majorCategory(1L)
-				.middleCategory(1L)
-				.smallCategory(1L)
+				.majorCategory("1L")
+				.middleCategory("1L")
+				.smallCategory("1L")
 				.build();
 
 		userCareerDetailsRepository.save(updateUserCareerDetails);
@@ -102,9 +102,9 @@ class UserCareerDetailsRepositoryTest {
 	void findByUserIdTest() {
 		// Given
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory(1L)
-				.middleCategory(1L)
-				.smallCategory(1L)
+				.majorCategory("1L")
+				.middleCategory("1L")
+				.smallCategory("1L")
 				.build();
 
 		// When
@@ -131,11 +131,11 @@ class UserCareerDetailsRepositoryTest {
 	@Test
 	@DisplayName("4. 직무 삭제 테스트")
 	void removeCareerTest() {
-	    // Given
+		// Given
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory(1L)
-				.middleCategory(1L)
-				.smallCategory(1L)
+				.majorCategory("1L")
+				.middleCategory("1L")
+				.smallCategory("1L")
 				.build();
 
 		// When
