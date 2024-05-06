@@ -1,69 +1,70 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.controller;
+package pulleydoreurae.careerquestbackend.common.community.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
-import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentFailResponse;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
+import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 
 /**
- * 댓글 Controller
+ * 댓글 컨트롤러 추상화 클래스
  *
  * @author : parkjihyeok
- * @since : 2024/04/01
+ * @since : 2024/05/06
  */
-@RestController
-@RequestMapping("/api")
-public class CommentController {
+public abstract class CommentController {
 
 	private final CommentService commentService;
 
-	@Autowired
 	public CommentController(CommentService commentService) {
 		this.commentService = commentService;
 	}
 
-	@GetMapping("/comments/{userId}")
-	public ResponseEntity<List<CommentResponse>> findAllByUserId(@PathVariable String userId,
-			@PageableDefault(size = 30) Pageable pageable) {
-
+	/**
+	 * 작성자별 댓글 조회
+	 *
+	 * @param userId 작성자
+	 * @param pageable 페이지 정보
+	 * @return 댓글 리스트
+	 */
+	public ResponseEntity<List<CommentResponse>> findAllByUserId(String userId, Pageable pageable) {
 		List<CommentResponse> comments = commentService.findListByUserAccount(userId, pageable);
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(comments);
 	}
 
-	@GetMapping("/posts/{postId}/comments")
-	public ResponseEntity<List<CommentResponse>> findAllByPostId(@PathVariable Long postId,
-			@PageableDefault(size = 30) Pageable pageable) {
-
+	/**
+	 * 게시글에 달린 댓글 조회
+	 *
+	 * @param postId 게시글 정보
+	 * @param pageable 페이지 정보
+	 * @return 댓글 리스트
+	 */
+	public ResponseEntity<List<CommentResponse>> findAllByPostId(Long postId, Pageable pageable) {
 		List<CommentResponse> comments = commentService.findListByPostId(postId, pageable);
+
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(comments);
 	}
 
-	@PostMapping("/posts/{postId}/comments")
-	public ResponseEntity<?> saveComment(@PathVariable Long postId,
-			@Valid @RequestBody CommentRequest commentRequest, BindingResult bindingResult) {
+	/**
+	 * 댓글 저장
+	 *
+	 * @param postId 게시글 정보
+	 * @param commentRequest 댓글 요청
+	 * @param bindingResult 에러 검증
+	 * @return 처리 결과
+	 */
+	public ResponseEntity<?> saveComment(Long postId, CommentRequest commentRequest, BindingResult bindingResult) {
 
 		// 검증
 		ResponseEntity<CommentFailResponse> BAD_REQUEST = validCheck(commentRequest, bindingResult);
@@ -80,10 +81,17 @@ public class CommentController {
 						.build());
 	}
 
-	@PatchMapping("/posts/{postId}/comments/{commentId}")
-	public ResponseEntity<?> updateComment(@PathVariable Long postId,
-			@PathVariable Long commentId,
-			@Valid @RequestBody CommentRequest commentRequest, BindingResult bindingResult) {
+	/**
+	 * 댓글 수정
+	 *
+	 * @param postId 게시글 정보
+	 * @param commentId 댓글 정보
+	 * @param commentRequest 댓글 수정 요청
+	 * @param bindingResult 에러 검증
+	 * @return 처리 결과
+	 */
+	public ResponseEntity<?> updateComment(Long postId, Long commentId, CommentRequest commentRequest,
+			BindingResult bindingResult) {
 
 		// 검증
 		ResponseEntity<CommentFailResponse> BAD_REQUEST = validCheck(commentRequest, bindingResult);
@@ -106,10 +114,15 @@ public class CommentController {
 						.build());
 	}
 
-	@DeleteMapping("/posts/{postId}/comments/{commentId}")
-	public ResponseEntity<SimpleResponse> deleteComment(@PathVariable Long postId,
-			@PathVariable Long commentId, String userId) {
-
+	/**
+	 * 댓글 삭제
+	 *
+	 * @param postId 게시글 정보
+	 * @param commentId 댓글 정보
+	 * @param userId 요청자 정보
+	 * @return 처리 결과
+	 */
+	public ResponseEntity<SimpleResponse> deleteComment(Long postId, Long commentId, String userId) {
 		if (!commentService.deleteComment(commentId, postId, userId)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(SimpleResponse.builder()

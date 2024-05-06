@@ -1,0 +1,41 @@
+== 일반 커뮤니티 댓글 API (BasicCommentController)
+=== 한 사용자가 작성한 댓글 리스트 조회
+==== 요청
+operation::basic-comment-controller-test/find-all-by-user-id-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::basic-comment-controller-test/find-all-by-user-id-test[snippets="http-response,response-fields"]
+=== 한 게시글에 달린 댓글 리스트 조회
+==== 요청
+operation::basic-comment-controller-test/find-all-by-post-id-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::basic-comment-controller-test/find-all-by-post-id-test[snippets="http-response,response-fields"]
+=== 댓글 작성 (실패)
+==== 요청
+operation::basic-comment-controller-test/save-comment-fail-test[snippets="http-request,path-parameters,request-fields"]
+==== 응답
+operation::basic-comment-controller-test/save-comment-fail-test[snippets="http-response,response-fields"]
+=== 댓글 작성 (성공)
+==== 요청
+operation::basic-comment-controller-test/save-comment-success-test[snippets="http-request,path-parameters,request-fields"]
+==== 응답
+operation::basic-comment-controller-test/save-comment-success-test[snippets="http-response,response-fields"]
+=== 댓글 수정 (실패)
+==== 요청
+operation::basic-comment-controller-test/update-comment-fail-test[snippets="http-request,path-parameters,request-fields"]
+==== 응답
+operation::basic-comment-controller-test/update-comment-fail-test[snippets="http-response,response-fields"]
+=== 댓글 수정 (성공)
+==== 요청
+operation::basic-comment-controller-test/update-comment-success-test[snippets="http-request,path-parameters,request-fields"]
+==== 응답
+operation::basic-comment-controller-test/update-comment-success-test[snippets="http-response,response-fields"]
+=== 댓글 삭제 (실패)
+==== 요청
+operation::basic-comment-controller-test/delete-comment-fail-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::basic-comment-controller-test/delete-comment-fail-test[snippets="http-response,response-fields"]
+=== 댓글 삭제 (성공)
+==== 요청
+operation::basic-comment-controller-test/delete-comment-success-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::basic-comment-controller-test/delete-comment-success-test[snippets="http-response,response-fields"]

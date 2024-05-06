@@ -32,9 +32,9 @@ import pulleydoreurae.careerquestbackend.common.community.service.PostLikeServic
  * @author : parkjihyeok
  * @since : 2024/04/03
  */
-@WebMvcTest(PostLikeController.class)
+@WebMvcTest(BasicPostLikeController.class)
 @AutoConfigureRestDocs
-class PostLikeControllerTest {
+class BasicPostLikeControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;

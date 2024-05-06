@@ -33,9 +33,9 @@ import pulleydoreurae.careerquestbackend.common.community.service.CommentService
  * @author : parkjihyeok
  * @since : 2024/04/01
  */
-@WebMvcTest(CommentController.class)
+@WebMvcTest(BasicCommentController.class)
 @AutoConfigureRestDocs
-class CommentControllerTest {
+class BasicCommentControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;

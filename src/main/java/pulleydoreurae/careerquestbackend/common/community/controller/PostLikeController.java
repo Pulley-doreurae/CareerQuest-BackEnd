@@ -1,34 +1,24 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.controller;
+package pulleydoreurae.careerquestbackend.common.community.controller;
 
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
-import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
+import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 
 /**
- * 좋아요 Controller
+ * 게시글 좋아요 컨트롤러 추상화 클래스
  *
  * @author : parkjihyeok
- * @since : 2024/04/03
+ * @since : 2024/05/06
  */
-@RestController
-@RequestMapping("/api")
-public class PostLikeController {
+public abstract class PostLikeController {
 
 	private final PostLikeService postLikeService;
 
@@ -36,8 +26,14 @@ public class PostLikeController {
 		this.postLikeService = postLikeService;
 	}
 
-	@PostMapping("/posts/likes")
-	public ResponseEntity<SimpleResponse> changeLikeStatus(@Valid @RequestBody PostLikeRequest postLikeRequest,
+	/**
+	 * 좋아요 상태를 변경하는 메서드
+	 *
+	 * @param postLikeRequest 좋아요 요청
+	 * @param bindingResult 에러검증
+	 * @return 처리결과
+	 */
+	public ResponseEntity<SimpleResponse> changeLikeStatus(PostLikeRequest postLikeRequest,
 			BindingResult bindingResult) {
 
 		// 검증
@@ -59,9 +55,14 @@ public class PostLikeController {
 						.build());
 	}
 
-	@GetMapping("/posts/likes/{userId}")
-	public ResponseEntity<List<PostResponse>> findAllPostLikeByUserAccount(@PathVariable String userId,
-			@PageableDefault(size = 15) Pageable pageable) {
+	/**
+	 * 한 사용자가 좋아요 누른 게시글 리스트 반환 메서드
+	 *
+	 * @param userId 사용자 id
+	 * @param pageable 페이지
+	 * @return 조회한 리스트
+	 */
+	public ResponseEntity<List<PostResponse>> findAllPostLikeByUserAccount(String userId, Pageable pageable) {
 
 		List<PostResponse> result = postLikeService.findAllPostLikeByUserAccount(userId, pageable);
 

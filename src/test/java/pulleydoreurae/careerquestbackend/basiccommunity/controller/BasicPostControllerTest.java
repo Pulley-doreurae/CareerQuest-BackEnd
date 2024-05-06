@@ -36,9 +36,9 @@ import pulleydoreurae.careerquestbackend.common.community.service.PostService;
  * @author : parkjihyeok
  * @since : 2024/03/31
  */
-@WebMvcTest(PostController.class)
+@WebMvcTest(BasicPostController.class)
 @AutoConfigureRestDocs
-class PostControllerTest {
+class BasicPostControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
