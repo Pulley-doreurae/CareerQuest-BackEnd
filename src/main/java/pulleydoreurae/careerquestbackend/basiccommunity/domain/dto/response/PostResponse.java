@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.domain.dto.response;
+package pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class PostResponse {
 	private String title; // 제목
 	private String content; // 내용
 	private List<String> images; // 사진 리스트
-	private Long hit; // 조회수
+	private Long view; // 조회수
 	private Long commentCount; // 댓글 수
 	private Long postLikeCount; // 좋아요 수
 	private Long category; // 카테고리

@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.domain.dto.request;
+package pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request;
 
 import java.util.List;
 

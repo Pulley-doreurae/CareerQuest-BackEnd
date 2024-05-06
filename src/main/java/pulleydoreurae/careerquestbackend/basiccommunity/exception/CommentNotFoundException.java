@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.exception;
+package pulleydoreurae.careerquestbackend.basiccommunity.exception;
 
 /**
  * 댓글을 찾지 못했을때 발생하는 예외
