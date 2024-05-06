@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.domain.entity;
+package pulleydoreurae.careerquestbackend.basiccommunity.domain.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

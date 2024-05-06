@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.repository;
+package pulleydoreurae.careerquestbackend.basiccommunity.repository;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,8 +18,9 @@ import org.springframework.data.domain.Pageable;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 
 /**
  * @author : parkjihyeok
@@ -56,7 +57,7 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
 		// When
@@ -83,7 +84,7 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
@@ -116,7 +117,7 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
@@ -136,7 +137,7 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
@@ -159,7 +160,7 @@ class CommentRepositoryTest {
 		assertEquals(2, result.getTotalPages());
 		assertEquals(5, result.getTotalElements());
 		assertEquals(3, result.getSize());
-		assertThat(result).contains(comment3, comment4, comment5);
+		assertThat(result).contains((BasicComment)comment3, (BasicComment)comment4, (BasicComment)comment5);
 	}
 
 	@Test
@@ -168,7 +169,7 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).hit(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
@@ -191,6 +192,6 @@ class CommentRepositoryTest {
 		assertEquals(3, result.getSize());
 		assertEquals(2, result.getTotalPages());
 		assertEquals(5, result.getTotalElements());
-		assertThat(result).contains(comment3, comment4, comment5);
+		assertThat(result).contains((BasicComment)comment3, (BasicComment)comment4, (BasicComment)comment5);
 	}
 }

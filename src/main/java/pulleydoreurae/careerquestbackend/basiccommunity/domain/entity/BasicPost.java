@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.domain.entity;
+package pulleydoreurae.careerquestbackend.basiccommunity.domain.entity;
 
 import java.util.List;
 
@@ -56,5 +56,5 @@ public class Post extends BaseEntity {
 	private Long category; // 카테고리
 
 	@OneToMany(mappedBy = "post")
-	private List<Comment> comments; // 댓글 리스트
+	private List<BasicComment> comments; // 댓글 리스트
 }

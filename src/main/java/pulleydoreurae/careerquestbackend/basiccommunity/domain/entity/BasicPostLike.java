@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.domain.entity;
+package pulleydoreurae.careerquestbackend.basiccommunity.domain.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

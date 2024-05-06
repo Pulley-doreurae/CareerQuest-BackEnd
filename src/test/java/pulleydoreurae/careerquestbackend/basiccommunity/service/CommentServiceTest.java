@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.service;
+package pulleydoreurae.careerquestbackend.basiccommunity.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,13 +20,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.community.exception.CommentNotFoundException;
-import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.exception.CommentNotFoundException;
+import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostNotFoundException;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 
 /**
  * @author : parkjihyeok
