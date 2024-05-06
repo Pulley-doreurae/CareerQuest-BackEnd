@@ -1,17 +1,12 @@
 package pulleydoreurae.careerquestbackend.basiccommunity.domain.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 
 /**
  * 게시글 좋아요 Entity
@@ -22,19 +17,10 @@ import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PostLike extends BaseEntity {
+public class BasicPostLike extends PostLike {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@ManyToOne
-	@JoinColumn(name = "post_id", nullable = false)
-	private Post post;
-
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private UserAccount userAccount;
+	@Builder
+	public BasicPostLike(Long id, Post post, UserAccount userAccount) {
+		super(id, post, userAccount);
+	}
 }

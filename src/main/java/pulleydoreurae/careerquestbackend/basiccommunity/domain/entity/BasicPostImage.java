@@ -1,17 +1,11 @@
 package pulleydoreurae.careerquestbackend.basiccommunity.domain.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
 
 /**
  * 게시글에 사용되는 이미지 Entity
@@ -22,18 +16,10 @@ import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PostImage extends BaseEntity {
+public class BasicPostImage extends PostImage {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Column(nullable = false)
-	private String fileName;
-
-	@ManyToOne
-	@JoinColumn(nullable = false, name = "post_id")
-	private Post post;
+	@Builder
+	public BasicPostImage(Long id, String fileName, Post post) {
+		super(id, fileName, post);
+	}
 }

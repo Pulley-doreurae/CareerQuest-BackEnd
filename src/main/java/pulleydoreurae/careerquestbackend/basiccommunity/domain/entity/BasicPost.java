@@ -2,21 +2,14 @@ package pulleydoreurae.careerquestbackend.basiccommunity.domain.entity;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 
 /**
  * 게시판 엔티티
@@ -27,34 +20,12 @@ import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Post extends BaseEntity {
+public class BasicPost extends Post {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@ManyToOne
-	// referencedColumnName 을 생략하면 자동으로 UserAccount 의 id(기본키) 와 매핑하므로 (referencedColumnName = "id") 생략
-	@JoinColumn(name = "user_id", nullable = false)
-	private UserAccount userAccount; // 작성자
-
-	@Column(nullable = false)
-	private String title; // 제목
-	@Column(nullable = false)
-	private String content; // 내용
-
-	@Setter
-	@Column(nullable = false)
-	private Long hit; // 조회수
-
-	@OneToMany(mappedBy = "post")
-	private List<PostLike> postLikes; // 좋아요
-
-	@Column(nullable = false)
-	private Long category; // 카테고리
-
-	@OneToMany(mappedBy = "post")
-	private List<BasicComment> comments; // 댓글 리스트
+	@Builder
+	public BasicPost(Long id, UserAccount userAccount, String title, String content, Long view,
+			List<PostLike> postLikes,
+			Long category, List<Comment> comments) {
+		super(id, userAccount, title, content, view, postLikes, category, comments);
+	}
 }
