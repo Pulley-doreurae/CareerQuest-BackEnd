@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.controller;
+package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.service.PostLikeService;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.service.PostLikeService;
 
 /**
  * 좋아요 Controller

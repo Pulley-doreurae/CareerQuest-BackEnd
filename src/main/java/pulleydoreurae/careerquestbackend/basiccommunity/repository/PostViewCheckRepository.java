@@ -1,8 +1,8 @@
-package pulleydoreurae.careerquestbackend.community.repository;
+package pulleydoreurae.careerquestbackend.basiccommunity.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 
 /**
  * 조회수 중복을 막기 위해 사용되는 객체의 Repository

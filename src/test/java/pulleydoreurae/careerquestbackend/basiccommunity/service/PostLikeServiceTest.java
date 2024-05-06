@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.service;
+package pulleydoreurae.careerquestbackend.basiccommunity.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,12 +19,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
+import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostNotFoundException;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 
 /**
  * @author : parkjihyeok
@@ -87,7 +89,7 @@ class PostLikeServiceTest {
 	void postLikePlusSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
+		Post post = BasicPost.builder().userAccount(user).id(10000L).title("제목1").build();
 
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 		given(commonCommunityService.findPost(10000L)).willReturn(post);
@@ -148,8 +150,8 @@ class PostLikeServiceTest {
 	void postLikeMinusSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
-		PostLike postLike = PostLike.builder().userAccount(user).post(post).build();
+		Post post = BasicPost.builder().userAccount(user).id(10000L).title("제목1").build();
+		PostLike postLike = BasicPostLike.builder().userAccount(user).post(post).build();
 
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 		given(commonCommunityService.findPost(10000L)).willReturn(post);
@@ -171,16 +173,16 @@ class PostLikeServiceTest {
 	void findAllPostLikeByUserAccountTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post1 = Post.builder().userAccount(user).id(10001L).title("제목1").build();
-		Post post2 = Post.builder().userAccount(user).id(10002L).title("제목2").build();
-		Post post3 = Post.builder().userAccount(user).id(10003L).title("제목3").build();
-		Post post4 = Post.builder().userAccount(user).id(10004L).title("제목4").build();
-		Post post5 = Post.builder().userAccount(user).id(10005L).title("제목5").build();
-		PostLike postLike1 = PostLike.builder().userAccount(user).post(post1).build();
-		PostLike postLike2 = PostLike.builder().userAccount(user).post(post2).build();
-		PostLike postLike3 = PostLike.builder().userAccount(user).post(post3).build();
-		PostLike postLike4 = PostLike.builder().userAccount(user).post(post4).build();
-		PostLike postLike5 = PostLike.builder().userAccount(user).post(post5).build();
+		Post post1 = BasicPost.builder().userAccount(user).id(10001L).title("제목1").build();
+		Post post2 = BasicPost.builder().userAccount(user).id(10002L).title("제목2").build();
+		Post post3 = BasicPost.builder().userAccount(user).id(10003L).title("제목3").build();
+		Post post4 = BasicPost.builder().userAccount(user).id(10004L).title("제목4").build();
+		Post post5 = BasicPost.builder().userAccount(user).id(10005L).title("제목5").build();
+		PostLike postLike1 = BasicPostLike.builder().userAccount(user).post(post1).build();
+		PostLike postLike2 = BasicPostLike.builder().userAccount(user).post(post2).build();
+		PostLike postLike3 = BasicPostLike.builder().userAccount(user).post(post3).build();
+		PostLike postLike4 = BasicPostLike.builder().userAccount(user).post(post4).build();
+		PostLike postLike5 = BasicPostLike.builder().userAccount(user).post(post5).build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		Page<PostLike> list = new PageImpl<>(
@@ -216,7 +218,7 @@ class PostLikeServiceTest {
 				.userId(post.getUserAccount().getUserId())
 				.title(post.getTitle())
 				.content(post.getContent())
-				.hit(post.getHit())
+				.view(post.getView())
 				.commentCount(0L)
 				.postLikeCount(0L)
 				.category(post.getCategory())

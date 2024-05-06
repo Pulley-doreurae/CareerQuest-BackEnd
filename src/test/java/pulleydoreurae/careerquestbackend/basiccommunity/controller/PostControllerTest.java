@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.controller;
+package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -28,9 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.service.PostService;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.service.PostService;
 
 /**
  * @author : parkjihyeok
@@ -52,27 +52,27 @@ class PostControllerTest {
 	void getPostListTest() throws Exception {
 		// Given
 		PostResponse post1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.userId("testId").title("제목1").content("내용1").category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.userId("testId").title("제목2").content("내용2").category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.userId("testId").title("제목3").content("내용3").category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.userId("testId").title("제목4").content("내용4").category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.userId("testId").title("제목5").content("내용5").category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
@@ -97,7 +97,7 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
-								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
@@ -114,7 +114,7 @@ class PostControllerTest {
 	void getPostTest() throws Exception {
 		// Given
 		PostResponse post = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.userId("testId").title("제목1").content("내용1").category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 		given(postService.findByPostId(any(), any(), any())).willReturn(post);
@@ -127,7 +127,7 @@ class PostControllerTest {
 				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
-				.andExpect(jsonPath("$.hit").exists())
+				.andExpect(jsonPath("$.view").exists())
 				.andExpect(jsonPath("$.commentCount").exists())
 				.andExpect(jsonPath("$.postLikeCount").exists())
 				.andExpect(jsonPath("$.category").exists())
@@ -147,7 +147,7 @@ class PostControllerTest {
 								fieldWithPath("content").description("내용"),
 								fieldWithPath("images").description("사진 리스트"),
 								fieldWithPath("category").description("카테고리"),
-								fieldWithPath("hit").description("조회수"),
+								fieldWithPath("view").description("조회수"),
 								fieldWithPath("commentCount").description("댓글 수"),
 								fieldWithPath("postLikeCount").description("좋아요 수"),
 								fieldWithPath("isLiked").description("좋아요 상태"),
@@ -370,27 +370,27 @@ class PostControllerTest {
 	void getPostListByCategoryTest() throws Exception {
 		// Given
 		PostResponse post1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L)
+				.userId("testId").title("제목1").content("내용1").category(1L).view(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L)
+				.userId("testId").title("제목2").content("내용2").category(1L).view(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L)
+				.userId("testId").title("제목3").content("내용3").category(1L).view(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L)
+				.userId("testId").title("제목4").content("내용4").category(1L).view(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L)
+				.userId("testId").title("제목5").content("내용5").category(1L).view(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
@@ -416,7 +416,7 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
-								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
@@ -433,27 +433,27 @@ class PostControllerTest {
 	void getPostListByUserAccountTest() throws Exception {
 		// Given
 		PostResponse post1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").category(1L).hit(0L)
+				.userId("testId").title("제목1").content("내용1").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").category(1L).hit(0L)
+				.userId("testId").title("제목2").content("내용2").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").category(1L).hit(0L)
+				.userId("testId").title("제목3").content("내용3").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").category(1L).hit(0L)
+				.userId("testId").title("제목4").content("내용4").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").category(1L).hit(0L)
+				.userId("testId").title("제목5").content("내용5").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
@@ -479,7 +479,7 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
-								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
@@ -495,19 +495,19 @@ class PostControllerTest {
 	@WithMockUser
 	void searchPostsTest1() throws Exception {
 		// Given
-		PostResponse post1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").category(1L).hit(0L)
+		PostResponse post1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").category(1L).hit(0L)
+		PostResponse post2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").category(1L).hit(0L)
+		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").category(1L).hit(0L)
+		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").category(1L).hit(0L)
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
 		given(postService.searchPosts(any(), any(), any()))
@@ -534,7 +534,7 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
-								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
@@ -550,19 +550,19 @@ class PostControllerTest {
 	@WithMockUser
 	void searchPostsTest2() throws Exception {
 		// Given
-		PostResponse post1 = PostResponse.builder().userId("testId").title("검색어").content("내용1").category(1L).hit(0L)
+		PostResponse post1 = PostResponse.builder().userId("testId").title("검색어").content("내용1").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post2 = PostResponse.builder().userId("testId").title("검색어").content("내용2").category(2L).hit(0L)
+		PostResponse post2 = PostResponse.builder().userId("testId").title("검색어").content("내용2").category(2L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("검색어").category(1L).hit(0L)
+		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("검색어").category(1L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").category(2L).hit(0L)
+		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").category(2L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").category(2L).hit(0L)
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").category(2L).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
 		given(postService.searchPosts(any(), any(), any()))
@@ -591,7 +591,7 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
-								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
@@ -1012,7 +1012,7 @@ class PostControllerTest {
 
 		PostResponse post = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").images(images).
-				category(1L).hit(0L).commentCount(0L).postLikeCount(0L).isLiked(0)
+				category(1L).view(0L).commentCount(0L).postLikeCount(0L).isLiked(0)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 		given(postService.findByPostId(any(), any(), any())).willReturn(post);
@@ -1026,7 +1026,7 @@ class PostControllerTest {
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
 				.andExpect(jsonPath("$.images").exists())
-				.andExpect(jsonPath("$.hit").exists())
+				.andExpect(jsonPath("$.view").exists())
 				.andExpect(jsonPath("$.commentCount").exists())
 				.andExpect(jsonPath("$.postLikeCount").exists())
 				.andExpect(jsonPath("$.category").exists())
@@ -1046,7 +1046,7 @@ class PostControllerTest {
 								fieldWithPath("content").description("내용"),
 								fieldWithPath("images").description("사진 리스트"),
 								fieldWithPath("category").description("카테고리"),
-								fieldWithPath("hit").description("조회수"),
+								fieldWithPath("view").description("조회수"),
 								fieldWithPath("commentCount").description("댓글 수"),
 								fieldWithPath("postLikeCount").description("좋아요 수"),
 								fieldWithPath("isLiked").description("좋아요 상태"),
@@ -1072,31 +1072,31 @@ class PostControllerTest {
 
 		PostResponse post1 = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").images(images)
-				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
 				.userId("testId").title("제목2").content("내용2").images(images)
-				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
 				.userId("testId").title("제목3").content("내용3").images(images)
-				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
 				.userId("testId").title("제목4").content("내용4").images(images)
-				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
 				.userId("testId").title("제목5").content("내용5").images(images)
-				.category(1L).hit(0L).commentCount(0L).postLikeCount(0L)
+				.category(1L).view(0L).commentCount(0L).postLikeCount(0L)
 				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
@@ -1121,7 +1121,7 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
-								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),

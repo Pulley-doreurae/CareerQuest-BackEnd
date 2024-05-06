@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.controller;
+package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentFailResponse;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.community.service.CommentService;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentFailResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.service.CommentService;
 
 /**
  * 댓글 Controller

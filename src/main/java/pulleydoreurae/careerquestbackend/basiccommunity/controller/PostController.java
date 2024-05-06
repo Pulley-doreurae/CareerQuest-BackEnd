@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.controller;
+package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -27,10 +27,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostFailResponse;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.service.PostService;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostFailResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.service.PostService;
 
 /**
  * 게시글을 담당하는 Controller

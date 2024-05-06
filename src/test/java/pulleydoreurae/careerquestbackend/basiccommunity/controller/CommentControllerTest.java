@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.controller;
+package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -25,9 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.community.service.CommentService;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.service.CommentService;
 
 /**
  * @author : parkjihyeok

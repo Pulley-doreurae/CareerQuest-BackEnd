@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.controller;
+package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -24,9 +24,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.service.PostLikeService;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.service.PostLikeService;
 
 /**
  * @author : parkjihyeok
@@ -108,23 +108,23 @@ class PostLikeControllerTest {
 	void findAllPostLikeByUserAccountTest() throws Exception {
 		// Given
 		PostResponse postResponse1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목1").content("내용1").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목2").content("내용2").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목3").content("내용3").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목4").content("내용4").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").hit(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목5").content("내용5").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 
@@ -152,7 +152,7 @@ class PostLikeControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].category").description("카테고리"),
-								fieldWithPath("[].hit").description("조회수"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),

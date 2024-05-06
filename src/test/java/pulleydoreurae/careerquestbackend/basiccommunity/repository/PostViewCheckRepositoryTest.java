@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.repository;
+package pulleydoreurae.careerquestbackend.basiccommunity.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 
 /**
  * @author : parkjihyeok
@@ -26,7 +27,7 @@ class PostViewCheckRepositoryTest {
 		// Given
 		String name = "testId";
 		// When
-		postViewCheckRepository.save(new PostViewCheck(name, 1L));
+		postViewCheckRepository.save(new BasicPostViewCheck(name, 1L));
 
 		// Then
 		PostViewCheck result = postViewCheckRepository.findById(name).get();

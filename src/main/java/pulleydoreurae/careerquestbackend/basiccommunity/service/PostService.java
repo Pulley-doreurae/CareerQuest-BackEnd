@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.service;
+package pulleydoreurae.careerquestbackend.basiccommunity.service;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -20,18 +20,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
+import pulleydoreurae.careerquestbackend.basiccommunity.exception.FileSaveException;
+import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostSaveException;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostImageRepository;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostRepository;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostViewCheckRepository;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
-import pulleydoreurae.careerquestbackend.community.exception.FileSaveException;
-import pulleydoreurae.careerquestbackend.community.exception.PostSaveException;
-import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
-import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
-import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
-import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepository;
 
 /**
  * 게시판을 담당하는 Service
@@ -174,8 +176,8 @@ public class PostService {
 
 		PostViewCheck postViewCheck = commonCommunityService.findPostViewCheck(name);
 		if (postViewCheck == null || !postViewCheck.getPostId().equals(postId)) { // Redis 에 저장되어 있지 않다면 저장하고 조회수 증가
-			post.setHit(post.getHit() + 1); // 조회수 증가
-			postViewCheckRepository.save(new PostViewCheck(name, postId)); // 지정한 시간동안 저장
+			post.setView(post.getView() + 1); // 조회수 증가
+			postViewCheckRepository.save(new BasicPostViewCheck(name, postId)); // 지정한 시간동안 저장
 		}
 		return name;
 	}
@@ -257,7 +259,7 @@ public class PostService {
 	 */
 	private void saveImages(List<String> fileNames, Post post) {
 		fileNames.forEach(fileName -> {
-			PostImage image = PostImage.builder()
+			PostImage image = BasicPostImage.builder()
 					.post(post)
 					.fileName(fileName)
 					.build();
@@ -337,7 +339,7 @@ public class PostService {
 		images.stream()
 				.filter(fileName -> !postImageRepository.existsByFileName(fileName))
 				.forEach(fileName -> {
-					PostImage image = PostImage.builder()
+					PostImage image = BasicPostImage.builder()
 							.post(post)
 							.fileName(fileName)
 							.build();

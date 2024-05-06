@@ -19,6 +19,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 
@@ -57,11 +58,11 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
 		// When
-		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// Then
@@ -84,14 +85,14 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// When
-		Comment updateComment = Comment.builder()
+		Comment updateComment = BasicComment.builder()
 				.id(comment.getId())
 				.userAccount(user)
 				.post(post)
@@ -117,10 +118,10 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// When
@@ -137,14 +138,14 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		commentRepository.save(comment1);
 		commentRepository.save(comment2);
@@ -160,7 +161,7 @@ class CommentRepositoryTest {
 		assertEquals(2, result.getTotalPages());
 		assertEquals(5, result.getTotalElements());
 		assertEquals(3, result.getSize());
-		assertThat(result).contains((BasicComment)comment3, (BasicComment)comment4, (BasicComment)comment5);
+		assertThat(result).contains(comment3, comment4, comment5);
 	}
 
 	@Test
@@ -169,14 +170,14 @@ class CommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		commentRepository.save(comment1);
 		commentRepository.save(comment2);
@@ -192,6 +193,6 @@ class CommentRepositoryTest {
 		assertEquals(3, result.getSize());
 		assertEquals(2, result.getTotalPages());
 		assertEquals(5, result.getTotalElements());
-		assertThat(result).contains((BasicComment)comment3, (BasicComment)comment4, (BasicComment)comment5);
+		assertThat(result).contains(comment3, comment4, comment5);
 	}
 }

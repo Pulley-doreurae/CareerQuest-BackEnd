@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.service;
+package pulleydoreurae.careerquestbackend.basiccommunity.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,12 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 
 /**
  * 좋아요 Service
@@ -45,7 +46,7 @@ public class PostLikeService {
 		Post post = commonCommunityService.findPost(postLikeRequest.getPostId());
 
 		if (postLikeRequest.getIsLiked() == 0) { // 증가
-			PostLike postLike = PostLike.builder()
+			PostLike postLike = BasicPostLike.builder()
 					.userAccount(user)
 					.post(post)
 					.build();

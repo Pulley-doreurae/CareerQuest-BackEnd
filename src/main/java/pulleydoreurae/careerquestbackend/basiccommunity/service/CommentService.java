@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.community.service;
+package pulleydoreurae.careerquestbackend.basiccommunity.service;
 
 import java.util.List;
 
@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
-import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
+import pulleydoreurae.careerquestbackend.basiccommunity.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 
 /**
  * 댓글 Service
@@ -136,7 +137,7 @@ public class CommentService {
 	 * @return 댓글 엔티티 반환
 	 */
 	private Comment commentRequestToComment(CommentRequest commentRequest, UserAccount user, Post post) {
-		return Comment.builder()
+		return BasicComment.builder()
 				.userAccount(user)
 				.post(post)
 				.content(commentRequest.getContent())
@@ -155,7 +156,7 @@ public class CommentService {
 	private Comment commentRequestToCommentForUpdate(CommentRequest commentRequest, UserAccount user, Post post,
 			Long commentId) {
 
-		return Comment.builder()
+		return BasicComment.builder()
 				.id(commentId) // 엔티티의 Setter 사용을 막기 위해 값을 덮어씀
 				.userAccount(user)
 				.post(post)
