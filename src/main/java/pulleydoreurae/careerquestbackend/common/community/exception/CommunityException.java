@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.exception;
+package pulleydoreurae.careerquestbackend.common.community.exception;
 
 /**
  * 커뮤니티에서 발생하는 예외들의 부모예외

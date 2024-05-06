@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.exception.CommunityException;
+import pulleydoreurae.careerquestbackend.common.community.exception.CommunityException;
 
 /**
  * 컨트롤러 예외처리

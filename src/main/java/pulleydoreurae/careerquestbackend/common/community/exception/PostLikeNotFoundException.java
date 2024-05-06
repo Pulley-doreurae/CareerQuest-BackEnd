@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.exception;
+package pulleydoreurae.careerquestbackend.common.community.exception;
 
 /**
  * 게시글 좋아요를 찾지 못했을때 발생하는 예외

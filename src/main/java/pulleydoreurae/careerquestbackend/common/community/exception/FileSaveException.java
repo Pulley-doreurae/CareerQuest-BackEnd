@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.exception;
+package pulleydoreurae.careerquestbackend.common.community.exception;
 
 /**
  * 파일저장에 실패했을때 발생하는 예외

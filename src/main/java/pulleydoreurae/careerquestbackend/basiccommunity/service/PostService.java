@@ -24,8 +24,8 @@ import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostR
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
-import pulleydoreurae.careerquestbackend.basiccommunity.exception.FileSaveException;
-import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostSaveException;
+import pulleydoreurae.careerquestbackend.common.community.exception.FileSaveException;
+import pulleydoreurae.careerquestbackend.common.community.exception.PostSaveException;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
