@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;

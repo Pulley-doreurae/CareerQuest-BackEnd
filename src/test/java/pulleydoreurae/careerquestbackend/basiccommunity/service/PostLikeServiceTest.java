@@ -19,8 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;

@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response;
+package pulleydoreurae.careerquestbackend.common.community.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,21 +7,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 댓글 response
+ * 댓글 저장, 수정에 실패하면 반환할 dto
  *
  * @author : parkjihyeok
- * @since : 2024/04/01
+ * @since : 2024/04/07
  */
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CommentResponse {
+public class CommentFailResponse {
 
-	private String userId;
-	private Long postId;
 	private String content;
-	private String createdAt;
-	private String modifiedAt;
+	private String[] errors;
 }

@@ -28,8 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostService;
 
 /**

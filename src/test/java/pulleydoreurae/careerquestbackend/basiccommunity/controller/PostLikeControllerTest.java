@@ -24,8 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
 
 /**

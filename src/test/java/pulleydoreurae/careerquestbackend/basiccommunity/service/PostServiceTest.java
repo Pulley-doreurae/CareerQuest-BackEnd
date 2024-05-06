@@ -36,8 +36,8 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostView
 import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
 import pulleydoreurae.careerquestbackend.common.community.service.PostService;
 import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;

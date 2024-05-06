@@ -20,8 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
 import pulleydoreurae.careerquestbackend.common.community.exception.CommentNotFoundException;
