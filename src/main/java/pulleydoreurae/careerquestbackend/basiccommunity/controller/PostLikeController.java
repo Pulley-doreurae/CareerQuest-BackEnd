@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.service.PostLikeService;
+import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
 
 /**
  * 좋아요 Controller

@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.common.community.service;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

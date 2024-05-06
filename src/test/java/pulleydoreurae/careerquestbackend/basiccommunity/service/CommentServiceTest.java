@@ -29,6 +29,8 @@ import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFound
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
+import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
 
 /**
  * @author : parkjihyeok

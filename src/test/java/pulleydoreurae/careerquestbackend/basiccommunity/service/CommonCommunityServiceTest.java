@@ -40,6 +40,7 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
 
 /**
  * @author : parkjihyeok

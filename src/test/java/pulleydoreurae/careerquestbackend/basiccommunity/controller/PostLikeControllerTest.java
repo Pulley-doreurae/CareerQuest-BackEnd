@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.service.PostLikeService;
+import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
 
 /**
  * @author : parkjihyeok

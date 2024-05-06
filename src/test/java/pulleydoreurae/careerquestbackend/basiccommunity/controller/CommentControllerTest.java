@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.service.CommentService;
+import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
 
 /**
  * @author : parkjihyeok

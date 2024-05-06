@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.common.community.service;
 
 import java.util.ArrayList;
 import java.util.List;

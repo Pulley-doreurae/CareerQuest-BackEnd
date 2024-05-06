@@ -23,7 +23,7 @@ import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentFailResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.service.CommentService;
+import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
 
 /**
  * 댓글 Controller

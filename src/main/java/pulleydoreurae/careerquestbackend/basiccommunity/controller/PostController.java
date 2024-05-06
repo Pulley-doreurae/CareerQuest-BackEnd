@@ -30,7 +30,7 @@ import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostFailResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.service.PostService;
+import pulleydoreurae.careerquestbackend.common.community.service.PostService;
 
 /**
  * 게시글을 담당하는 Controller

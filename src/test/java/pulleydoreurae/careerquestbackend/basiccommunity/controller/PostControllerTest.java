@@ -30,7 +30,7 @@ import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.service.PostService;
+import pulleydoreurae.careerquestbackend.common.community.service.PostService;
 
 /**
  * @author : parkjihyeok
