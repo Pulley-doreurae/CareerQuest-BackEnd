@@ -10,7 +10,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 

@@ -37,10 +37,10 @@ import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostImageRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostLikeRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostViewCheckRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
 
 /**
  * @author : parkjihyeok

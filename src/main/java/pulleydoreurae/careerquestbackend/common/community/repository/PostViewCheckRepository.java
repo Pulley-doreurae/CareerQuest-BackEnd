@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.repository;
+package pulleydoreurae.careerquestbackend.common.community.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

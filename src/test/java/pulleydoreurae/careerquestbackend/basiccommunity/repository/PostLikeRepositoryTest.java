@@ -21,6 +21,8 @@ import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
 
 /**
  * @author : parkjihyeok

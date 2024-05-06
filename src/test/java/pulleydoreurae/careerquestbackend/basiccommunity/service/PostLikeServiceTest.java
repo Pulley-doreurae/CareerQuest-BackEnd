@@ -24,7 +24,7 @@ import pulleydoreurae.careerquestbackend.basiccommunity.domain.dto.response.Post
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
 import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 

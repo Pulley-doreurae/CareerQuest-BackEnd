@@ -26,7 +26,7 @@ import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComme
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
 import pulleydoreurae.careerquestbackend.basiccommunity.exception.CommentNotFoundException;
 import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 

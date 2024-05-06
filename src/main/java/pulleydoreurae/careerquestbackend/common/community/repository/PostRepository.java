@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.repository;
+package pulleydoreurae.careerquestbackend.common.community.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

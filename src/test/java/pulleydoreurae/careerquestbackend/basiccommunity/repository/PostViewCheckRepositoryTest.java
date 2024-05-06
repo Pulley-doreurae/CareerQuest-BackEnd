@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
 
 /**
  * @author : parkjihyeok

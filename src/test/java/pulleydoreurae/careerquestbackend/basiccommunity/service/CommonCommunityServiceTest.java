@@ -30,11 +30,11 @@ import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostV
 import pulleydoreurae.careerquestbackend.basiccommunity.exception.CommentNotFoundException;
 import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostLikeNotFoundException;
 import pulleydoreurae.careerquestbackend.basiccommunity.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.CommentRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostImageRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostLikeRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.repository.PostViewCheckRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
