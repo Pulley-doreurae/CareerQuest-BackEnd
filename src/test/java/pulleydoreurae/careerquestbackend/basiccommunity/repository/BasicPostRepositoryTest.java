@@ -29,7 +29,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostReposit
  */
 @DataJpaTest
 @DisplayName("게시글 Repository 테스트")
-class PostRepositoryTest {
+class BasicPostRepositoryTest {
 
 	@Autowired
 	PostRepository postRepository;

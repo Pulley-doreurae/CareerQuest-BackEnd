@@ -31,7 +31,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostReposit
  */
 @DataJpaTest
 @DisplayName("댓글 Repository 테스트")
-class CommentRepositoryTest {
+class BasicCommentRepositoryTest {
 
 	@Autowired
 	CommentRepository commentRepository;

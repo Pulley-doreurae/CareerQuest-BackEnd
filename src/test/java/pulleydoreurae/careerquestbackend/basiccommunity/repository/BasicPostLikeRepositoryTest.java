@@ -30,7 +30,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostReposit
  */
 @DataJpaTest
 @DisplayName("좋아요 Repository 테스트")
-class PostLikeRepositoryTest {
+class BasicPostLikeRepositoryTest {
 
 	@Autowired
 	PostLikeRepository postLikeRepository;

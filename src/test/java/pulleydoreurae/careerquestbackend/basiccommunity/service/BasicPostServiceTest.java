@@ -49,7 +49,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostViewChe
  * @since : 2024/03/31
  */
 @ExtendWith(MockitoExtension.class)
-class PostServiceTest {
+class BasicPostServiceTest {
 
 	@Value("${IMAGES_PATH}")
 	String IMAGES_PATH;

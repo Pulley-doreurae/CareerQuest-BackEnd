@@ -37,7 +37,7 @@ import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunit
  * @since : 2024/04/01
  */
 @ExtendWith(MockitoExtension.class)
-class CommentServiceTest {
+class BasicCommentServiceTest {
 
 	@InjectMocks
 	CommentService commentService;

@@ -17,7 +17,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostViewChe
  */
 @SpringBootTest
 @DisplayName("조회수 중복을 방지하기 위한 Repository 테스트")
-class PostViewCheckRepositoryTest {
+class BasicPostViewCheckRepositoryTest {
 
 	@Autowired
 	PostViewCheckRepository postViewCheckRepository;
