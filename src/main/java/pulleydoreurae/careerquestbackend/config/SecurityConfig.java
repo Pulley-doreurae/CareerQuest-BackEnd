@@ -1,5 +1,7 @@
 package pulleydoreurae.careerquestbackend.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
-import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import pulleydoreurae.careerquestbackend.auth.domain.filter.LoginFilter;
 import pulleydoreurae.careerquestbackend.auth.domain.filter.LogoutFilter;
 import pulleydoreurae.careerquestbackend.auth.domain.handler.LoginFailureHandler;
@@ -85,7 +87,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests((auth) ->
 				auth
 						.requestMatchers("/api/login", "/api/users", "/api/verify", "/api/login-kakao/**", "/"
-						, "/api/duplicate-check-id", "/api/duplicate-check-email", "/api-test","/api/users/help/**"
+								, "/api/users/username/**", "/api/users/email/**", "/api-test", "/api/users/help/**"
 								, "/api/users/details/**", "/api/users/delete")
 						.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
 						.requestMatchers("/docs/index.html")
@@ -98,7 +100,15 @@ public class SecurityConfig {
 
 		http.csrf((csrf) -> csrf.disable());    // csrf 는 우선 사용하지 않음.
 
-		http.cors((cors) -> cors.disable());    // cors 는 우선 사용하지 않음.
+		http.cors(auth -> { // cors 전체 허용
+			auth.configurationSource(request -> {
+				CorsConfiguration cors = new CorsConfiguration();
+				cors.setAllowedOrigins(List.of("*"));
+				cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+				cors.setAllowedHeaders(List.of("*"));
+				return cors;
+			});
+		});
 
 		http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class); // 로그인 필터 변경
 		http.addFilterAt(logOutFilter(), LoginFilter.class); // 로그아웃 필터 추가
