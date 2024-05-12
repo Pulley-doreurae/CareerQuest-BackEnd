@@ -55,7 +55,7 @@ class BasicPostServiceTest {
 	String IMAGES_PATH;
 
 	@InjectMocks
-	PostService postService;
+	BasicPostService postService;
 	@Mock
 	PostRepository postRepository;
 	@Mock

@@ -36,14 +36,14 @@ import pulleydoreurae.careerquestbackend.common.community.service.PostLikeServic
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("좋아요 Service 테스트")
-class BasicPostLikeServiceTest {
+class BasicBasicPostLikeServiceTest {
 
 	@InjectMocks
-	PostLikeService postLikeService;
+	BasicPostLikeService postLikeService;
 	@Mock
 	PostLikeRepository postLikeRepository;
 	@Mock
-	CommonCommunityService commonCommunityService;
+	CommonBasicCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("1. 좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")

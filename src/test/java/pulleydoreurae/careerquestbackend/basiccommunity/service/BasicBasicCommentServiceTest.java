@@ -37,14 +37,14 @@ import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunit
  * @since : 2024/04/01
  */
 @ExtendWith(MockitoExtension.class)
-class BasicCommentServiceTest {
+class BasicBasicCommentServiceTest {
 
 	@InjectMocks
-	CommentService commentService;
+	BasicCommentService commentService;
 	@Mock
 	CommentRepository commentRepository;
 	@Mock
-	CommonCommunityService commonCommunityService;
+	CommonBasicCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("1. 댓글 저장 테스트 (실패 - 회원정보를 찾을 수 없음)")

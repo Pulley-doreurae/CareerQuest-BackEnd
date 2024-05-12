@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,17 +20,15 @@ import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.exception.FileSaveException;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostSaveException;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 
 /**
@@ -42,8 +38,7 @@ import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
  * @since : 2024/03/28
  */
 @Slf4j
-@Service
-public class PostService {
+public abstract class PostService {
 
 	private final PostRepository postRepository;
 	private final CommonCommunityService commonCommunityService;
@@ -53,9 +48,9 @@ public class PostService {
 	private final FileManagementService fileManagementService;
 
 	@Value("${IMAGES_SAVE_PATH}")
-	private String IMAGES_SAVE_PATH;
+	protected String IMAGES_SAVE_PATH;
 
-	@Autowired
+	// 구현체에서 @Qualifier 로 원하는 빈 주입하기
 	public PostService(PostRepository postRepository, CommonCommunityService commonCommunityService,
 			PostLikeRepository postLikeRepository, PostViewCheckRepository postViewCheckRepository,
 			PostImageRepository postImageRepository, FileManagementService fileManagementService) {
@@ -177,7 +172,7 @@ public class PostService {
 		PostViewCheck postViewCheck = commonCommunityService.findPostViewCheck(name);
 		if (postViewCheck == null || !postViewCheck.getPostId().equals(postId)) { // Redis 에 저장되어 있지 않다면 저장하고 조회수 증가
 			post.setView(post.getView() + 1); // 조회수 증가
-			postViewCheckRepository.save(new BasicPostViewCheck(name, postId)); // 지정한 시간동안 저장
+			postViewCheckRepository.save(mackPostViewCheck(postId, name)); // 지정한 시간동안 저장
 		}
 		return name;
 	}
@@ -259,10 +254,7 @@ public class PostService {
 	 */
 	private void saveImages(List<String> fileNames, Post post) {
 		fileNames.forEach(fileName -> {
-			PostImage image = BasicPostImage.builder()
-					.post(post)
-					.fileName(fileName)
-					.build();
+			PostImage image = mackPostImage(post, fileName);
 			postImageRepository.save(image);
 		});
 	}
@@ -339,12 +331,26 @@ public class PostService {
 		images.stream()
 				.filter(fileName -> !postImageRepository.existsByFileName(fileName))
 				.forEach(fileName -> {
-					PostImage image = BasicPostImage.builder()
-							.post(post)
-							.fileName(fileName)
-							.build();
-
+					PostImage image = mackPostImage(post, fileName);
 					postImageRepository.save(image);
 				});
 	}
+
+	/**
+	 * 조회수 구현체 생성하기
+	 *
+	 * @param postId 게시글 정보
+	 * @param name UUID값
+	 * @return 조회수 구현체
+	 */
+	abstract public PostViewCheck mackPostViewCheck(Long postId, String name);
+
+	/**
+	 * 이미지 저장 구현체 만들기
+	 *
+	 * @param post 게시글
+	 * @param fileName 파일명
+	 * @return 구현체
+	 */
+	abstract public PostImage mackPostImage(Post post, String fileName);
 }

@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +16,10 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.exception.CommentNotFoundException;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostLikeNotFoundException;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
@@ -26,10 +28,6 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRe
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 
 /**
  * 커뮤니티에서 쟈주 사용되는 메서드 모음
@@ -38,8 +36,7 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostView
  * @since : 2024/04/11
  */
 @Slf4j
-@Service
-public class CommonCommunityService {
+public abstract class CommonCommunityService {
 
 	@Value("${IMAGES_PATH}")
 	private String IMAGES_PATH;
@@ -165,15 +162,7 @@ public class CommonCommunityService {
 	 * @param user        회원정보
 	 * @return 게시글 엔티티
 	 */
-	public Post postRequestToPost(PostRequest postRequest, UserAccount user) {
-		return BasicPost.builder()
-				.userAccount(user)
-				.title(postRequest.getTitle())
-				.content(postRequest.getContent())
-				.category(postRequest.getCategory())
-				.view(0L)
-				.build();
-	}
+	abstract public Post postRequestToPost(PostRequest postRequest, UserAccount user);
 
 	/**
 	 * 게시글 수정 요청 -> 게시글 엔티티 변환 메서드 (수정시 사용)
@@ -183,20 +172,7 @@ public class CommonCommunityService {
 	 * @param user        작성자(수정자)
 	 * @return 게시글 엔티티
 	 */
-	public Post postRequestToPostForUpdate(Post post, PostRequest postRequest, UserAccount user) {
-		// 엔티티의 Setter 사용을 막기위해 새로운 post 생성하며 덮어쓰기
-
-		return BasicPost.builder()
-				.id(post.getId()) // id 를 덮어씌어 수정함
-				.userAccount(user)
-				.title(postRequest.getTitle())
-				.content(postRequest.getContent())
-				.category(postRequest.getCategory())
-				.view(post.getView()) // 조회수도 유지
-				.comments(post.getComments()) // 댓글 리스트도 유지
-				.postLikes(post.getPostLikes()) // 좋아요 리스트도 유지
-				.build();
-	}
+	abstract public Post postRequestToPostForUpdate(Post post, PostRequest postRequest, UserAccount user);
 
 	/**
 	 * 한 게시글에 달린 댓글을 세어주는 메서드
