@@ -1,11 +1,13 @@
 package pulleydoreurae.careerquestbackend.basiccommunity.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
@@ -23,7 +25,8 @@ import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 @Service
 public class BasicPostService extends PostService {
 
-	public BasicPostService(PostRepository postRepository, CommonCommunityService commonCommunityService,
+	public BasicPostService(PostRepository postRepository,
+			@Qualifier("commonBasicCommunityService") CommonCommunityService commonCommunityService,
 			PostLikeRepository postLikeRepository, PostViewCheckRepository postViewCheckRepository,
 			PostImageRepository postImageRepository, FileManagementService fileManagementService) {
 
@@ -54,7 +57,7 @@ public class BasicPostService extends PostService {
 	 * @return 조회수 구현체
 	 */
 	@Override
-	public BasicPostViewCheck mackPostViewCheck(Long postId, String name) {
+	public PostViewCheck mackPostViewCheck(Long postId, String name) {
 		return new BasicPostViewCheck(name, postId);
 	}
 }

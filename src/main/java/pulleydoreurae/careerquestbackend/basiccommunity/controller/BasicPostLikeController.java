@@ -2,6 +2,7 @@ package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 @RequestMapping("/api")
 public class BasicPostLikeController extends PostLikeController {
 
-	public BasicPostLikeController(PostLikeService postLikeService) {
+	public BasicPostLikeController(@Qualifier("basicPostLikeService") PostLikeService postLikeService) {
 		super(postLikeService);
 	}
 

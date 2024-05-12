@@ -1,6 +1,7 @@
 package pulleydoreurae.careerquestbackend.basiccommunity.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
@@ -21,7 +22,8 @@ import pulleydoreurae.careerquestbackend.common.community.service.PostLikeServic
 public class BasicPostLikeService extends PostLikeService {
 
 	@Autowired
-	public BasicPostLikeService(PostLikeRepository postLikeRepository, CommonCommunityService commonCommunityService) {
+	public BasicPostLikeService(PostLikeRepository postLikeRepository,
+			@Qualifier("commonBasicCommunityService") CommonCommunityService commonCommunityService) {
 		super(postLikeRepository, commonCommunityService);
 	}
 
