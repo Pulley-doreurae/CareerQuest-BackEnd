@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class CertificationController extends PostController {
 	@GetMapping("/certifications/{certificationId}/reviews")
 	@Override
 	public ResponseEntity<List<PostResponse>> getPostListByCategory(
-			@PathVariable(name = "certificationId") Long category, Pageable pageable) {
+			@PathVariable(name = "certificationId") Long category, @PageableDefault(size = 15) Pageable pageable) {
 
 		return super.getPostListByCategory(category, pageable);
 	}
