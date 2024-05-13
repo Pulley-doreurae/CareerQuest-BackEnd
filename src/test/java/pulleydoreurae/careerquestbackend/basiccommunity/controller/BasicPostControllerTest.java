@@ -15,6 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -43,6 +44,7 @@ class BasicPostControllerTest {
 	@Autowired
 	MockMvc mockMvc;
 	@MockBean
+	@Qualifier("basicPostService")
 	PostService postService;
 	Gson gson = new Gson();
 
@@ -1136,7 +1138,7 @@ class BasicPostControllerTest {
 	@DisplayName("이미지 요청 테스트")
 	@WithMockUser
 	void getImageResourceTest() throws Exception {
-	    // Given
+		// Given
 		String fileName = "testImage.png";
 		given(postService.getImageResource(fileName)).willReturn(mock(UrlResource.class));
 

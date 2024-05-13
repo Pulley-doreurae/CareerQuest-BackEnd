@@ -1,7 +1,8 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.controller;
+package pulleydoreurae.careerquestbackend.certification.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,20 +23,23 @@ import pulleydoreurae.careerquestbackend.common.community.service.PostLikeServic
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 
 /**
- * 좋아요 Controller
+ * 자격증 좋아요 Controller
  *
  * @author : parkjihyeok
- * @since : 2024/04/03
+ * @since : 2024/05/13
  */
 @RestController
 @RequestMapping("/api")
-public class BasicPostLikeController extends PostLikeController {
+public class CertificationReviewLikeController extends PostLikeController {
 
-	public BasicPostLikeController(@Qualifier("basicPostLikeService") PostLikeService postLikeService) {
+	@Autowired
+	public CertificationReviewLikeController(
+			@Qualifier("certificationReviewLikeService") PostLikeService postLikeService) {
+
 		super(postLikeService);
 	}
 
-	@PostMapping("/posts/likes")
+	@PostMapping("/certifications/reviews/likes")
 	@Override
 	public ResponseEntity<SimpleResponse> changeLikeStatus(@Valid @RequestBody PostLikeRequest postLikeRequest,
 			BindingResult bindingResult) {
@@ -43,7 +47,7 @@ public class BasicPostLikeController extends PostLikeController {
 		return super.changeLikeStatus(postLikeRequest, bindingResult);
 	}
 
-	@GetMapping("/posts/likes/{userId}")
+	@GetMapping("/certifications/likes/{userId}")
 	@Override
 	public ResponseEntity<List<PostResponse>> findAllPostLikeByUserAccount(@PathVariable String userId,
 			@PageableDefault(size = 15) Pageable pageable) {

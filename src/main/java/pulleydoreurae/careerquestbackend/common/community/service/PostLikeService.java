@@ -3,18 +3,14 @@ package pulleydoreurae.careerquestbackend.common.community.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 
 /**
  * 좋아요 Service
@@ -22,14 +18,11 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike
  * @author : parkjihyeok
  * @since : 2024/04/03
  */
-@Slf4j
-@Service
-public class PostLikeService {
+public abstract class PostLikeService {
 
 	private final PostLikeRepository postLikeRepository;
 	private final CommonCommunityService commonCommunityService;
 
-	@Autowired
 	public PostLikeService(PostLikeRepository postLikeRepository, CommonCommunityService commonCommunityService) {
 		this.postLikeRepository = postLikeRepository;
 		this.commonCommunityService = commonCommunityService;
@@ -46,10 +39,7 @@ public class PostLikeService {
 		Post post = commonCommunityService.findPost(postLikeRequest.getPostId());
 
 		if (postLikeRequest.getIsLiked() == 0) { // 증가
-			PostLike postLike = BasicPostLike.builder()
-					.userAccount(user)
-					.post(post)
-					.build();
+			PostLike postLike = mackPostLike(user, post);
 			postLikeRepository.save(postLike);
 		} else if (postLikeRequest.getIsLiked() == 1) { // 감소
 			PostLike postLike = commonCommunityService.findPostLike(post, user);
@@ -81,4 +71,13 @@ public class PostLikeService {
 
 		return list;
 	}
+
+	/**
+	 * 좋아요 구현체 생성
+	 *
+	 * @param user 사용자 정보
+	 * @param post 게시글 정보
+	 * @return 구현체
+	 */
+	abstract public PostLike mackPostLike(UserAccount user, Post post);
 }

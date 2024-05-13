@@ -3,16 +3,13 @@ package pulleydoreurae.careerquestbackend.common.community.service;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
-import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 
 /**
  * 댓글 Service
@@ -20,9 +17,7 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
  * @author : parkjihyeok
  * @since : 2024/04/01
  */
-@Slf4j
-@Service
-public class CommentService {
+public abstract class CommentService {
 
 	private final CommentRepository commentRepository;
 	private final CommonCommunityService commonCommunityService;
@@ -136,13 +131,7 @@ public class CommentService {
 	 * @param post           게시글 정보
 	 * @return 댓글 엔티티 반환
 	 */
-	private Comment commentRequestToComment(CommentRequest commentRequest, UserAccount user, Post post) {
-		return BasicComment.builder()
-				.userAccount(user)
-				.post(post)
-				.content(commentRequest.getContent())
-				.build();
-	}
+	abstract public Comment commentRequestToComment(CommentRequest commentRequest, UserAccount user, Post post);
 
 	/**
 	 * CommentRequest -> Comment 변환 메서드 (수정시 사용)
@@ -153,14 +142,6 @@ public class CommentService {
 	 * @param commentId      댓글 id
 	 * @return 댓글 엔티티 반환
 	 */
-	private Comment commentRequestToCommentForUpdate(CommentRequest commentRequest, UserAccount user, Post post,
-			Long commentId) {
-
-		return BasicComment.builder()
-				.id(commentId) // 엔티티의 Setter 사용을 막기 위해 값을 덮어씀
-				.userAccount(user)
-				.post(post)
-				.content(commentRequest.getContent())
-				.build();
-	}
+	abstract public Comment commentRequestToCommentForUpdate(CommentRequest commentRequest, UserAccount user,
+			Post post, Long commentId);
 }

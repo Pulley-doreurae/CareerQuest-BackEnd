@@ -48,13 +48,13 @@ import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunit
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("커뮤니티에서 공통으로 사용되는 메서드 테스트")
-class BasicCommonCommunityServiceTest {
+class BasicCommonBasicCommunityServiceTest {
 
 	@Value("${IMAGES_PATH}")
 	String IMAGES_PATH;
 
 	@InjectMocks
-	CommonCommunityService commonCommunityService;
+	CommonBasicCommunityService commonCommunityService;
 	@Mock
 	UserAccountRepository userAccountRepository;
 	@Mock

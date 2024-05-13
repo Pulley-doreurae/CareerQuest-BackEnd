@@ -29,8 +29,6 @@ import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFound
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
-import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
 
 /**
  * @author : parkjihyeok
@@ -40,11 +38,11 @@ import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunit
 class BasicCommentServiceTest {
 
 	@InjectMocks
-	CommentService commentService;
+	BasicCommentService commentService;
 	@Mock
 	CommentRepository commentRepository;
 	@Mock
-	CommonCommunityService commonCommunityService;
+	CommonBasicCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("1. 댓글 저장 테스트 (실패 - 회원정보를 찾을 수 없음)")

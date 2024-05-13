@@ -3,6 +3,7 @@ package pulleydoreurae.careerquestbackend.basiccommunity.controller;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,7 +40,7 @@ import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 @RequestMapping("/api")
 public class BasicPostController extends PostController {
 
-	public BasicPostController(PostService postService) {
+	public BasicPostController(@Qualifier("basicPostService") PostService postService) {
 		super(postService);
 	}
 

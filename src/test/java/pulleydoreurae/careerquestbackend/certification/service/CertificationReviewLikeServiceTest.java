@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.certification.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,37 +19,37 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReview;
+import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReviewLike;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
-import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
+import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
+import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 
 /**
  * @author : parkjihyeok
- * @since : 2024/04/03
+ * @since : 2024/05/12
  */
 @ExtendWith(MockitoExtension.class)
-@DisplayName("좋아요 Service 테스트")
-class BasicPostLikeServiceTest {
+@DisplayName("자격증 후기 좋아요 Service 테스트")
+class CertificationReviewLikeServiceTest {
 
 	@InjectMocks
-	BasicPostLikeService postLikeService;
+	CertificationReviewLikeService postLikeService;
 	@Mock
 	PostLikeRepository postLikeRepository;
 	@Mock
-	CommonBasicCommunityService commonCommunityService;
+	CommonCertificationService commonCertificationService;
 
 	@Test
-	@DisplayName("1. 좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")
+	@DisplayName("좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")
 	void postLikePlusFail1Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId"))
+		given(commonCertificationService.findUserAccount("testId"))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -62,13 +62,13 @@ class BasicPostLikeServiceTest {
 	}
 
 	@Test
-	@DisplayName("2. 좋아요 증가 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
+	@DisplayName("좋아요 증가 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
 	void postLikePlusFail2Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.findPost(10000L))
+		given(commonCertificationService.findUserAccount("testId")).willReturn(user);
+		given(commonCertificationService.findPost(10000L))
 				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
@@ -85,14 +85,14 @@ class BasicPostLikeServiceTest {
 	}
 
 	@Test
-	@DisplayName("3. 좋아요 증가 테스트 (성공)")
+	@DisplayName("좋아요 증가 테스트 (성공)")
 	void postLikePlusSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().userAccount(user).id(10000L).title("제목1").build();
+		Post post = CertificationReview.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.findPost(10000L)).willReturn(post);
+		given(commonCertificationService.findUserAccount("testId")).willReturn(user);
+		given(commonCertificationService.findPost(10000L)).willReturn(post);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder()
@@ -110,12 +110,12 @@ class BasicPostLikeServiceTest {
 	}
 
 	@Test
-	@DisplayName("4. 좋아요 감소 테스트 (실패 - 회원정보를 찾을 수 없음)")
+	@DisplayName("좋아요 감소 테스트 (실패 - 회원정보를 찾을 수 없음)")
 	void postLikeMinusFail1Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId"))
+		given(commonCertificationService.findUserAccount("testId"))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -128,13 +128,13 @@ class BasicPostLikeServiceTest {
 	}
 
 	@Test
-	@DisplayName("5. 좋아요 감소 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
+	@DisplayName("좋아요 감소 테스트 (실패 - 게시글 정보를 찾을 수 없음)")
 	void postLikeMinusFail2Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.findPost(10000L))
+		given(commonCertificationService.findUserAccount("testId")).willReturn(user);
+		given(commonCertificationService.findPost(10000L))
 				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
@@ -146,16 +146,16 @@ class BasicPostLikeServiceTest {
 	}
 
 	@Test
-	@DisplayName("6. 좋아요 감소 테스트 (성공)")
+	@DisplayName("좋아요 감소 테스트 (성공)")
 	void postLikeMinusSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().userAccount(user).id(10000L).title("제목1").build();
-		PostLike postLike = BasicPostLike.builder().userAccount(user).post(post).build();
+		Post post = CertificationReview.builder().userAccount(user).id(10000L).title("제목1").build();
+		PostLike postLike = CertificationReviewLike.builder().userAccount(user).post(post).build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.findPost(10000L)).willReturn(post);
-		given(commonCommunityService.findPostLike(post, user)).willReturn(postLike);
+		given(commonCertificationService.findUserAccount("testId")).willReturn(user);
+		given(commonCertificationService.findPost(10000L)).willReturn(post);
+		given(commonCertificationService.findPostLike(post, user)).willReturn(postLike);
 
 		// When
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
@@ -169,29 +169,29 @@ class BasicPostLikeServiceTest {
 	}
 
 	@Test
-	@DisplayName("7. 한 회원이 좋아요 누른 게시글 불러오기")
+	@DisplayName("한 회원이 좋아요 누른 게시글 불러오기")
 	void findAllPostLikeByUserAccountTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post1 = BasicPost.builder().userAccount(user).id(10001L).title("제목1").build();
-		Post post2 = BasicPost.builder().userAccount(user).id(10002L).title("제목2").build();
-		Post post3 = BasicPost.builder().userAccount(user).id(10003L).title("제목3").build();
-		Post post4 = BasicPost.builder().userAccount(user).id(10004L).title("제목4").build();
-		Post post5 = BasicPost.builder().userAccount(user).id(10005L).title("제목5").build();
-		PostLike postLike1 = BasicPostLike.builder().userAccount(user).post(post1).build();
-		PostLike postLike2 = BasicPostLike.builder().userAccount(user).post(post2).build();
-		PostLike postLike3 = BasicPostLike.builder().userAccount(user).post(post3).build();
-		PostLike postLike4 = BasicPostLike.builder().userAccount(user).post(post4).build();
-		PostLike postLike5 = BasicPostLike.builder().userAccount(user).post(post5).build();
+		Post post1 = CertificationReview.builder().userAccount(user).id(10001L).title("제목1").build();
+		Post post2 = CertificationReview.builder().userAccount(user).id(10002L).title("제목2").build();
+		Post post3 = CertificationReview.builder().userAccount(user).id(10003L).title("제목3").build();
+		Post post4 = CertificationReview.builder().userAccount(user).id(10004L).title("제목4").build();
+		Post post5 = CertificationReview.builder().userAccount(user).id(10005L).title("제목5").build();
+		PostLike postLike1 = CertificationReviewLike.builder().userAccount(user).post(post1).build();
+		PostLike postLike2 = CertificationReviewLike.builder().userAccount(user).post(post2).build();
+		PostLike postLike3 = CertificationReviewLike.builder().userAccount(user).post(post3).build();
+		PostLike postLike4 = CertificationReviewLike.builder().userAccount(user).post(post4).build();
+		PostLike postLike5 = CertificationReviewLike.builder().userAccount(user).post(post5).build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		Page<PostLike> list = new PageImpl<>(
 				List.of(postLike3, postLike4, postLike5), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.postToPostResponse(post3, 0)).willReturn(postToPostResponse(post3));
-		given(commonCommunityService.postToPostResponse(post4, 0)).willReturn(postToPostResponse(post4));
-		given(commonCommunityService.postToPostResponse(post5, 0)).willReturn(postToPostResponse(post5));
+		given(commonCertificationService.findUserAccount("testId")).willReturn(user);
+		given(commonCertificationService.postToPostResponse(post3, 0)).willReturn(postToPostResponse(post3));
+		given(commonCertificationService.postToPostResponse(post4, 0)).willReturn(postToPostResponse(post4));
+		given(commonCertificationService.postToPostResponse(post5, 0)).willReturn(postToPostResponse(post5));
 		given(postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable))
 				.willReturn(list);
 
@@ -207,9 +207,9 @@ class BasicPostLikeServiceTest {
 				postToPostResponse(post5)
 		);
 		verify(postLikeRepository).findAllByUserAccountOrderByIdDesc(user, pageable);
-		verify(commonCommunityService).postToPostResponse(post3, 0);
-		verify(commonCommunityService).postToPostResponse(post4, 0);
-		verify(commonCommunityService).postToPostResponse(post5, 0);
+		verify(commonCertificationService).postToPostResponse(post3, 0);
+		verify(commonCertificationService).postToPostResponse(post4, 0);
+		verify(commonCertificationService).postToPostResponse(post5, 0);
 	}
 
 	// Post -> PostResponse 변환 메서드

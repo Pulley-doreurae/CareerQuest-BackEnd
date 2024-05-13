@@ -1,5 +1,7 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.controller;
+package pulleydoreurae.careerquestbackend.certification.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -25,27 +27,30 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
+import pulleydoreurae.careerquestbackend.basiccommunity.controller.BasicPostLikeController;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
 
 /**
+ * 자격증 좋아요 컨트롤러 테스트
+ *
  * @author : parkjihyeok
- * @since : 2024/04/03
+ * @since : 2024/05/13
  */
-@WebMvcTest(BasicPostLikeController.class)
+@WebMvcTest(CertificationReviewLikeController.class)
 @AutoConfigureRestDocs
-class BasicPostLikeControllerTest {
+class CertificationReviewLikeControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
 	@MockBean
-	@Qualifier("basicPostLikeService")
+	@Qualifier("certificationReviewLikeService")
 	PostLikeService postLikeService;
 	Gson gson = new Gson();
 
 	@Test
-	@DisplayName("1. 좋아요 상태 변환 실패")
+	@DisplayName("좋아요 상태 변환 실패")
 	@WithMockUser
 	void changePostLikeFailTest() throws Exception {
 		// Given
@@ -53,7 +58,7 @@ class BasicPostLikeControllerTest {
 		given(postLikeService.changePostLike(any())).willReturn(false);
 
 		// When
-		mockMvc.perform(post("/api/posts/likes")
+		mockMvc.perform(post("/api/certifications/reviews/likes")
 						.contentType(MediaType.APPLICATION_JSON)
 						.with(csrf())
 						.content(gson.toJson(request)))
@@ -75,7 +80,7 @@ class BasicPostLikeControllerTest {
 	}
 
 	@Test
-	@DisplayName("2. 좋아요 상태 변환 성공")
+	@DisplayName("좋아요 상태 변환 성공")
 	@WithMockUser
 	void changePostLikeSuccessTest() throws Exception {
 		// Given
@@ -83,7 +88,7 @@ class BasicPostLikeControllerTest {
 		given(postLikeService.changePostLike(any())).willReturn(true);
 
 		// When
-		mockMvc.perform(post("/api/posts/likes")
+		mockMvc.perform(post("/api/certifications/reviews/likes")
 						.contentType(MediaType.APPLICATION_JSON)
 						.with(csrf())
 						.content(gson.toJson(request)))
@@ -105,28 +110,28 @@ class BasicPostLikeControllerTest {
 	}
 
 	@Test
-	@DisplayName("3. 한 사용자가 좋아요 누른 게시글 리스트 반환 테스트")
+	@DisplayName("한 사용자가 좋아요 누른 게시글 리스트 반환 테스트")
 	@WithMockUser
 	void findAllPostLikeByUserAccountTest() throws Exception {
 		// Given
 		PostResponse postResponse1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목1").content("내용1").view(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목2").content("내용2").view(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목3").content("내용3").view(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목4").content("내용4").view(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 		PostResponse postResponse5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").view(0L).commentCount(0L).postLikeCount(0L).category(1L)
+				.userId("testId").title("제목5").content("내용5").view(0L).postLikeCount(0L).category(1L)
 				.isLiked(0)
 				.build();
 
@@ -134,7 +139,7 @@ class BasicPostLikeControllerTest {
 				List.of(postResponse1, postResponse2, postResponse3, postResponse4, postResponse5));
 
 		// When
-		mockMvc.perform(get("/api/posts/likes/{userId}", "testId")
+		mockMvc.perform(get("/api/certifications/likes/{userId}", "testId")
 						.queryParam("page", "0")
 						.with(csrf()))
 				.andExpect(status().isOk())
@@ -173,7 +178,7 @@ class BasicPostLikeControllerTest {
 		PostLikeRequest request = PostLikeRequest.builder().userId("testId").isLiked(0).build();
 
 		// When
-		mockMvc.perform(post("/api/posts/likes")
+		mockMvc.perform(post("/api/certifications/reviews/likes")
 						.contentType(MediaType.APPLICATION_JSON)
 						.with(csrf())
 						.content(gson.toJson(request)))
@@ -201,7 +206,7 @@ class BasicPostLikeControllerTest {
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("").isLiked(0).build();
 
 		// When
-		mockMvc.perform(post("/api/posts/likes")
+		mockMvc.perform(post("/api/certifications/reviews/likes")
 						.contentType(MediaType.APPLICATION_JSON)
 						.with(csrf())
 						.content(gson.toJson(request)))
@@ -230,7 +235,7 @@ class BasicPostLikeControllerTest {
 		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("").build();
 
 		// When
-		mockMvc.perform(post("/api/posts/likes")
+		mockMvc.perform(post("/api/certifications/reviews/likes")
 						.contentType(MediaType.APPLICATION_JSON)
 						.with(csrf())
 						.content(gson.toJson(request)))
