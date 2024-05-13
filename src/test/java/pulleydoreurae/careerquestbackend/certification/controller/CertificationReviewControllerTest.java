@@ -364,6 +364,9 @@ class CertificationReviewControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("userId").description("작성자 id")
+						),
 						queryParameters(
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
