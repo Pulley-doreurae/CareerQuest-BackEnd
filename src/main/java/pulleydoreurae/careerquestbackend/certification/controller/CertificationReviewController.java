@@ -7,9 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,18 +22,19 @@ import pulleydoreurae.careerquestbackend.common.community.controller.PostControl
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostService;
+import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 
 /**
- * 자격증 Controller
+ * 자격증 후기 Controller
  *
  * @author : parkjihyeok
  * @since : 2024/05/12
  */
 @RestController
 @RequestMapping("/api")
-public class CertificationController extends PostController {
+public class CertificationReviewController extends PostController {
 
-	public CertificationController(@Qualifier("certificationReviewService") PostService postService) {
+	public CertificationReviewController(@Qualifier("certificationReviewService") PostService postService) {
 		super(postService);
 	}
 
@@ -43,11 +47,33 @@ public class CertificationController extends PostController {
 	}
 
 	@PostMapping("/certifications/{certificationId}/reviews")
-	public ResponseEntity<?> savePost(@PathVariable(name = "certificationId") Long category,
-			@Valid ReviewRequest request, BindingResult bindingResult) {
+	public ResponseEntity<?> saveReview(@PathVariable(name = "certificationId") Long category,
+			@Valid @RequestBody ReviewRequest request, BindingResult bindingResult) {
 
 		PostRequest postRequest = mackPostRequest(category, request);
 		return super.savePost(postRequest, bindingResult);
+	}
+
+	@PatchMapping("/certifications/{certificationId}/reviews/{reviewId}")
+	public ResponseEntity<?> updateReview(@PathVariable(name = "certificationId") Long category,
+			@PathVariable Long reviewId, @Valid @RequestBody ReviewRequest request, BindingResult bindingResult) {
+
+		PostRequest postRequest = mackPostRequest(category, request);
+		return super.updatePost(reviewId, postRequest, bindingResult);
+	}
+
+	@DeleteMapping("/certifications/{postId}")
+	@Override
+	public ResponseEntity<SimpleResponse> deletePost(@PathVariable Long postId, String userId) {
+		return super.deletePost(postId, userId);
+	}
+
+	@GetMapping("/certifications/reviews/user/{userId}")
+	@Override
+	public ResponseEntity<?> getPostListByUserId(@PathVariable String userId,
+			@PageableDefault(size = 15) Pageable pageable) {
+
+		return super.getPostListByUserId(userId, pageable);
 	}
 
 	/**
