@@ -27,8 +27,6 @@ import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFound
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
-import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
 
 /**
  * @author : parkjihyeok
@@ -36,7 +34,7 @@ import pulleydoreurae.careerquestbackend.common.community.service.PostLikeServic
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("좋아요 Service 테스트")
-class BasicBasicPostLikeServiceTest {
+class BasicPostLikeServiceTest {
 
 	@InjectMocks
 	BasicPostLikeService postLikeService;
