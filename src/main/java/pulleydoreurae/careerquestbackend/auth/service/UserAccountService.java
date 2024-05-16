@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +36,9 @@ public class UserAccountService implements Serializable {
 	private final UserCareerDetailsRepository userCareerDetailsRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final MailService mailService;
+	private final CareerDetailsRepository careerDetailsRepository;
+	private final TechnologyStackRepository technologyStackRepository;
+	private final UserFirstAddInfoRepository userFirstAddInfoRepository;
 
 	@Value("${spring.mail.domain}")
 	private String domain;
@@ -230,5 +235,43 @@ public class UserAccountService implements Serializable {
 			stackIds.add(userTechnologyStack.getStackId());
 		}
 		return stackIds;
+	}
+
+	public List<String> getCareerList(String categoryType){
+		List<Careers> careerList = careerDetailsRepository.findAllByCategoryType(categoryType);
+
+		if (careerList.isEmpty()) {
+			log.error(" 해당하는 정보를 찾을 수 없습니다.");
+			throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
+		}
+
+		List<String> careerNameList = new ArrayList<>();
+        for (Careers careers : careerList) {
+            careerNameList.add(careers.getCategoryName());
+        }
+
+		return careerNameList;
+	}
+
+	public List<TechnologyStack> getTechnologyStackByKeyword(String keyword){
+        return technologyStackRepository.findByStackNameContaining(keyword);
+	}
+
+	public boolean isAddInfoShow(String user) {
+		boolean isAddInfo = userFirstAddInfoRepository.existsByUserId(user);
+		if (isAddInfo){ userFirstAddInfoRepository.deleteByUserId(user); }
+
+		return !isAddInfo;
+	}
+
+	public void saveUser(UserAccount user) {
+
+		userAccountRepository.save(user);
+		mailService.removeVerifiedUser(user.getUserId(), user.getEmail());
+		userFirstAddInfoRepository.save(UserFirstAddInfo.builder()
+				.userId(user.getUserId())
+				.build()
+		);
+
 	}
 }

@@ -5,7 +5,6 @@ import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Random;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -39,7 +38,7 @@ public class MailService {
 	private final UserInfoUserIdRepository userInfoUserIdRepository;
 
 	@Value("${spring.mail.sender}")
-	private static String senderEmail;
+	private String senderEmail;
 
 	@Value("${spring.mail.domain}")
 	private String domain;
@@ -102,6 +101,28 @@ public class MailService {
 	}
 
 	/**
+	 * 이메일 인증 재전송 메서드
+	 *
+	 * @param userId    회원아이디
+	 * @param userName  회원이름
+	 * @param phoneNum  전화번호
+	 * @param email     이메일
+	 * @param password  비밀번호
+	 * @param birth     생년월일
+	 * @param gender    성별
+	 */
+	public void sendAgainAuthenticationEmail(String userId, String userName, String phoneNum, String email
+			, String password, String birth, String gender){
+
+		if(isEmailExists(email)){
+			emailAuthenticationRepository.deleteById(email);
+		}
+		emailAuthentication(userId, userName, phoneNum, email, password, birth, gender);
+
+		log.info("[회원가입 - 인증] : {} 의 회원가입을 위한 객체저장 및 메일 재전송", email);
+	}
+
+	/**
 	 * 이메일을 전송하는 메서드
 	 *
 	 * @param email        받는 이메일
@@ -117,7 +138,7 @@ public class MailService {
 			Context context = new Context();
 
 			String content = templateEngine.process(template, context);
-			content = content.replace("@{url_zone}", url_link);
+			content = content.replace("@{verification_url}", url_link);
 
 			helper.setTo(email);
 			helper.setFrom(senderEmail);
@@ -125,6 +146,7 @@ public class MailService {
 
 			helper.setText(content, true);
 		};
+
 		javaMailSender.send(preparatory);
 	}
 
@@ -206,4 +228,3 @@ public class MailService {
 		emailAuthenticationRepository.deleteById(email);
 	}
 }
-

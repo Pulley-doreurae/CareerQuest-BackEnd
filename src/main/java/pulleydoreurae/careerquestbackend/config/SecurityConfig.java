@@ -41,9 +41,9 @@ public class SecurityConfig {
 
 	@Autowired
 	public SecurityConfig(AuthenticationConfiguration authenticationConfiguration,
-			LoginSuccessHandler loginSuccessHandler, LoginFailureHandler loginFailureHandler,
-			JwtTokenProvider jwtTokenProvider, UserAccountRepository userAccountRepository,
-			JwtRefreshTokenRepository jwtRefreshTokenRepository, JwtAccessTokenRepository jwtAccessTokenRepository) {
+		LoginSuccessHandler loginSuccessHandler, LoginFailureHandler loginFailureHandler,
+		JwtTokenProvider jwtTokenProvider, UserAccountRepository userAccountRepository,
+		JwtRefreshTokenRepository jwtRefreshTokenRepository, JwtAccessTokenRepository jwtAccessTokenRepository) {
 		this.authenticationConfiguration = authenticationConfiguration;
 		this.loginSuccessHandler = loginSuccessHandler;
 		this.loginFailureHandler = loginFailureHandler;
@@ -55,7 +55,7 @@ public class SecurityConfig {
 
 	@Bean    // 빈으로 등록하면 자동으로 검색해서 AuthenticationProvider 구현체들을 등록하는듯?
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws
-			Exception {
+		Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
@@ -77,26 +77,27 @@ public class SecurityConfig {
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
 		return new JwtAuthenticationFilter(
-				authenticationManager(authenticationConfiguration), userAccountRepository, jwtRefreshTokenRepository,
-				jwtAccessTokenRepository, jwtTokenProvider);
+			authenticationManager(authenticationConfiguration), userAccountRepository, jwtRefreshTokenRepository,
+			jwtAccessTokenRepository, jwtTokenProvider);
 	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.authorizeHttpRequests((auth) ->
-				auth
-						.requestMatchers("/api/login", "/api/users", "/api/verify", "/api/login-kakao/**", "/"
-								, "/api/users/username/**", "/api/users/email/**", "/api-test", "/api/users/help/**"
-								, "/api/users/details/**", "/api/users/delete")
-						.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
-						.requestMatchers("/docs/index.html")
-						.permitAll()    // Spring REST Docs 를 보기 위해 모두 접근 가능
-						.anyRequest()
-						.authenticated());    // 나머지는 인증된 사용자만 접근가능
+			auth
+				.requestMatchers("/api/login", "/api/users", "/api/verify", "/api/login-kakao/**"
+					, "/api/login-kakao/**", "/api/login-google/**", "/api/login-naver/**", "/"
+					, "/api/users/username/**", "/api/users/email/**", "/api-test", "/api/users/help/**"
+					, "/api/users/details/**", "/api/users/delete")
+				.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
+				.requestMatchers("/docs/index.html")
+				.permitAll()    // Spring REST Docs 를 보기 위해 모두 접근 가능
+				.anyRequest()
+				.authenticated());    // 나머지는 인증된 사용자만 접근가능
 
 		http.sessionManagement((session) -> session
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // JWT 를 사용하므로 세션은 사용하지 않음
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // JWT 를 사용하므로 세션은 사용하지 않음
 
 		http.csrf((csrf) -> csrf.disable());    // csrf 는 우선 사용하지 않음.
 

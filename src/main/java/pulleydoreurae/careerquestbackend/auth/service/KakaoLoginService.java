@@ -45,7 +45,7 @@ public class KakaoLoginService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public KakaoLoginService(@Value("${LOGIN.KAKAO_API_KEY}") String clientId,
-			@Value("${LOGIN.REDIRECT_URL}") String redirectUri, @Value("${LOGIN.HOST}") String host,
+			@Value("${LOGIN.KAKAO_REDIRECT_URL}") String redirectUri, @Value("${LOGIN.HOST}") String host,
 			UserAccountRepository userAccountRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.clientId = clientId;
 		this.redirect_uri = redirectUri;
@@ -172,7 +172,7 @@ public class KakaoLoginService {
 
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
 
-		log.info("[로그인-카카오] : 취준진담 서비스에 사용자 [{}] 로그인 성공", email);
+		log.info("[로그인-카카오] : 해파리 서비스에 사용자 [{}] 로그인 성공", email);
 
 		// TODO: 2024/01/24 주소 수정 및 실패에 대한 처리를 추가하기
 		try {
@@ -200,9 +200,9 @@ public class KakaoLoginService {
 		UserAccount user = UserAccount.builder()
 				.userId(email)
 				.userName(email)
-				.phoneNum("000-1111-2222")
 				.password(bCryptPasswordEncoder.encode("kakao-register" + email))
 				.email(email)
+				.phoneNum("000-1111-2222")
 				.birth("00-01-01")
 				.gender("M")
 				.role(UserRole.ROLE_TEMPORARY_USER)
