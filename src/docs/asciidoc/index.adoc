@@ -5,11 +5,13 @@
 :toclevels: 2
 :seclinks:
 
-include::UserAccountController.adoc[]
-include::LoginController.adoc[]
-include::KakaoLoginController.adoc[]
-include::BasicPostController.adoc[]
-include::BasicCommentController.adoc[]
-include::BasicPostLikeController.adoc[]
-include::CertificationReviewController.adoc[]
-include::CertificationReviewLikeController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/UserAccountController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/LoginController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/KakaoLoginController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/GoogleLoginController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/NaverLoginController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/BasicPostController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/BasicCommentController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/BasicPostLikeController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/CertificationReviewController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/CertificationReviewLikeController.adoc[]
