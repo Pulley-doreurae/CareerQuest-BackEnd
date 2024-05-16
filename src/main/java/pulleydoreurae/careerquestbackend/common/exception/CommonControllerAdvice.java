@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.common.community.exception.CommunityException;
 
@@ -18,10 +19,12 @@ import pulleydoreurae.careerquestbackend.common.community.exception.CommunityExc
  * @since : 2024/04/15
  */
 @RestControllerAdvice
+@Slf4j
 public class CommonControllerAdvice {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<SimpleResponse> common(Exception e) {
+		log.error(" : {}", e.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(SimpleResponse.builder().msg("예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.").build());
 	}

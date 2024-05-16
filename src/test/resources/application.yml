@@ -3,7 +3,7 @@ spring:
   config:
     import:
       - jwt.yml
-      - kakao.yml
+      - Oauth.yml
       - mail.yml
       - database.yml
       - geoIpRoot.yml
