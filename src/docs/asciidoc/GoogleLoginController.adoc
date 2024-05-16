@@ -1,0 +1,16 @@
+== 구글 로그인 API (GoogleLoginController)
+=== 리다이렉트 주소 요청
+==== 요청
+operation::google-login-controller-test/google-get-redirect-test[snippets="http-request"]
+==== 응답
+operation::google-login-controller-test/google-get-redirect-test[snippets="http-response"]
+=== 유효하지 않은 구글 인증코드로 구글서버에 요청할때 (비정상 요청)
+==== 요청
+operation::google-login-controller-test/google-invalid-code-login-test[snippets="http-request,query-parameters"]
+==== 응답
+operation::google-login-controller-test/google-invalid-code-login-test[snippets="http-response"]
+=== 유효한 구글 인증코드로 구글서버에 요청할때 (정상 요청)
+==== 요청
+operation::google-login-controller-test/google-valid-code-login-test[snippets="http-request,query-parameters"]
+==== 응답
+operation::google-login-controller-test/google-valid-code-login-test[snippets="http-response,response-fields"]

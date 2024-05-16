@@ -214,7 +214,7 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,gradle,java,intellij+alljwt.yml
-kakao.yml
+Oauth.yml
 jwt.yml
 mail.yml
 database.yml
