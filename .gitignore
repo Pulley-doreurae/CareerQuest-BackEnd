@@ -220,6 +220,7 @@ mail.yml
 database.yml
 geoIpRoot.yml
 serial.yml
+path.yml
 
 # yml 파일 서버로 전송하는 스크립트
 client_yml.sh
