@@ -31,7 +31,7 @@ public class CertificationRegistrationPeriod extends BaseEntity {
 	private Certification certification; // 자격증 정보
 
 	@Column(nullable = false)
-	private String examRound; // 시험 정보(몇회차인지)
+	private Long examRound; // 시험 정보(몇회차인지)
 
 	@Column(nullable = false)
 	private LocalDate startDate; // 접수 시작일
