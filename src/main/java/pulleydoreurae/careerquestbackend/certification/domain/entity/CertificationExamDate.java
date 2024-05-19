@@ -34,5 +34,5 @@ public class CertificationExamDate extends BaseEntity {
 	private String examRound; // 시험 정보(몇회차인지)
 
 	@Column(nullable = false)
-	private LocalDate examDay; // 시험일정
+	private LocalDate examDate; // 시험일정
 }

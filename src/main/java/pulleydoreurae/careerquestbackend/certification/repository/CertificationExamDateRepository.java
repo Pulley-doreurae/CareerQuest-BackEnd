@@ -20,6 +20,6 @@ public interface CertificationExamDateRepository extends JpaRepository<Certifica
 	@Query("select ced from CertificationExamDate ced join ced.certification c where c.certificationName = :name and ced.examRound = :examRound and c.examType = :examType")
 	List<CertificationExamDate> findByNameAndExamRoundAndExamType(String name, Long examRound, ExamType examType);
 
-	@Query("select ced from CertificationExamDate ced where ced.examDay = :date")
+	@Query("select ced from CertificationExamDate ced where ced.examDate = :date")
 	List<CertificationExamDate> findByDate(LocalDate date);
 }
