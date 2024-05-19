@@ -9,7 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 
 /**
@@ -20,6 +23,9 @@ import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
  */
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CertificationExamDate extends BaseEntity {
 
 	@Id
@@ -36,3 +42,5 @@ public class CertificationExamDate extends BaseEntity {
 	@Column(nullable = false)
 	private LocalDate examDate; // 시험일정
 }
+
+

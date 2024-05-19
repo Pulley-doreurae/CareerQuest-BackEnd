@@ -9,7 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 
 /**
@@ -20,6 +23,9 @@ import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
  */
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CertificationRegistrationPeriod extends BaseEntity {
 
 	@Id
