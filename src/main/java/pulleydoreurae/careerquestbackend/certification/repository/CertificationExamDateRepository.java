@@ -1,5 +1,6 @@
 package pulleydoreurae.careerquestbackend.certification.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,7 @@ public interface CertificationExamDateRepository extends JpaRepository<Certifica
 
 	@Query("select ced from CertificationExamDate ced join ced.certification c where c.certificationName = :name and ced.examRound = :examRound and c.examType = :examType")
 	List<CertificationExamDate> findByNameAndExamRoundAndExamType(String name, Long examRound, ExamType examType);
+
+	@Query("select ced from CertificationExamDate ced where ced.examDay = :date")
+	List<CertificationExamDate> findByDate(LocalDate date);
 }
