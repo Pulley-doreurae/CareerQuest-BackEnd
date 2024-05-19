@@ -42,36 +42,41 @@ class CertificationExamDateRepositoryTest {
 	void setUp() { // 기본적인 자격증 정보 저장
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String c_sql1 =
-				"insert into certification(certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (1, '정보처리기사', '4년제 졸업', 'FIRST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_id, certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (200, 1, '정보처리기사', '4년제 졸업', 'FIRST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		String c_sql2 =
-				"insert into certification(certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (1, '정보처리기사', '4년제 졸업', 'LAST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_id, certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (201, 1, '정보처리기사', '4년제 졸업', 'LAST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(c_sql1);
 		jdbcTemplate.execute(c_sql2);
 
 		String sql1 =
 				"insert into certification_exam_date(certification_id, exam_round, exam_day, created_at, modified_at) "
-						+ "values (1, 1234, '2024-01-10','2024-01-01','2024-01-01')";
+						+ "values (200, 1234, '2024-01-10','2024-01-01','2024-01-01')";
 
 		String sql2 =
 				"insert into certification_exam_date(certification_id, exam_round, exam_day, created_at, modified_at) "
-						+ "values (1, 1234, '2024-01-11','2024-01-01','2024-01-01')";
+						+ "values (200, 1234, '2024-01-11','2024-01-01','2024-01-01')";
 
 		String sql3 =
 				"insert into certification_exam_date(certification_id, exam_round, exam_day, created_at, modified_at) "
-						+ "values (1, 1234, '2024-01-12','2024-01-01','2024-01-01')";
+						+ "values (200, 1234, '2024-01-12','2024-01-01','2024-01-01')";
 
 		String sql4 =
 				"insert into certification_exam_date(certification_id, exam_round, exam_day, created_at, modified_at) "
-						+ "values (2, 1234, '2024-05-10','2024-01-01','2024-01-01')";
+						+ "values (201, 1234, '2024-05-10','2024-01-01','2024-01-01')";
+
+		String sql5 =
+				"insert into certification_exam_date(certification_id, exam_round, exam_day, created_at, modified_at) "
+						+ "values (201, 1234, '2024-01-11','2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(sql1);
 		jdbcTemplate.execute(sql2);
 		jdbcTemplate.execute(sql3);
 		jdbcTemplate.execute(sql4);
+		jdbcTemplate.execute(sql5);
 	}
 
 	@Test
@@ -86,14 +91,29 @@ class CertificationExamDateRepositoryTest {
 				"정보처리기사", 1234L, ExamType.LAST_STAGE);
 
 		// Then
-		assertEquals(certificationRepository.findById(1L).get(), result1.get(0).getCertification());
+		assertEquals(certificationRepository.findById(200L).get(), result1.get(0).getCertification());
 		assertEquals(3, result1.size());
 		assertEquals(LocalDate.of(2024, 1, 10), result1.get(0).getExamDay());
 		assertEquals(LocalDate.of(2024, 1, 11), result1.get(1).getExamDay());
 		assertEquals(LocalDate.of(2024, 1, 12), result1.get(2).getExamDay());
-		assertEquals(certificationRepository.findById(2L).get(), result2.get(0).getCertification());
-		assertEquals(1, result2.size());
+		assertEquals(certificationRepository.findById(201L).get(), result2.get(0).getCertification());
+		assertEquals(2, result2.size());
 		assertEquals(LocalDate.of(2024, 5, 10), result2.get(0).getExamDay());
 
+	}
+
+	@Test
+	@DisplayName("날짜로 자격증 시험일정 리스트 불러오기")
+	void findByDate() {
+	    // Given
+
+	    // When
+		List<CertificationExamDate> result = certificationExamDateRepository.findByDate(LocalDate.of(2024, 1, 11));
+
+		// Then
+		assertEquals(2, result.size());
+		assertEquals("정보처리기사", result.get(0).getCertification().getCertificationName());
+		assertEquals(ExamType.FIRST_STAGE, result.get(0).getCertification().getExamType());
+		assertEquals(ExamType.LAST_STAGE, result.get(1).getCertification().getExamType());
 	}
 }

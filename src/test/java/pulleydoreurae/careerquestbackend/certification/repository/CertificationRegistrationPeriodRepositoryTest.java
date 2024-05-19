@@ -3,6 +3,7 @@ package pulleydoreurae.careerquestbackend.certification.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -68,5 +69,20 @@ class CertificationRegistrationPeriodRepositoryTest {
 		assertEquals("한국산업인력공단", result.getCertification().getOrganizer());
 		assertEquals(LocalDate.of(2024, 3, 10), result.getStartDate());
 		assertEquals(LocalDate.of(2024, 4, 20), result.getEndDate());
+	}
+
+	@Test
+	@DisplayName("날짜로 자격증 기간 리스트 불러오기")
+	void findByDate() {
+	    // Given
+
+	    // When
+		List<CertificationRegistrationPeriod> result = certificationRegistrationPeriodRepository.findByDate(
+				LocalDate.of(2024, 3, 11));
+
+		// Then
+		assertEquals(1, result.size());
+		assertEquals("정보처리기사", result.get(0).getCertification().getCertificationName());
+		assertEquals(ExamType.FIRST_STAGE, result.get(0).getCertification().getExamType());
 	}
 }
