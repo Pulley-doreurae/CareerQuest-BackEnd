@@ -62,13 +62,13 @@ class InterestedCertificationRepositoryTest {
 		certificationRepository.save(certification);
 		InterestedCertification interestedCertification = InterestedCertification.builder().certification(certification).userAccount(userAccount).build();
 		interestedCertificationRepository.save(interestedCertification);
+
 		// 값 저장이 잘 되어있는지 검증 후
-		List<InterestedCertification> before = interestedCertificationRepository.findAllByUserId("testId");
-		assertEquals(1, before.size());
-		assertEquals("정보처리기사", before.get(0).getCertification().getCertificationName());
+		InterestedCertification before = interestedCertificationRepository.findByUserIdAndCertificationName("testId", "정보처리기사").get();
+		assertEquals("정보처리기사", before.getCertification().getCertificationName());
 
 	    // When
-		interestedCertificationRepository.delete(interestedCertification);
+		interestedCertificationRepository.delete(before);
 
 	    // Then
 		// 값 제거가 정상적으로 되었는지 검증
