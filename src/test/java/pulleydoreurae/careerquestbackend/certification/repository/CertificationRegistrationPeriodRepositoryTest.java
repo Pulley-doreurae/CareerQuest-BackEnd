@@ -41,14 +41,14 @@ class CertificationRegistrationPeriodRepositoryTest {
 	void setUp() { // 기본적인 자격증 정보 저장
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String sql1 =
-				"insert into certification(certification_id, certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (100, 1, '정보처리기사', '4년제 졸업', 'FIRST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_id, certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (100, 1, '정보처리기사', '4년제 졸업', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(sql1);
 
 		String sql2 =
-				"insert into certification_registration_period(certification_id, exam_round, start_date, end_date, created_at, modified_at) "
-						+ "values (100, 1234, '2024-03-10','2024-04-20', '2024-01-01','2024-01-01')";
+				"insert into certification_registration_period(certification_id, exam_type, exam_round, start_date, end_date, created_at, modified_at) "
+						+ "values (100, 'FIRST_STAGE', 1234, '2024-03-10','2024-04-20', '2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(sql2);
 	}
@@ -65,7 +65,7 @@ class CertificationRegistrationPeriodRepositoryTest {
 		// Then
 		assertEquals(certificationRepository.findById(100L).get(), result.getCertification());
 		assertEquals(100, result.getCertification().getId());
-		assertEquals(ExamType.FIRST_STAGE, result.getCertification().getExamType());
+		assertEquals(ExamType.FIRST_STAGE, result.getExamType());
 		assertEquals("한국산업인력공단", result.getCertification().getOrganizer());
 		assertEquals(LocalDate.of(2024, 3, 10), result.getStartDate());
 		assertEquals(LocalDate.of(2024, 4, 20), result.getEndDate());
@@ -83,6 +83,6 @@ class CertificationRegistrationPeriodRepositoryTest {
 		// Then
 		assertEquals(1, result.size());
 		assertEquals("정보처리기사", result.get(0).getCertification().getCertificationName());
-		assertEquals(ExamType.FIRST_STAGE, result.get(0).getCertification().getExamType());
+		assertEquals(ExamType.FIRST_STAGE, result.get(0).getExamType());
 	}
 }

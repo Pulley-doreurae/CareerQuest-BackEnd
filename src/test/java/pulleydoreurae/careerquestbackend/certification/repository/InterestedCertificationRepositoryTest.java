@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.certification.domain.ExamType;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.InterestedCertification;
 
@@ -40,7 +39,7 @@ class InterestedCertificationRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").examType(ExamType.FIRST_STAGE).organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
 		certificationRepository.save(certification);
 		InterestedCertification interestedCertification = InterestedCertification.builder().certification(certification).userAccount(userAccount).build();
 		interestedCertificationRepository.save(interestedCertification);
@@ -51,7 +50,6 @@ class InterestedCertificationRepositoryTest {
 		// Then
 		assertEquals(1, result.size());
 		assertEquals("정보처리기사", result.get(0).getCertification().getCertificationName());
-		assertEquals(ExamType.FIRST_STAGE, result.get(0).getCertification().getExamType());
 	}
 
 	@Test
@@ -60,7 +58,7 @@ class InterestedCertificationRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").examType(ExamType.FIRST_STAGE).organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
 		certificationRepository.save(certification);
 		InterestedCertification interestedCertification = InterestedCertification.builder().certification(certification).userAccount(userAccount).build();
 		interestedCertificationRepository.save(interestedCertification);

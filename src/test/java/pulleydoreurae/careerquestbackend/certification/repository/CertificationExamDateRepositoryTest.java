@@ -42,35 +42,35 @@ class CertificationExamDateRepositoryTest {
 	void setUp() { // 기본적인 자격증 정보 저장
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String c_sql1 =
-				"insert into certification(certification_id, certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (200, 1, '정보처리기사', '4년제 졸업', 'FIRST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_id, certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (200, 1, '정보처리기사', '4년제 졸업', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		String c_sql2 =
-				"insert into certification(certification_id, certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (201, 1, '정보처리기사', '4년제 졸업', 'LAST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_id, certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (201, 1, '정보보안기사', '4년제 졸업', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(c_sql1);
 		jdbcTemplate.execute(c_sql2);
 
 		String sql1 =
-				"insert into certification_exam_date(certification_id, exam_round, exam_date, created_at, modified_at) "
-						+ "values (200, 1234, '2024-01-10','2024-01-01','2024-01-01')";
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (200, 'FIRST_STAGE', 1234, '2024-01-10','2024-01-01','2024-01-01')";
 
 		String sql2 =
-				"insert into certification_exam_date(certification_id, exam_round, exam_date, created_at, modified_at) "
-						+ "values (200, 1234, '2024-01-11','2024-01-01','2024-01-01')";
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (200, 'FIRST_STAGE', 1234, '2024-01-11','2024-01-01','2024-01-01')";
 
 		String sql3 =
-				"insert into certification_exam_date(certification_id, exam_round, exam_date, created_at, modified_at) "
-						+ "values (200, 1234, '2024-01-12','2024-01-01','2024-01-01')";
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (200, 'FIRST_STAGE', 1234, '2024-01-12','2024-01-01','2024-01-01')";
 
 		String sql4 =
-				"insert into certification_exam_date(certification_id, exam_round, exam_date, created_at, modified_at) "
-						+ "values (201, 1234, '2024-05-10','2024-01-01','2024-01-01')";
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (201, 'FIRST_STAGE', 1234, '2024-1-11','2024-01-01','2024-01-01')";
 
 		String sql5 =
-				"insert into certification_exam_date(certification_id, exam_round, exam_date, created_at, modified_at) "
-						+ "values (201, 1234, '2024-01-11','2024-01-01','2024-01-01')";
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (201, 'LAST_STAGE', 1234, '2024-05-10','2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(sql1);
 		jdbcTemplate.execute(sql2);
@@ -88,7 +88,7 @@ class CertificationExamDateRepositoryTest {
 		List<CertificationExamDate> result1 = certificationExamDateRepository.findByNameAndExamRoundAndExamType(
 				"정보처리기사", 1234L, ExamType.FIRST_STAGE);
 		List<CertificationExamDate> result2 = certificationExamDateRepository.findByNameAndExamRoundAndExamType(
-				"정보처리기사", 1234L, ExamType.LAST_STAGE);
+				"정보보안기사", 1234L, ExamType.LAST_STAGE);
 
 		// Then
 		assertEquals(certificationRepository.findById(200L).get(), result1.get(0).getCertification());
@@ -97,7 +97,7 @@ class CertificationExamDateRepositoryTest {
 		assertEquals(LocalDate.of(2024, 1, 11), result1.get(1).getExamDate());
 		assertEquals(LocalDate.of(2024, 1, 12), result1.get(2).getExamDate());
 		assertEquals(certificationRepository.findById(201L).get(), result2.get(0).getCertification());
-		assertEquals(2, result2.size());
+		assertEquals(1, result2.size());
 		assertEquals(LocalDate.of(2024, 5, 10), result2.get(0).getExamDate());
 
 	}
@@ -112,8 +112,7 @@ class CertificationExamDateRepositoryTest {
 
 		// Then
 		assertEquals(2, result.size());
-		assertEquals("정보처리기사", result.get(0).getCertification().getCertificationName());
-		assertEquals(ExamType.FIRST_STAGE, result.get(0).getCertification().getExamType());
-		assertEquals(ExamType.LAST_STAGE, result.get(1).getCertification().getExamType());
+		assertEquals(ExamType.FIRST_STAGE, result.get(0).getExamType());
+		assertEquals(ExamType.FIRST_STAGE, result.get(1).getExamType());
 	}
 }

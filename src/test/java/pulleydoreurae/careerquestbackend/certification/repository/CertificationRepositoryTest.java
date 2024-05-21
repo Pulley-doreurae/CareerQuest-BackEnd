@@ -2,8 +2,6 @@ package pulleydoreurae.careerquestbackend.certification.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,24 +35,24 @@ class CertificationRepositoryTest {
 	void setUp() { // 기본적인 자격증 정보 저장
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String sql1 =
-				"insert into certification(certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (1, '정보처리기사', '4년제 졸업', 'FIRST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (1, '정보처리기사', '4년제 졸업', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		String sql2 =
-				"insert into certification(certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (1, '정보처리기사', '4년제 졸업', 'LAST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (2, '정보처리산업기사', '2년제 졸업', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		String sql3 =
-				"insert into certification(certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (2, '정보보안기사', '4년제 졸업', 'FIRST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (3, '정보보안기사', '4년제 졸업', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		String sql4 =
-				"insert into certification(certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (2, '정보보안기사', '4년제 졸업', 'LAST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (4, '정보보안산업기사', '2년제 졸업', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		String sql5 =
-				"insert into certification(certification_code, certification_name, qualification, exam_type, organizer, registration_link, ai_summary, created_at, modified_at) "
-						+ "values (3, '정보처리산업기사', '2년제 졸업', 'FIRST_STAGE', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
+				"insert into certification(certification_code, certification_name, qualification, organizer, registration_link, ai_summary, created_at, modified_at) "
+						+ "values (5, '정보처리기능사', '무관', '한국산업인력공단', 'https://www.hrdkorea.or.kr/', 'AI요약내용입니다. ~~~', '2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(sql1);
 		jdbcTemplate.execute(sql2);
@@ -69,11 +67,10 @@ class CertificationRepositoryTest {
 		// Given
 
 		// When
-		List<Certification> result = certificationRepository.findAllByCertificationCode(1L);
+		Certification result = certificationRepository.findAllByCertificationCode(1L).get();
 
 		// Then
-		assertEquals(2, result.size());
-		assertEquals("정보처리기사", result.get(0).getCertificationName());
+		assertEquals("정보처리기사", result.getCertificationName());
 	}
 
 	@Test
@@ -82,10 +79,9 @@ class CertificationRepositoryTest {
 		// Given
 
 		// When
-		List<Certification> result = certificationRepository.findAllByCertificationName("정보처리기사");
+		Certification result = certificationRepository.findAllByCertificationName("정보처리기사").get();
 
 		// Then
-		assertEquals(2, result.size());
-		assertEquals(1L, result.get(0).getCertificationCode());
+		assertEquals(1L, result.getCertificationCode());
 	}
 }

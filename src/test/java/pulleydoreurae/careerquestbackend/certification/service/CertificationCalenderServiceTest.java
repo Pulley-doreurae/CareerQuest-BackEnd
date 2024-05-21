@@ -41,29 +41,27 @@ class CertificationCalenderServiceTest {
 	@DisplayName("날짜로 자격증정보 찾아오기")
 	void findByDateTest(){
 		// Given
-		Certification certification1 = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").examType(ExamType.FIRST_STAGE).organizer("A").registrationLink("Link").AiSummary("Summary").build();
-		Certification certification2 = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").examType(ExamType.LAST_STAGE).organizer("A").registrationLink("Link").AiSummary("Summary").build();
-		Certification certification3 = Certification.builder().certificationCode(2L).certificationName("정보보안기사").Qualification("고졸").examType(ExamType.FIRST_STAGE).organizer("A").registrationLink("Link").AiSummary("Summary").build();
-		Certification certification4 = Certification.builder().certificationCode(2L).certificationName("정보보안기사").Qualification("고졸").examType(ExamType.LAST_STAGE).organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification1 = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification2 = Certification.builder().certificationCode(2L).certificationName("정보보안기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
 
 		given(certificationRegistrationPeriodRepository.findByDate(LocalDate.of(2000, 2, 3)))
 				.willReturn(List.of(
-						CertificationRegistrationPeriod.builder().certification(certification1).examRound(1L).startDate(
+						CertificationRegistrationPeriod.builder().certification(certification1).examType(ExamType.FIRST_STAGE).examRound(1L).startDate(
 								LocalDate.of(2000, 1, 1)).endDate(LocalDate.of(2000, 2, 20)).build(),
-						CertificationRegistrationPeriod.builder().certification(certification2).examRound(1L).startDate(
+						CertificationRegistrationPeriod.builder().certification(certification1).examType(ExamType.LAST_STAGE).examRound(1L).startDate(
 								LocalDate.of(2000, 1, 20)).endDate(LocalDate.of(2000, 3, 31)).build(),
-						CertificationRegistrationPeriod.builder().certification(certification3).examRound(1L).startDate(
+						CertificationRegistrationPeriod.builder().certification(certification2).examType(ExamType.FIRST_STAGE).examRound(1L).startDate(
 								LocalDate.of(2000, 2, 1)).endDate(LocalDate.of(2000, 2, 13)).build(),
-						CertificationRegistrationPeriod.builder().certification(certification4).examRound(1L).startDate(
+						CertificationRegistrationPeriod.builder().certification(certification2).examType(ExamType.LAST_STAGE).examRound(1L).startDate(
 								LocalDate.of(2000, 1, 30)).endDate(LocalDate.of(2000, 2, 21)).build()
 				));
 
 		given(certificationExamDateRepository.findByDate(LocalDate.of(2000, 2, 3)))
 				.willReturn(List.of(
-						CertificationExamDate.builder().certification(certification1).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build(),
-						CertificationExamDate.builder().certification(certification2).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build(),
-						CertificationExamDate.builder().certification(certification3).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build(),
-						CertificationExamDate.builder().certification(certification4).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build()
+						CertificationExamDate.builder().certification(certification1).examType(ExamType.FIRST_STAGE).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build(),
+						CertificationExamDate.builder().certification(certification1).examType(ExamType.LAST_STAGE).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build(),
+						CertificationExamDate.builder().certification(certification2).examType(ExamType.FIRST_STAGE).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build(),
+						CertificationExamDate.builder().certification(certification2).examType(ExamType.LAST_STAGE).examRound(1L).examDate(LocalDate.of(2000, 2, 3)).build()
 				));
 
 		// When
