@@ -2,8 +2,6 @@ package pulleydoreurae.careerquestbackend.certification.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pulleydoreurae.careerquestbackend.certification.domain.ExamType;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 
 /**
@@ -40,8 +37,6 @@ public class Certification extends BaseEntity {
 
 	@Column(nullable = false)
 	private String Qualification; // 응시자격
-	@Enumerated(value = EnumType.STRING)
-	private ExamType examType; // 시험 구분 (필기, 실기)
 
 	@Column(nullable = false)
 	private String organizer; // 주관처
