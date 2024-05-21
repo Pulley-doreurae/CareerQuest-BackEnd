@@ -59,7 +59,7 @@ public class CertificationCalenderService {
 		periods.forEach((period) -> {
 			Certification certification = period.getCertification();
 			CertificationPeriodResponse periodResponse = new CertificationPeriodResponse(
-					certification.getCertificationName(), certification.getExamType(), period.getExamRound(),
+					certification.getCertificationName(), period.getExamType(), period.getExamRound(),
 					period.getStartDate(), period.getEndDate());
 
 			response.getPeriodResponse().add(periodResponse);
@@ -76,7 +76,7 @@ public class CertificationCalenderService {
 		examDates.forEach((examDate) -> {
 			Certification certification = examDate.getCertification();
 			CertificationExamDateResponse examResponse = new CertificationExamDateResponse(
-					certification.getCertificationName(), certification.getExamType(), examDate.getExamRound(),
+					certification.getCertificationName(), examDate.getExamType(), examDate.getExamRound(),
 					examDate.getExamDate());
 
 			response.getExamDateResponses().add(examResponse);

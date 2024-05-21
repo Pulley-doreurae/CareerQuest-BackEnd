@@ -1,6 +1,6 @@
 package pulleydoreurae.careerquestbackend.certification.repository;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,7 +13,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.Certificati
  * @since : 2024/05/18
  */
 public interface CertificationRepository extends JpaRepository<Certification, Long> {
-	List<Certification> findAllByCertificationCode(Long code);
+	Optional<Certification> findAllByCertificationCode(Long code);
 
-	List<Certification> findAllByCertificationName(String name);
+	Optional<Certification> findAllByCertificationName(String name);
 }

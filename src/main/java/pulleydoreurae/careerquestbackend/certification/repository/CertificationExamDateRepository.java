@@ -17,7 +17,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.Certificati
  */
 public interface CertificationExamDateRepository extends JpaRepository<CertificationExamDate, Long> {
 
-	@Query("select ced from CertificationExamDate ced join ced.certification c where c.certificationName = :name and ced.examRound = :examRound and c.examType = :examType")
+	@Query("select ced from CertificationExamDate ced join ced.certification c where c.certificationName = :name and ced.examRound = :examRound and ced.examType = :examType")
 	List<CertificationExamDate> findByNameAndExamRoundAndExamType(String name, Long examRound, ExamType examType);
 
 	@Query("select ced from CertificationExamDate ced where ced.examDate = :date")
