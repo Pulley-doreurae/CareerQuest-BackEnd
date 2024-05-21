@@ -13,7 +13,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.Certificati
  * @since : 2024/05/18
  */
 public interface CertificationRepository extends JpaRepository<Certification, Long> {
-	Optional<Certification> findAllByCertificationCode(Long code);
+	Optional<Certification> findByCertificationCode(Long code);
 
-	Optional<Certification> findAllByCertificationName(String name);
+	Optional<Certification> findByCertificationName(String name);
 }

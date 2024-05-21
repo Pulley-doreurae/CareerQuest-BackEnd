@@ -67,7 +67,7 @@ class CertificationRepositoryTest {
 		// Given
 
 		// When
-		Certification result = certificationRepository.findAllByCertificationCode(1L).get();
+		Certification result = certificationRepository.findByCertificationCode(1L).get();
 
 		// Then
 		assertEquals("정보처리기사", result.getCertificationName());
@@ -79,7 +79,7 @@ class CertificationRepositoryTest {
 		// Given
 
 		// When
-		Certification result = certificationRepository.findAllByCertificationName("정보처리기사").get();
+		Certification result = certificationRepository.findByCertificationName("정보처리기사").get();
 
 		// Then
 		assertEquals(1L, result.getCertificationCode());
