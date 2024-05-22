@@ -41,8 +41,8 @@ class CertificationCalenderServiceTest {
 	@DisplayName("날짜로 자격증정보 찾아오기")
 	void findByDateTest(){
 		// Given
-		Certification certification1 = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
-		Certification certification2 = Certification.builder().certificationCode(2L).certificationName("정보보안기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification1 = Certification.builder().certificationCode(1L).certificationName("정보처리기사").qualification("고졸").organizer("A").registrationLink("Link").aiSummary("Summary").build();
+		Certification certification2 = Certification.builder().certificationCode(2L).certificationName("정보보안기사").qualification("고졸").organizer("A").registrationLink("Link").aiSummary("Summary").build();
 
 		given(certificationRegistrationPeriodRepository.findByDate(LocalDate.of(2000, 2, 3)))
 				.willReturn(List.of(

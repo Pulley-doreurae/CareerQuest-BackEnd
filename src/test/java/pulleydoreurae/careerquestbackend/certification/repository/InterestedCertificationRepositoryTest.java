@@ -39,7 +39,7 @@ class InterestedCertificationRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").qualification("고졸").organizer("A").registrationLink("Link").aiSummary("Summary").build();
 		certificationRepository.save(certification);
 		InterestedCertification interestedCertification = InterestedCertification.builder().certification(certification).userAccount(userAccount).build();
 		interestedCertificationRepository.save(interestedCertification);
@@ -58,7 +58,7 @@ class InterestedCertificationRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").qualification("고졸").organizer("A").registrationLink("Link").aiSummary("Summary").build();
 		certificationRepository.save(certification);
 		InterestedCertification interestedCertification = InterestedCertification.builder().certification(certification).userAccount(userAccount).build();
 		interestedCertificationRepository.save(interestedCertification);

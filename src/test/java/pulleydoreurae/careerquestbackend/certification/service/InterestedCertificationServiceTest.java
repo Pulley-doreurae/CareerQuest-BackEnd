@@ -44,7 +44,7 @@ class InterestedCertificationServiceTest {
 	void findAllByUserIdTest() {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").qualification("고졸").organizer("A").registrationLink("Link").aiSummary("Summary").build();
 		given(interestedCertificationRepository.findAllByUserId("testId")).willReturn(List.of(InterestedCertification.builder().certification(certification).userAccount(userAccount).build()));
 
 	    // When
@@ -60,7 +60,7 @@ class InterestedCertificationServiceTest {
 	void saveInterestedCertificationTest() {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").qualification("고졸").organizer("A").registrationLink("Link").aiSummary("Summary").build();
 		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(userAccount));
 		given(certificationRepository.findByCertificationName("정보처리기사")).willReturn(Optional.of(certification));
 
@@ -92,7 +92,7 @@ class InterestedCertificationServiceTest {
 	void deleteInterestedCertificationTest2() {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").Qualification("고졸").organizer("A").registrationLink("Link").AiSummary("Summary").build();
+		Certification certification = Certification.builder().certificationCode(1L).certificationName("정보처리기사").qualification("고졸").organizer("A").registrationLink("Link").aiSummary("Summary").build();
 		InterestedCertification interestedCertification = InterestedCertification.builder().userAccount(userAccount).certification(certification).build();
 		given(interestedCertificationRepository.findByUserIdAndCertificationName("testId", "정보처리기사")).willReturn(Optional.ofNullable(interestedCertification));
 

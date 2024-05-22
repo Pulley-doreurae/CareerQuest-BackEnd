@@ -36,10 +36,10 @@ public class Certification extends BaseEntity {
 	private String certificationName; // 자격증명
 
 	@Column(nullable = false)
-	private String Qualification; // 응시자격
+	private String qualification; // 응시자격
 
 	@Column(nullable = false)
 	private String organizer; // 주관처
 	private String registrationLink; // 접수링크
-	private String AiSummary; // AI 요약
+	private String aiSummary; // AI 요약
 }
