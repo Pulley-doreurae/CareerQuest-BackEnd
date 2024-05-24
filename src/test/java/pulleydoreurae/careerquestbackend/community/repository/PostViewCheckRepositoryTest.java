@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
 
 /**
  * @author : parkjihyeok
@@ -30,7 +29,7 @@ class PostViewCheckRepositoryTest {
 		postViewCheckRepository.save(new PostViewCheck(name, 1L));
 
 		// Then
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck result = postViewCheckRepository.findById(name).get();
+		PostViewCheck result = postViewCheckRepository.findById(name).get();
 		assertAll(
 				() -> assertEquals(name, result.getUserId()),
 				() -> assertEquals(1, result.getPostId())
