@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.common.community.domain.dto.request;
+package pulleydoreurae.careerquestbackend.community.domain.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

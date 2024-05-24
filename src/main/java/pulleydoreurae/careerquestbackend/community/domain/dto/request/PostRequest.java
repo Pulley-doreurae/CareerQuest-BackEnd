@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.common.community.domain.dto.request;
+package pulleydoreurae.careerquestbackend.community.domain.dto.request;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 
 /**
  * 게시글 request
@@ -31,7 +32,7 @@ public class PostRequest {
 	private String content; // 내용
 
 	@NotNull(message = "카테고리는 필수입니다.")
-	private Long category; // 카테고리
+	private PostCategory postCategory; // 카테고리
 
 	private List<String> images; // 저장한 사진 파일명을 담은 리스트 (null 가능)
 }

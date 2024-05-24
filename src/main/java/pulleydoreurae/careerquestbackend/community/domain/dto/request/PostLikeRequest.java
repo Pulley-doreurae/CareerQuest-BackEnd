@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.common.community.domain.dto.request;
+package pulleydoreurae.careerquestbackend.community.domain.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,5 +26,5 @@ public class PostLikeRequest {
 	private Long postId; // 게시글 번호
 
 	@NotNull(message = "좋아요 상태는 null 일 수 없습니다.")
-	private Integer isLiked; // 좋아요 상태 1이면 눌림, 0이면 안눌림
+	private Boolean isLiked; // 좋아요 상태 ture -> O, false -> X
 }

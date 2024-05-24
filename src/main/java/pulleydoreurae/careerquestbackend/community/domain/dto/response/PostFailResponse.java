@@ -1,10 +1,11 @@
-package pulleydoreurae.careerquestbackend.common.community.domain.dto.response;
+package pulleydoreurae.careerquestbackend.community.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 
 /**
  * 게시글 저장, 수정에 실패하면 반환할 dto
@@ -21,6 +22,6 @@ public class PostFailResponse {
 
 	private String title;
 	private String content;
-	private Long category;
+	private PostCategory postCategory;
 	private String[] errors;
 }
