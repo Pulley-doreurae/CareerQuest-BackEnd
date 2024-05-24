@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
@@ -36,6 +37,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostViewChe
  * @since : 2024/04/11
  */
 @Slf4j
+@RequiredArgsConstructor
 public abstract class CommonCommunityService {
 
 	@Value("${IMAGES_PATH}")
@@ -47,17 +49,6 @@ public abstract class CommonCommunityService {
 	private final CommentRepository commentRepository;
 	private final PostLikeRepository postLikeRepository;
 	private final PostImageRepository postImageRepository;
-
-	public CommonCommunityService(PostRepository postRepository, UserAccountRepository userAccountRepository,
-			PostViewCheckRepository postViewCheckRepository, CommentRepository commentRepository,
-			PostLikeRepository postLikeRepository, PostImageRepository postImageRepository) {
-		this.postRepository = postRepository;
-		this.userAccountRepository = userAccountRepository;
-		this.postViewCheckRepository = postViewCheckRepository;
-		this.commentRepository = commentRepository;
-		this.postLikeRepository = postLikeRepository;
-		this.postImageRepository = postImageRepository;
-	}
 
 	/**
 	 * 게시글 Entity -> 게시글 Response 변환 메서드
@@ -75,7 +66,8 @@ public abstract class CommonCommunityService {
 				.view(post.getView())
 				.commentCount(countComment(post.getId()))
 				.postLikeCount(countPostLike(post.getId()))
-				.category(post.getCategory())
+				.postCategory(post.getPostCategory())
+				.certificationName(post.getCertificationName())
 				.isLiked(isLiked)
 				.createdAt(post.getCreatedAt())
 				.modifiedAt(post.getModifiedAt())

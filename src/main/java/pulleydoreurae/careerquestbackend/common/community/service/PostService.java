@@ -16,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
@@ -38,8 +40,10 @@ import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
  * @since : 2024/03/28
  */
 @Slf4j
+@RequiredArgsConstructor
 public abstract class PostService {
 
+	// 구현체에서 @Qualifier 로 원하는 빈 주입하기
 	private final PostRepository postRepository;
 	private final CommonCommunityService commonCommunityService;
 	private final PostLikeRepository postLikeRepository;
@@ -49,18 +53,6 @@ public abstract class PostService {
 
 	@Value("${IMAGES_SAVE_PATH}")
 	protected String IMAGES_SAVE_PATH;
-
-	// 구현체에서 @Qualifier 로 원하는 빈 주입하기
-	public PostService(PostRepository postRepository, CommonCommunityService commonCommunityService,
-			PostLikeRepository postLikeRepository, PostViewCheckRepository postViewCheckRepository,
-			PostImageRepository postImageRepository, FileManagementService fileManagementService) {
-		this.postRepository = postRepository;
-		this.commonCommunityService = commonCommunityService;
-		this.postLikeRepository = postLikeRepository;
-		this.postViewCheckRepository = postViewCheckRepository;
-		this.postImageRepository = postImageRepository;
-		this.fileManagementService = fileManagementService;
-	}
 
 	/**
 	 * 게시글 리스트를 불러오는 메서드
@@ -75,14 +67,14 @@ public abstract class PostService {
 	/**
 	 * 게시글의 카테고리로 리스트를 불러오는 메서드
 	 *
-	 * @param category 카테고리 번호
+	 * @param postCategory 카테고리 번호
 	 * @param pageable 페이지
 	 * @return 카테고리에 맞는 리스트 반환
 	 */
-	public List<PostResponse> getPostResponseListByCategory(Long category, Pageable pageable) {
+	public List<PostResponse> getPostResponseListByCategory(PostCategory postCategory, Pageable pageable) {
 
 		return commonCommunityService.postListToPostResponseList(
-				postRepository.findAllByCategoryOrderByIdDesc(category, pageable));
+				postRepository.findAllByPostCategoryOrderByIdDesc(postCategory, pageable));
 	}
 
 	/**
@@ -103,21 +95,21 @@ public abstract class PostService {
 	 * 게시글 검색 메서드
 	 *
 	 * @param keyword  키워드
-	 * @param category 카테고리 (필수값 X)
+	 * @param postCategory 카테고리 (필수값 X)
 	 * @param pageable 페이지
 	 * @return 검색결과
 	 */
-	public List<PostResponse> searchPosts(String keyword, Long category, Pageable pageable) {
+	public List<PostResponse> searchPosts(String keyword, PostCategory postCategory, Pageable pageable) {
 
 		// 카테고리 없이 전체 검색
-		if (category == null) {
+		if (postCategory == null) {
 			return commonCommunityService.postListToPostResponseList(
 					postRepository.searchByKeyword(keyword, pageable));
 		}
 
 		// 카테고리 포함 검색
 		return commonCommunityService.postListToPostResponseList(
-				postRepository.searchByKeywordAndCategory(keyword, category, pageable));
+				postRepository.searchByKeywordAndCategory(keyword, postCategory, pageable));
 	}
 
 	/**

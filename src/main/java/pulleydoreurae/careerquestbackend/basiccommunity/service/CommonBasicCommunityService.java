@@ -45,7 +45,7 @@ public class CommonBasicCommunityService extends CommonCommunityService {
 				.userAccount(user)
 				.title(postRequest.getTitle())
 				.content(postRequest.getContent())
-				.category(postRequest.getCategory())
+				.postCategory(postRequest.getPostCategory())
 				.view(0L)
 				.build();
 	}
@@ -66,7 +66,7 @@ public class CommonBasicCommunityService extends CommonCommunityService {
 				.userAccount(user)
 				.title(postRequest.getTitle())
 				.content(postRequest.getContent())
-				.category(postRequest.getCategory())
+				.postCategory(postRequest.getPostCategory())
 				.view(post.getView()) // 조회수도 유지
 				.comments(post.getComments()) // 댓글 리스트도 유지
 				.postLikes(post.getPostLikes()) // 좋아요 리스트도 유지
