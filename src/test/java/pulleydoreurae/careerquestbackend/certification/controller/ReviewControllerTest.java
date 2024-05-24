@@ -16,10 +16,11 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -28,9 +29,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.certification.domain.dto.ReviewRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.common.community.service.PostService;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.ReviewResponse;
+import pulleydoreurae.careerquestbackend.certification.service.ReviewService;
 
 /**
  * 자격증 컨트롤러 테스트
@@ -38,53 +38,114 @@ import pulleydoreurae.careerquestbackend.common.community.service.PostService;
  * @author : parkjihyeok
  * @since : 2024/05/13
  */
-@WebMvcTest(CertificationReviewController.class)
+@WebMvcTest(ReviewController.class)
 @AutoConfigureRestDocs
-class CertificationReviewControllerTest {
+class ReviewControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
 	@MockBean
-	@Qualifier("certificationReviewService")
-	PostService postService;
+	ReviewService reviewService;
 	Gson gson = new Gson();
 
 	@Test
 	@DisplayName("자격증 후기 리스트 조회 테스트")
 	@WithMockUser
-	void getPostListTest() throws Exception {
+	void getReviewListTest() throws Exception {
 		// Given
-		PostResponse post1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").category(1L).view(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review1 = ReviewResponse.builder()
+				.userId("testId").title("제목1").content("내용1").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").category(1L).view(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review2 = ReviewResponse.builder()
+				.userId("testId").title("제목2").content("내용2").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").category(1L).view(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review3 = ReviewResponse.builder()
+				.userId("testId").title("제목3").content("내용3").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").category(1L).view(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review4 = ReviewResponse.builder()
+				.userId("testId").title("제목4").content("내용4").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").category(1L).view(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review5 = ReviewResponse.builder()
+				.userId("testId").title("제목5").content("내용5").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(postService.getPostResponseListByCategory(any(), any())).willReturn(
-				List.of(post1, post2, post3, post4, post5));
+		given(reviewService.getPostResponseList(any())).willReturn(
+				List.of(review1, review2, review3, review4, review5));
 
 		// When
 		mockMvc.perform(
-						get("/api/certifications/{certificationId}/reviews", 1)
+						get("/api/certifications/reviews", 1)
+								.queryParam("page", "0")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						queryParameters(
+								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
+						),
+						responseFields(
+								fieldWithPath("[].userId").description("후기 작성자"),
+								fieldWithPath("[].title").description("제목"),
+								fieldWithPath("[].content").description("내용"),
+								fieldWithPath("[].certificationName").description("자격증이름"),
+								fieldWithPath("[].view").description("조회수"),
+								fieldWithPath("[].postLikeCount").description("좋아요 수"),
+								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
+								fieldWithPath("[].createdAt").description("작성일자"),
+								fieldWithPath("[].modifiedAt").description("수정일자")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("자격증 후기 리스트 자격증명으로 조회 테스트")
+	@WithMockUser
+	void getReviewListByCertificationNameTest() throws Exception {
+		// Given
+		ReviewResponse review1 = ReviewResponse.builder()
+				.userId("testId").title("제목1").content("내용1").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		ReviewResponse review2 = ReviewResponse.builder()
+				.userId("testId").title("제목2").content("내용2").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		ReviewResponse review3 = ReviewResponse.builder()
+				.userId("testId").title("제목3").content("내용3").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		ReviewResponse review4 = ReviewResponse.builder()
+				.userId("testId").title("제목4").content("내용4").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		ReviewResponse review5 = ReviewResponse.builder()
+				.userId("testId").title("제목5").content("내용5").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		Pageable pageable = PageRequest.of(0, 15);
+		given(reviewService.getReviewResponseListByCertificationName("정보처리기사", pageable)).willReturn(
+				List.of(review1, review2, review3, review4, review5));
+
+		// When
+		mockMvc.perform(
+						get("/api/certifications/reviews/{certificationName}", "정보처리기사")
 								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
@@ -93,19 +154,17 @@ class CertificationReviewControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						pathParameters(
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)")
+								parameterWithName("certificationName").description("자격증이름")
 						),
 						queryParameters(
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
 						responseFields(
-								fieldWithPath("[].userId").description("게시글 작성자"),
+								fieldWithPath("[].userId").description("후기 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
-								fieldWithPath("[].images").description("사진 리스트 (자격증 후기이므로 null전달)"),
-								fieldWithPath("[].category").description("카테고리 (자격증 정보를 나타냄)"),
+								fieldWithPath("[].certificationName").description("자격증이름"),
 								fieldWithPath("[].view").description("조회수"),
-								fieldWithPath("[].commentCount").description("댓글 수 (자격증 후기이므로 null전달)"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
 								fieldWithPath("[].createdAt").description("작성일자"),
@@ -118,15 +177,15 @@ class CertificationReviewControllerTest {
 	@Test
 	@DisplayName("자격증 후기 저장 테스트 (실패)")
 	@WithMockUser
-	void savePostFailTest() throws Exception {
+	void saveReviewFailTest() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "제목", "내용");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "제목", "내용");
 
-		doThrow(new UsernameNotFoundException("게시글 저장에 실패했습니다.")).when(postService).savePost(any());
+		doThrow(new UsernameNotFoundException("후기 저장에 실패했습니다.")).when(reviewService).saveReview(any());
 
 		// When
 		mockMvc.perform(
-						post("/api/certifications/{certificationId}/reviews", 1)
+						post("/api/certifications/reviews")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -136,13 +195,11 @@ class CertificationReviewControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						pathParameters(
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)")
-						),
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
@@ -154,13 +211,13 @@ class CertificationReviewControllerTest {
 	@Test
 	@DisplayName("자격증 후기 저장 테스트 (성공)")
 	@WithMockUser
-	void savePostSuccessTest() throws Exception {
+	void saveReviewSuccessTest() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "제목", "내용");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "제목", "내용");
 
 		// When
 		mockMvc.perform(
-						post("/api/certifications/{certificationId}/reviews", 1)
+						post("/api/certifications/reviews")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -170,13 +227,11 @@ class CertificationReviewControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						pathParameters(
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)")
-						),
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
@@ -188,15 +243,15 @@ class CertificationReviewControllerTest {
 	@Test
 	@DisplayName("자격증 후기 수정 테스트 (실패)")
 	@WithMockUser
-	void updatePostFailTest() throws Exception {
+	void updateReviewFailTest() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "수정할 제목", "수정할 내용");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "수정할 제목", "수정할 내용");
 
-		given(postService.updatePost(any(), any())).willReturn(false);
+		given(reviewService.updatePost(any(), any())).willReturn(false);
 
 		// When
 		mockMvc.perform(
-						patch("/api/certifications/{certificationId}/reviews/{reviewId}", 1, 100)
+						patch("/api/certifications/reviews/{reviewId}",100)
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -207,13 +262,13 @@ class CertificationReviewControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						pathParameters( // PathVariable 방식
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)"),
 								parameterWithName("reviewId").description("수정할 자격증 후기 id")
 						),
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
@@ -225,15 +280,15 @@ class CertificationReviewControllerTest {
 	@Test
 	@DisplayName("자격증 후기 수정 테스트 (성공)")
 	@WithMockUser
-	void updatePostSuccessTest() throws Exception {
+	void updateReviewSuccessTest() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "수정할 제목", "수정할 내용");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "수정할 제목", "수정할 내용");
 
-		given(postService.updatePost(any(), any())).willReturn(true);
+		given(reviewService.updatePost(any(), any())).willReturn(true);
 
 		// When
 		mockMvc.perform(
-						patch("/api/certifications/{certificationId}/reviews/{reviewId}", 1, 100)
+						patch("/api/certifications/reviews/{reviewId}", 1, 100)
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
@@ -244,13 +299,13 @@ class CertificationReviewControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						pathParameters( // PathVariable 방식
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)"),
 								parameterWithName("reviewId").description("수정할 자격증 후기 id")
 						),
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("msg").description("요청에 대한 처리 결과")
@@ -262,13 +317,13 @@ class CertificationReviewControllerTest {
 	@Test
 	@DisplayName("자격증 후기 삭제 테스트 (실패)")
 	@WithMockUser
-	void deletePostFailTest() throws Exception {
+	void deleteReviewFailTest() throws Exception {
 		// Given
-		given(postService.deletePost(any(), any())).willReturn(false);
+		given(reviewService.deleteReview(any(), any())).willReturn(false);
 
 		// When
 		mockMvc.perform(
-						delete("/api/certifications/{postId}", 100)
+						delete("/api/certifications/reviews/{postId}", 100)
 								.with(csrf())
 								.queryParam("userId", "testId"))
 				.andExpect(status().isBadRequest())
@@ -293,13 +348,13 @@ class CertificationReviewControllerTest {
 	@Test
 	@DisplayName("자격증 후기 삭제 테스트 (성공)")
 	@WithMockUser
-	void deletePostSuccessTest() throws Exception {
+	void deleteReviewSuccessTest() throws Exception {
 		// Given
-		given(postService.deletePost(any(), any())).willReturn(true);
+		given(reviewService.deleteReview(any(), any())).willReturn(true);
 
 		// When
 		mockMvc.perform(
-						delete("/api/certifications/{postId}", 100)
+						delete("/api/certifications/reviews/{postId}", 100)
 								.with(csrf())
 								.queryParam("userId", "testId"))
 				.andExpect(status().isOk())
@@ -309,7 +364,7 @@ class CertificationReviewControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						pathParameters( // PathVariable 방식
-								parameterWithName("postId").description("삭제할 게시글 id")
+								parameterWithName("postId").description("삭제할 후기 id")
 						),
 						queryParameters( // 쿼리파라미터
 								parameterWithName("userId").description("작성자 id")
@@ -322,37 +377,37 @@ class CertificationReviewControllerTest {
 	}
 
 	@Test
-	@DisplayName("한 사용자가 작성한 게시글 리스트 조회 테스트")
+	@DisplayName("한 사용자가 작성한 후기 리스트 조회 테스트")
 	@WithMockUser
-	void getPostListByUserAccountTest() throws Exception {
+	void getReviewListByUserAccountTest() throws Exception {
 		// Given
-		PostResponse post1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").category(1L).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review1 = ReviewResponse.builder()
+				.userId("testId").title("제목1").content("내용1").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").category(1L).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review2 = ReviewResponse.builder()
+				.userId("testId").title("제목2").content("내용2").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").category(1L).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review3 = ReviewResponse.builder()
+				.userId("testId").title("제목3").content("내용3").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").category(1L).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review4 = ReviewResponse.builder()
+				.userId("testId").title("제목4").content("내용4").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		PostResponse post5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").category(1L).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+		ReviewResponse review5 = ReviewResponse.builder()
+				.userId("testId").title("제목5").content("내용5").certificationName("정보처리기사").view(0L).postLikeCount(0L)
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(postService.getPostListByUserAccount(any(), any()))
-				.willReturn(List.of(post1, post2, post3, post4, post5));
+		given(reviewService.getReviewListByUserAccount(any(), any()))
+				.willReturn(List.of(review1, review2, review3, review4, review5));
 
 		// When
 		mockMvc.perform(
@@ -371,13 +426,11 @@ class CertificationReviewControllerTest {
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
 						responseFields(
-								fieldWithPath("[].userId").description("게시글 작성자"),
+								fieldWithPath("[].userId").description("후기 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
-								fieldWithPath("[].images").description("사진 리스트 (자격증 후기이므로 null전달)"),
-								fieldWithPath("[].category").description("카테고리 (자격증 정보를 나타냄)"),
+								fieldWithPath("[].certificationName").description("자격증이름"),
 								fieldWithPath("[].view").description("조회수"),
-								fieldWithPath("[].commentCount").description("댓글 수 (자격증 후기이므로 null전달)"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
 								fieldWithPath("[].isLiked").description("좋아요 상태 (리스트에선 상관 X)"),
 								fieldWithPath("[].createdAt").description("작성일자"),
@@ -388,22 +441,22 @@ class CertificationReviewControllerTest {
 	}
 
 	@Test
-	@DisplayName("게시글 작성 테스트 (검증 실패 - userId 없음)")
+	@DisplayName("후기 작성 테스트 (검증 실패 - userId 없음)")
 	@WithMockUser
-	void savePostValidFail1Test() throws Exception {
+	void saveReviewValidFail1Test() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("", "제목", "내용");
+		ReviewRequest request = new ReviewRequest("", "정보처리기사", "제목", "내용");
 
 		// When
 		mockMvc.perform(
-						post("/api/certifications/{certificationId}/reviews", 1)
+						post("/api/certifications/reviews")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
-				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.certificationName").exists())
 				.andExpect(jsonPath("$.errors").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
@@ -412,12 +465,13 @@ class CertificationReviewControllerTest {
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("title").description("요청한 제목"),
 								fieldWithPath("content").description("요청한 내용"),
-								fieldWithPath("category").description("요청한 카테고리 (자격증 id 정보)"),
+								fieldWithPath("certificationName").description("요청한 자격증이름"),
 								fieldWithPath("errors").description("요청에 대한 검증 결과")
 						)));
 
@@ -425,22 +479,22 @@ class CertificationReviewControllerTest {
 	}
 
 	@Test
-	@DisplayName("게시글 작성 테스트 (검증 실패 - 제목 없음)")
+	@DisplayName("후기 작성 테스트 (검증 실패 - 제목 없음)")
 	@WithMockUser
-	void savePostValidFail2Test() throws Exception {
+	void saveReviewValidFail2Test() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "", "내용");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "", "내용");
 
 		// When
 		mockMvc.perform(
-						post("/api/certifications/{certificationId}/reviews", 1)
+						post("/api/certifications/reviews")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
-				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.certificationName").exists())
 				.andExpect(jsonPath("$.errors").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
@@ -449,12 +503,13 @@ class CertificationReviewControllerTest {
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("title").description("요청한 제목"),
 								fieldWithPath("content").description("요청한 내용"),
-								fieldWithPath("category").description("요청한 카테고리 (자격증 id 정보)"),
+								fieldWithPath("certificationName").description("요청한 자격증이름"),
 								fieldWithPath("errors").description("요청에 대한 검증 결과")
 						)));
 
@@ -462,22 +517,22 @@ class CertificationReviewControllerTest {
 	}
 
 	@Test
-	@DisplayName("게시글 작성 테스트 (검증 실패 - 내용 없음)")
+	@DisplayName("후기 작성 테스트 (검증 실패 - 내용 없음)")
 	@WithMockUser
-	void savePostValidFail3Test() throws Exception {
+	void saveReviewValidFail3Test() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "제목", "");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "제목", "");
 
 		// When
 		mockMvc.perform(
-						post("/api/certifications/{certificationId}/reviews", 1)
+						post("/api/certifications/reviews")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
-				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.certificationName").exists())
 				.andExpect(jsonPath("$.errors").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
@@ -486,12 +541,13 @@ class CertificationReviewControllerTest {
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("title").description("요청한 제목"),
 								fieldWithPath("content").description("요청한 내용"),
-								fieldWithPath("category").description("요청한 카테고리 (자격증 id 정보)"),
+								fieldWithPath("certificationName").description("요청한 자격증이름"),
 								fieldWithPath("errors").description("요청에 대한 검증 결과")
 						)));
 
@@ -499,40 +555,40 @@ class CertificationReviewControllerTest {
 	}
 
 	@Test
-	@DisplayName("게시글 수정 테스트 (검증 실패 - userId 없음)")
+	@DisplayName("후기 수정 테스트 (검증 실패 - userId 없음)")
 	@WithMockUser
-	void updatePostValidFail1Test() throws Exception {
+	void updateReviewValidFail1Test() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("", "제목", "내용");
+		ReviewRequest request = new ReviewRequest("", "정보처리기사", "제목", "내용");
 
 		// When
 		mockMvc.perform(
-						patch("/api/certifications/{certificationId}/reviews/{reviewId}", 1, 100)
+						patch("/api/certifications/reviews/{reviewId}", 1, 100)
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
-				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.certificationName").exists())
 				.andExpect(jsonPath("$.errors").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						pathParameters( // PathVariable 방식
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)"),
 								parameterWithName("reviewId").description("수정할 자격증 후기 id")
 						),
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("title").description("요청한 제목"),
 								fieldWithPath("content").description("요청한 내용"),
-								fieldWithPath("category").description("요청한 카테고리 (자격증 id 정보)"),
+								fieldWithPath("certificationName").description("요청한 자격증이름"),
 								fieldWithPath("errors").description("요청에 대한 검증 결과")
 						)));
 
@@ -540,40 +596,40 @@ class CertificationReviewControllerTest {
 	}
 
 	@Test
-	@DisplayName("게시글 수정 테스트 (검증 실패 - 제목 없음)")
+	@DisplayName("후기 수정 테스트 (검증 실패 - 제목 없음)")
 	@WithMockUser
-	void updatePostValidFail2Test() throws Exception {
+	void updateReviewValidFail2Test() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "", "내용");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "", "내용");
 
 		// When
 		mockMvc.perform(
-						patch("/api/certifications/{certificationId}/reviews/{reviewId}", 1, 100)
+						patch("/api/certifications/reviews/{reviewId}", 1, 100)
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
-				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.certificationName").exists())
 				.andExpect(jsonPath("$.errors").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						pathParameters( // PathVariable 방식
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)"),
 								parameterWithName("reviewId").description("수정할 자격증 후기 id")
 						),
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("title").description("요청한 제목"),
 								fieldWithPath("content").description("요청한 내용"),
-								fieldWithPath("category").description("요청한 카테고리 (자격증 id 정보)"),
+								fieldWithPath("certificationName").description("요청한 자격증이름"),
 								fieldWithPath("errors").description("요청에 대한 검증 결과")
 						)));
 
@@ -581,40 +637,40 @@ class CertificationReviewControllerTest {
 	}
 
 	@Test
-	@DisplayName("게시글 수정 테스트 (검증 실패 - 내용 없음)")
+	@DisplayName("후기 수정 테스트 (검증 실패 - 내용 없음)")
 	@WithMockUser
-	void updatePostValidFail3Test() throws Exception {
+	void updateReviewValidFail3Test() throws Exception {
 		// Given
-		ReviewRequest request = new ReviewRequest("testId", "제목", "");
+		ReviewRequest request = new ReviewRequest("testId", "정보처리기사", "제목", "");
 
 		// When
 		mockMvc.perform(
-						patch("/api/certifications/{certificationId}/reviews/{reviewId}", 1, 100)
+						patch("/api/certifications/reviews/{reviewId}", 100)
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.title").exists())
 				.andExpect(jsonPath("$.content").exists())
-				.andExpect(jsonPath("$.category").exists())
+				.andExpect(jsonPath("$.certificationName").exists())
 				.andExpect(jsonPath("$.errors").exists())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						pathParameters( // PathVariable 방식
-								parameterWithName("certificationId").description("자격증 정보 (자격증 id 번호)"),
 								parameterWithName("reviewId").description("수정할 자격증 후기 id")
 						),
 						requestFields(
 								fieldWithPath("userId").description("작성자 id"),
 								fieldWithPath("title").description("제목"),
-								fieldWithPath("content").description("내용")
+								fieldWithPath("content").description("내용"),
+								fieldWithPath("certificationName").description("자격증이름")
 						),
 						responseFields(
 								fieldWithPath("title").description("요청한 제목"),
 								fieldWithPath("content").description("요청한 내용"),
-								fieldWithPath("category").description("요청한 카테고리 (자격증 id 정보)"),
+								fieldWithPath("certificationName").description("요청한 자격증이름"),
 								fieldWithPath("errors").description("요청에 대한 검증 결과")
 						)));
 
