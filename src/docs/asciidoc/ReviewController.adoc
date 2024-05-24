@@ -1,0 +1,46 @@
+== 자격증 후기 작성 API (ReviewController)
+=== 게시글 리스트 조회
+==== 요청
+operation::review-controller-test/get-review-list-test[snippets="http-request,query-parameters"]
+==== 응답
+operation::review-controller-test/get-review-list-test[snippets="http-response,response-fields"]
+=== 자격증명으로 후기 리스트 조회
+==== 요청
+operation::review-controller-test/get-review-list-by-certification-name-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::review-controller-test/get-review-list-by-certification-name-test[snippets="http-response,response-fields"]
+=== 회원정보로 자격증 후기 리스트 조회
+==== 요청
+operation::review-controller-test/get-review-list-by-user-account-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::review-controller-test/get-review-list-by-user-account-test[snippets="http-response,response-fields"]
+=== 후기 저장 실패
+==== 요청
+operation::review-controller-test/save-review-fail-test[snippets="http-request,request-fields"]
+==== 응답
+operation::review-controller-test/save-review-fail-test[snippets="http-response,response-fields"]
+=== 후기 저장 성공
+==== 요청
+operation::review-controller-test/save-review-success-test[snippets="http-request,request-fields"]
+==== 응답
+operation::review-controller-test/save-review-success-test[snippets="http-response,response-fields"]
+=== 후기 수정 실패
+==== 요청
+operation::review-controller-test/update-review-fail-test[snippets="http-request,path-parameters,request-fields"]
+==== 응답
+operation::review-controller-test/update-review-fail-test[snippets="http-response,response-fields"]
+=== 후기 수정 성공
+==== 요청
+operation::review-controller-test/update-review-success-test[snippets="http-request,path-parameters,request-fields"]
+==== 응답
+operation::review-controller-test/update-review-success-test[snippets="http-response,response-fields"]
+=== 후기 삭제 실패
+==== 요청
+operation::review-controller-test/delete-review-fail-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::review-controller-test/delete-review-fail-test[snippets="http-response,response-fields"]
+=== 후기 삭제 성공
+==== 요청
+operation::review-controller-test/delete-review-success-test[snippets="http-request,path-parameters,query-parameters"]
+==== 응답
+operation::review-controller-test/delete-review-success-test[snippets="http-response,response-fields"]

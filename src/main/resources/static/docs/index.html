@@ -537,7 +537,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_유효한_네이버_인증코드로_네이버서버에_요청할때_정상_요청">유효한 네이버 인증코드로 네이버서버에 요청할때 (정상 요청)</a></li>
 </ul>
 </li>
-<li><a href="#_일반_커뮤니티_게시글_api_basicpostcontroller">일반 커뮤니티 게시글 API (BasicPostController)</a>
+<li><a href="#_커뮤니티_게시글_api_postcontroller">커뮤니티 게시글 API (PostController)</a>
 <ul class="sectlevel2">
 <li><a href="#_게시글_리스트_조회">게시글 리스트 조회</a></li>
 <li><a href="#_게시글_리스트_조회_사진_포함">게시글 리스트 조회 (사진 포함)</a></li>
@@ -558,7 +558,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_게시글_삭제_성공">게시글 삭제 성공</a></li>
 </ul>
 </li>
-<li><a href="#_일반_커뮤니티_댓글_api_basiccommentcontroller">일반 커뮤니티 댓글 API (BasicCommentController)</a>
+<li><a href="#_커뮤니티_댓글_api_commentcontroller">커뮤니티 댓글 API (CommentController)</a>
 <ul class="sectlevel2">
 <li><a href="#_한_사용자가_작성한_댓글_리스트_조회">한 사용자가 작성한 댓글 리스트 조회</a></li>
 <li><a href="#_한_게시글에_달린_댓글_리스트_조회">한 게시글에 달린 댓글 리스트 조회</a></li>
@@ -570,28 +570,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_댓글_삭제_성공">댓글 삭제 (성공)</a></li>
 </ul>
 </li>
-<li><a href="#_일반_커뮤니티_좋아요_api_basicpostlikecontroller">일반 커뮤니티 좋아요 API (BasicPostLikeController)</a>
+<li><a href="#_커뮤니티_좋아요_api_postlikecontroller">커뮤니티 좋아요 API (PostLikeController)</a>
 <ul class="sectlevel2">
-<li><a href="#_좋아요_상태_변경_실패">좋아요 상태 변경 실패</a></li>
 <li><a href="#_좋아요_상태_변경_성공">좋아요 상태 변경 성공</a></li>
 <li><a href="#_한_사용자가_좋아요_누른_게시글_리스트_조회">한 사용자가 좋아요 누른 게시글 리스트 조회</a></li>
 </ul>
 </li>
-<li><a href="#_자격증_후기_작성_api_certificationreviewcontroller">자격증 후기 작성 API (CertificationReviewController)</a>
+<li><a href="#_자격증_후기_작성_api_reviewcontroller">자격증 후기 작성 API (ReviewController)</a>
 <ul class="sectlevel2">
 <li><a href="#_게시글_리스트_조회_2">게시글 리스트 조회</a></li>
+<li><a href="#_자격증명으로_후기_리스트_조회">자격증명으로 후기 리스트 조회</a></li>
 <li><a href="#_회원정보로_자격증_후기_리스트_조회">회원정보로 자격증 후기 리스트 조회</a></li>
-<li><a href="#_게시글_저장_실패_2">게시글 저장 실패</a></li>
-<li><a href="#_게시글_저장_성공_2">게시글 저장 성공</a></li>
-<li><a href="#_게시글_수정_실패_2">게시글 수정 실패</a></li>
-<li><a href="#_게시글_수정_성공_2">게시글 수정 성공</a></li>
-<li><a href="#_게시글_삭제_실패_2">게시글 삭제 실패</a></li>
-<li><a href="#_게시글_삭제_성공_2">게시글 삭제 성공</a></li>
+<li><a href="#_후기_저장_실패">후기 저장 실패</a></li>
+<li><a href="#_후기_저장_성공">후기 저장 성공</a></li>
+<li><a href="#_후기_수정_실패">후기 수정 실패</a></li>
+<li><a href="#_후기_수정_성공">후기 수정 성공</a></li>
+<li><a href="#_후기_삭제_실패">후기 삭제 실패</a></li>
+<li><a href="#_후기_삭제_성공">후기 삭제 성공</a></li>
 </ul>
 </li>
-<li><a href="#_자격증_후기_좋아요_api_certificationreviewlikecontroller">자격증 후기 좋아요 API (CertificationReviewLikeController)</a>
+<li><a href="#_자격증_후기_좋아요_api_reviewlikecontroller">자격증 후기 좋아요 API (ReviewLikeController)</a>
 <ul class="sectlevel2">
-<li><a href="#_좋아요_상태_변경_실패_2">좋아요 상태 변경 실패</a></li>
 <li><a href="#_좋아요_상태_변경_성공_2">좋아요 상태 변경 성공</a></li>
 <li><a href="#_한_사용자가_좋아요_누른_게시글_리스트_조회_2">한 사용자가 좋아요 누른 게시글 리스트 조회</a></li>
 </ul>
@@ -623,7 +622,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=odz9eflrEG6b9mFWmyQKRNrNFjs5Uiq5veX_8N7BYsmipBhVlLqcGJpaIgu2xFBurQk-ce2vO1pdMxiU34DMlb2lAfCVkC1j HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=YU2aviXDQ8VDI4J_yNXDSB3AOJj-8yyPevEkVZRzCgRiOPSHAi7_3EP0cfNuQLodqvj3LSyjFfmfyk-iQsBCMfZHbjNUXZbj HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 186
 Host: localhost:8080
@@ -787,7 +786,7 @@ Content-Length: 212
 <h5 id="_요청_2_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=l1qji94VglHGfa9nqF4er9Syj9YAQkM29wi8yKHydB6LC5JG9DubvL0gtmjrSJ8DnnMqzrGEorRiISAbwWzfq5fCEn29PaQg HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=-u4RG3RH0D2VQpdvD8ex1Lfr0VFeSyn6rdiPDKb7lYtSixOUytpzfRYl5g-4J_QJPuqF7dWI_DBockjXlenuPp6e8LI37XGm HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 186
 Host: localhost:8080
@@ -951,7 +950,7 @@ Content-Length: 212
 <h5 id="_요청_3_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=tUD59Nspz0qdp-MysCAc-tOX_4zc9TLqwNozU22n1iMfrvWxgybAwLhLrCywxNYKhQ0onufx0u64llPH-e1RYFXBtxEozZaJ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=TXIkQrePwGyMEwVASH0f7pDD8TiRwxuTo-BxWNpWPxuER08nKURFddO_9wmhJjUmelAr1qb03Fmloiu-wNgVa79hCCKwI39B HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 186
 Host: localhost:8080
@@ -1115,7 +1114,7 @@ Content-Length: 212
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=V0u64DITzs80Sm3mvCvmqJHtFSm9SqIqMprRJ3ZFEIYHMZPUNnzeglAhr_wZfFyEjQbSnKjUOEjfeJoHVqi1FENyJeRmCPXn HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=Vp6faJ8uspU4SQoTDeeOMu4ESMKHy5PrJ-xqsUe0r5HENAHvYaz7X6cW1qIVLG8ja8q6AY03ZaDh86DGH49ah3bRy6GiVTjW HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 184
 Host: localhost:8080
@@ -1279,7 +1278,7 @@ Content-Length: 223
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=7b1NNebnmuK_-eORb41Y_3pTzL4Q99gH118WxpjU0B7F36wu3I15V4PUqYGSndP3DqBsy0Nl4d92z-kq52gn9q7jtS7yvsgd HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=kMFq4rrs8L5ypL995UoFvpHOrxkCWNqkZEysixSSlHHyjg6-p_hehI_Zw4xfnI9F0Wcx3_Cvgns7PbiJVCrI7yzzoRXBuzrb HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 181
 Host: localhost:8080
@@ -1443,7 +1442,7 @@ Content-Length: 228
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=_bHZG4c1MFycbdtI1Au4XulQgRMzL6H2YVkOKM2cgF5UQc1myoG4L75UVWSxVO4q4CaMPNgxrCoHHpjbA202S_-rs242ePwC HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=Qd9z_2kcYecjasFoEMgc8DR0E5_NIjc3STzwP81sNZWf6DLXJO5ByAstUNcOWacMJOUolgERPqb9FwcaeA_IXqldVqev3VTv HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 180
 Host: localhost:8080
@@ -1607,7 +1606,7 @@ Content-Length: 205
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=w-JNmEjwMNxifbYVmwvTz-d17POQSa_Aezxw76jsPfGeZjdY99F4_CzECeRPRIQiribn_YQUwcqhesntHgRI3p7aW8GpAgRr HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=kfAaGuuBM_v3mG_oVdlvc_plzUSJakpetl5-NvWJPVPPr4TpocMpLd-wVZnaoFvdNvRbFcJS4Ca-Wihzg2dJBZPrCmf9mLKN HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 182
 Host: localhost:8080
@@ -1771,7 +1770,7 @@ Content-Length: 224
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=IUflJfG5uV9go6dh01tqQ-CcFX-_1MIzT2P6Eo38jad5Y5VfFHTQHJTd2mdNwZBV4HZeJ9T_OB2NsaAeLVbNcb-fupEbBa09 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=48GMOPcz7RbGFNEnC15KqDqge8AsIDZgIWHzhwrgaD5AU2q-2vDuXM8FiXLrLOESanN-kFyXVqFKRAdNEwSR42-FWg4hYw6N HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1861,7 +1860,7 @@ Content-Length: 74
 <h5 id="_요청_9_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=9Y9giM9JDHyH-Tn7_duB3zehp91kivYfKCWXWMewf-UAmFy8lOwDu60sO0mqywDMxPa1uVSUirwFuJAyGRanbKKAS9I3rmWM HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=awKXCNovAg5bvi9pXFyYBUbv3Y5A62mhkB2BZDGuGqBGZ5EqXTGga7tJO2p2ixkKaHGsY36K8OwkjVuMoS2wUwiWeJFwVvNI HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1951,7 +1950,7 @@ Content-Length: 77
 <h5 id="_요청_10_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=uzTXa76WGOhLcDe6vUSqQOhtJSKnIMcSGK0PVDS6PqwwH1w5ilbhWtqveYtmFVLcjWmeIdtbCBqRGfY_fZVsN1eDXJ4DfG1d HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=LQj1KK1-3_cdYmfr-24QX-q_AslxaA_xMmpBh8sIKbdPzT2JH27EGZxM7sQwUwONz0MkatiPL_FGWTfcAQxwsvhuGoIuqA6x HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2042,7 +2041,7 @@ Content-Length: 82
 <h5 id="_요청_11_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=QKIUH29qjCOgSFc-DzfaEaMqxDZqEM04gPZW3SImiXIxJLBbecR1KV9SuhONem4LNhruJMYb6Q4OKf4V4sY07xMRuUBSFohi HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=IvnZm88kOzN7n-jnSe2xyV8RrvnxK0iF_1UFLiMIKarVk1hlQcm7oq0RCApWpt_TecCFrz4og8HGG3uox209Sxo-HJntpWFR HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2083,7 +2082,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_요청_12_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=dkLORPpJmdAyuttwWRDKTqRBcUzlZO1-Tuzig_oQRyJCZXAxEiH9cJl9qeMfj-wUPD3-f5wnXC3RUolTL9nbsMogcxEgV0hS HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=FWTaPKIW9kSTfrCKEtExYY3pGAq2LNXKc6szUDDmyfUql82ZcAC7CZcgl3y-HIO6d_wFBbuKNWvVHLHnRJsKNgTVq5RL86mt HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2173,7 +2172,7 @@ Content-Length: 44
 <h5 id="_요청_13_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=xwOoEtWXCSuvBnyNEujt9aFnbmk8T93hZWm7PkTFwB3reZiKpDrLK-WnORKCNUXodsXZwJcDQ1AEdrvMVVyODSL89i-OHKGy HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=z-atY62qSQ0vUDbGJ6RJ6qe7xX9bMvPOWV6BTJjQ1bL-gg0G_4PLUZmafTQCaA7yFol9iJHY6Ec6C8HjPGbndazlsIfI5jxj HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2263,7 +2262,7 @@ Content-Length: 44
 <h5 id="_요청_14_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/%EB%8C%80%EB%B6%84%EB%A5%98?_csrf=qe5meexfdcpcYe7FeamGIQuDXA1lMjcCE8IBZfWQIjIJkTQZnY1UT9hqQvNxVt31ToSyQG3hcTQBBQIvK6M0VMSlFws-91Au HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/%EB%8C%80%EB%B6%84%EB%A5%98?_csrf=V65T7edH1e9OyMDH9w6Yq2UwXIu0MzR17en0nSLw9921NioKbpoyi9dxtNtj8fb1xCOsnl1RcemNCgBYiIvArRPIk-2CAxw9 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2353,7 +2352,7 @@ Content-Length: 76
 <h5 id="_요청_15_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/%EC%A4%91%EB%B6%84%EB%A5%98?_csrf=WGQM_oFFWqfm9NL7nmvFhPmRPZKqp9YuUZotS7orVYdwh42hPgU_x-UgY8bLl-udrEbxsJijEPOew-YDNaJIctsbZeFJ5buX HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/%EC%A4%91%EB%B6%84%EB%A5%98?_csrf=d1cdF3kf_R-lsm_45Sxge77LExpw8QnqZWIeAOqJeWSdiX9QEWB_Lx0uzCiIgVfK1AFUTY_7PnhCwDHHAAd4YYztSFSo7Rpl HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2443,7 +2442,7 @@ Content-Length: 70
 <h5 id="_요청_16_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/%EC%86%8C%EB%B6%84%EB%A5%98?_csrf=1HotNN2MK164T-UBBdvyIkPJ7iVFrckkhNA6vXm8LrBIuQ61shwZALm5HG6Vf4FgNfbGECfxw0dxnv4Jt-ZbixrZSNJ-iD_U HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/%EC%86%8C%EB%B6%84%EB%A5%98?_csrf=I1i_nwqryRkx9es9qMvpyY8mw9SjKnSZGkIHrWR0rNa3RmAOQj7eqzqa8Hocw4lem-bd-ukQ7u2QSxa0KHZmlQYXyeXVJFE_ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2533,7 +2532,7 @@ Content-Length: 77
 <h5 id="_요청_17_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/hi?_csrf=UsASgZZQAdznllO7x4hbu4v2WT8H5TjVBOVsQd3X2EbN3rPAY_J2s_MxMLjKpWON9aVv3-3AdF5khF74MNAOeb_u7nT47dbx HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers/hi?_csrf=zH451iKPpWZElDF246dsWhHck8XD-XcUfhnVW0I7E9gBTFX_-UZYtUbskV9pp1VG14pYPHfpvqTzwUI5TyvhPXAOcu81eWbM HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2622,7 +2621,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=zpLKpS6cVdtV34rHGWdsJQkclRhnvTYJE0htQm6JmxCKQ8uU_vf9kE2kNuh46-vwL0pYQ2h6uCEDjAQkcHlfJA-7_3K_c_72</code></pre>
+userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=7dfNsnu3WFJPzxUGfTk3WvFABlxQ7jEuMT49AoXMbeo8y7cO3rGv0EKAOTZi-yw3ThQDPsEkK2Rn3FADBwkEZ7H-X98I84Bs</code></pre>
 </div>
 </div>
 </div>
@@ -2732,7 +2731,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=VgXtJJKQ0vf0029CBZy-7NSueqZqEgo1y_YGfijgb-YmsXQlYDCMFaf058_ZslZ1MbGK2-SbV8cIc28Y-cExG03QDNZHh0VD</code></pre>
+userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=GGlCq2GxO7dNazx-ehVBju_BoiDd7bksfs4wsbUtwJVV_GQTewwjk1WBWoNgXg1KGDh1toyij0Ht1IEBGK8BgNZP8aM0ywEq</code></pre>
 </div>
 </div>
 </div>
@@ -3015,7 +3014,7 @@ Content-Length: 56
 <h5 id="_요청_22_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=B9MCe3i1sp54oH7d5cAAo4vsMYEAhrkR6PZ2pSV-feaeIXhmPrBhQxmDiqtVwknrg-00m77VHOMy59s8jc5FnRZHGdf_EExW HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=8qU9t6dMHHrBfCNBMAPCIqkkaBXwQ9YzlEiQXHzJqKkJa2Ply8QJ1MJ_fUjsREd1VS72FcsVRSzFIeUeoHzxaBr4y5A4DVvQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -3113,7 +3112,7 @@ Content-Length: 98
 <h5 id="_요청_23_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=LXIEsxVNLYI42Z-Ju2b91ckvjOZZcaosEhEadbSv2fywzs7EHxcxhSR_TOcV7fnoj0vJ5a9Jod47Q8wBIiZ4FIyf7sSE__7w HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=2DsLPSpbF9-tClsQS2AhUf9WRGljO3Xjal4HzoJqvXCXjopp6F1oDExsdb2AbjknfU0VZpxkaQtaXUHOXWY297JYiUL077Na HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -3211,7 +3210,7 @@ Content-Length: 55
 <h5 id="_요청_24_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=jo0jaEJNvc1RYdv1M2XCcz5IjtB31FBQo_2V3Gan37mM5NXd6u8aXCQvj_98U7_AAUj2RFsto-gT4md9l8yivQORuYG61ePp HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=m9Hdxymt0qdJwsxTPL3iJE7J7SCzIcluOfoQjPwoPKlasWhNr7Pp80uYs8Nk8f81C5DWECz8wBiLE_5DXJ4nvM8cX5puhV4o HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -3309,7 +3308,7 @@ Content-Length: 78
 <h5 id="_요청_25_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=xpy3-Vgyg_cYEQfaU91hYP_bI_ssEv-EvGJmXob-mtOD-rhmpf7UnTsLt8A1cDK5N_BVVpnjDpkbI5uphFEAar-drLLgyIhS HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=xsryP1c_znbYZBQcjMcA5gp9Iqu0LKnnhlrgElI-BEjnX3iT__PDB25d_RP1XXIu7uo01zsZD5OCT83K42qEITFfPHCFaRyi HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -3401,7 +3400,7 @@ Content-Length: 98
 <h5 id="_요청_26_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=O53Eo8HBuUr1EuYMBqi9_G6GVwIN5Hubitz9Dfku3SrrarUbXa7xwfTyjX3YI4JuMoWJzQrgemM61Bm26OWfaMEW6hvbUo19 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=nCs1gL2uwZnaN9UDatInSAAUVKSPouWsQOP_doM4Y_k0alpc-B9X5I2b-aH3VecyWf8TfGNxecXslIGBd4bOFbMLVZgFWGNp HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 22
 Host: localhost:8080
@@ -3499,7 +3498,7 @@ Content-Length: 89
 <h5 id="_요청_27_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=woSvZU8Nqwj2vyZtAprBtRxoJmmDXmAJr89tpf8MHEJrW-M49raXBHY-mWnb3kdYO7f11i8LCwu2ZgUkn_Zbl5s6enINbNdc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=6OJv94D7cPO3hBnHGTpPmE-6leD18k98SHbw9QKmTqbFHinwi9QMkbWeFJGat3zwehd7-y3fuIGRxS1ReE-TxmOTLMenehqS HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3589,7 +3588,7 @@ Content-Length: 75
 <h5 id="_요청_28_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=1xixux7N4-GIC9rFZTibCX6mUhxuzMOS3kyXw5gjfQXI8EFn4nqBiXyr0dClMuL8BhWvax2Uf30K9KK_6iqj9_wURTzxwHJX HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=rye5ZyYlwVTscZYOJXgUKtxSkrENyohiiam1T424bDZbYlK_mEGBAh4cpGLBRaI5HFUgGr5rv4g7rupPsMqELriOXAFtVzbb HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3679,7 +3678,7 @@ Content-Length: 95
 <h5 id="_요청_29_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=efK3tMM4qLdpASn_cSWvxLxCiPyUbETVgm0SJyyzJ3ZDXic-QMeGgPoOnNNEOBqbQAib8t53pZ32WiD451wjQR-AQ0F7bB8I HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=osi6OQ9QhcQ6iBL6CbytDuCQPQCXoK3Z4z20iXPfG_GjRsfXx_iNDWw0tvUXvnafPJGZO9KjEDnylJn01FuNsUDqKJXCc_7l HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 70
 Host: localhost:8080
@@ -3776,7 +3775,7 @@ Content-Length: 77
 <h5 id="_요청_30_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=HQixHGeDHApkTnfWvZ8n-W_XEgRvAI2EsyOO-tV2ro7ZYDYyLD2FKF7hJTxJfxW0i7ITzFbiPzxZNuup0UK4mLMVyrq9VVML HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=OnaZPQbr-wUk8ljwf_Cx6-YqftDusjZH9N2ERbWz53DXfpT6XBCrBTLTyGMJwGuVTN2F04VOU-jcgg5qkru0doWE1kaxS6DP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 70
 Host: localhost:8080
@@ -3868,7 +3867,7 @@ Content-Length: 95
 <h5 id="_요청_31_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=j7mLmj4Wlo100BWh91mXOD3DUoDB8dYHUgjo5ELtCQRg-8wDudvp_ApyouhZtnOXwHSjXVimf7inkOEqZm3QgCTbO2EDn_lm HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=Ckri-Q4AiGVNZslQw64Y6eYAisA6R9Vo20d574lcOHD_-uS4OnvTmjozuwdgUa1j-oMsi94zp6EJd7ZFvXNMjbk4WUOZw4fa HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 50
 Host: localhost:8080
@@ -3965,7 +3964,7 @@ Content-Length: 147
 <h5 id="_요청_32_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=32X-jGZt29oDtO78hOBkylXypH0ENhqcbrPOYGnhqDJs_dpV7VGY7wIJ6bgug4rKtc1Q_GHCiUQ8By2xXYf7Bl_VyQoOyL9g HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=C6spF0wsn6VqAqgQR64b_7eVq7SiH8IS80B9cMNfdU2jvy1LP84ccXke-cRHMsokcoMvm9WnhtbAeqY_knUfQaJmRnSTjxxz HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
 Host: localhost:8080
@@ -4062,7 +4061,7 @@ Content-Length: 111
 <h5 id="_요청_33_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=TVSPcM-L5QGga_-722_tVRLxZNUvf4wiEag2E-yT-RU6sawuK2e7RP6y0zGNUp3e7ELZYXTHSbQXSu8PJ5wAJdWgnCQNgJlL HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=mIFr6pj-ivzsE6zKjLfGAQhmoN2bbcxkdG20nS-yh0eyaKVr-rEI3qzPv5nBcsmu7ZryNzFQjeX4C_lJTF6ErU6Lt3CEXJRe HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 56
 Host: localhost:8080
@@ -4166,7 +4165,7 @@ Content-Length: 75
 <h5 id="_요청_34_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=C_NM5u0hltPISkNlXQYfofvhUH9iIBO2wTAYyD3BoFIjIcUKapUohYgZoeLlK3NcaysrkJ7WfUdXFyab8wcrrAyilWsURaQ5 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=qGKAepeNhaduBjm2lLdiI3eSxGf-QaAl8ylLJIGF3bFlG9ilnFC2Q_HstJBDYwnUpppWERKn6V6YcJUIl0x8Hee17YdVIu6d HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 54
 Host: localhost:8080
@@ -4270,7 +4269,7 @@ Content-Length: 90
 <h5 id="_요청_35_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=nj7yvG-3OP-i_TjJQFh8vjWaB_b3ZUblzC4i0JiNBUxaS3kH-g7C3VfVAciPyQn6cnVI21OuKpTFU3XIqkpG4q7oNylqKR8_ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=C_EKfsn0RarOtOkzcId_ffzBNfJ8Lpz6_L12H0XdW2k0HiKAO8A4GvDBJsvj1YwDSapLSMX1GJBIHP3XydxGLHe_alkNfETk HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 41
 Host: localhost:8080
@@ -4330,7 +4329,7 @@ Content-Length: 135
 
 {
   "userId" : "id ",
-  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n삭제 시 비밀번호은 필수입니다.\\n"
+  "msg" : "삭제 시 비밀번호은 필수입니다.\\n아이디는 5자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -4374,7 +4373,7 @@ Content-Length: 135
 <h5 id="_요청_36_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=qrzFwIvoZ8BRMO1odvBJJKg53V4og2GLEfSNFfmVj0UFplapn4739umLV6Z8AtxRQd19R5tb8GZLtVWmcsa5Isvzu3c8nm6d HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=1HhusPHWA1lmZdmF0EuzL3kWEQJqlAXD-M-FaYeZ8Bc_etNr4k1bgsjhNGBLVL-y4WaHFkEkPGAPrDfum_68WeX9kScOTeZc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 56
 Host: localhost:8080
@@ -4478,7 +4477,7 @@ Content-Length: 121
 <h5 id="_요청_37_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=SKLegRglDX6Y21zy8iqoK-uREFPEEFwoEE1TCfjrHkB-znYsK8S74C9HPUq16WzHwwecSt_1PWqlKTkFJS5hap7SfHkcrU4b HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=4BRCkGDvxsmY5cyfPZH-wiCYgWJUificxMX6v0cLvX57MXop0XUnolmN8f610K79CrzK-hb-rFtn65yxov3D2iQ9hUoeVR4b HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -4600,7 +4599,7 @@ Content-Length: 203
 <h5 id="_요청_38_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=qPCoThR_ZXkwRGiN6h1cUqTPFkgRLcQ4ymxSa0cPl_hSmviLkJWdfyUdUx8dcV292DBoa5SpOyokHqIV_QozWyU3r51jo865 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=EfrcnZbtr1XdiSfZuwrEGIqSgGRiwYWbbJqKJg2slb84W77mJ57uqfXflmzwvR7s2CfwKenzrQYD-ea2WK3rRTvKoIsAatvR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -4692,7 +4691,7 @@ Content-Length: 98
 <h5 id="_요청_39_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=jqqrJOXqnGgPJX09H5A7yInfzzEypXQA-X4wdZzsrr4z4qo7u8-ZQoHbpFEiQRleKr0P-ri84lADkRUtn04GTanYy90F0ZIM HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=9IGsaqvroo_RFb5tzumLiCZq9zkYuDhRdOwwGXl029IjvnXdkeCeXZ7fxuv8JYlc-8S_7kRY2lso3Qx8Rd0FLE9BveAQ3U3o HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 22
 Host: localhost:8080
@@ -4790,7 +4789,7 @@ Content-Length: 89
 <h5 id="_요청_40_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=iytqQqd9wDhCX59mSeax257ltASZDXXwySrsk-FX3h7L5TJsu09bcpYfpF5vPvkEfsuF7P_dmT39Pxfd_BPepNNn7CjzgAVb HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=3zX-N5DuK2NLktFL4O2phmpm03ejfYfinysiKFS64vsbVqyE6wfJVPHWHQVm87Mv18CdtwtR_hbAS7bPrhwXHWSC1pooM87g HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 239
 Host: localhost:8080
@@ -4948,7 +4947,7 @@ Content-Length: 208
 <h5 id="_요청_41_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=ll8jmSRPwKMvZ28-WT0i3WjKEfktD-37fQgigxMrL-xzQePWpGoV_UB28cICBF0LahAW71_-PJsVON_WTW4Su3ASGtpAcNDg HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=6Gp_Ftq2f3Kx41lkH-aT-Aykq57jmQ702RbNM-hVb4U0aQOZi1NNL-jSRxCc1jtQJ8unnmqUhqbaqmjZ6y74C4s2DeZWXmeu HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 239
 Host: localhost:8080
@@ -5076,7 +5075,7 @@ Content-Length: 98
 <h5 id="_요청_42_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=lj-UKjFHxUi4KcEATVtvSKivmXDpvIZK8pKEEN2iJ9TzJcFh9VqkEwQlpnuVG6MweHZbepmetBKNjbJnxaXice-RQeyQHfNU HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=mLuDml46Uop6e05HveOzQurfJp_PbFz-HZUil7-Er82JP_u5_t67q2cOY7hXGi0lic6HdN_pC6b2Cj_TfKQU9d3ina68CpqL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 218
 Host: localhost:8080
@@ -5166,7 +5165,7 @@ Content-Length: 204
 
 {
   "userId" : "id ",
-  "msg" : "휴대폰 번호 형식에 맞춰 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n아이디는 5자 이상으로 입력해주세요.\\n"
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n휴대폰 번호 형식에 맞춰 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -5210,7 +5209,7 @@ Content-Length: 204
 <h5 id="_요청_43_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=XZScqN0TLbZIIwR85hFcKx9ZQ4KjVSeMiHekYQsPmi5K6hJ6PKOpkbskG4JlFWdFgDxoGHlrbruRN0Kh6RXBBz9sr0gpiSYc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=h7YzqRRUaEdM8LZPWyVahFgAuOvgO28RmF_dCyqWtS2KbZuK5oRVmyM1CXVhloApaQhusWBjldPRDlk8qD65O0_wjU7pWK7o HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 235
 Host: localhost:8080
@@ -5344,7 +5343,7 @@ Content-Length: 67
 <h5 id="_요청_44_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=en-TK_jE16lWyYMz3ALvW0N18Tau6Fih65LEkls8Ev3SCscTHBykTp7w5557qrUF5S_baSJD3FfP0WyM2qqh9mIOcMvjPqYq HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=RQe3PYud3uYSAOa7wb8lL5ElFHuLgqtw4sBi7RRWF-e8fYsNJDbRC7P_7N8_Y9aNpZIRSvITOUK54JJdh_AE1HVgLtCPTLg6 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 131
 Host: localhost:8080
@@ -5460,7 +5459,7 @@ Content-Length: 77
 <h5 id="_요청_45_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=LY8RnfmJ848ZZtcWF-nOZeg8dSM83rp-2vuojZy38mT5ioNUHux0rZ2wkbg0XuQhdMT6V90IWEFY59tTu52YuqXUllOd6eUy HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=PApDlPvFWJkcJ9FWIsxomOvk10c1jJE9kt5LYTo0udI3d4jbCD13oMigb6AxEuU1EuFc-tqH-n8CuKAQ9-cuVQxR3eEHT-66 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 131
 Host: localhost:8080
@@ -5570,7 +5569,7 @@ Content-Length: 98
 <h5 id="_요청_46_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=oFJok5aDlJmFt3TdIoddIl4dyhvq5MdJ7LtdNeHT7mqpiMdBwmAOpPXg8aiogE24EKppEW585yPch_Rk3dhpUIXj3QnM6fVw HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=a4Sxl03-g-qPNgxRvl0kELjZKRWEmrovClNc_wlnl9SA8pyuD-WBpijLu4-iATswhnAQI4rpBC22qIkCbzZqyDFU9LGyk6_M HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 102
 Host: localhost:8080
@@ -5642,7 +5641,7 @@ Content-Length: 260
 
 {
   "userId" : "id ",
-  "msg" : "회원정보 수정 시 비밀번호는 필수입니다.\\n비밀번호는 8자 이상으로 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n"
+  "msg" : "회원정보 수정 시 비밀번호는 필수입니다.\\n비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -5686,7 +5685,7 @@ Content-Length: 260
 <h5 id="_요청_47_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=7-2UgWyzW4J25979yLFd9VYW2T8v8EPF4ugWmqKpxWj1Lq5U1tmm5VnRaLVb0O-b-Zxpkzd39AcfwiHohNonr5rP_QyUTZ8w HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=9Pv38jV21tgVe-Jf1Psa1A76uaIeAVsK1RZZTTcRtArbIUAqlsuRxVcUsOw4GIM6tdYu4DuelMAoM20n7CdvdVRzgWy6FSMf HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 127
 Host: localhost:8080
@@ -5802,7 +5801,7 @@ Content-Length: 121
 <h5 id="_요청_48_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=g7gFf2SmTsv8dGomM2faCSas8v-etxburSYBGoR47DTjvA4Ztd09GgGVKv7RQAtAAEruPxHP38eohHTDmUc2IucZ3VHWiDcr HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=LBvsuZoCHxv43ZXZ54M--4Gh-xD2rZ37ClKNVZf0QHsYBasOSHmN36sweiPVu63g3q4KzLbD1nLOmK7WPGS-ZKDNeEgtZ5to HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 128
 Host: localhost:8080
@@ -5918,7 +5917,7 @@ Content-Length: 131
 <h5 id="_요청_49_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=4Uc-XR3cVQ5e2Tukb9LIKnBrs9lLBdBDLIMR2gbPaZVUN8ZIg3cOZXzrYGhzv16XDf_8Gklbnrt-NuVuGLoiuD_-DKFkAPV_ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=fr1AtEZiRxWCBIQ7uIhqQ8SmLnix4VV8IYUWCnXl45m9yCcdS4x51XNTdCWvMLMDgaVee_KRA0HXhTNRQ-MkPkSE1ayFrR57 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
 Host: localhost:8080
@@ -6022,7 +6021,7 @@ Content-Length: 102
 <h5 id="_요청_50_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=IFN19lLI-9EJGuSsXaHc4GVdj6KTGV2XhFiLtO0gVQh_835cQ2UWlGv7mLMkf9OZOYzo1wdkopr1Km66sWG_1d9BbDlHy05s HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=M2k1NfUHa8APn5Z9zFxX2jEAIlVNQoMmGLTNGFoQVNWogMGzAVkHVMI_WfUi_a4ZqXFjvAZhD2x_cOcLe9H4ITkiZ7PO4_nW HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
 Host: localhost:8080
@@ -6120,7 +6119,7 @@ Content-Length: 98
 <h5 id="_요청_51_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=KxIIHvKzKciqdrnEs9cZnYtXLTbFXmz7naACsLPJMSoLIXDATyU6f5CKHKuHTon00PotpbIxAA_2a1zWq5hm1dH4BRptQBOl HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=4WVjM-MmjMZy52YThPi6NLETVFkizto94zWSByg12BSOxyXrglVVAYJH6qJfgwQqvNWOUIUmeThArL8Q1wamPx0N63Hrpkfe HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 45
 Host: localhost:8080
@@ -6180,7 +6179,7 @@ Content-Length: 128
 
 {
   "userId" : "id ",
-  "msg" : "이메일 형식만 가능합니다.\\n아이디는 5자 이상으로 입력해주세요.\\n"
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n이메일 형식만 가능합니다.\\n"
 }</code></pre>
 </div>
 </div>
@@ -6224,7 +6223,7 @@ Content-Length: 128
 <h5 id="_요청_52_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=_SoRA96rUdkwaLPicN1L0shBcHeigKco0FahhOfjcVxc6sKkmxsnO7ibM7odDIWGQPB_4vp2XRXG5ZQFtGXD5tLWRGtt0_PC HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=IwC7FMcCtSBVy4mB03of6kKDmavJdgUmgtOqGuT1S1NQfYYGETPYJvAz1hZ48r2061cr23PitMn8QjcL57DMeIDFe2RmSec- HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -6314,7 +6313,7 @@ Content-Length: 71
 <h5 id="_요청_53_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=uguL4xf1npOY4yYwGMIGok5L3t4uOzsmoosPdl8IdiKQkh393GizgnTNpqC10BVVLO8ykyp6878aAgkLwOptRGtuFESl8y-f HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=QyZ3OZ3GV4_RJqyD8-pt3LfZ2chA1_VyE8deMBmNRsgmDGdhIUARCv_zZrv8Fc-3wcdZ74K49PAhtsBfdaJrBirvcfkfOAFZ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -6464,9 +6463,9 @@ Content-Length: 471
 {
   "userId" : "testId",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTYzNzY1NTMsImV4cCI6MTcxNjM3NzE1M30.0T_qLGDWqykxh_dnJyslqHQdjIJZkqpNbloxbIHY8oQ",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTY1NTg5NzEsImV4cCI6MTcxNjU1OTU3MX0.vGXIO8M8QLT--AZTsgkS7z6e2SbuEts1tTVG7YDtF0w",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTYzNzY1NTMsImV4cCI6MTcxODUzNjU1M30.xcCIsfrD1w2adhRDpfNBRvUj4VJpiULh7SCyK_pAva8",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTY1NTg5NzEsImV4cCI6MTcxODcxODk3MX0.XD0VDEcTUiTf78OPTVw-h5x-6XNQfQAV8HPJTZHVOtA",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -6592,9 +6591,9 @@ Content-Length: 501
 {
   "userId" : "test@email.com",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNjM3NjU1MywiZXhwIjoxNzE2Mzc3MTUzfQ.T2z3np2022eNMWyZxztuMdciDIRx_iZN7hqdYfzuRg8",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNjU1ODk3MSwiZXhwIjoxNzE2NTU5NTcxfQ.ZSHhVqMhAIpDLRm2hs8PeL89fOAHYcK1zdwTsXoFKBs",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNjM3NjU1MywiZXhwIjoxNzE4NTM2NTUzfQ.5LIDJBQe0Iq8qJ7WXmo1uFMtyKN7sumBPQuOWCIJyog",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNjU1ODk3MSwiZXhwIjoxNzE4NzE4OTcxfQ.GDOmDUHrE7eq-q_ejU2LKZe5Qv86cgwuRE1AUNbBPmg",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -6870,7 +6869,7 @@ Content-Length: 133
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /test HTTP/1.1
 userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTYzNzY1NTMsImV4cCI6MTcxNjM3NzE1M30.0T_qLGDWqykxh_dnJyslqHQdjIJZkqpNbloxbIHY8oQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTY1NTg5NzEsImV4cCI6MTcxNjU1OTU3MX0.vGXIO8M8QLT--AZTsgkS7z6e2SbuEts1tTVG7YDtF0w
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -7029,7 +7028,7 @@ Content-Length: 60
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /test HTTP/1.1
 userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTYzNzY1NTQsImV4cCI6MTcxODUzNjU1NH0.yM_7zglpvmS5kSwLe6uQOm7f5AS0LBZBb3c1ao005-o
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTY1NTg5NzEsImV4cCI6MTcxODcxODk3MX0.XD0VDEcTUiTf78OPTVw-h5x-6XNQfQAV8HPJTZHVOtA
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -7085,7 +7084,7 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTYzNzY1NTQsImV4cCI6MTcxNjM3NzE1NH0.afsA0iC4DqbDg_mtiBBZ-5QY6HejSDHxYiQFl1DFubI",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTY1NTg5NzEsImV4cCI6MTcxNjU1OTU3MX0.vGXIO8M8QLT--AZTsgkS7z6e2SbuEts1tTVG7YDtF0w",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -7958,7 +7957,7 @@ Content-Length: 178
 </div>
 </div>
 <div class="sect1">
-<h2 id="_일반_커뮤니티_게시글_api_basicpostcontroller">일반 커뮤니티 게시글 API (BasicPostController)</h2>
+<h2 id="_커뮤니티_게시글_api_postcontroller">커뮤니티 게시글 API (PostController)</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_게시글_리스트_조회">게시글 리스트 조회</h3>
@@ -8009,7 +8008,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1307
+Content-Length: 1402
 
 [ {
   "userId" : "testId",
@@ -8019,8 +8018,8 @@ Content-Length: 1307
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8031,8 +8030,8 @@ Content-Length: 1307
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8043,8 +8042,8 @@ Content-Length: 1307
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8055,8 +8054,8 @@ Content-Length: 1307
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8067,8 +8066,8 @@ Content-Length: 1307
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 } ]</code></pre>
@@ -8112,8 +8111,8 @@ Content-Length: 1307
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -8133,7 +8132,7 @@ Content-Length: 1307
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
 </tr>
 <tr>
@@ -8200,7 +8199,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 2222
+Content-Length: 2317
 
 [ {
   "userId" : "testId",
@@ -8210,8 +8209,8 @@ Content-Length: 2222
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8222,8 +8221,8 @@ Content-Length: 2222
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8234,8 +8233,8 @@ Content-Length: 2222
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8246,8 +8245,8 @@ Content-Length: 2222
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8258,8 +8257,8 @@ Content-Length: 2222
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 } ]</code></pre>
@@ -8303,8 +8302,8 @@ Content-Length: 2222
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -8324,7 +8323,7 @@ Content-Length: 2222
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
 </tr>
 <tr>
@@ -8350,7 +8349,7 @@ Content-Length: 2222
 <h5 id="_요청_74_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/category/1?page=0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/category/free-board?page=0 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -8391,7 +8390,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1337
+Content-Length: 1432
 
 [ {
   "userId" : "testId",
@@ -8401,8 +8400,8 @@ Content-Length: 1337
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8413,8 +8412,8 @@ Content-Length: 1337
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8425,8 +8424,8 @@ Content-Length: 1337
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8437,8 +8436,8 @@ Content-Length: 1337
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
@@ -8449,8 +8448,8 @@ Content-Length: 1337
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 } ]</code></pre>
@@ -8494,8 +8493,8 @@ Content-Length: 1337
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -8515,7 +8514,7 @@ Content-Length: 1337
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
 </tr>
 <tr>
@@ -8582,7 +8581,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1352
+Content-Length: 1427
 
 [ {
   "userId" : "testId",
@@ -8592,7 +8591,7 @@ Content-Length: 1352
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8604,7 +8603,7 @@ Content-Length: 1352
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8616,7 +8615,7 @@ Content-Length: 1352
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8628,7 +8627,7 @@ Content-Length: 1352
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8640,7 +8639,7 @@ Content-Length: 1352
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8685,8 +8684,8 @@ Content-Length: 1352
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -8777,7 +8776,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 546
+Content-Length: 576
 
 [ {
   "userId" : "testId",
@@ -8787,7 +8786,7 @@ Content-Length: 546
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8799,7 +8798,7 @@ Content-Length: 546
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8844,8 +8843,8 @@ Content-Length: 546
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -8891,7 +8890,7 @@ Content-Length: 546
 <h5 id="_요청_77_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/search?keyword=%EA%B2%80%EC%83%89%EC%96%B4&amp;category=2&amp;page=0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/search?keyword=%EA%B2%80%EC%83%89%EC%96%B4&amp;postCategory=certification-board&amp;page=0 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -8915,8 +8914,8 @@ Host: localhost:8080</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">검색어</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 정보</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
@@ -8940,7 +8939,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 818
+Content-Length: 890
 
 [ {
   "userId" : "testId",
@@ -8950,7 +8949,7 @@ Content-Length: 818
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 2,
+  "postCategory" : "CERTIFICATION_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8962,7 +8961,7 @@ Content-Length: 818
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 2,
+  "postCategory" : "CERTIFICATION_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -8974,7 +8973,7 @@ Content-Length: 818
   "view" : 0,
   "commentCount" : null,
   "postLikeCount" : null,
-  "category" : 2,
+  "postCategory" : "CERTIFICATION_BOARD",
   "isLiked" : null,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
@@ -9019,8 +9018,8 @@ Content-Length: 818
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -9066,7 +9065,7 @@ Content-Length: 818
 <h5 id="_요청_78_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/images/testImage.png?_csrf=UiCsD3v8-zDBmzMEdme-H8IIGTd-QjxvGqZ7SDKNHoihjMaVNxiYbhrLzFPsqVUyRUqKKfM-NA8bJlhCL5QefAfpL72U6aOk HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/images/testImage.png?_csrf=jNH1iFsWIz4fKRm37ekkPkbYyuNYRYQWe5mtkAiShvYYOoZ3v-iW6mx0El0yTS6AicQQCiXt54Jqc707GKCZqDHx4MF8CuBE HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -9109,7 +9108,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_요청_79_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=A3aUEkkj1IvxwaEMIvFOWQ2B6tpoh7k4RHgSKfSkkpKLPYBxYRX3dC9CsL_co5c_Gtx6a264x-Ja440Vcx0hT8PApaG6WLJB HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=px1AlnXhE6wZxMPaulUCz1DjAUuNcvGfxAAoi8jdXAFJ-e5ewSx29ESFcsg0_fvi2Hg2_zLULCrpE5OypjkcvvDvZDctwIpo HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -9151,7 +9150,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 259
+Content-Length: 278
 
 {
   "userId" : "testId",
@@ -9161,8 +9160,8 @@ Content-Length: 259
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }</code></pre>
@@ -9206,8 +9205,8 @@ Content-Length: 259
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -9227,7 +9226,7 @@ Content-Length: 259
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태</p></td>
 </tr>
 <tr>
@@ -9253,7 +9252,7 @@ Content-Length: 259
 <h5 id="_요청_80_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=CS2gMZTpf7NHlB3Q0LFkJyf89oLurCq7JVqCeocPaPrOw0GVa0-RBfXfTtdq8iWx4pxQQUSe2-DXlBiWE2u6TLE7Xsz-8nSg HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=kLW6xUd1BP5M3YTsWVkQw_37bMY90K_1QLQXi6kG_zGKHFMfpofeo3MQZsxh7LGOa3Qk-8XNQaQNtJ3YItB26Z0_mgjpJDAv HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -9295,7 +9294,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 442
+Content-Length: 461
 
 {
   "userId" : "testId",
@@ -9305,8 +9304,8 @@ Content-Length: 442
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }</code></pre>
@@ -9350,8 +9349,8 @@ Content-Length: 442
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -9371,7 +9370,7 @@ Content-Length: 442
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태</p></td>
 </tr>
 <tr>
@@ -9480,16 +9479,16 @@ Content-Length: 74
 <h5 id="_요청_82_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=kVJadGCnES9fI8lgbkWjK17Z5da9ou1hyYd7x-a4SGBGfciMqDE-QgGQcExyEP5WCmiXHT3uyLSKx91M-rZI9oKJKlRwGK3u HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=UitnMRSF201Zg8yWj0fRT-R6o54XUO6ZXlWLYvTKEb0TDyakYx9WASPn7nx0uvqit2rlK90Yjv8kZte0ZmS6AZH9d9lybhWd HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 91
+Content-Length: 106
 Host: localhost:8080
 
 {
   "userId" : "testId",
   "title" : "제목1",
   "content" : "내용1",
-  "category" : 1
+  "postCategory" : "FREE_BOARD"
 }</code></pre>
 </div>
 </div>
@@ -9526,9 +9525,9 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 </tbody>
 </table>
@@ -9590,16 +9589,16 @@ Content-Length: 55
 <h5 id="_요청_83_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=ia3z5DgR7_t7fCjQ0xhnURijiIPIb2WZHR3CgHFL4O2r26j2u86Rhwwl3chWHkyy4DVTaHnCpbqpX1e0eX71skh50Y-dvprH HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=YmTv0-c919ib_0MvVtY4OYdEAFGm_sJMEZ0iZZle2PmR1reVUQeJtYQKsr62xyJLZfsMD7BwLWmfnPphKK8bVK1t7cqkt9Tw HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 91
+Content-Length: 106
 Host: localhost:8080
 
 {
   "userId" : "testId",
   "title" : "제목1",
   "content" : "내용1",
-  "category" : 1
+  "postCategory" : "FREE_BOARD"
 }</code></pre>
 </div>
 </div>
@@ -9636,9 +9635,9 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 </tbody>
 </table>
@@ -9700,16 +9699,16 @@ Content-Length: 55
 <h5 id="_요청_84_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=m8OvpIprM9YuMYhoQk9fIMO-A3aVHRR3W-lwvPr6kHnN7CLDrKabk7pcC7IDU78Ke2JrFfaKLhejLS1aPtwWjpyepEuu3USl HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=A9MNc1R3J_HopuZuQfmUTOY4F1wcpgRlynYN1SWZYipyLS5OMuY0RGZDEMTFkdMMdtSgfdIJOmV4wmZIr0Y4sx2vUhJHFRd6 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 178
+Content-Length: 193
 Host: localhost:8080
 
 {
   "userId" : "testId",
   "title" : "제목1",
   "content" : "내용1",
-  "category" : 1,
+  "postCategory" : "FREE_BOARD",
   "images" : [ "image1.png", "image2.png", "image3.png", "image4.png", "image5.png" ]
 }</code></pre>
 </div>
@@ -9752,9 +9751,9 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 저장 요청 후 서버로 부터 전달받은 이미지 파일의 이름 목록</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 </tbody>
 </table>
@@ -9816,16 +9815,16 @@ Content-Length: 55
 <h5 id="_요청_85_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=SrJMvBXPsi4fXguxKdjitQj46IVpk-6EC-GbWDdSRTOxCM4af9Yt3yKu0BYyO2mBT_XW0D7IxbxcoNypbdn-OwFjcAXXPvZ5 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=Sm_rKpL_Q0J3RVX6ewhw7BkeTzR3bNekFCXZyjD6Cqk6JCvcKAvaHaDMc3ZaIGHLSCVEiX8tYlZDWO6JcUHvrgDDPs8OE0_l HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 109
+Content-Length: 124
 Host: localhost:8080
 
 {
   "userId" : "testId",
   "title" : "수정할 제목",
   "content" : "수정할 내용",
-  "category" : 1
+  "postCategory" : "FREE_BOARD"
 }</code></pre>
 </div>
 </div>
@@ -9884,9 +9883,9 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 </tbody>
 </table>
@@ -9948,16 +9947,16 @@ Content-Length: 63
 <h5 id="_요청_86_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=RwHwrOMp_KNOPH2OYjGxQIsqRpr8HIIc9p3PeEinxb4u2HJsdTTFmtFIycBjXR66VRyFeL8ea_iaf-MxxK6qSH7BpI0cuRdV HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=U3wEmynJNj8Doy9qexvb3tPSJn4kgumtIHKrSKj3h8evZfEAYU4xqxr_BVwuk0kJSTbvurCxCx9H5N-AEhfJfMrO5KSWAcVm HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 109
+Content-Length: 124
 Host: localhost:8080
 
 {
   "userId" : "testId",
   "title" : "수정할 제목",
   "content" : "수정할 내용",
-  "category" : 1
+  "postCategory" : "FREE_BOARD"
 }</code></pre>
 </div>
 </div>
@@ -10016,9 +10015,9 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 </tbody>
 </table>
@@ -10085,7 +10084,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=pkzo7iUENn1mW2Obi_T8EXyPMsr84s2Cg7UtoyOg4_QhbR2UlC7bi0BmV0tLOVv5stnIdE64H6jL1PuvtoJIlBSV0cZAVH-l</code></pre>
+_csrf=ISbLkLYysQAhAyFecTN7q4_-XGUeKraYbxz8-wZYVDPx_fxkQ0eup4ULgjEMZkA6FR5PybqacQcuE4S1CiXNyz85NgLImZoH</code></pre>
 </div>
 </div>
 </div>
@@ -10194,7 +10193,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=cFgxYX1x4a0RFEJNXoHNQagemzI0YhtKB-8DYXxDNwrH0RF7EW4GURlFgJs8cHB0Z6z5IJgntgpQBy5nPtoyVEpzAT_16XQe</code></pre>
+_csrf=WXrk8jX-HqaIYCYU01P1NkJ5idd2lBr8bfUNQemRDTsLxMOwak6HlFfLep6lUxRw5X7BBCdMpO4UpX7RX8U4edGhbgo78qGH</code></pre>
 </div>
 </div>
 </div>
@@ -10293,7 +10292,7 @@ Content-Length: 58
 </div>
 </div>
 <div class="sect1">
-<h2 id="_일반_커뮤니티_댓글_api_basiccommentcontroller">일반 커뮤니티 댓글 API (BasicCommentController)</h2>
+<h2 id="_커뮤니티_댓글_api_commentcontroller">커뮤니티 댓글 API (CommentController)</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_한_사용자가_작성한_댓글_리스트_조회">한 사용자가 작성한 댓글 리스트 조회</h3>
@@ -10609,7 +10608,7 @@ Content-Length: 727
 <h5 id="_요청_91_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=7cIdoHPWIEQ428nBNS0FynHPi41XhVFPV0i6k28RX_zj4OtSjqN8mUW1QiYV6_yiUwAxqEn_prRm4GViYXmNo1ghPMSChN42 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=178Ue2LL4Sk0A3I_9aAfhNyb_wrgwGo-8F3cMmd9AHMMdzgT5o4jQ1Ov0EwZZ0IPwI0r572s0mvZoVwTxji4U1YYZkJqRA4k HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -10729,7 +10728,7 @@ Content-Length: 36
 <h5 id="_요청_92_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=V-NcLXSJl20rxm7JZaJH-2yK-S1YUa-1_UeF5mEX98uL6KehNttvFUHo9VgG9w34VY9zmlTs1BRgMpuYxXO80AB2lPqzjJeY HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=e_YGNyPuhZlL0n7GgU_6_BRSx1wJzCtqDkbJXryZr_4LcMguGs8xBEHcsa1m4k30sGLOyyQx6j1s9BlHPySrZo2smsZtE_pM HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -10849,7 +10848,7 @@ Content-Length: 52
 <h5 id="_요청_93_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=_onaRhMHwJa66iSBkgHhla6nh0cDN6G78c53YGTROSe2sl5Gnb_sIiA08a-X2kHn8yzVrM3EqiU3VcCWwK8TU1bmDh6Ahmx_ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=i2JTTpjj0z9ITD3vk0zcbsQtyuIJM02fj4aEHFi79vpTczijuQYxLaza5A5leQjao2HoCPUe59swB3uyvrDhLj7Yw8xnQFnB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -10973,7 +10972,7 @@ Content-Length: 52
 <h5 id="_요청_94_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=JPggWR1pH9oR0YFIcPdOCcyZ6gkIg-aK57keemFPmpcRIAi3QJsSbywMLOI85ud_SNp6MK6vx2g6tdKn19ssSVJ2_65zRjqD HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=oJFIHPFeKw2YDax8VW4Z7LpmFh40Djsm76F9_EijWqOvgE9SkKRwecFoEzS1O89INEMt1YlQO39XNggLjpEcxXCQasCeuH8z HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -11102,7 +11101,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=G6m75oT4IpP06C7051fHvcpJzjVoMWeHZh7ZPs0b5nJnPQQ3L83d1LLLF6fZjRmVgXrz3Pos41dZBleqXy-8W6wt0kVWCTJR</code></pre>
+_csrf=s4peSQVJVc6_8ur42SAox53ad0Fa-RZ3FnE8znNatB3_5tWghL0_KjF9ZPqSxY6e7g0covm_WiBtyi9acBIM-UNt0C3HgrCQ</code></pre>
 </div>
 </div>
 </div>
@@ -11215,7 +11214,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=YN32kgq36KAUbSZUyKsKNBIXgI65H5DjyUFycWAyyDQI6kCABu6Tp2mCjJk5VUNiqYY-UnQkrbfYKvHOqicQRQYB8QU7iyS5</code></pre>
+_csrf=-8n3NXrKdlADW_EsGZ5RqNQBRuwS8gZle31jDJtiOnrVsYB6yK-SVEyrQ2IuP5QULbNlmOQxa40myjJITBwFPKNRDEK01LBN</code></pre>
 </div>
 </div>
 </div>
@@ -11318,25 +11317,25 @@ Content-Length: 52
 </div>
 </div>
 <div class="sect1">
-<h2 id="_일반_커뮤니티_좋아요_api_basicpostlikecontroller">일반 커뮤니티 좋아요 API (BasicPostLikeController)</h2>
+<h2 id="_커뮤니티_좋아요_api_postlikecontroller">커뮤니티 좋아요 API (PostLikeController)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_좋아요_상태_변경_실패">좋아요 상태 변경 실패</h3>
+<h3 id="_좋아요_상태_변경_성공">좋아요 상태 변경 성공</h3>
 <div class="sect3">
 <h4 id="_요청_97">요청</h4>
 <div class="sect4">
 <h5 id="_요청_97_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/likes?_csrf=nU_JUhlwNDYqs0tNngtRwknA-rEoa7wdAUwwoZQsTtY10fK2-Hz9YCtGAQcHhH8pqSZlpn_519MZCIkwNHoIwKNPKORT4cXS HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/likes?_csrf=Gt8N5le9vka4oTVvNpSFcjtRymNTSOYQ5ginS3cPKyS5RL7TLOdrgzbe3SKVkwJeV7mxSws35wEwKtQ9hTvBL09pSBONJYmw HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 62
+Content-Length: 66
 Host: localhost:8080
 
 {
   "userId" : "testId",
   "postId" : 10000,
-  "isLiked" : 0
+  "isLiked" : false
 }</code></pre>
 </div>
 </div>
@@ -11369,7 +11368,7 @@ Host: localhost:8080
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 좋아요 상태</p></td>
 </tr>
 </tbody>
@@ -11382,7 +11381,7 @@ Host: localhost:8080
 <h5 id="_응답_97_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -11393,7 +11392,7 @@ X-Frame-Options: DENY
 Content-Length: 62
 
 {
-  "msg" : "좋아요 상태 변경에 실패했습니다."
+  "msg" : "좋아요 상태 변경에 성공했습니다."
 }</code></pre>
 </div>
 </div>
@@ -11425,115 +11424,11 @@ Content-Length: 62
 </div>
 </div>
 <div class="sect2">
-<h3 id="_좋아요_상태_변경_성공">좋아요 상태 변경 성공</h3>
+<h3 id="_한_사용자가_좋아요_누른_게시글_리스트_조회">한 사용자가 좋아요 누른 게시글 리스트 조회</h3>
 <div class="sect3">
 <h4 id="_요청_98">요청</h4>
 <div class="sect4">
 <h5 id="_요청_98_http_request">HTTP request</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/likes?_csrf=iufXvMp9nf2ajT29yEENmoqXsKSurjNArPdRacqSBpVguQIYutbj369Fqcm3vwWKrWw5qLL0nZzPl1Vtn5I1C_z3MPNUj2F9 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 62
-Host: localhost:8080
-
-{
-  "userId" : "testId",
-  "postId" : 10000,
-  "isLiked" : 0
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_요청_98_request_fields">Request fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태를 변환할 게시글 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청자 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 좋아요 상태</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_98">응답</h4>
-<div class="sect4">
-<h5 id="_응답_98_http_response">HTTP response</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 62
-
-{
-  "msg" : "좋아요 상태 변경에 성공했습니다."
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_응답_98_response_fields">Response fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_한_사용자가_좋아요_누른_게시글_리스트_조회">한 사용자가 좋아요 누른 게시글 리스트 조회</h3>
-<div class="sect3">
-<h4 id="_요청_99">요청</h4>
-<div class="sect4">
-<h5 id="_요청_99_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/likes/testId?page=0 HTTP/1.1
@@ -11542,7 +11437,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_99_path_parameters">Path parameters</h5>
+<h5 id="_요청_98_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. /api/posts/likes/{userId}</caption>
 <colgroup>
@@ -11564,7 +11459,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_요청_99_query_parameters">Query parameters</h5>
+<h5 id="_요청_98_query_parameters">Query parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -11586,9 +11481,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_99">응답</h4>
+<h4 id="_응답_98">응답</h4>
 <div class="sect4">
-<h5 id="_응답_99_http_response">HTTP response</h5>
+<h5 id="_응답_98_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -11599,7 +11494,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1167
+Content-Length: 1257
 
 [ {
   "userId" : "testId",
@@ -11609,8 +11504,8 @@ Content-Length: 1167
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : true,
   "createdAt" : null,
   "modifiedAt" : null
 }, {
@@ -11621,8 +11516,8 @@ Content-Length: 1167
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : true,
   "createdAt" : null,
   "modifiedAt" : null
 }, {
@@ -11633,8 +11528,8 @@ Content-Length: 1167
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : true,
   "createdAt" : null,
   "modifiedAt" : null
 }, {
@@ -11645,8 +11540,8 @@ Content-Length: 1167
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : true,
   "createdAt" : null,
   "modifiedAt" : null
 }, {
@@ -11657,8 +11552,8 @@ Content-Length: 1167
   "view" : 0,
   "commentCount" : 0,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "postCategory" : "FREE_BOARD",
+  "isLiked" : true,
   "createdAt" : null,
   "modifiedAt" : null
 } ]</code></pre>
@@ -11666,7 +11561,7 @@ Content-Length: 1167
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_99_response_fields">Response fields</h5>
+<h5 id="_응답_98_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -11702,8 +11597,8 @@ Content-Length: 1167
 <td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
 </tr>
 <tr>
@@ -11723,7 +11618,7 @@ Content-Length: 1167
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
 </tr>
 <tr>
@@ -11744,25 +11639,24 @@ Content-Length: 1167
 </div>
 </div>
 <div class="sect1">
-<h2 id="_자격증_후기_작성_api_certificationreviewcontroller">자격증 후기 작성 API (CertificationReviewController)</h2>
+<h2 id="_자격증_후기_작성_api_reviewcontroller">자격증 후기 작성 API (ReviewController)</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_게시글_리스트_조회_2">게시글 리스트 조회</h3>
 <div class="sect3">
-<h4 id="_요청_100">요청</h4>
+<h4 id="_요청_99">요청</h4>
 <div class="sect4">
-<h5 id="_요청_100_http_request">HTTP request</h5>
+<h5 id="_요청_99_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/certifications/1/reviews?page=0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/certifications/reviews?page=0 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_100_path_parameters">Path parameters</h5>
+<h5 id="_요청_99_query_parameters">Query parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/certifications/{certificationId}/reviews</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -11775,8 +11669,180 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">자격증 정보 (자격증 id 번호)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청하는 페이지 (0부터 시작, 15개씩 자름)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_99">응답</h4>
+<div class="sect4">
+<h5 id="_응답_99_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 1262
+
+[ {
+  "userId" : "testId",
+  "title" : "제목1",
+  "content" : "내용1",
+  "certificationName" : "정보처리기사",
+  "view" : 0,
+  "postLikeCount" : 0,
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "title" : "제목2",
+  "content" : "내용2",
+  "certificationName" : "정보처리기사",
+  "view" : 0,
+  "postLikeCount" : 0,
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "title" : "제목3",
+  "content" : "내용3",
+  "certificationName" : "정보처리기사",
+  "view" : 0,
+  "postLikeCount" : 0,
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "title" : "제목4",
+  "content" : "내용4",
+  "certificationName" : "정보처리기사",
+  "view" : 0,
+  "postLikeCount" : 0,
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+}, {
+  "userId" : "testId",
+  "title" : "제목5",
+  "content" : "내용5",
+  "certificationName" : "정보처리기사",
+  "view" : 0,
+  "postLikeCount" : 0,
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_99_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">후기 작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].view</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postLikeCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일자</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_자격증명으로_후기_리스트_조회">자격증명으로 후기 리스트 조회</h3>
+<div class="sect3">
+<h4 id="_요청_100">요청</h4>
+<div class="sect4">
+<h5 id="_요청_100_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/certifications/reviews/%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC?page=0 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_100_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/certifications/reviews/{certificationName}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
 </tr>
 </tbody>
 </table>
@@ -11817,66 +11883,56 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1322
+Content-Length: 1262
 
 [ {
   "userId" : "testId",
   "title" : "제목1",
   "content" : "내용1",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목2",
   "content" : "내용2",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목3",
   "content" : "내용3",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목4",
   "content" : "내용4",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목5",
   "content" : "내용5",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 } ]</code></pre>
@@ -11902,7 +11958,7 @@ Content-Length: 1322
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">후기 작성자</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
@@ -11915,24 +11971,14 @@ Content-Length: 1322
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].images</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트 (자격증 후기이므로 null전달)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 (자격증 정보를 나타냄)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].view</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].commentCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 수 (자격증 후기이므로 null전달)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postLikeCount</code></p></td>
@@ -11941,7 +11987,7 @@ Content-Length: 1322
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
 </tr>
 <tr>
@@ -12030,66 +12076,56 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1352
+Content-Length: 1262
 
 [ {
   "userId" : "testId",
   "title" : "제목1",
   "content" : "내용1",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
-  "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : null,
+  "postLikeCount" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목2",
   "content" : "내용2",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
-  "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : null,
+  "postLikeCount" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목3",
   "content" : "내용3",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
-  "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : null,
+  "postLikeCount" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목4",
   "content" : "내용4",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
-  "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : null,
+  "postLikeCount" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목5",
   "content" : "내용5",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
-  "postLikeCount" : null,
-  "category" : 1,
-  "isLiked" : null,
+  "postLikeCount" : 0,
+  "isLiked" : false,
   "createdAt" : "2024.04.01 15:37",
   "modifiedAt" : "2024.04.01 15:37"
 } ]</code></pre>
@@ -12115,7 +12151,7 @@ Content-Length: 1352
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">후기 작성자</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
@@ -12128,14 +12164,9 @@ Content-Length: 1352
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].images</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트 (자격증 후기이므로 null전달)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 (자격증 정보를 나타냄)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].view</code></p></td>
@@ -12143,18 +12174,13 @@ Content-Length: 1352
 <td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].commentCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 수 (자격증 후기이므로 null전달)</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postLikeCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 수</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
 </tr>
 <tr>
@@ -12173,47 +12199,26 @@ Content-Length: 1352
 </div>
 </div>
 <div class="sect2">
-<h3 id="_게시글_저장_실패_2">게시글 저장 실패</h3>
+<h3 id="_후기_저장_실패">후기 저장 실패</h3>
 <div class="sect3">
 <h4 id="_요청_102">요청</h4>
 <div class="sect4">
 <h5 id="_요청_102_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/1/reviews?_csrf=WedNGnPd1xvoa-nwRBR6vtVlyk3TaJ6VV3j4XBev7M46t38OO4EreBK45nnFD9zEJzlOiLRV53WyUai4M0nPai_KiPsM0R1s HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews?_csrf=2ZqKquL7CxKD71A837bTei9WNeoy-POmiO8XTG99-rV6AyMovfm7zNqdM3Cu32gEupvnHxZlGIgAnMaL7NwuKFxLwtFKMBNJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 71
+Content-Length: 117
 Host: localhost:8080
 
 {
   "userId" : "testId",
+  "certificationName" : "정보처리기사",
   "title" : "제목",
   "content" : "내용"
 }</code></pre>
 </div>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_요청_102_path_parameters">Path parameters</h5>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/certifications/{certificationId}/reviews</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">자격증 정보 (자격증 id 번호)</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect4">
 <h5 id="_요청_102_request_fields">Request fields</h5>
@@ -12246,6 +12251,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -12264,10 +12274,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+Content-Length: 52
 
 {
-  "msg" : "게시글 저장에 실패했습니다."
+  "msg" : "후기 저장에 실패했습니다."
 }</code></pre>
 </div>
 </div>
@@ -12299,47 +12309,26 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect2">
-<h3 id="_게시글_저장_성공_2">게시글 저장 성공</h3>
+<h3 id="_후기_저장_성공">후기 저장 성공</h3>
 <div class="sect3">
 <h4 id="_요청_103">요청</h4>
 <div class="sect4">
 <h5 id="_요청_103_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/1/reviews?_csrf=4nghAdO2eOKUYArmIs-h52i2bFKyJH4Eg9yZyEfd9EBbKPuR1RtDM7GAG4a5WTrSFOKVhQrQQTOAERwp4eip-XG-kHY4Ecvw HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews?_csrf=G1R1VxBaluDvnW9zkC7op-qL1vEtXhlzSflUxRIjWmEgyyi4fWJAYXRqoNnCrlgWpQPcxtO4-5AdO3xeeZs19nYbalcWrU6P HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 71
+Content-Length: 117
 Host: localhost:8080
 
 {
   "userId" : "testId",
+  "certificationName" : "정보처리기사",
   "title" : "제목",
   "content" : "내용"
 }</code></pre>
 </div>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_요청_103_path_parameters">Path parameters</h5>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/certifications/{certificationId}/reviews</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">자격증 정보 (자격증 id 번호)</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect4">
 <h5 id="_요청_103_request_fields">Request fields</h5>
@@ -12372,6 +12361,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -12390,10 +12384,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+Content-Length: 58
 
 {
-  "msg" : "게시글 등록에 성공했습니다."
+  "msg" : "자격증 후기를 저장하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -12425,20 +12419,21 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect2">
-<h3 id="_게시글_수정_실패_2">게시글 수정 실패</h3>
+<h3 id="_후기_수정_실패">후기 수정 실패</h3>
 <div class="sect3">
 <h4 id="_요청_104">요청</h4>
 <div class="sect4">
 <h5 id="_요청_104_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/1/reviews/100?_csrf=-9EjbrU7iTr_l-sC4FtkUVCW2F438YH80onA4krkndVggr5dmehHWYJasAPSr4421nZQYTKk9WcEkLTRtrrx1nyCquFRt9pk HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/reviews/100?_csrf=RoxymeY3sBHbYh9wHNs90_hxofsAG7dIWSjw_rCohqtbD-fMf-oQrt5R0iP2ByxAL_YJt8lIjMI5eYFlah7Cy4iYss4-bIb9 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 91
+Content-Length: 137
 Host: localhost:8080
 
 {
   "userId" : "testId",
+  "certificationName" : "정보처리기사",
   "title" : "수정할 제목",
   "content" : "수정할 내용"
 }</code></pre>
@@ -12448,7 +12443,7 @@ Host: localhost:8080
 <div class="sect4">
 <h5 id="_요청_104_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/certifications/{certificationId}/reviews/{reviewId}</caption>
+<caption class="title">Table 1. /api/certifications/reviews/{reviewId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -12460,10 +12455,6 @@ Host: localhost:8080
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">자격증 정보 (자격증 id 번호)</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수정할 자격증 후기 id</p></td>
@@ -12502,6 +12493,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -12520,10 +12516,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 63
+Content-Length: 65
 
 {
-  "msg" : "해당 게시글을 수정할 수 없습니다."
+  "msg" : "자격증 후기를 저장에 실패했습니다."
 }</code></pre>
 </div>
 </div>
@@ -12555,20 +12551,21 @@ Content-Length: 63
 </div>
 </div>
 <div class="sect2">
-<h3 id="_게시글_수정_성공_2">게시글 수정 성공</h3>
+<h3 id="_후기_수정_성공">후기 수정 성공</h3>
 <div class="sect3">
 <h4 id="_요청_105">요청</h4>
 <div class="sect4">
 <h5 id="_요청_105_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/1/reviews/100?_csrf=sn8Ui4WJWVVlhUCBMLcJOnSX3p2Gy6A-BkHOVWXIr9eJEsAd00kj7-O5OjRI5nexBZo9DUTz86W1rZETYnT3ZwP8nbbscfl4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/reviews/1?_csrf=fn9UUkPKuNgwWsoBjW81K3dN3mu928GHKhstaXpgFVDiia4HR09hZnH7jOEdOKsyuUIBGxZ48wrc6qKqGCMYXUwEI2PSvZ81 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 91
+Content-Length: 137
 Host: localhost:8080
 
 {
   "userId" : "testId",
+  "certificationName" : "정보처리기사",
   "title" : "수정할 제목",
   "content" : "수정할 내용"
 }</code></pre>
@@ -12578,7 +12575,7 @@ Host: localhost:8080
 <div class="sect4">
 <h5 id="_요청_105_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/certifications/{certificationId}/reviews/{reviewId}</caption>
+<caption class="title">Table 1. /api/certifications/reviews/{reviewId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -12590,10 +12587,6 @@ Host: localhost:8080
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">자격증 정보 (자격증 id 번호)</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수정할 자격증 후기 id</p></td>
@@ -12632,6 +12625,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -12650,10 +12648,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+Content-Length: 58
 
 {
-  "msg" : "게시글 수정에 성공했습니다."
+  "msg" : "자격증 후기를 수정하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -12685,26 +12683,26 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect2">
-<h3 id="_게시글_삭제_실패_2">게시글 삭제 실패</h3>
+<h3 id="_후기_삭제_실패">후기 삭제 실패</h3>
 <div class="sect3">
 <h4 id="_요청_106">요청</h4>
 <div class="sect4">
 <h5 id="_요청_106_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/certifications/100?userId=testId HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/certifications/reviews/100?userId=testId HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=q1Bk4ZFPJAnUVZ6t0TR4TdqoMJbVIUiRo-IeSWsiXuUZYQ5kmGMBhPQuHWr5ZKef6RlMdevMHfSzRHG8x9t9LAlBPNJ_Uzpc</code></pre>
+_csrf=pejtTuYoHCa7qMY-iRlRbMOtS_ti1mM5JdHV5P7ABk2_2E-wwN2LLNEeKESWm_AIsDRlWPCeZsIDt1IUEuWw1cn0NHSP4SzW</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_요청_106_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/certifications/{postId}</caption>
+<caption class="title">Table 1. /api/certifications/reviews/{postId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -12759,10 +12757,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 63
+Content-Length: 68
 
 {
-  "msg" : "해당 게시글을 삭제할 수 없습니다."
+  "msg" : "자격증 후기를 삭제에 실패하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -12794,26 +12792,26 @@ Content-Length: 63
 </div>
 </div>
 <div class="sect2">
-<h3 id="_게시글_삭제_성공_2">게시글 삭제 성공</h3>
+<h3 id="_후기_삭제_성공">후기 삭제 성공</h3>
 <div class="sect3">
 <h4 id="_요청_107">요청</h4>
 <div class="sect4">
 <h5 id="_요청_107_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/certifications/100?userId=testId HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/certifications/reviews/100?userId=testId HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=9QkGKx7nARjiAajJRyfWzqMTOnzIp9lXQeKGKQiUfV4F4-hAxzA2E3jVMivPY5v9JAri_pckFx6rl-96edW-Gmz3T2810dx5</code></pre>
+_csrf=BgKXad-KG4PoxZ6pNqIn--y9S7S6n7e9MZDoRsdLP5fCMipmNDqvXejoLLDF_PqfV48Tz9rYZoyLr4CQV6aMdqR4C6b3BUgD</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_요청_107_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/certifications/{postId}</caption>
+<caption class="title">Table 1. /api/certifications/reviews/{postId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -12827,7 +12825,7 @@ _csrf=9QkGKx7nARjiAajJRyfWzqMTOnzIp9lXQeKGKQiUfV4F4-hAxzA2E3jVMivPY5v9JAri_pckFx
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 게시글 id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 후기 id</p></td>
 </tr>
 </tbody>
 </table>
@@ -12871,7 +12869,7 @@ X-Frame-Options: DENY
 Content-Length: 58
 
 {
-  "msg" : "게시글 삭제에 성공하였습니다."
+  "msg" : "자격증 후기를 삭제하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -12905,25 +12903,25 @@ Content-Length: 58
 </div>
 </div>
 <div class="sect1">
-<h2 id="_자격증_후기_좋아요_api_certificationreviewlikecontroller">자격증 후기 좋아요 API (CertificationReviewLikeController)</h2>
+<h2 id="_자격증_후기_좋아요_api_reviewlikecontroller">자격증 후기 좋아요 API (ReviewLikeController)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_좋아요_상태_변경_실패_2">좋아요 상태 변경 실패</h3>
+<h3 id="_좋아요_상태_변경_성공_2">좋아요 상태 변경 성공</h3>
 <div class="sect3">
 <h4 id="_요청_108">요청</h4>
 <div class="sect4">
 <h5 id="_요청_108_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews/likes?_csrf=Ie32zAGU62gV5lhydYLDa3d3xTfmYqktaDiT7WCoT6xnC1HWEtrOrWXwiF841DtLRq_3XUJA6FXeV5sAX1mk2VOfd8gGaWbg HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews/likes?_csrf=DBpu6GNch6cBMMJkFWMUYbBVCnWoesXtwRH9B-GcFXj0jRL_aH4N3Fpv5cQsCPJTcE4gWYY0JxSRTffA-SabZtD5JkzFvSGc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 62
+Content-Length: 68
 Host: localhost:8080
 
 {
   "userId" : "testId",
-  "postId" : 10000,
-  "isLiked" : 0
+  "reviewId" : 10000,
+  "isLiked" : false
 }</code></pre>
 </div>
 </div>
@@ -12945,9 +12943,9 @@ Host: localhost:8080
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태를 변환할 게시글 id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태를 변환할 후기 id</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
@@ -12956,7 +12954,7 @@ Host: localhost:8080
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 좋아요 상태</p></td>
 </tr>
 </tbody>
@@ -12969,7 +12967,7 @@ Host: localhost:8080
 <h5 id="_응답_108_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -12980,7 +12978,7 @@ X-Frame-Options: DENY
 Content-Length: 62
 
 {
-  "msg" : "좋아요 상태 변경에 실패했습니다."
+  "msg" : "좋아요 상태 변경에 성공했습니다."
 }</code></pre>
 </div>
 </div>
@@ -13012,115 +13010,11 @@ Content-Length: 62
 </div>
 </div>
 <div class="sect2">
-<h3 id="_좋아요_상태_변경_성공_2">좋아요 상태 변경 성공</h3>
+<h3 id="_한_사용자가_좋아요_누른_게시글_리스트_조회_2">한 사용자가 좋아요 누른 게시글 리스트 조회</h3>
 <div class="sect3">
 <h4 id="_요청_109">요청</h4>
 <div class="sect4">
 <h5 id="_요청_109_http_request">HTTP request</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews/likes?_csrf=nYufT8MJ6r7RWYD8X0nfiU55fRsNaUwt4GjhkjwEEs3xMSKCru2qK_A8iYb8PbPKbWTrvXdNUCJpDC4AgVuAqwszK_mTAhS6 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 62
-Host: localhost:8080
-
-{
-  "userId" : "testId",
-  "postId" : 10000,
-  "isLiked" : 0
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_요청_109_request_fields">Request fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태를 변환할 게시글 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청자 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 좋아요 상태</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_109">응답</h4>
-<div class="sect4">
-<h5 id="_응답_109_http_response">HTTP response</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 62
-
-{
-  "msg" : "좋아요 상태 변경에 성공했습니다."
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_응답_109_response_fields">Response fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리 결과</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_한_사용자가_좋아요_누른_게시글_리스트_조회_2">한 사용자가 좋아요 누른 게시글 리스트 조회</h3>
-<div class="sect3">
-<h4 id="_요청_110">요청</h4>
-<div class="sect4">
-<h5 id="_요청_110_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/certifications/likes/testId?page=0 HTTP/1.1
@@ -13129,7 +13023,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_110_path_parameters">Path parameters</h5>
+<h5 id="_요청_109_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. /api/certifications/likes/{userId}</caption>
 <colgroup>
@@ -13151,7 +13045,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_요청_110_query_parameters">Query parameters</h5>
+<h5 id="_요청_109_query_parameters">Query parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -13173,9 +13067,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_110">응답</h4>
+<h4 id="_응답_109">응답</h4>
 <div class="sect4">
-<h5 id="_응답_110_http_response">HTTP response</h5>
+<h5 id="_응답_109_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -13186,74 +13080,64 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1182
+Content-Length: 1262
 
 [ {
   "userId" : "testId",
   "title" : "제목1",
   "content" : "내용1",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
-  "createdAt" : null,
-  "modifiedAt" : null
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목2",
   "content" : "내용2",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
-  "createdAt" : null,
-  "modifiedAt" : null
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목3",
   "content" : "내용3",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
-  "createdAt" : null,
-  "modifiedAt" : null
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목4",
   "content" : "내용4",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
-  "createdAt" : null,
-  "modifiedAt" : null
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 }, {
   "userId" : "testId",
   "title" : "제목5",
   "content" : "내용5",
-  "images" : null,
+  "certificationName" : "정보처리기사",
   "view" : 0,
-  "commentCount" : null,
   "postLikeCount" : 0,
-  "category" : 1,
-  "isLiked" : 0,
-  "createdAt" : null,
-  "modifiedAt" : null
+  "isLiked" : false,
+  "createdAt" : "2024.04.01 15:37",
+  "modifiedAt" : "2024.04.01 15:37"
 } ]</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_110_response_fields">Response fields</h5>
+<h5 id="_응답_109_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -13271,7 +13155,7 @@ Content-Length: 1182
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">후기 작성자</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
@@ -13284,24 +13168,14 @@ Content-Length: 1182
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].images</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사진 리스트</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].view</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].commentCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 수</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].postLikeCount</code></p></td>
@@ -13310,17 +13184,17 @@ Content-Length: 1182
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].isLiked</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 상태 (리스트에선 상관 X)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">작성일자</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수정일자</p></td>
 </tr>
 </tbody>
@@ -13336,9 +13210,9 @@ Content-Length: 1182
 <div class="sect2">
 <h3 id="_날짜로_자격증_정보_검색">날짜로 자격증 정보 검색</h3>
 <div class="sect3">
-<h4 id="_요청_111">요청</h4>
+<h4 id="_요청_110">요청</h4>
 <div class="sect4">
-<h5 id="_요청_111_http_request">HTTP request</h5>
+<h5 id="_요청_110_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/certifications/dates HTTP/1.1
@@ -13353,7 +13227,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_111_request_fields">Request fields</h5>
+<h5 id="_요청_110_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -13378,9 +13252,9 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_111">응답</h4>
+<h4 id="_응답_110">응답</h4>
 <div class="sect4">
-<h5 id="_응답_111_http_response">HTTP response</h5>
+<h5 id="_응답_110_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -13412,7 +13286,7 @@ Content-Length: 340
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_111_response_fields">Response fields</h5>
+<h5 id="_응답_110_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -13495,9 +13369,9 @@ Content-Length: 340
 <div class="sect2">
 <h3 id="_관심자격증_리스트_불러오기">관심자격증 리스트 불러오기</h3>
 <div class="sect3">
-<h4 id="_요청_112">요청</h4>
+<h4 id="_요청_111">요청</h4>
 <div class="sect4">
-<h5 id="_요청_112_http_request">HTTP request</h5>
+<h5 id="_요청_111_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/certification/interest/testId HTTP/1.1
@@ -13506,7 +13380,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_112_path_parameters">Path parameters</h5>
+<h5 id="_요청_111_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. /api/certification/interest/{userId}</caption>
 <colgroup>
@@ -13529,9 +13403,9 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_112">응답</h4>
+<h4 id="_응답_111">응답</h4>
 <div class="sect4">
-<h5 id="_응답_112_http_response">HTTP response</h5>
+<h5 id="_응답_111_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -13563,7 +13437,7 @@ Content-Length: 376
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_112_response_fields">Response fields</h5>
+<h5 id="_응답_111_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -13616,12 +13490,12 @@ Content-Length: 376
 <div class="sect2">
 <h3 id="_관심자격증_추가">관심자격증 추가</h3>
 <div class="sect3">
-<h4 id="_요청_113">요청</h4>
+<h4 id="_요청_112">요청</h4>
 <div class="sect4">
-<h5 id="_요청_113_http_request">HTTP request</h5>
+<h5 id="_요청_112_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=VKnml1cbTmCmYcq1lOY6lqZ0KodAR50bqLIAhozwL_hFPPAVYMrTozR_fFKLB__UocsO98BCB-YhIas2nIRhtbqUTpwnWsIh HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=kFxYmbucvVleVc1zCH_HW4LvkfKNCxp-o8SwRkhhF6zmhMSx82ptoIuvhW5zZvVCPVLzPbbavJDvbXxTwv2GcXtZc8nesaCG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 97
 Host: localhost:8080
@@ -13630,6 +13504,110 @@ Host: localhost:8080
   "userId" : "testId",
   "certificationName" : "정보처리기사",
   "isInterested" : false
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_112_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isInterested</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">관심자격증 여부 (관심상태라면 true, 아니라면 false)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_112">응답</h4>
+<div class="sect4">
+<h5 id="_응답_112_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 67
+
+{
+  "msg" : "관심자격증 상태변화에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_112_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_관심자격증_제거">관심자격증 제거</h3>
+<div class="sect3">
+<h4 id="_요청_113">요청</h4>
+<div class="sect4">
+<h5 id="_요청_113_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=VeAxrAI3ORX-BBQgfUjh4Y3mvZk-cp0nlY54DCyGORbFEi7WYIZTyDJRXyXTNHJCSmXV0L6EkPhfF_gKp75PPBmwWy6gKx6w HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 96
+Host: localhost:8080
+
+{
+  "userId" : "testId",
+  "certificationName" : "정보처리기사",
+  "isInterested" : true
 }</code></pre>
 </div>
 </div>
@@ -13717,117 +13695,13 @@ Content-Length: 67
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_관심자격증_제거">관심자격증 제거</h3>
-<div class="sect3">
-<h4 id="_요청_114">요청</h4>
-<div class="sect4">
-<h5 id="_요청_114_http_request">HTTP request</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=7uiDhF3wszX1MZIU8clw7zBR5FOz5oL_53PiNPC_SVLfoWUn3dq6tGSUhAPYCKNwyORE3gRlyTLS1-PS0EvSBJXdeGe-kgQf HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 96
-Host: localhost:8080
-
-{
-  "userId" : "testId",
-  "certificationName" : "정보처리기사",
-  "isInterested" : true
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_요청_114_request_fields">Request fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>certificationName</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">자격증이름</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isInterested</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관심자격증 여부 (관심상태라면 true, 아니라면 false)</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_114">응답</h4>
-<div class="sect4">
-<h5 id="_응답_114_http_response">HTTP response</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 67
-
-{
-  "msg" : "관심자격증 상태변화에 성공했습니다."
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_응답_114_response_fields">Response fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-05-22 20:13:19 +0900
+Last updated 2024-05-24 22:51:47 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
