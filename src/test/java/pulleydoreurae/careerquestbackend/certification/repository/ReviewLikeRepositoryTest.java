@@ -51,7 +51,7 @@ class ReviewLikeRepositoryTest {
 
 	@Test
 	@DisplayName("좋아요 누름 테스트 (증가)")
-	void postLikePlusTest() {
+	void reviewLikePlusTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
@@ -77,7 +77,7 @@ class ReviewLikeRepositoryTest {
 
 	@Test
 	@DisplayName("좋아요 누름 테스트 (감소)")
-	void postLikeMinusTest() {
+	void reviewLikeMinusTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
@@ -100,8 +100,8 @@ class ReviewLikeRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("한 게시글의 좋아요 개수를 불러오는 테스트")
-	void findListByPostTest() {
+	@DisplayName("한 후기의 좋아요 개수를 불러오는 테스트")
+	void findListByReviewTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		UserAccount user2 = UserAccount.builder().userId("testId2").build();

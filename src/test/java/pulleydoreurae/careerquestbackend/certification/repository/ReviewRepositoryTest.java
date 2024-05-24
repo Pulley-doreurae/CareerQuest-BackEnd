@@ -129,7 +129,7 @@ public class ReviewRepositoryTest {
 
 	@Test
 	@DisplayName("후기 수정 테스트")
-	void postUpdateTest() {
+	void reviewUpdateTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		Review review = Review.builder()
@@ -164,7 +164,7 @@ public class ReviewRepositoryTest {
 
 	@Test
 	@DisplayName("후기 삭제 테스트")
-	void deletePostTest() {
+	void deleteReviewTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		Review review = Review.builder()
@@ -187,7 +187,7 @@ public class ReviewRepositoryTest {
 
 	@Test
 	@DisplayName("후기 자격증명으로 리스트를 불러오는 테스트")
-	void findListByCategoryTest() {
+	void findListByCertificationNameTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		Review review1 = Review.builder()
@@ -419,7 +419,7 @@ public class ReviewRepositoryTest {
 
 	@Test
 	@DisplayName("검색어와 자격증명으로 검색한 리스트를 정상적으로 불러오는지 테스트")
-	void searchByKeywordAndCategoryTest() {
+	void searchByKeywordAndCertificationNameTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		Review review1 = Review.builder()
