@@ -20,6 +20,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
@@ -60,7 +61,7 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		// When
@@ -87,7 +88,7 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
@@ -120,7 +121,7 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
@@ -140,7 +141,7 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();
@@ -172,7 +173,7 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();

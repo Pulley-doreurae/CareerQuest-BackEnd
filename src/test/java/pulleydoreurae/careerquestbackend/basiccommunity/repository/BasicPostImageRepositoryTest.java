@@ -12,6 +12,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
@@ -47,7 +48,7 @@ class BasicPostImageRepositoryTest {
 		userAccountRepository.save(user);
 
 		Post post = BasicPost.builder()
-				.title("제목").content("내용").userAccount(user).view(0L).category(1L).build();
+				.title("제목").content("내용").userAccount(user).view(0L).postCategory(PostCategory.FREE_BOARD).build();
 		postRepository.save(post);
 
 		// When
@@ -68,7 +69,7 @@ class BasicPostImageRepositoryTest {
 		userAccountRepository.save(user);
 
 		Post post = BasicPost.builder()
-				.title("제목").content("내용").userAccount(user).view(0L).category(1L).build();
+				.title("제목").content("내용").userAccount(user).view(0L).postCategory(PostCategory.FREE_BOARD).build();
 		postRepository.save(post);
 
 		PostImage image1 = BasicPostImage.builder().post(post).fileName("파일_저장명1.txt").build();
@@ -108,7 +109,7 @@ class BasicPostImageRepositoryTest {
 		userAccountRepository.save(user);
 
 		Post post = BasicPost.builder()
-				.title("제목").content("내용").userAccount(user).view(0L).category(1L).build();
+				.title("제목").content("내용").userAccount(user).view(0L).postCategory(PostCategory.FREE_BOARD).build();
 		postRepository.save(post);
 
 		PostImage image = BasicPostImage.builder().post(post).fileName("파일_저장명.txt").build();
