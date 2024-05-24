@@ -22,7 +22,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	Page<Post> findAllByUserAccountOrderByIdDesc(UserAccount userAccount, Pageable pageable);
 
-	Page<Post> findAllByPostCategoryOrderById(PostCategory postCategory, Pageable pageable);
+	Page<Post> findAllByPostCategoryOrderByIdDesc(PostCategory postCategory, Pageable pageable);
 
 	@Query("SELECT p FROM Post p WHERE p.title LIKE concat('%', :keyword, '%') OR p.content LIKE concat('%', :keyword, '%')")
 	Page<Post> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
