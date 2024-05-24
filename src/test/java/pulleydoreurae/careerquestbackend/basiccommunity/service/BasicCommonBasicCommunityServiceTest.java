@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
@@ -40,7 +41,6 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
-import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
 
 /**
  * @author : parkjihyeok
@@ -73,7 +73,7 @@ class BasicCommonBasicCommunityServiceTest {
 	void postToPostResponseTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().userAccount(user).id(100L).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 
 		PostImage postImage1 = BasicPostImage.builder().post(new BasicPost()).fileName("image1.png").build();
@@ -109,7 +109,7 @@ class BasicCommonBasicCommunityServiceTest {
 				.view(post.getView())
 				.commentCount(commonCommunityService.countComment(post.getId()))
 				.postLikeCount(commonCommunityService.countPostLike(post.getId()))
-				.category(post.getCategory())
+				.postCategory(post.getPostCategory())
 				.isLiked(0)
 				.createdAt(post.getCreatedAt())
 				.modifiedAt(post.getModifiedAt())
@@ -125,7 +125,7 @@ class BasicCommonBasicCommunityServiceTest {
 				() -> assertEquals(expect.getView(), result.getView()),
 				() -> assertEquals(expect.getCommentCount(), result.getCommentCount()),
 				() -> assertEquals(expect.getPostLikeCount(), result.getPostLikeCount()),
-				() -> assertEquals(expect.getCategory(), result.getCategory()),
+				() -> assertEquals(expect.getPostCategory(), result.getPostCategory()),
 				() -> assertEquals(expect.getIsLiked(), result.getIsLiked()),
 				() -> assertEquals(expect.getCreatedAt(), result.getCreatedAt()),
 				() -> assertEquals(expect.getModifiedAt(), result.getModifiedAt())
@@ -167,7 +167,7 @@ class BasicCommonBasicCommunityServiceTest {
 	void findPostSuccessTest() {
 		// Given
 		Post post = BasicPost.builder()
-				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").category(1L).view(0L).build();
+				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 
 		// When
@@ -181,7 +181,7 @@ class BasicCommonBasicCommunityServiceTest {
 				() -> assertEquals(post.getContent(), result.getContent()),
 				() -> assertEquals(post.getComments(), result.getComments()),
 				() -> assertEquals(post.getView(), result.getView()),
-				() -> assertEquals(post.getCategory(), result.getCategory()),
+				() -> assertEquals(post.getPostCategory(), result.getPostCategory()),
 				() -> assertEquals(post.getPostLikes(), result.getPostLikes()),
 				() -> assertEquals(post.getCreatedAt(), result.getCreatedAt()),
 				() -> assertEquals(post.getModifiedAt(), result.getModifiedAt())
@@ -205,7 +205,7 @@ class BasicCommonBasicCommunityServiceTest {
 	void findCommentSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().userAccount(user).id(100L).title("제목1").content("내용1").category(1L).view(0L).build();
+		Post post = BasicPost.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		Comment comment = BasicComment.builder().userAccount(user).post(post).content("내용").build();
 		given(commentRepository.findById(100L)).willReturn(Optional.of(comment));
 
@@ -279,7 +279,7 @@ class BasicCommonBasicCommunityServiceTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		PostRequest postRequest = PostRequest.builder()
-				.userId("testId").title("제목").content("내용").category(1L).images(List.of("image1.png", "image2.png"))
+				.userId("testId").title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).images(List.of("image1.png", "image2.png"))
 				.build();
 
 		// When
@@ -290,7 +290,7 @@ class BasicCommonBasicCommunityServiceTest {
 				() -> assertEquals(postRequest.getUserId(), result.getUserAccount().getUserId()),
 				() -> assertEquals(postRequest.getTitle(), result.getTitle()),
 				() -> assertEquals(postRequest.getContent(), result.getContent()),
-				() -> assertEquals(postRequest.getCategory(), result.getCategory())
+				() -> assertEquals(postRequest.getPostCategory(), result.getPostCategory())
 		);
 	}
 
@@ -300,9 +300,9 @@ class BasicCommonBasicCommunityServiceTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		PostRequest postRequest = PostRequest.builder()
-				.userId("testId").title("제목").content("내용").category(1L).images(List.of("image1.png", "image2.png"))
+				.userId("testId").title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).images(List.of("image1.png", "image2.png"))
 				.build();
-		Post post = BasicPost.builder().userAccount(userAccount).title("제목").content("내용").category(1L).build();
+		Post post = BasicPost.builder().userAccount(userAccount).title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).build();
 
 		// When
 		Post result = commonCommunityService.postRequestToPostForUpdate(post, postRequest, userAccount);
@@ -311,7 +311,7 @@ class BasicCommonBasicCommunityServiceTest {
 		assertAll(
 				() -> assertEquals(postRequest.getTitle(), result.getTitle()),
 				() -> assertEquals(postRequest.getContent(), result.getContent()),
-				() -> assertEquals(postRequest.getCategory(), result.getCategory()),
+				() -> assertEquals(postRequest.getPostCategory(), result.getPostCategory()),
 				() -> assertEquals(post.getUserAccount(), result.getUserAccount()),
 				() -> assertEquals(post.getView(), result.getView()),
 				() -> assertEquals(post.getUserAccount(), result.getUserAccount()),
@@ -325,7 +325,7 @@ class BasicCommonBasicCommunityServiceTest {
 	void countCommentTest() {
 		// Given
 		Post post = BasicPost.builder()
-				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").category(1L).view(0L).build();
+				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		Comment comment1 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
 		Comment comment2 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
 		Comment comment3 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
@@ -347,7 +347,7 @@ class BasicCommonBasicCommunityServiceTest {
 	void countPostLikeTest() {
 		// Given
 		Post post = BasicPost.builder()
-				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").category(1L).view(0L).build();
+				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		PostLike postLike1 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
 		PostLike postLike2 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
 		PostLike postLike3 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
