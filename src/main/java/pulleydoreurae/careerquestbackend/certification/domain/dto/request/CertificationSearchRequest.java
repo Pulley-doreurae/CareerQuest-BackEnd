@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.certification.domain.dto;
+package pulleydoreurae.careerquestbackend.certification.domain.dto.request;
 
 import java.time.LocalDate;
 

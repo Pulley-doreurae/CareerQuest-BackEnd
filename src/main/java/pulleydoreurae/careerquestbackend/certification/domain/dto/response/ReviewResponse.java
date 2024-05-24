@@ -1,13 +1,10 @@
-package pulleydoreurae.careerquestbackend.certification.domain.dto;
-
-import java.util.List;
+package pulleydoreurae.careerquestbackend.certification.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 
 /**
  * 게시글 response

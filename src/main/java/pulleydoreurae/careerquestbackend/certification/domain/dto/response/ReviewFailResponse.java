@@ -1,11 +1,10 @@
-package pulleydoreurae.careerquestbackend.certification.domain.dto;
+package pulleydoreurae.careerquestbackend.certification.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 
 /**
  * 후기 저장, 수정에 실패하면 반환할 dto

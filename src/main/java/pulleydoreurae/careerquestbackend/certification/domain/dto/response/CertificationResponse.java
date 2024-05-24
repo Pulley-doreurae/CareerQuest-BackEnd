@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.certification.domain.dto;
+package pulleydoreurae.careerquestbackend.certification.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
