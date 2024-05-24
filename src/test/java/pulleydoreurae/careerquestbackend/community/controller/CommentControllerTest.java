@@ -25,15 +25,15 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.community.service.CommentService;
 
 /**
  * @author : parkjihyeok
  * @since : 2024/04/01
  */
-@WebMvcTest(BasicCommentController.class)
+@WebMvcTest(CommentController.class)
 @AutoConfigureRestDocs
 class CommentControllerTest {
 

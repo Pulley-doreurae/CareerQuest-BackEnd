@@ -15,11 +15,12 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,23 +30,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.common.community.service.PostService;
+import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.service.PostService;
 
 /**
  * @author : parkjihyeok
  * @since : 2024/03/31
  */
-@WebMvcTest(BasicPostController.class)
+@WebMvcTest(PostController.class)
 @AutoConfigureRestDocs
 class PostControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
 	@MockBean
-	@Qualifier("basicPostService")
 	PostService postService;
 	Gson gson = new Gson();
 
@@ -54,30 +54,11 @@ class PostControllerTest {
 	@WithMockUser
 	void getPostListTest() throws Exception {
 		// Given
-		PostResponse post1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
+		PostResponse post1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post4 = PostResponse.builder().userId("testId").title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
 		given(postService.getPostResponseList(any())).willReturn(List.of(post1, post2, post3, post4, post5));
 
@@ -100,7 +81,6 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].postCategory").description("카테고리"),
-								fieldWithPath("[].certificationName").description("자격증 이름 (자격증 후기가 아닌 경우 무시)"),
 								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
@@ -117,10 +97,7 @@ class PostControllerTest {
 	@WithMockUser
 	void getPostTest() throws Exception {
 		// Given
-		PostResponse post = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
+		PostResponse post = PostResponse.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 		given(postService.findByPostId(any(), any(), any())).willReturn(post);
 
 		// When
@@ -151,7 +128,6 @@ class PostControllerTest {
 								fieldWithPath("content").description("내용"),
 								fieldWithPath("images").description("사진 리스트"),
 								fieldWithPath("postCategory").description("카테고리"),
-								fieldWithPath("certificationName").description("자격증 이름 (자격증 후기가 아닌 경우 무시)"),
 								fieldWithPath("view").description("조회수"),
 								fieldWithPath("commentCount").description("댓글 수"),
 								fieldWithPath("postLikeCount").description("좋아요 수"),
@@ -168,8 +144,7 @@ class PostControllerTest {
 	@WithMockUser
 	void savePostFailTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD)
-				.build();
+		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).build();
 
 		doThrow(new UsernameNotFoundException("게시글 저장에 실패했습니다.")).when(postService).savePost(any());
 
@@ -203,8 +178,7 @@ class PostControllerTest {
 	@WithMockUser
 	void savePostSuccessTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD)
-				.build();
+		PostRequest request = PostRequest.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).build();
 
 		// When
 		mockMvc.perform(
@@ -236,8 +210,7 @@ class PostControllerTest {
 	@WithMockUser
 	void updatePostFailTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD)
-				.build();
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD).build();
 
 		given(postService.updatePost(any(), any())).willReturn(false);
 
@@ -274,8 +247,7 @@ class PostControllerTest {
 	@WithMockUser
 	void updatePostSuccessTest() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD)
-				.build();
+		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD).build();
 
 		given(postService.updatePost(any(), any())).willReturn(true);
 
@@ -369,42 +341,43 @@ class PostControllerTest {
 		// Then
 	}
 
-	/*@Test
+	@Test
 	@DisplayName("9. 게시글 리스트 카테고리로 조회 테스트")
 	@WithMockUser
 	void getPostListByCategoryTest() throws Exception {
 		// Given
 		PostResponse post1 = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
 				.userId("testId").title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
 				.userId("testId").title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
 				.userId("testId").title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
 				.userId("testId").title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		given(postService.getPostResponseListByCategory(any(), any()))
+		Pageable pageable = PageRequest.of(0, 15);
+		given(postService.getPostResponseListByCategory(PostCategory.FREE_BOARD, pageable))
 				.willReturn(List.of(post1, post2, post3, post4, post5));
 
 		// When
 		mockMvc.perform(
-						get("/api/posts/category/{category}", 1L)
+						get("/api/posts/category/{postCategory}", "free-board")
 								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
@@ -412,6 +385,9 @@ class PostControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
+						pathParameters(
+							parameterWithName("postCategory").description("카테고리 정보")
+						),
 						queryParameters(
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
@@ -421,7 +397,6 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].postCategory").description("카테고리"),
-								fieldWithPath("[].certificationName").description("자격증 이름 (자격증 후기가 아닌 경우 무시)"),
 								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
@@ -431,37 +406,18 @@ class PostControllerTest {
 						)));
 
 		// Then
-	}*/
+	}
 
 	@Test
 	@DisplayName("10. 한 사용자가 작성한 게시글 리스트 조회 테스트")
 	@WithMockUser
 	void getPostListByUserAccountTest() throws Exception {
 		// Given
-		PostResponse post1 = PostResponse.builder()
-				.userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post2 = PostResponse.builder()
-				.userId("testId").title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post3 = PostResponse.builder()
-				.userId("testId").title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post4 = PostResponse.builder()
-				.userId("testId").title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		PostResponse post5 = PostResponse.builder()
-				.userId("testId").title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
+		PostResponse post1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post4 = PostResponse.builder().userId("testId").title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
 		given(postService.getPostListByUserAccount(any(), any()))
 				.willReturn(List.of(post1, post2, post3, post4, post5));
@@ -485,7 +441,6 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].postCategory").description("카테고리"),
-								fieldWithPath("[].certificationName").description("자격증 이름 (자격증 후기가 아닌 경우 무시)"),
 								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
@@ -502,20 +457,11 @@ class PostControllerTest {
 	@WithMockUser
 	void searchPostsTest1() throws Exception {
 		// Given
-		PostResponse post1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
-
-		PostResponse post2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
-
-		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
-
-		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
-
-		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").postCategory(PostCategory.FREE_BOARD).view(0L)
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").postCategory(PostCategory.FREE_BOARD).view(0L).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
 		given(postService.searchPosts(any(), any(), any()))
 				.willReturn(List.of(post4, post5));
@@ -541,7 +487,6 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].postCategory").description("카테고리"),
-								fieldWithPath("[].certificationName").description("자격증 이름 (자격증 후기가 아닌 경우 무시)"),
 								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
@@ -553,7 +498,7 @@ class PostControllerTest {
 		// Then
 	}
 
-	/*@Test
+	@Test
 	@DisplayName("검색어와 카테고리로 검색한 게시글 리스트 조회 테스트")
 	@WithMockUser
 	void searchPostsTest2() throws Exception {
@@ -561,26 +506,27 @@ class PostControllerTest {
 		PostResponse post1 = PostResponse.builder().userId("testId").title("검색어").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post2 = PostResponse.builder().userId("testId").title("검색어").content("내용2").postCategory(2L).view(0L)
+		PostResponse post2 = PostResponse.builder().userId("testId").title("검색어").content("내용2").postCategory(PostCategory.CERTIFICATION_BOARD).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
 		PostResponse post3 = PostResponse.builder().userId("testId").title("제목3").content("검색어").postCategory(PostCategory.FREE_BOARD).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").postCategory(2L).view(0L)
+		PostResponse post4 = PostResponse.builder().userId("testId").title("검색어").content("내용4").postCategory(PostCategory.CERTIFICATION_BOARD).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").postCategory(2L).view(0L)
+		PostResponse post5 = PostResponse.builder().userId("testId").title("제목5").content("검색어").postCategory(PostCategory.CERTIFICATION_BOARD).view(0L)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37").build();
 
-		given(postService.searchPosts(any(), any(), any()))
+		Pageable pageable = PageRequest.of(0, 15);
+		given(postService.searchPosts("검색어", PostCategory.CERTIFICATION_BOARD, pageable))
 				.willReturn(List.of(post2, post4, post5));
 
 		// When
 		mockMvc.perform(
 						get("/api/posts/search")
 								.queryParam("keyword", "검색어")
-								.queryParam("category", "2")
+								.queryParam("postCategory", "certification-board")
 								.queryParam("page", "0")
 								.with(csrf()))
 				.andExpect(status().isOk())
@@ -590,7 +536,7 @@ class PostControllerTest {
 						preprocessResponse(prettyPrint()),
 						queryParameters(
 								parameterWithName("keyword").description("검색어"),
-								parameterWithName("category").description("카테고리 id"),
+								parameterWithName("postCategory").description("카테고리 정보"),
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
 						responseFields(
@@ -598,7 +544,7 @@ class PostControllerTest {
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
-								fieldWithPath("[].category").description("카테고리"),
+								fieldWithPath("[].postCategory").description("카테고리"),
 								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
@@ -608,15 +554,14 @@ class PostControllerTest {
 						)));
 
 		// Then
-	}*/
+	}
 
 	@Test
 	@DisplayName("게시글 작성 테스트 (검증 실패 - userId 없음)")
 	@WithMockUser
 	void savePostValidFail1Test() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD)
-				.build();
+		PostRequest request = PostRequest.builder().userId("").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD).build();
 
 		// When
 		mockMvc.perform(
@@ -654,7 +599,11 @@ class PostControllerTest {
 	@WithMockUser
 	void savePostValidFail2Test() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("").content("수정할 내용").postCategory(PostCategory.FREE_BOARD)
+		PostRequest request = PostRequest.builder()
+				.userId("testId")
+				.title("")
+				.content("수정할 내용")
+				.postCategory(PostCategory.FREE_BOARD)
 				.build();
 
 		// When
@@ -693,7 +642,11 @@ class PostControllerTest {
 	@WithMockUser
 	void savePostValidFail3Test() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("").postCategory(PostCategory.FREE_BOARD)
+		PostRequest request = PostRequest.builder()
+				.userId("testId")
+				.title("수정할 제목")
+				.content("")
+				.postCategory(PostCategory.FREE_BOARD)
 				.build();
 
 		// When
@@ -770,7 +723,11 @@ class PostControllerTest {
 	@WithMockUser
 	void updatePostValidFail1Test() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD)
+		PostRequest request = PostRequest.builder()
+				.userId("")
+				.title("수정할 제목")
+				.content("수정할 내용")
+				.postCategory(PostCategory.FREE_BOARD)
 				.build();
 
 		// When
@@ -812,7 +769,11 @@ class PostControllerTest {
 	@WithMockUser
 	void updatePostValidFail2Test() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("").content("수정할 내용").postCategory(PostCategory.FREE_BOARD)
+		PostRequest request = PostRequest.builder()
+				.userId("testId")
+				.title("")
+				.content("수정할 내용")
+				.postCategory(PostCategory.FREE_BOARD)
 				.build();
 
 		// When
@@ -854,7 +815,11 @@ class PostControllerTest {
 	@WithMockUser
 	void updatePostValidFail3Test() throws Exception {
 		// Given
-		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("").postCategory(PostCategory.FREE_BOARD)
+		PostRequest request = PostRequest.builder()
+				.userId("testId")
+				.title("수정할 제목")
+				.content("")
+				.postCategory(PostCategory.FREE_BOARD)
 				.build();
 
 		// When
@@ -1020,7 +985,7 @@ class PostControllerTest {
 
 		PostResponse post = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").images(images).
-				postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(0)
+				postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L).isLiked(false)
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 		given(postService.findByPostId(any(), any(), any())).willReturn(post);
@@ -1053,7 +1018,6 @@ class PostControllerTest {
 								fieldWithPath("content").description("내용"),
 								fieldWithPath("images").description("사진 리스트"),
 								fieldWithPath("postCategory").description("카테고리"),
-								fieldWithPath("certificationName").description("자격증 이름 (자격증 후기가 아닌 경우 무시)"),
 								fieldWithPath("view").description("조회수"),
 								fieldWithPath("commentCount").description("댓글 수"),
 								fieldWithPath("postLikeCount").description("좋아요 수"),
@@ -1081,31 +1045,31 @@ class PostControllerTest {
 		PostResponse post1 = PostResponse.builder()
 				.userId("testId").title("제목1").content("내용1").images(images)
 				.postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post2 = PostResponse.builder()
 				.userId("testId").title("제목2").content("내용2").images(images)
 				.postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post3 = PostResponse.builder()
 				.userId("testId").title("제목3").content("내용3").images(images)
 				.postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post4 = PostResponse.builder()
 				.userId("testId").title("제목4").content("내용4").images(images)
 				.postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		PostResponse post5 = PostResponse.builder()
 				.userId("testId").title("제목5").content("내용5").images(images)
 				.postCategory(PostCategory.FREE_BOARD).view(0L).commentCount(0L).postLikeCount(0L)
-				.isLiked(0).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		given(postService.getPostResponseList(any())).willReturn(List.of(post1, post2, post3, post4, post5));
@@ -1129,7 +1093,6 @@ class PostControllerTest {
 								fieldWithPath("[].content").description("내용"),
 								fieldWithPath("[].images").description("사진 리스트"),
 								fieldWithPath("[].postCategory").description("카테고리"),
-								fieldWithPath("[].certificationName").description("자격증 이름 (자격증 후기가 아닌 경우 무시)"),
 								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].commentCount").description("댓글 수"),
 								fieldWithPath("[].postLikeCount").description("좋아요 수"),
