@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.community.controller.CommentController;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 

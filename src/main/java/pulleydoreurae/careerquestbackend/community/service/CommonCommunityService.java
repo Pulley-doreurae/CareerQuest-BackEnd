@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
+import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepository;
 import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
 
 /**

@@ -25,9 +25,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.community.controller.PostController;
-import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 

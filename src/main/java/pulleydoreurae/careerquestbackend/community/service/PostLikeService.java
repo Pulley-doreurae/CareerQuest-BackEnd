@@ -8,7 +8,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
 import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
 

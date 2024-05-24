@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 
 /**
  * 게시글 request

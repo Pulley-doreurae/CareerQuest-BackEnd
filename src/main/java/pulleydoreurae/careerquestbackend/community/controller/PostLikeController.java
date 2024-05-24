@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.community.controller.PostLikeController;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostLikeService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 

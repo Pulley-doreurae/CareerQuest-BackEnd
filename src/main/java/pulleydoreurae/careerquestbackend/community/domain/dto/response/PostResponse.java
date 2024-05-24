@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 
 /**
  * 게시글 response
