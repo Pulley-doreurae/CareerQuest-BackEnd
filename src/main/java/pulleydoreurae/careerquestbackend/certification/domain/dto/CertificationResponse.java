@@ -1,6 +1,5 @@
 package pulleydoreurae.careerquestbackend.certification.domain.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +22,5 @@ public class CertificationResponse {
 	private String qualification; // 응시자격
 	private String organizer; // 주관처
 	private String registrationLink; // 접수링크
-	private String AiSummary; // AI 요약
+	private String aiSummary; // AI 요약
 }
