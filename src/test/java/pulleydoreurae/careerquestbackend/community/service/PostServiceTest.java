@@ -27,20 +27,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
+import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
-import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
-import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
+import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
+import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
+import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepository;
 
 /**
  * @author : parkjihyeok
@@ -53,7 +51,7 @@ class PostServiceTest {
 	String IMAGES_PATH;
 
 	@InjectMocks
-	BasicPostService postService;
+	PostService postService;
 	@Mock
 	PostRepository postRepository;
 	@Mock
@@ -79,7 +77,7 @@ class PostServiceTest {
 
 		// Then
 		assertThrows(PostNotFoundException.class, () -> postService.findByPostId(request, response, 100L));
-		verify(commonCommunityService, never()).postToPostResponse(new Post(), 0);
+		verify(commonCommunityService, never()).postToPostResponse(new Post(), false);
 	}
 
 	@Test
@@ -90,15 +88,15 @@ class PostServiceTest {
 		HttpServletResponse response = new MockHttpServletResponse();
 		Post post = Post.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
-		given(commonCommunityService.postToPostResponse(post, 0)).willReturn(
-				new PostResponse("A", "A", "A", List.of(), 1L, 1L, 1L, PostCategory.FREE_BOARD, null, 1, "A", "A"));
+		given(commonCommunityService.postToPostResponse(post, false)).willReturn(
+				new PostResponse("A", "A", "A", List.of(), 1L, 1L, 1L, PostCategory.FREE_BOARD, false,"A", "A"));
 
 		// When
 		PostResponse result = postService.findByPostId(request, response, 100L);
 
 		// Then
 		assertNotNull(result);
-		verify(commonCommunityService).postToPostResponse(post, 0);
+		verify(commonCommunityService).postToPostResponse(post, false);
 	}
 
 	@Test
@@ -142,7 +140,7 @@ class PostServiceTest {
 		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 		securityContext.setAuthentication(authentication);
 		SecurityContextHolder.setContext(securityContext);
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck postViewCheck = new PostViewCheck("testId", 100L);
+		PostViewCheck postViewCheck = new PostViewCheck("testId", 100L);
 		given(commonCommunityService.findPostViewCheck("testId")).willReturn(postViewCheck);
 
 		// When
@@ -155,29 +153,29 @@ class PostServiceTest {
 	}
 
 	@Test
-	@DisplayName("좋아요 상태 0")
+	@DisplayName("좋아요 상태 false")
 	void getIsLikedTest1() {
 		// Given
 		given(postLikeRepository.existsByPostAndUserAccount(any(), any())).willReturn(false);
 
 		// When
-		int result = postService.getIsLiked("testId", new Post());
+		Boolean result = postService.getIsLiked("testId", new Post());
 
 		// Then
-		assertEquals(0, result);
+		assertFalse(result);
 	}
 
 	@Test
-	@DisplayName("좋아요 상태 1")
+	@DisplayName("좋아요 상태 true")
 	void getIsLikedTest2() {
 		// Given
 		given(postLikeRepository.existsByPostAndUserAccount(any(), any())).willReturn(true);
 
 		// When
-		int result = postService.getIsLiked("testId", new Post());
+		Boolean result = postService.getIsLiked("testId", new Post());
 
 		// Then
-		assertEquals(1, result);
+		assertTrue(result);
 	}
 
 	@Test
@@ -222,7 +220,8 @@ class PostServiceTest {
 		// When
 
 		// Then
-		assertDoesNotThrow(() -> postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null, null)));
+		assertDoesNotThrow(
+				() -> postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null)));
 	}
 
 	@Test
@@ -235,7 +234,7 @@ class PostServiceTest {
 
 		// Then
 		assertThrows(UsernameNotFoundException.class, () ->
-				postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null, null)));
+				postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null)));
 	}
 
 	@Test
@@ -254,7 +253,8 @@ class PostServiceTest {
 		// When
 
 		// Then
-		assertDoesNotThrow(() -> postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null, images)));
+		assertDoesNotThrow(() -> postService.savePost(
+				new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, images)));
 	}
 
 	@Test
@@ -273,7 +273,7 @@ class PostServiceTest {
 
 		// Then
 		assertThrows(UsernameNotFoundException.class, () ->
-				postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null, images)));
+				postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, images)));
 		// 저장된 이미지를 삭제하는 메서드가 동작했는지 검증
 		verify(fileManagementService).deleteFile(anyList(), any());
 	}
@@ -288,7 +288,8 @@ class PostServiceTest {
 
 		// Then
 		assertThrows(PostNotFoundException.class,
-				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null, null)));
+				() -> postService.updatePost(100L,
+						new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null)));
 		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository, never()).save(any());
 	}
@@ -307,7 +308,8 @@ class PostServiceTest {
 
 		// Then
 		assertThrows(UsernameNotFoundException.class,
-				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null, null)));
+				() -> postService.updatePost(100L,
+						new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null)));
 		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository, never()).save(any());
 	}
@@ -323,7 +325,8 @@ class PostServiceTest {
 		given(commonCommunityService.findUserAccount(any())).willReturn(user2);
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId2", "제목", "내용", PostCategory.FREE_BOARD, null, null));
+		boolean result = postService.updatePost(100L,
+				new PostRequest("testId2", "제목", "내용", PostCategory.FREE_BOARD, null));
 
 		// Then
 		assertFalse(result);
@@ -341,7 +344,7 @@ class PostServiceTest {
 		given(commonCommunityService.findUserAccount(any())).willReturn(user);
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null, null));
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null));
 
 		// Then
 		assertTrue(result);
@@ -353,12 +356,12 @@ class PostServiceTest {
 	@DisplayName("이미지 수정 테스트")
 	void updateImagesTest() {
 		// Given
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
-		List<pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage> images = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
+		PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
+		PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
+		PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
+		PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
+		PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
+		List<PostImage> images = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
 		given(postImageRepository.findAllByPost(any())).willReturn(images);
 		given(postImageRepository.existsByFileName("image2.png")).willReturn(true);
 		given(postImageRepository.existsByFileName("image3.png")).willReturn(true);
@@ -486,11 +489,11 @@ class PostServiceTest {
 	@Test
 	@DisplayName("저장된 이미지 조회 성공")
 	void getImageResourceSuccessTest() throws MalformedURLException {
-	    // Given
+		// Given
 		given(postImageRepository.existsByFileName(any())).willReturn(true);
 		UrlResource urlResource = new UrlResource("file:" + IMAGES_PATH + "test.png");
 
-	    // When
+		// When
 		UrlResource result = postService.getImageResource("test.png");
 
 		// Then

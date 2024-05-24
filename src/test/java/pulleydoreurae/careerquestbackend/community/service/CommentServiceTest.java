@@ -20,14 +20,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.exception.CommentNotFoundException;
-import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.exception.CommentNotFoundException;
+import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
+import pulleydoreurae.careerquestbackend.community.repository.CommentRepository;
 
 /**
  * @author : parkjihyeok
@@ -37,11 +36,11 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 class CommentServiceTest {
 
 	@InjectMocks
-	BasicCommentService commentService;
+	CommentService commentService;
 	@Mock
 	CommentRepository commentRepository;
 	@Mock
-	CommonBasicCommunityService commonCommunityService;
+	CommonCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("1. 댓글 저장 테스트 (실패 - 회원정보를 찾을 수 없음)")
@@ -111,7 +110,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId()))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
@@ -132,7 +131,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId()))
@@ -154,7 +153,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -177,7 +176,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(100L))
@@ -201,7 +200,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount("test"))
 				.willReturn(UserAccount.builder().userId("test").build());
@@ -225,7 +224,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -248,7 +247,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId()))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
@@ -267,7 +266,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId()))
@@ -287,7 +286,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -308,7 +307,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(100L))
@@ -329,7 +328,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount("test"))
 				.willReturn(UserAccount.builder().userId("test").build());
@@ -350,7 +349,7 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -370,21 +369,23 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		// 3개씩 자른다면 마지막 3개가 반환되어야 함
-		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
+		Page<Comment> pageList = new PageImpl<>(
+				List.of(comment3, comment4, comment5), pageable, 3);
 
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
 		given(commentRepository.findAllByPostOrderByIdDesc(post, pageable)).willReturn(pageList);
 
 		// When
-		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> list = commentRepository.findAllByPostOrderByIdDesc(post, pageable);
+		Page<Comment> list = commentRepository.findAllByPostOrderByIdDesc(
+				post, pageable);
 		List<CommentResponse> result = commentService.findListByPostId(post.getId(), pageable);
 
 		// Then
@@ -402,21 +403,23 @@ class CommentServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		// 3개씩 자른다면 마지막 3개가 반환되어야 함
-		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
+		Page<Comment> pageList = new PageImpl<>(
+				List.of(comment3, comment4, comment5), pageable, 3);
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable)).willReturn(pageList);
 
 		// When
-		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> list = commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
+		Page<Comment> list = commentRepository.findAllByUserAccountOrderByIdDesc(
+				user, pageable);
 		List<CommentResponse> result = commentService.findListByUserAccount(user.getUserId(), pageable);
 
 		// Then
@@ -428,8 +431,7 @@ class CommentServiceTest {
 		);
 	}
 
-	CommentResponse commentToCommentResponse(
-			pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment) {
+	CommentResponse commentToCommentResponse(Comment comment) {
 		return CommentResponse.builder()
 				.userId(comment.getUserAccount().getUserId())
 				.postId(comment.getPost().getId())

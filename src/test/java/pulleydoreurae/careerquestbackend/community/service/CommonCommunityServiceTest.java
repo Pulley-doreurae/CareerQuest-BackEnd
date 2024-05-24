@@ -43,7 +43,7 @@ import pulleydoreurae.careerquestbackend.community.repository.PostViewCheckRepos
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("커뮤니티에서 공통으로 사용되는 메서드 테스트")
-class BasicCommonCommunityServiceTest {
+class CommonCommunityServiceTest {
 
 	@Value("${IMAGES_PATH}")
 	String IMAGES_PATH;
@@ -68,67 +68,23 @@ class BasicCommonCommunityServiceTest {
 	void postToPostResponseTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.postCategory(PostCategory.FREE_BOARD)
-				.view(0L)
-				.build();
+		Post post = Post.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 
-		PostImage postImage1 = PostImage.builder()
-				.post(new Post())
-				.fileName("image1.png")
-				.build();
-		PostImage postImage2 = PostImage.builder()
-				.post(new Post())
-				.fileName("image2.png")
-				.build();
-		PostImage postImage3 = PostImage.builder()
-				.post(new Post())
-				.fileName("image3.png")
-				.build();
-		PostImage postImage4 = PostImage.builder()
-				.post(new Post())
-				.fileName("image4.png")
-				.build();
-		PostImage postImage5 = PostImage.builder()
-				.post(new Post())
-				.fileName("image5.png")
-				.build();
-		List<PostImage> postImages = List.of(
-				postImage1, postImage2, postImage3, postImage4, postImage5);
+		PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
+		PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
+		PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
+		PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
+		PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
+		List<PostImage> postImages = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
 		given(postImageRepository.findAllByPost(post)).willReturn(postImages);
 
-		Comment comment1 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
-		Comment comment2 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
-		Comment comment3 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
-		Comment comment4 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
-		Comment comment5 = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("댓글 내용")
-				.build();
-		List<Comment> comments = List.of(comment1,
-				comment2, comment3, comment4, comment5);
+		Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		List<Comment> comments = List.of(comment1, comment2, comment3, comment4, comment5);
 		given(commentRepository.findAllByPost(post)).willReturn(comments);
 
 		PostLike postLike1 = PostLike.builder().userAccount(user).post(post).build();
@@ -205,14 +161,7 @@ class BasicCommonCommunityServiceTest {
 	@DisplayName("게시글 찾기 성공")
 	void findPostSuccessTest() {
 		// Given
-		Post post = Post.builder()
-				.userAccount(new UserAccount())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.postCategory(PostCategory.FREE_BOARD)
-				.view(0L)
-				.build();
+		Post post = Post.builder().userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 
 		// When
@@ -250,19 +199,8 @@ class BasicCommonCommunityServiceTest {
 	void findCommentSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = Post.builder()
-				.userAccount(user)
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.postCategory(PostCategory.FREE_BOARD)
-				.view(0L)
-				.build();
-		Comment comment = Comment.builder()
-				.userAccount(user)
-				.post(post)
-				.content("내용")
-				.build();
+		Post post = Post.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Comment comment = Comment.builder().userAccount(user).post(post).content("내용").build();
 		given(commentRepository.findById(100L)).willReturn(Optional.of(comment));
 
 		// When
@@ -338,13 +276,7 @@ class BasicCommonCommunityServiceTest {
 	void postRequestToPostTest() {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		PostRequest postRequest = PostRequest.builder()
-				.userId("testId")
-				.title("제목")
-				.content("내용")
-				.postCategory(PostCategory.FREE_BOARD)
-				.images(List.of("image1.png", "image2.png"))
-				.build();
+		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).images(List.of("image1.png", "image2.png")).build();
 
 		// When
 		Post result = commonCommunityService.postRequestToPost(postRequest, userAccount);
@@ -363,19 +295,8 @@ class BasicCommonCommunityServiceTest {
 	void postRequestToPostForUpdateTest() {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		PostRequest postRequest = PostRequest.builder()
-				.userId("testId")
-				.title("제목")
-				.content("내용")
-				.postCategory(PostCategory.FREE_BOARD)
-				.images(List.of("image1.png", "image2.png"))
-				.build();
-		Post post = Post.builder()
-				.userAccount(userAccount)
-				.title("제목")
-				.content("내용")
-				.postCategory(PostCategory.FREE_BOARD)
-				.build();
+		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).images(List.of("image1.png", "image2.png")).build();
+		Post post = Post.builder().userAccount(userAccount).title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).build();
 
 		// When
 		Post result = commonCommunityService.postRequestToPostForUpdate(post, postRequest, userAccount);
@@ -398,38 +319,12 @@ class BasicCommonCommunityServiceTest {
 	void countCommentTest() {
 		// Given
 		Post post = Post.builder()
-				.userAccount(new UserAccount())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.postCategory(PostCategory.FREE_BOARD)
-				.view(0L)
-				.build();
-		Comment comment1 = Comment.builder()
-				.content("내용")
-				.post(post)
-				.userAccount(new UserAccount())
-				.build();
-		Comment comment2 = Comment.builder()
-				.content("내용")
-				.post(post)
-				.userAccount(new UserAccount())
-				.build();
-		Comment comment3 = Comment.builder()
-				.content("내용")
-				.post(post)
-				.userAccount(new UserAccount())
-				.build();
-		Comment comment4 = Comment.builder()
-				.content("내용")
-				.post(post)
-				.userAccount(new UserAccount())
-				.build();
-		Comment comment5 = Comment.builder()
-				.content("내용")
-				.post(post)
-				.userAccount(new UserAccount())
-				.build();
+				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Comment comment1 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		Comment comment2 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		Comment comment3 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		Comment comment4 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		Comment comment5 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 		given(commentRepository.findAllByPost(any()))
 				.willReturn(List.of(comment1, comment2, comment3, comment4, comment5));
@@ -445,14 +340,7 @@ class BasicCommonCommunityServiceTest {
 	@DisplayName("게시글 좋아요 수 테스트")
 	void countPostLikeTest() {
 		// Given
-		Post post = Post.builder()
-				.userAccount(new UserAccount())
-				.id(100L)
-				.title("제목1")
-				.content("내용1")
-				.postCategory(PostCategory.FREE_BOARD)
-				.view(0L)
-				.build();
+		Post post = Post.builder().userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		PostLike postLike1 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
 		PostLike postLike2 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
 		PostLike postLike3 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
@@ -473,26 +361,11 @@ class BasicCommonCommunityServiceTest {
 	@DisplayName("저장한 사진 정보 가져오기")
 	void postImageToStringListTest() {
 		// Given
-		PostImage postImage1 = PostImage.builder()
-				.post(new Post())
-				.fileName("image1.png")
-				.build();
-		PostImage postImage2 = PostImage.builder()
-				.post(new Post())
-				.fileName("image2.png")
-				.build();
-		PostImage postImage3 = PostImage.builder()
-				.post(new Post())
-				.fileName("image3.png")
-				.build();
-		PostImage postImage4 = PostImage.builder()
-				.post(new Post())
-				.fileName("image4.png")
-				.build();
-		PostImage postImage5 = PostImage.builder()
-				.post(new Post())
-				.fileName("image5.png")
-				.build();
+		PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
+		PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
+		PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
+		PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
+		PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
 		given(postImageRepository.findAllByPost(any()))
 				.willReturn(List.of(postImage1, postImage2, postImage3, postImage4, postImage5));
 

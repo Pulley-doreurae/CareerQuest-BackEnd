@@ -19,14 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostLikeRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
-import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
+import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
+import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 
 /**
  * @author : parkjihyeok
@@ -37,11 +35,11 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike
 class PostLikeServiceTest {
 
 	@InjectMocks
-	BasicPostLikeService postLikeService;
+	PostLikeService postLikeService;
 	@Mock
 	PostLikeRepository postLikeRepository;
 	@Mock
-	CommonBasicCommunityService commonCommunityService;
+	CommonCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("1. 좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")
@@ -53,7 +51,7 @@ class PostLikeServiceTest {
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(0).build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(false).build();
 
 		// Then
 		assertThrows(UsernameNotFoundException.class, () -> postLikeService.changePostLike(request));
@@ -72,11 +70,7 @@ class PostLikeServiceTest {
 				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(0)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(false).build();
 
 		// Then
 		assertThrows(PostNotFoundException.class, () -> postLikeService.changePostLike(request));
@@ -95,16 +89,11 @@ class PostLikeServiceTest {
 		given(commonCommunityService.findPost(10000L)).willReturn(post);
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder()
-				.postId(10000L)
-				.userId("testId")
-				.isLiked(0)
-				.build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(false).build();
 
 		// Then
-		boolean result = postLikeService.changePostLike(request);
+		postLikeService.changePostLike(request);
 
-		assertTrue(result);
 		verify(postLikeRepository).save(any());
 		verify(postLikeRepository, never()).delete(any());
 	}
@@ -119,7 +108,7 @@ class PostLikeServiceTest {
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(true).build();
 
 		// Then
 		assertThrows(UsernameNotFoundException.class, () -> postLikeService.changePostLike(request));
@@ -138,7 +127,7 @@ class PostLikeServiceTest {
 				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(true).build();
 
 		// Then
 		assertThrows(PostNotFoundException.class, () -> postLikeService.changePostLike(request));
@@ -158,12 +147,11 @@ class PostLikeServiceTest {
 		given(commonCommunityService.findPostLike(post, user)).willReturn(postLike);
 
 		// When
-		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(1).build();
+		PostLikeRequest request = PostLikeRequest.builder().postId(10000L).userId("testId").isLiked(true).build();
 
 		// Then
-		boolean result = postLikeService.changePostLike(request);
+		postLikeService.changePostLike(request);
 
-		assertTrue(result);
 		verify(postLikeRepository, never()).save(any());
 		verify(postLikeRepository).delete(any());
 	}
@@ -189,9 +177,9 @@ class PostLikeServiceTest {
 				List.of(postLike3, postLike4, postLike5), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
 
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(commonCommunityService.postToPostResponse(post3, 0)).willReturn(postToPostResponse(post3));
-		given(commonCommunityService.postToPostResponse(post4, 0)).willReturn(postToPostResponse(post4));
-		given(commonCommunityService.postToPostResponse(post5, 0)).willReturn(postToPostResponse(post5));
+		given(commonCommunityService.postToPostResponse(post3, false)).willReturn(postToPostResponse(post3));
+		given(commonCommunityService.postToPostResponse(post4, false)).willReturn(postToPostResponse(post4));
+		given(commonCommunityService.postToPostResponse(post5, false)).willReturn(postToPostResponse(post5));
 		given(postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable))
 				.willReturn(list);
 
@@ -207,9 +195,9 @@ class PostLikeServiceTest {
 				postToPostResponse(post5)
 		);
 		verify(postLikeRepository).findAllByUserAccountOrderByIdDesc(user, pageable);
-		verify(commonCommunityService).postToPostResponse(post3, 0);
-		verify(commonCommunityService).postToPostResponse(post4, 0);
-		verify(commonCommunityService).postToPostResponse(post5, 0);
+		verify(commonCommunityService).postToPostResponse(post3, false);
+		verify(commonCommunityService).postToPostResponse(post4, false);
+		verify(commonCommunityService).postToPostResponse(post5, false);
 	}
 
 	// Post -> PostResponse 변환 메서드
