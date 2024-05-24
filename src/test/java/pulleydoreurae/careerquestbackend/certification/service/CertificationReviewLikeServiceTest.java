@@ -221,7 +221,7 @@ class CertificationReviewLikeServiceTest {
 				.view(post.getView())
 				.commentCount(0L)
 				.postLikeCount(0L)
-				.category(post.getCategory())
+				.postCategory(post.getPostCategory())
 				.build();
 	}
 }

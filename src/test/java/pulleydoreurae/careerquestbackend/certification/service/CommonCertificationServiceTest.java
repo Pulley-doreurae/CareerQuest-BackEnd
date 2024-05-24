@@ -23,6 +23,7 @@ import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReview;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReviewLike;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReviewViewCheck;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
@@ -72,7 +73,7 @@ class CommonCertificationServiceTest {
 				.id(100L)
 				.title("제목1")
 				.content("내용1")
-				.category(1L)
+				.postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L)
 				.build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
@@ -92,7 +93,7 @@ class CommonCertificationServiceTest {
 				.content(post.getContent())
 				.view(post.getView())
 				.postLikeCount(commonCommunityService.countPostLike(post.getId()))
-				.category(post.getCategory())
+				.postCategory(post.getPostCategory())
 				.isLiked(0)
 				.createdAt(post.getCreatedAt())
 				.modifiedAt(post.getModifiedAt())
@@ -106,7 +107,7 @@ class CommonCertificationServiceTest {
 				() -> assertEquals(expect.getContent(), result.getContent()),
 				() -> assertEquals(expect.getView(), result.getView()),
 				() -> assertEquals(expect.getPostLikeCount(), result.getPostLikeCount()),
-				() -> assertEquals(expect.getCategory(), result.getCategory()),
+				() -> assertEquals(expect.getPostCategory(), result.getPostCategory()),
 				() -> assertEquals(expect.getIsLiked(), result.getIsLiked()),
 				() -> assertEquals(expect.getCreatedAt(), result.getCreatedAt()),
 				() -> assertEquals(expect.getModifiedAt(), result.getModifiedAt())
@@ -148,7 +149,7 @@ class CommonCertificationServiceTest {
 	void findPostSuccessTest() {
 		// Given
 		Post post = CertificationReview.builder()
-				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").category(1L).view(0L).build();
+				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 
 		// When
@@ -161,7 +162,7 @@ class CommonCertificationServiceTest {
 				() -> assertEquals(post.getTitle(), result.getTitle()),
 				() -> assertEquals(post.getContent(), result.getContent()),
 				() -> assertEquals(post.getView(), result.getView()),
-				() -> assertEquals(post.getCategory(), result.getCategory()),
+				() -> assertEquals(post.getPostCategory(), result.getPostCategory()),
 				() -> assertEquals(post.getPostLikes(), result.getPostLikes()),
 				() -> assertEquals(post.getCreatedAt(), result.getCreatedAt()),
 				() -> assertEquals(post.getModifiedAt(), result.getModifiedAt())
@@ -231,7 +232,7 @@ class CommonCertificationServiceTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		PostRequest postRequest = PostRequest.builder()
-				.userId("testId").title("제목").content("내용").category(1L).images(List.of("image1.png", "image2.png"))
+				.userId("testId").title("제목").content("내용").postCategory(PostCategory.CERTIFICATION_REVIEW).images(List.of("image1.png", "image2.png"))
 				.build();
 
 		// When
@@ -242,7 +243,7 @@ class CommonCertificationServiceTest {
 				() -> assertEquals(postRequest.getUserId(), result.getUserAccount().getUserId()),
 				() -> assertEquals(postRequest.getTitle(), result.getTitle()),
 				() -> assertEquals(postRequest.getContent(), result.getContent()),
-				() -> assertEquals(postRequest.getCategory(), result.getCategory())
+				() -> assertEquals(postRequest.getPostCategory(), result.getPostCategory())
 		);
 	}
 
@@ -252,13 +253,13 @@ class CommonCertificationServiceTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		PostRequest postRequest = PostRequest.builder()
-				.userId("testId").title("제목").content("내용").category(1L).images(List.of("image1.png", "image2.png"))
+				.userId("testId").title("제목").content("내용").postCategory(PostCategory.CERTIFICATION_REVIEW).images(List.of("image1.png", "image2.png"))
 				.build();
 		Post post = CertificationReview.builder()
 				.userAccount(userAccount)
 				.title("제목")
 				.content("내용")
-				.category(1L)
+				.postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.build();
 
 		// When
@@ -268,7 +269,7 @@ class CommonCertificationServiceTest {
 		assertAll(
 				() -> assertEquals(postRequest.getTitle(), result.getTitle()),
 				() -> assertEquals(postRequest.getContent(), result.getContent()),
-				() -> assertEquals(postRequest.getCategory(), result.getCategory()),
+				() -> assertEquals(postRequest.getPostCategory(), result.getPostCategory()),
 				() -> assertEquals(post.getUserAccount(), result.getUserAccount()),
 				() -> assertEquals(post.getView(), result.getView()),
 				() -> assertEquals(post.getUserAccount(), result.getUserAccount()),
@@ -281,7 +282,7 @@ class CommonCertificationServiceTest {
 	void countPostLikeTest() {
 		// Given
 		Post post = CertificationReview.builder()
-				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").category(1L).view(0L).build();
+				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L).build();
 		PostLike postLike1 = CertificationReviewLike.builder().post(post).userAccount(new UserAccount()).build();
 		PostLike postLike2 = CertificationReviewLike.builder().post(post).userAccount(new UserAccount()).build();
 		PostLike postLike3 = CertificationReviewLike.builder().post(post).userAccount(new UserAccount()).build();

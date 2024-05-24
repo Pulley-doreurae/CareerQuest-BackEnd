@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReview;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReviewViewCheck;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
@@ -77,10 +78,10 @@ class CertificationReviewServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		Post post = CertificationReview.builder().title("제목").content("내용").view(1L).category(1L).build();
+		Post post = CertificationReview.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.CERTIFICATION_REVIEW).build();
 		given(commonCertificationService.findPost(any())).willReturn(post);
 		given(commonCertificationService.postToPostResponse(post, 0)).willReturn(
-				new PostResponse("A", "A", "A", List.of(), 1L, 1L, 1L, 1L, 1, "A", "A"));
+				new PostResponse("A", "A", "A", List.of(), 1L, 1L, 1L, PostCategory.CERTIFICATION_REVIEW, null, 1, "A", "A"));
 
 		// When
 		PostResponse result = postService.findByPostId(request, response, 100L);
@@ -96,7 +97,7 @@ class CertificationReviewServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		Post post = CertificationReview.builder().title("제목").content("내용").view(1L).category(1L).build();
+		Post post = CertificationReview.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.CERTIFICATION_REVIEW).build();
 		// Authentication Mocking
 		Authentication authentication = new UsernamePasswordAuthenticationToken("testId", null,
 				AuthorityUtils.createAuthorityList("ROLE_USER"));
@@ -122,7 +123,7 @@ class CertificationReviewServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		Post post = CertificationReview.builder().title("제목").content("내용").view(1L).category(1L).build();
+		Post post = CertificationReview.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.CERTIFICATION_REVIEW).build();
 		// Authentication Mocking
 		Authentication authentication = new UsernamePasswordAuthenticationToken("testId", null,
 				AuthorityUtils.createAuthorityList("ROLE_USER"));
@@ -179,7 +180,7 @@ class CertificationReviewServiceTest {
 		// When
 
 		// Then
-		assertDoesNotThrow(() -> postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null)));
+		assertDoesNotThrow(() -> postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.CERTIFICATION_REVIEW, null, null)));
 	}
 
 	@Test
@@ -192,7 +193,7 @@ class CertificationReviewServiceTest {
 
 		// Then
 		assertThrows(UsernameNotFoundException.class, () ->
-				postService.savePost(new PostRequest("testId", "제목", "내용", 1L, null)));
+				postService.savePost(new PostRequest("testId", "제목", "내용", PostCategory.CERTIFICATION_REVIEW, null, null)));
 	}
 
 	@Test
@@ -205,7 +206,7 @@ class CertificationReviewServiceTest {
 
 		// Then
 		assertThrows(PostNotFoundException.class,
-				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null)));
+				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.CERTIFICATION_REVIEW, null, null)));
 		verify(commonCertificationService, never()).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository, never()).save(any());
 	}
@@ -220,7 +221,7 @@ class CertificationReviewServiceTest {
 				.content("내용")
 				.userAccount(user)
 				.view(1L)
-				.category(1L)
+				.postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.build();
 		given(commonCertificationService.findPost(any())).willReturn(post);
 		given(commonCertificationService.findUserAccount(any()))
@@ -230,7 +231,7 @@ class CertificationReviewServiceTest {
 
 		// Then
 		assertThrows(UsernameNotFoundException.class,
-				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null)));
+				() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.CERTIFICATION_REVIEW, null, null)));
 		verify(commonCertificationService, never()).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository, never()).save(any());
 	}
@@ -246,13 +247,13 @@ class CertificationReviewServiceTest {
 				.content("내용")
 				.userAccount(user1)
 				.view(1L)
-				.category(1L)
+				.postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.build();
 		given(commonCertificationService.findPost(any())).willReturn(post);
 		given(commonCertificationService.findUserAccount(any())).willReturn(user2);
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId2", "제목", "내용", 1L, null));
+		boolean result = postService.updatePost(100L, new PostRequest("testId2", "제목", "내용", PostCategory.CERTIFICATION_REVIEW, null, null));
 
 		// Then
 		assertFalse(result);
@@ -270,13 +271,13 @@ class CertificationReviewServiceTest {
 				.content("내용")
 				.userAccount(user)
 				.view(1L)
-				.category(1L)
+				.postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.build();
 		given(commonCertificationService.findPost(any())).willReturn(post);
 		given(commonCertificationService.findUserAccount(any())).willReturn(user);
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", 1L, null));
+		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.CERTIFICATION_REVIEW, null, null));
 
 		// Then
 		assertTrue(result);
@@ -321,7 +322,7 @@ class CertificationReviewServiceTest {
 				.content("내용")
 				.userAccount(user)
 				.view(1L)
-				.category(1L)
+				.postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.build();
 		given(commonCertificationService.findPost(100L)).willReturn(post);
 		given(commonCertificationService.findUserAccount("testId1"))
@@ -345,7 +346,7 @@ class CertificationReviewServiceTest {
 				.content("내용")
 				.userAccount(user)
 				.view(1L)
-				.category(1L)
+				.postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.build();
 		given(commonCertificationService.findPost(any())).willReturn(post);
 		given(commonCertificationService.findUserAccount("testId")).willReturn(user);
