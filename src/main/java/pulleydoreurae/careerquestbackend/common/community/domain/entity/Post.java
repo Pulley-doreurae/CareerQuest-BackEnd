@@ -4,6 +4,8 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 
 /**
@@ -54,7 +57,10 @@ public abstract class Post extends BaseEntity {
 	private List<PostLike> postLikes; // 좋아요
 
 	@Column(nullable = false)
-	private Long category; // 카테고리
+	@Enumerated(value = EnumType.STRING)
+	private PostCategory postCategory; // 카테고리
+
+	private String certificationName; // 자격증 이름
 
 	@OneToMany(mappedBy = "post")
 	private List<Comment> comments; // 댓글 리스트

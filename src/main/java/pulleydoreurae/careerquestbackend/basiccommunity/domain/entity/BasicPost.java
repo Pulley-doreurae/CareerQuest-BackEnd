@@ -7,7 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.common.community.domain.entity.ContestDetail;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 
@@ -24,8 +26,7 @@ public class BasicPost extends Post {
 
 	@Builder
 	public BasicPost(Long id, UserAccount userAccount, String title, String content, Long view,
-			List<PostLike> postLikes,
-			Long category, List<Comment> comments) {
-		super(id, userAccount, title, content, view, postLikes, category, comments);
+			List<PostLike> postLikes, PostCategory postCategory, ContestDetail contestDetail, List<Comment> comments) {
+		super(id, userAccount, title, content, view, postLikes, postCategory, null, contestDetail, comments);
 	}
 }
