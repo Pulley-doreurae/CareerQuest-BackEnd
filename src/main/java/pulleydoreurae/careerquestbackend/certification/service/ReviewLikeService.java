@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.ReviewLikeRequest;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.ReviewResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.request.ReviewLikeRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.ReviewResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Review;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.ReviewLike;
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewLikeRepository;

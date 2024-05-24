@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationDateResponse;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationExamDateResponse;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationPeriodResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationDateResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationExamDateResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationPeriodResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationExamDate;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationRegistrationPeriod;
