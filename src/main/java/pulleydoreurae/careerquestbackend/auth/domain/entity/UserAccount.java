@@ -18,10 +18,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 
 /**
  * 회원가입이나 로그인 시 사용자 정보를 담을 엔티티
