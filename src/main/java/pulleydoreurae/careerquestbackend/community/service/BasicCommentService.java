@@ -1,13 +1,12 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.community.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.service.CommentService;
@@ -37,8 +36,8 @@ public class BasicCommentService extends CommentService {
 	 * @return 댓글 엔티티 반환
 	 */
 	@Override
-	public Comment commentRequestToComment(CommentRequest commentRequest, UserAccount user, Post post) {
-		return BasicComment.builder()
+	public pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment commentRequestToComment(CommentRequest commentRequest, UserAccount user, Post post) {
+		return Comment.builder()
 				.userAccount(user)
 				.post(post)
 				.content(commentRequest.getContent())
@@ -55,10 +54,10 @@ public class BasicCommentService extends CommentService {
 	 * @return 댓글 엔티티 반환
 	 */
 	@Override
-	public Comment commentRequestToCommentForUpdate(CommentRequest commentRequest, UserAccount user, Post post,
+	public pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment commentRequestToCommentForUpdate(CommentRequest commentRequest, UserAccount user, Post post,
 			Long commentId) {
 
-		return BasicComment.builder()
+		return Comment.builder()
 				.id(commentId) // 엔티티의 Setter 사용을 막기 위해 값을 덮어씀
 				.userAccount(user)
 				.post(post)

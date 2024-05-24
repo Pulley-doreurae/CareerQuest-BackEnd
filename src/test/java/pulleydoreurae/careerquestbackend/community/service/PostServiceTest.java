@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.community.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
@@ -27,15 +27,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.service.CommonCommunityService;
-import pulleydoreurae.careerquestbackend.common.community.service.PostService;
 import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
@@ -50,7 +47,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostViewChe
  * @since : 2024/03/31
  */
 @ExtendWith(MockitoExtension.class)
-class BasicPostServiceTest {
+class PostServiceTest {
 
 	@Value("${IMAGES_PATH}")
 	String IMAGES_PATH;
@@ -82,7 +79,7 @@ class BasicPostServiceTest {
 
 		// Then
 		assertThrows(PostNotFoundException.class, () -> postService.findByPostId(request, response, 100L));
-		verify(commonCommunityService, never()).postToPostResponse(new BasicPost(), 0);
+		verify(commonCommunityService, never()).postToPostResponse(new Post(), 0);
 	}
 
 	@Test
@@ -91,7 +88,7 @@ class BasicPostServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		Post post = BasicPost.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
 		given(commonCommunityService.postToPostResponse(post, 0)).willReturn(
 				new PostResponse("A", "A", "A", List.of(), 1L, 1L, 1L, PostCategory.FREE_BOARD, null, 1, "A", "A"));
@@ -110,7 +107,7 @@ class BasicPostServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		Post post = BasicPost.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		// Authentication Mocking
 		Authentication authentication = new UsernamePasswordAuthenticationToken("testId", null,
 				AuthorityUtils.createAuthorityList("ROLE_USER"));
@@ -136,7 +133,7 @@ class BasicPostServiceTest {
 		// Given
 		HttpServletRequest request = new MockHttpServletRequest();
 		HttpServletResponse response = new MockHttpServletResponse();
-		Post post = BasicPost.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		// Authentication Mocking
 		Authentication authentication = new UsernamePasswordAuthenticationToken("testId", null,
 				AuthorityUtils.createAuthorityList("ROLE_USER"));
@@ -145,7 +142,7 @@ class BasicPostServiceTest {
 		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 		securityContext.setAuthentication(authentication);
 		SecurityContextHolder.setContext(securityContext);
-		PostViewCheck postViewCheck = new BasicPostViewCheck("testId", 100L);
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck postViewCheck = new PostViewCheck("testId", 100L);
 		given(commonCommunityService.findPostViewCheck("testId")).willReturn(postViewCheck);
 
 		// When
@@ -164,7 +161,7 @@ class BasicPostServiceTest {
 		given(postLikeRepository.existsByPostAndUserAccount(any(), any())).willReturn(false);
 
 		// When
-		int result = postService.getIsLiked("testId", new BasicPost());
+		int result = postService.getIsLiked("testId", new Post());
 
 		// Then
 		assertEquals(0, result);
@@ -177,7 +174,7 @@ class BasicPostServiceTest {
 		given(postLikeRepository.existsByPostAndUserAccount(any(), any())).willReturn(true);
 
 		// When
-		int result = postService.getIsLiked("testId", new BasicPost());
+		int result = postService.getIsLiked("testId", new Post());
 
 		// Then
 		assertEquals(1, result);
@@ -301,7 +298,7 @@ class BasicPostServiceTest {
 	void updatePostFail2Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
 		given(commonCommunityService.findUserAccount(any()))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
@@ -321,7 +318,7 @@ class BasicPostServiceTest {
 		// Given
 		UserAccount user1 = UserAccount.builder().userId("testId1").build();
 		UserAccount user2 = UserAccount.builder().userId("testId2").build();
-		Post post = BasicPost.builder().title("제목").content("내용").userAccount(user1).view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user1).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
 		given(commonCommunityService.findUserAccount(any())).willReturn(user2);
 
@@ -339,7 +336,7 @@ class BasicPostServiceTest {
 	void updatePostSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
 		given(commonCommunityService.findUserAccount(any())).willReturn(user);
 
@@ -356,12 +353,12 @@ class BasicPostServiceTest {
 	@DisplayName("이미지 수정 테스트")
 	void updateImagesTest() {
 		// Given
-		PostImage postImage1 = BasicPostImage.builder().post(new BasicPost()).fileName("image1.png").build();
-		PostImage postImage2 = BasicPostImage.builder().post(new BasicPost()).fileName("image2.png").build();
-		PostImage postImage3 = BasicPostImage.builder().post(new BasicPost()).fileName("image3.png").build();
-		PostImage postImage4 = BasicPostImage.builder().post(new BasicPost()).fileName("image4.png").build();
-		PostImage postImage5 = BasicPostImage.builder().post(new BasicPost()).fileName("image5.png").build();
-		List<PostImage> images = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
+		List<pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage> images = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
 		given(postImageRepository.findAllByPost(any())).willReturn(images);
 		given(postImageRepository.existsByFileName("image2.png")).willReturn(true);
 		given(postImageRepository.existsByFileName("image3.png")).willReturn(true);
@@ -371,7 +368,7 @@ class BasicPostServiceTest {
 		String image6 = "image6.png";
 		List<String> input = List.of(image2, image3, image6);
 		// When
-		postService.updateImages(input, new BasicPost());
+		postService.updateImages(input, new Post());
 
 		// Then
 		verify(fileManagementService).deleteFile(anyList(), any());
@@ -419,7 +416,7 @@ class BasicPostServiceTest {
 	void deletePostFail3Test() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(100L)).willReturn(post);
 		given(commonCommunityService.findUserAccount("testId1"))
 				.willReturn(UserAccount.builder().userId("testId1").build());
@@ -439,7 +436,7 @@ class BasicPostServiceTest {
 	void deletePostSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
 		given(postImageRepository.findAllByPost(any())).willReturn(List.of());
@@ -459,10 +456,10 @@ class BasicPostServiceTest {
 	void deletePostWithImagesSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(100L)).willReturn(post);
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-		given(postImageRepository.findAllByPost(any())).willReturn(List.of(new BasicPostImage()));
+		given(postImageRepository.findAllByPost(any())).willReturn(List.of(new PostImage()));
 
 		// When
 		boolean result = postService.deletePost(100L, "testId");

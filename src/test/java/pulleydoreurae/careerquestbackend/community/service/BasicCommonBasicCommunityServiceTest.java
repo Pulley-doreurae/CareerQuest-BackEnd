@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.community.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,11 +23,11 @@ import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostViewCheck;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.common.community.exception.CommentNotFoundException;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostLikeNotFoundException;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
@@ -36,11 +36,8 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRe
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostViewCheckRepository;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck;
 
 /**
  * @author : parkjihyeok
@@ -73,30 +70,30 @@ class BasicCommonBasicCommunityServiceTest {
 	void postToPostResponseTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 
-		PostImage postImage1 = BasicPostImage.builder().post(new BasicPost()).fileName("image1.png").build();
-		PostImage postImage2 = BasicPostImage.builder().post(new BasicPost()).fileName("image2.png").build();
-		PostImage postImage3 = BasicPostImage.builder().post(new BasicPost()).fileName("image3.png").build();
-		PostImage postImage4 = BasicPostImage.builder().post(new BasicPost()).fileName("image4.png").build();
-		PostImage postImage5 = BasicPostImage.builder().post(new BasicPost()).fileName("image5.png").build();
-		List<PostImage> postImages = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
+		List<pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage> postImages = List.of(postImage1, postImage2, postImage3, postImage4, postImage5);
 		given(postImageRepository.findAllByPost(post)).willReturn(postImages);
 
-		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
-		Comment comment2 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
-		Comment comment3 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
-		Comment comment4 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
-		Comment comment5 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
-		List<Comment> comments = List.of(comment1, comment2, comment3, comment4, comment5);
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		List<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> comments = List.of(comment1, comment2, comment3, comment4, comment5);
 		given(commentRepository.findAllByPost(post)).willReturn(comments);
 
-		PostLike postLike1 = BasicPostLike.builder().userAccount(user).post(post).build();
-		PostLike postLike2 = BasicPostLike.builder().userAccount(user).post(post).build();
-		PostLike postLike3 = BasicPostLike.builder().userAccount(user).post(post).build();
-		PostLike postLike4 = BasicPostLike.builder().userAccount(user).post(post).build();
-		PostLike postLike5 = BasicPostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike1 = PostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike2 = PostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike3 = PostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike4 = PostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike5 = PostLike.builder().userAccount(user).post(post).build();
 		List<PostLike> postLikes = List.of(postLike1, postLike2, postLike3, postLike4, postLike5);
 		given(postLikeRepository.findAllByPost(post)).willReturn(postLikes);
 
@@ -166,7 +163,7 @@ class BasicCommonBasicCommunityServiceTest {
 	@DisplayName("게시글 찾기 성공")
 	void findPostSuccessTest() {
 		// Given
-		Post post = BasicPost.builder()
+		Post post = Post.builder()
 				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 
@@ -205,12 +202,12 @@ class BasicCommonBasicCommunityServiceTest {
 	void findCommentSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Comment comment = BasicComment.builder().userAccount(user).post(post).content("내용").build();
+		Post post = Post.builder().userAccount(user).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().userAccount(user).post(post).content("내용").build();
 		given(commentRepository.findById(100L)).willReturn(Optional.of(comment));
 
 		// When
-		Comment result = commonCommunityService.findComment(100L);
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment result = commonCommunityService.findComment(100L);
 
 		// Then
 		assertEquals(comment, result);
@@ -249,7 +246,7 @@ class BasicCommonBasicCommunityServiceTest {
 		given(postViewCheckRepository.findById(anyString())).willReturn(Optional.empty());
 
 		// When
-		PostViewCheck result = commonCommunityService.findPostViewCheck("testId");
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck result = commonCommunityService.findPostViewCheck("testId");
 
 		// Then
 		assertNull(result);
@@ -259,11 +256,11 @@ class BasicCommonBasicCommunityServiceTest {
 	@DisplayName("조회수 중복인 경우")
 	void findPostViewCheckNotNullTest() {
 		// Given
-		PostViewCheck postViewCheck = new BasicPostViewCheck("testId", 100L);
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck postViewCheck = new PostViewCheck("testId", 100L);
 		given(postViewCheckRepository.findById("testId")).willReturn(Optional.of(postViewCheck));
 
 		// When
-		PostViewCheck result = commonCommunityService.findPostViewCheck("testId");
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostViewCheck result = commonCommunityService.findPostViewCheck("testId");
 
 		// Then
 		assertAll(
@@ -302,7 +299,7 @@ class BasicCommonBasicCommunityServiceTest {
 		PostRequest postRequest = PostRequest.builder()
 				.userId("testId").title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).images(List.of("image1.png", "image2.png"))
 				.build();
-		Post post = BasicPost.builder().userAccount(userAccount).title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).build();
+		Post post = Post.builder().userAccount(userAccount).title("제목").content("내용").postCategory(PostCategory.FREE_BOARD).build();
 
 		// When
 		Post result = commonCommunityService.postRequestToPostForUpdate(post, postRequest, userAccount);
@@ -324,13 +321,13 @@ class BasicCommonBasicCommunityServiceTest {
 	@DisplayName("게시글 댓글 수 테스트")
 	void countCommentTest() {
 		// Given
-		Post post = BasicPost.builder()
+		Post post = Post.builder()
 				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Comment comment1 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
-		Comment comment2 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
-		Comment comment3 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
-		Comment comment4 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
-		Comment comment5 = BasicComment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().content("내용").post(post).userAccount(new UserAccount()).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 		given(commentRepository.findAllByPost(any()))
 				.willReturn(List.of(comment1, comment2, comment3, comment4, comment5));
@@ -346,13 +343,13 @@ class BasicCommonBasicCommunityServiceTest {
 	@DisplayName("게시글 좋아요 수 테스트")
 	void countPostLikeTest() {
 		// Given
-		Post post = BasicPost.builder()
+		Post post = Post.builder()
 				.userAccount(new UserAccount()).id(100L).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		PostLike postLike1 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
-		PostLike postLike2 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
-		PostLike postLike3 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
-		PostLike postLike4 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
-		PostLike postLike5 = BasicPostLike.builder().post(post).userAccount(new UserAccount()).build();
+		PostLike postLike1 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
+		PostLike postLike2 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
+		PostLike postLike3 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
+		PostLike postLike4 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
+		PostLike postLike5 = PostLike.builder().post(post).userAccount(new UserAccount()).build();
 		given(postRepository.findById(100L)).willReturn(Optional.of(post));
 		given(postLikeRepository.findAllByPost(any()))
 				.willReturn(List.of(postLike1, postLike2, postLike3, postLike4, postLike5));
@@ -368,16 +365,16 @@ class BasicCommonBasicCommunityServiceTest {
 	@DisplayName("저장한 사진 정보 가져오기")
 	void postImageToStringListTest() {
 		// Given
-		PostImage postImage1 = BasicPostImage.builder().post(new BasicPost()).fileName("image1.png").build();
-		PostImage postImage2 = BasicPostImage.builder().post(new BasicPost()).fileName("image2.png").build();
-		PostImage postImage3 = BasicPostImage.builder().post(new BasicPost()).fileName("image3.png").build();
-		PostImage postImage4 = BasicPostImage.builder().post(new BasicPost()).fileName("image4.png").build();
-		PostImage postImage5 = BasicPostImage.builder().post(new BasicPost()).fileName("image5.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage1 = PostImage.builder().post(new Post()).fileName("image1.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage2 = PostImage.builder().post(new Post()).fileName("image2.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage3 = PostImage.builder().post(new Post()).fileName("image3.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage4 = PostImage.builder().post(new Post()).fileName("image4.png").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage postImage5 = PostImage.builder().post(new Post()).fileName("image5.png").build();
 		given(postImageRepository.findAllByPost(any()))
 				.willReturn(List.of(postImage1, postImage2, postImage3, postImage4, postImage5));
 
 		// When
-		List<String> result = commonCommunityService.postImageToStringList(new BasicPost());
+		List<String> result = commonCommunityService.postImageToStringList(new Post());
 
 		// Then
 		assertThat(result)
@@ -405,8 +402,8 @@ class BasicCommonBasicCommunityServiceTest {
 	void findPostLikeSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().title("제목").content("내용").userAccount(user).build();
-		PostLike postLike = BasicPostLike.builder().userAccount(user).post(post).build();
+		Post post = Post.builder().title("제목").content("내용").userAccount(user).build();
+		PostLike postLike = PostLike.builder().userAccount(user).post(post).build();
 		given(postLikeRepository.findByPostAndUserAccount(any(), any())).willReturn(Optional.of(postLike));
 
 		// When

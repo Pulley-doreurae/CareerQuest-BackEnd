@@ -1,11 +1,11 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.community.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostLikeRepository;
@@ -36,7 +36,7 @@ public class BasicPostLikeService extends PostLikeService {
 	 */
 	@Override
 	public PostLike mackPostLike(UserAccount user, Post post) {
-		return BasicPostLike.builder()
+		return PostLike.builder()
 				.userAccount(user)
 				.post(post)
 				.build();

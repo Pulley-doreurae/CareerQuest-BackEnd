@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.community.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,12 +22,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.CommentResponse;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.exception.CommentNotFoundException;
 import pulleydoreurae.careerquestbackend.common.community.exception.PostNotFoundException;
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 
 /**
@@ -35,7 +34,7 @@ import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
  * @since : 2024/04/01
  */
 @ExtendWith(MockitoExtension.class)
-class BasicCommentServiceTest {
+class CommentServiceTest {
 
 	@InjectMocks
 	BasicCommentService commentService;
@@ -49,7 +48,7 @@ class BasicCommentServiceTest {
 	void saveCommentFailTest1() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L) // 해당 번호까지는 테스트에서 올라갈 일이 없으므로 특정한 값으로 지정해서 정확한 테스트 시도
+		Post post = Post.builder().id(10000L) // 해당 번호까지는 테스트에서 올라갈 일이 없으므로 특정한 값으로 지정해서 정확한 테스트 시도
 				.userAccount(user).title("제목1").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId()))
@@ -70,7 +69,7 @@ class BasicCommentServiceTest {
 	void saveCommentFailTest2() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId()))
@@ -91,7 +90,7 @@ class BasicCommentServiceTest {
 	void saveCommentSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -111,8 +110,8 @@ class BasicCommentServiceTest {
 	void updateCommentFailTest1() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId()))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
@@ -132,8 +131,8 @@ class BasicCommentServiceTest {
 	void updateCommentFailTest2() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId()))
@@ -154,8 +153,8 @@ class BasicCommentServiceTest {
 	void updateCommentFailTest3() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -177,12 +176,12 @@ class BasicCommentServiceTest {
 	void updateCommentFailTest4() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(100L))
-				.willReturn(BasicPost.builder().id(100L).userAccount(user).title("제목1").build());
+				.willReturn(Post.builder().id(100L).userAccount(user).title("제목1").build());
 		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		CommentRequest request = CommentRequest.builder().userId(user.getUserId()).postId(100L) // 잘못된 게시글 정보로 요청
@@ -201,8 +200,8 @@ class BasicCommentServiceTest {
 	void updateCommentFailTest5() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount("test"))
 				.willReturn(UserAccount.builder().userId("test").build());
@@ -225,8 +224,8 @@ class BasicCommentServiceTest {
 	void updateCommentSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -248,8 +247,8 @@ class BasicCommentServiceTest {
 	void deleteCommentFailTest1() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId()))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
@@ -267,8 +266,8 @@ class BasicCommentServiceTest {
 	void deleteCommentFailTest2() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId()))
@@ -287,8 +286,8 @@ class BasicCommentServiceTest {
 	void deleteCommentFailTest3() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -308,12 +307,12 @@ class BasicCommentServiceTest {
 	void deleteCommentFailTest4() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(100L))
-				.willReturn(BasicPost.builder().id(100L).userAccount(user).title("제목1").build());
+				.willReturn(Post.builder().id(100L).userAccount(user).title("제목1").build());
 		given(commonCommunityService.findComment(comment.getId())).willReturn(comment);
 
 		// When
@@ -329,8 +328,8 @@ class BasicCommentServiceTest {
 	void deleteCommentFailTest5() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount("test"))
 				.willReturn(UserAccount.builder().userId("test").build());
@@ -350,8 +349,8 @@ class BasicCommentServiceTest {
 	void deleteCommentSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment = BasicComment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().id(10000L).userAccount(user).post(post).content("댓글 내용").build();
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
@@ -370,22 +369,22 @@ class BasicCommentServiceTest {
 	void findListByPostIdTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		Comment comment2 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		Comment comment3 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		Comment comment4 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		Comment comment5 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		// 3개씩 자른다면 마지막 3개가 반환되어야 함
-		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
+		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
 
 		given(commonCommunityService.findPost(post.getId())).willReturn(post);
 		given(commentRepository.findAllByPostOrderByIdDesc(post, pageable)).willReturn(pageList);
 
 		// When
-		Page<Comment> list = commentRepository.findAllByPostOrderByIdDesc(post, pageable);
+		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> list = commentRepository.findAllByPostOrderByIdDesc(post, pageable);
 		List<CommentResponse> result = commentService.findListByPostId(post.getId(), pageable);
 
 		// Then
@@ -402,22 +401,22 @@ class BasicCommentServiceTest {
 	void findListByUserAccountTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		Post post = BasicPost.builder().id(10000L).userAccount(user).title("제목1").build();
-		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		Comment comment2 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		Comment comment3 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		Comment comment4 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		Comment comment5 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		Post post = Post.builder().id(10000L).userAccount(user).title("제목1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		// 3개씩 자른다면 마지막 3개가 반환되어야 함
-		Page<Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
+		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> pageList = new PageImpl<>(List.of(comment3, comment4, comment5), pageable, 3);
 
 		given(commonCommunityService.findUserAccount(user.getUserId())).willReturn(user);
 		given(commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable)).willReturn(pageList);
 
 		// When
-		Page<Comment> list = commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
+		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> list = commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
 		List<CommentResponse> result = commentService.findListByUserAccount(user.getUserId(), pageable);
 
 		// Then
@@ -429,7 +428,8 @@ class BasicCommentServiceTest {
 		);
 	}
 
-	CommentResponse commentToCommentResponse(Comment comment) {
+	CommentResponse commentToCommentResponse(
+			pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment) {
 		return CommentResponse.builder()
 				.userId(comment.getUserAccount().getUserId())
 				.postId(comment.getPost().getId())

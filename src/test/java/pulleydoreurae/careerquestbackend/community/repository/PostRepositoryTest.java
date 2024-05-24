@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.repository;
+package pulleydoreurae.careerquestbackend.community.repository;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,7 @@ import org.springframework.data.domain.Sort;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
@@ -30,7 +30,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostReposit
  */
 @DataJpaTest
 @DisplayName("게시글 Repository 테스트")
-class BasicPostRepositoryTest {
+class PostRepositoryTest {
 
 	@Autowired
 	PostRepository postRepository;
@@ -55,7 +55,7 @@ class BasicPostRepositoryTest {
 	void savePostTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 
 		// When
 		postRepository.save(post);
@@ -79,11 +79,11 @@ class BasicPostRepositoryTest {
 	void findListTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post2 = BasicPost.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post3 = BasicPost.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post4 = BasicPost.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post5 = BasicPost.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post1 = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 
 		// When
 		postRepository.save(post1);
@@ -105,12 +105,12 @@ class BasicPostRepositoryTest {
 	void postUpdateTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		// When
 		Post getPost = postRepository.findById(post.getId()).get();
-		Post updatePost = BasicPost.builder().id(getPost.getId()) // id 를 덮어써 갱신하기
+		Post updatePost = Post.builder().id(getPost.getId()) // id 를 덮어써 갱신하기
 				.userAccount(user).title("수정된 제목1").content("수정된 내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 
 		postRepository.save(updatePost);
@@ -134,7 +134,7 @@ class BasicPostRepositoryTest {
 	void deletePostTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		// When
@@ -151,13 +151,13 @@ class BasicPostRepositoryTest {
 	void findListByCategoryTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post2 = BasicPost.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post3 = BasicPost.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post4 = BasicPost.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post5 = BasicPost.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post6 = BasicPost.builder().userAccount(user).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L).build();
-		Post post7 = BasicPost.builder().userAccount(user).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post1 = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post6 = Post.builder().userAccount(user).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L).build();
 
 		// When
 		postRepository.save(post1);
@@ -195,13 +195,13 @@ class BasicPostRepositoryTest {
 		user1 = userAccountRepository.findByUserId("testId1").get();
 		user2 = userAccountRepository.findByUserId("testId2").get();
 
-		Post post1 = BasicPost.builder().userAccount(user1).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post2 = BasicPost.builder().userAccount(user1).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post3 = BasicPost.builder().userAccount(user1).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post4 = BasicPost.builder().userAccount(user2).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post5 = BasicPost.builder().userAccount(user2).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post6 = BasicPost.builder().userAccount(user1).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L).build();
-		Post post7 = BasicPost.builder().userAccount(user2).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post1 = Post.builder().userAccount(user1).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post2 = Post.builder().userAccount(user1).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post3 = Post.builder().userAccount(user1).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post4 = Post.builder().userAccount(user2).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post5 = Post.builder().userAccount(user2).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post6 = Post.builder().userAccount(user1).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post7 = Post.builder().userAccount(user2).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L).build();
 
 		// When
 		postRepository.save(post1);
@@ -224,13 +224,13 @@ class BasicPostRepositoryTest {
 	void searchByKeywordTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = BasicPost.builder().userAccount(user).title("검검색어어").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post2 = BasicPost.builder().userAccount(user).title("제목2").content("검검색어어").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post3 = BasicPost.builder().userAccount(user).title("검색어어어").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post4 = BasicPost.builder().userAccount(user).title("제목4").content("검검검색어어").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post5 = BasicPost.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post6 = BasicPost.builder().userAccount(user).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L).build();
-		Post post7 = BasicPost.builder().userAccount(user).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post6 = Post.builder().userAccount(user).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L).build();
 
 		// When
 		postRepository.save(post1);
@@ -255,13 +255,13 @@ class BasicPostRepositoryTest {
 	void searchByKeywordAndCategoryTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = BasicPost.builder().userAccount(user).title("검검색어어").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post2 = BasicPost.builder().userAccount(user).title("제목2").content("검검색어어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
-		Post post3 = BasicPost.builder().userAccount(user).title("검색어어어").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post4 = BasicPost.builder().userAccount(user).title("제목4").content("검검검색어어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
-		Post post5 = BasicPost.builder().userAccount(user).title("검색어").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post6 = BasicPost.builder().userAccount(user).title("검색어").content("검색어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
-		Post post7 = BasicPost.builder().userAccount(user).title("제목7").content("검색어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post1 = Post.builder().userAccount(user).title("검검색어어").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("검검색어어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("검색어어어").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("검검검색어어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("검색어").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post6 = Post.builder().userAccount(user).title("검색어").content("검색어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
+		Post post7 = Post.builder().userAccount(user).title("제목7").content("검색어").postCategory(PostCategory.QNA_BOARD).view(0L).build();
 
 		// When
 		postRepository.save(post1);

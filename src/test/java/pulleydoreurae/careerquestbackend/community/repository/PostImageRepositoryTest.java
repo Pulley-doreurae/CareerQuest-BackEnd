@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.repository;
+package pulleydoreurae.careerquestbackend.community.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,11 +10,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostImage;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
 
@@ -24,7 +23,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostReposit
  */
 @DataJpaTest
 @DisplayName("사진 Repository 테스트")
-class BasicPostImageRepositoryTest {
+class PostImageRepositoryTest {
 
 	@Autowired
 	PostImageRepository postImageRepository;
@@ -47,12 +46,12 @@ class BasicPostImageRepositoryTest {
 		UserAccount user = UserAccount.builder().userId("test").password("test!").build();
 		userAccountRepository.save(user);
 
-		Post post = BasicPost.builder()
+		Post post = Post.builder()
 				.title("제목").content("내용").userAccount(user).view(0L).postCategory(PostCategory.FREE_BOARD).build();
 		postRepository.save(post);
 
 		// When
-		PostImage image = BasicPostImage.builder().post(post).fileName("파일_저장명.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image = PostImage.builder().post(post).fileName("파일_저장명.txt").build();
 		postImageRepository.save(image);
 
 		// Then
@@ -68,15 +67,15 @@ class BasicPostImageRepositoryTest {
 		UserAccount user = UserAccount.builder().userId("test").password("test!").build();
 		userAccountRepository.save(user);
 
-		Post post = BasicPost.builder()
+		Post post = Post.builder()
 				.title("제목").content("내용").userAccount(user).view(0L).postCategory(PostCategory.FREE_BOARD).build();
 		postRepository.save(post);
 
-		PostImage image1 = BasicPostImage.builder().post(post).fileName("파일_저장명1.txt").build();
-		PostImage image2 = BasicPostImage.builder().post(post).fileName("파일_저장명2.txt").build();
-		PostImage image3 = BasicPostImage.builder().post(post).fileName("파일_저장명3.txt").build();
-		PostImage image4 = BasicPostImage.builder().post(post).fileName("파일_저장명4.txt").build();
-		PostImage image5 = BasicPostImage.builder().post(post).fileName("파일_저장명5.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image1 = PostImage.builder().post(post).fileName("파일_저장명1.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image2 = PostImage.builder().post(post).fileName("파일_저장명2.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image3 = PostImage.builder().post(post).fileName("파일_저장명3.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image4 = PostImage.builder().post(post).fileName("파일_저장명4.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image5 = PostImage.builder().post(post).fileName("파일_저장명5.txt").build();
 
 		postImageRepository.save(image1);
 		postImageRepository.save(image2);
@@ -88,7 +87,7 @@ class BasicPostImageRepositoryTest {
 		postImageRepository.deleteByFileName("파일_저장명2.txt");
 		postImageRepository.deleteByFileName("파일_저장명3.txt");
 
-		PostImage image6 = BasicPostImage.builder().post(post).fileName("파일_저장명6.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image6 = PostImage.builder().post(post).fileName("파일_저장명6.txt").build();
 		postImageRepository.save(image6);
 
 		// Then
@@ -108,11 +107,11 @@ class BasicPostImageRepositoryTest {
 		UserAccount user = UserAccount.builder().userId("test").password("test!").build();
 		userAccountRepository.save(user);
 
-		Post post = BasicPost.builder()
+		Post post = Post.builder()
 				.title("제목").content("내용").userAccount(user).view(0L).postCategory(PostCategory.FREE_BOARD).build();
 		postRepository.save(post);
 
-		PostImage image = BasicPostImage.builder().post(post).fileName("파일_저장명.txt").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage image = PostImage.builder().post(post).fileName("파일_저장명.txt").build();
 		postImageRepository.save(image);
 
 		// When

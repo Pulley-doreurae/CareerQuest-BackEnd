@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.repository;
+package pulleydoreurae.careerquestbackend.community.repository;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,10 +18,9 @@ import org.springframework.data.domain.Pageable;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicComment;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
@@ -32,7 +31,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostReposit
  */
 @DataJpaTest
 @DisplayName("댓글 Repository 테스트")
-class BasicCommentRepositoryTest {
+class CommentRepositoryTest {
 
 	@Autowired
 	CommentRepository commentRepository;
@@ -61,15 +60,15 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		// When
-		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// Then
-		Comment result = commentRepository.findById(comment.getId()).get();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment result = commentRepository.findById(comment.getId()).get();
 
 		assertEquals(1, commentRepository.findAll().size());
 		assertAll(
@@ -88,14 +87,14 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// When
-		Comment updateComment = BasicComment.builder()
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment updateComment = Comment.builder()
 				.id(comment.getId())
 				.userAccount(user)
 				.post(post)
@@ -104,7 +103,7 @@ class BasicCommentRepositoryTest {
 		commentRepository.save(comment);
 
 		// Then
-		Comment result = commentRepository.findById(updateComment.getId()).get();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment result = commentRepository.findById(updateComment.getId()).get();
 
 		assertEquals(1, commentRepository.findAll().size());
 		assertAll(
@@ -121,10 +120,10 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment = BasicComment.builder().userAccount(user).post(post).content("댓글 내용").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment = Comment.builder().userAccount(user).post(post).content("댓글 내용").build();
 		commentRepository.save(comment);
 
 		// When
@@ -141,14 +140,14 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		Comment comment2 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		Comment comment3 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		Comment comment4 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		Comment comment5 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		commentRepository.save(comment1);
 		commentRepository.save(comment2);
@@ -158,7 +157,7 @@ class BasicCommentRepositoryTest {
 
 		// When
 		Pageable pageable = PageRequest.of(0, 3);
-		Page<Comment> result = commentRepository.findAllByPostOrderByIdDesc(post, pageable);
+		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> result = commentRepository.findAllByPostOrderByIdDesc(post, pageable);
 
 		// Then
 		assertEquals(2, result.getTotalPages());
@@ -173,14 +172,14 @@ class BasicCommentRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
-		Comment comment1 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용1").build();
-		Comment comment2 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용2").build();
-		Comment comment3 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용3").build();
-		Comment comment4 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용4").build();
-		Comment comment5 = BasicComment.builder().userAccount(user).post(post).content("댓글 내용5").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment1 = Comment.builder().userAccount(user).post(post).content("댓글 내용1").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment2 = Comment.builder().userAccount(user).post(post).content("댓글 내용2").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment3 = Comment.builder().userAccount(user).post(post).content("댓글 내용3").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment4 = Comment.builder().userAccount(user).post(post).content("댓글 내용4").build();
+		pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment comment5 = Comment.builder().userAccount(user).post(post).content("댓글 내용5").build();
 
 		commentRepository.save(comment1);
 		commentRepository.save(comment2);
@@ -190,7 +189,7 @@ class BasicCommentRepositoryTest {
 
 		// When
 		Pageable pageable = PageRequest.of(0, 3);
-		Page<Comment> result = commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
+		Page<pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment> result = commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable);
 
 		// Then
 		assertEquals(3, result.getSize());

@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.controller;
+package pulleydoreurae.careerquestbackend.community.controller;
 
 import java.util.List;
 

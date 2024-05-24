@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.controller;
+package pulleydoreurae.careerquestbackend.community.controller;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import pulleydoreurae.careerquestbackend.common.community.controller.PostController;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.common.community.service.PostService;
@@ -49,11 +50,11 @@ public class BasicPostController extends PostController {
 		return super.getPostList(pageable);
 	}
 
-	@GetMapping("/posts/category/{category}")
-	public ResponseEntity<List<PostResponse>> getPostListByCategory(@PathVariable Long category,
+	@GetMapping("/posts/category/{postCategory}")
+	public ResponseEntity<List<PostResponse>> getPostListByCategory(@PathVariable PostCategory postCategory,
 			@PageableDefault(size = 15) Pageable pageable) {
 
-		return super.getPostListByCategory(category, pageable);
+		return super.getPostListByCategory(postCategory, pageable);
 	}
 
 	@GetMapping("/posts/user/{userId}")
@@ -65,10 +66,10 @@ public class BasicPostController extends PostController {
 
 	@GetMapping("/posts/search")
 	public ResponseEntity<List<PostResponse>> searchPosts(@RequestParam(name = "keyword") String keyword,
-			@RequestParam(name = "category", required = false) Long category,
+			@RequestParam(name = "postCategory", required = false) PostCategory postCategory,
 			@PageableDefault(size = 15, direction = Sort.Direction.DESC) Pageable pageable) {
 
-		return super.searchPosts(keyword, category, pageable);
+		return super.searchPosts(keyword, postCategory, pageable);
 	}
 
 	@GetMapping("/posts/{postId}")

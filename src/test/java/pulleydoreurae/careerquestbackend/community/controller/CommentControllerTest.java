@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.controller;
+package pulleydoreurae.careerquestbackend.community.controller;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -35,7 +35,7 @@ import pulleydoreurae.careerquestbackend.common.community.service.CommentService
  */
 @WebMvcTest(BasicCommentController.class)
 @AutoConfigureRestDocs
-class BasicCommentControllerTest {
+class CommentControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;

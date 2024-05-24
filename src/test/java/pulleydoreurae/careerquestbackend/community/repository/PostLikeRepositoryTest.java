@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.repository;
+package pulleydoreurae.careerquestbackend.community.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,8 +17,8 @@ import org.springframework.data.domain.Pageable;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPostLike;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostLike;
 import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostLike;
@@ -31,7 +31,7 @@ import pulleydoreurae.careerquestbackend.common.community.repository.PostReposit
  */
 @DataJpaTest
 @DisplayName("좋아요 Repository 테스트")
-class BasicPostLikeRepositoryTest {
+class PostLikeRepositoryTest {
 
 	@Autowired
 	PostLikeRepository postLikeRepository;
@@ -60,11 +60,11 @@ class BasicPostLikeRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
 		// When
-		PostLike postLike = BasicPostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike = PostLike.builder().userAccount(user).post(post).build();
 		postLikeRepository.save(postLike);
 
 		PostLike result = postLikeRepository.findByPostAndUserAccount(post, user).get();
@@ -86,10 +86,10 @@ class BasicPostLikeRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
-		PostLike postLike = BasicPostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike = PostLike.builder().userAccount(user).post(post).build();
 		postLikeRepository.save(postLike);
 
 		// When
@@ -119,14 +119,14 @@ class BasicPostLikeRepositoryTest {
 		userAccountRepository.save(user4);
 		userAccountRepository.save(user5);
 
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
 
-		PostLike postLike1 = BasicPostLike.builder().userAccount(user).post(post).build();
-		PostLike postLike2 = BasicPostLike.builder().userAccount(user2).post(post).build();
-		PostLike postLike3 = BasicPostLike.builder().userAccount(user3).post(post).build();
-		PostLike postLike4 = BasicPostLike.builder().userAccount(user4).post(post).build();
-		PostLike postLike5 = BasicPostLike.builder().userAccount(user5).post(post).build();
+		PostLike postLike1 = PostLike.builder().userAccount(user).post(post).build();
+		PostLike postLike2 = PostLike.builder().userAccount(user2).post(post).build();
+		PostLike postLike3 = PostLike.builder().userAccount(user3).post(post).build();
+		PostLike postLike4 = PostLike.builder().userAccount(user4).post(post).build();
+		PostLike postLike5 = PostLike.builder().userAccount(user5).post(post).build();
 
 		postLikeRepository.save(postLike1);
 		postLikeRepository.save(postLike2);
@@ -150,11 +150,11 @@ class BasicPostLikeRepositoryTest {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 
-		Post post1 = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post2 = BasicPost.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post3 = BasicPost.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post4 = BasicPost.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
-		Post post5 = BasicPost.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post1 = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post5 = Post.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 
 		postRepository.save(post1);
 		postRepository.save(post2);
@@ -162,11 +162,11 @@ class BasicPostLikeRepositoryTest {
 		postRepository.save(post4);
 		postRepository.save(post5);
 
-		PostLike postLike1 = BasicPostLike.builder().userAccount(user).post(post1).build();
-		PostLike postLike2 = BasicPostLike.builder().userAccount(user).post(post2).build();
-		PostLike postLike3 = BasicPostLike.builder().userAccount(user).post(post3).build();
-		PostLike postLike4 = BasicPostLike.builder().userAccount(user).post(post4).build();
-		PostLike postLike5 = BasicPostLike.builder().userAccount(user).post(post5).build();
+		PostLike postLike1 = PostLike.builder().userAccount(user).post(post1).build();
+		PostLike postLike2 = PostLike.builder().userAccount(user).post(post2).build();
+		PostLike postLike3 = PostLike.builder().userAccount(user).post(post3).build();
+		PostLike postLike4 = PostLike.builder().userAccount(user).post(post4).build();
+		PostLike postLike5 = PostLike.builder().userAccount(user).post(post5).build();
 
 		postLikeRepository.save(postLike1);
 		postLikeRepository.save(postLike2);
@@ -189,9 +189,9 @@ class BasicPostLikeRepositoryTest {
 	void existTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post = BasicPost.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.FREE_BOARD).view(0L).build();
 		postRepository.save(post);
-		PostLike postLike = BasicPostLike.builder().post(post).userAccount(user).build();
+		PostLike postLike = PostLike.builder().post(post).userAccount(user).build();
 		postLikeRepository.save(postLike);
 
 		// When

@@ -1,11 +1,11 @@
-package pulleydoreurae.careerquestbackend.basiccommunity.service;
+package pulleydoreurae.careerquestbackend.community.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.basiccommunity.domain.entity.BasicPost;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.repository.CommentRepository;
@@ -41,7 +41,7 @@ public class CommonBasicCommunityService extends CommonCommunityService {
 	 * @return 게시글 엔티티
 	 */
 	public Post postRequestToPost(PostRequest postRequest, UserAccount user) {
-		return BasicPost.builder()
+		return Post.builder()
 				.userAccount(user)
 				.title(postRequest.getTitle())
 				.content(postRequest.getContent())
@@ -61,7 +61,7 @@ public class CommonBasicCommunityService extends CommonCommunityService {
 	public Post postRequestToPostForUpdate(Post post, PostRequest postRequest, UserAccount user) {
 		// 엔티티의 Setter 사용을 막기위해 새로운 post 생성하며 덮어쓰기
 
-		return BasicPost.builder()
+		return Post.builder()
 				.id(post.getId()) // id 를 덮어씌어 수정함
 				.userAccount(user)
 				.title(postRequest.getTitle())
