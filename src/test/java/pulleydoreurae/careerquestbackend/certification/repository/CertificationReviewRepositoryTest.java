@@ -19,6 +19,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationReview;
+import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.common.community.repository.PostRepository;
 
@@ -49,7 +50,7 @@ public class CertificationReviewRepositoryTest {
 	void saveReviewTest() {
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
 		CertificationReview review = CertificationReview.builder().title("자격증후기").content("내용").userAccount(user)
-				.category(1L).view(0L).build();
+				.postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L).build();
 
 		// When
 		postRepository.save(review);
@@ -60,7 +61,7 @@ public class CertificationReviewRepositoryTest {
 				() -> assertEquals(review.getUserAccount(), savedPost.getUserAccount()),
 				() -> assertEquals(review.getTitle(), savedPost.getTitle()),
 				() -> assertEquals(review.getContent(), savedPost.getContent()),
-				() -> assertEquals(review.getCategory(), savedPost.getCategory()),
+				() -> assertEquals(review.getPostCategory(), savedPost.getPostCategory()),
 				() -> assertEquals(review.getView(), savedPost.getView()),
 				() -> assertEquals(review.getPostLikes(), savedPost.getPostLikes()),
 				() -> assertEquals(review.getCreatedAt(), savedPost.getCreatedAt()),
@@ -73,15 +74,15 @@ public class CertificationReviewRepositoryTest {
 	void findListTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L)
+		Post post1 = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("내용2").category(1L).view(0L)
+		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post3 = CertificationReview.builder().userAccount(user).title("제목3").content("내용3").category(1L).view(0L)
+		Post post3 = CertificationReview.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("내용4").category(1L).view(0L)
+		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post5 = CertificationReview.builder().userAccount(user).title("제목5").content("내용5").category(1L).view(0L)
+		Post post5 = CertificationReview.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
 
 		// When
@@ -104,14 +105,14 @@ public class CertificationReviewRepositoryTest {
 	void postUpdateTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L)
+		Post post = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
 		postRepository.save(post);
 
 		// When
 		Post getPost = postRepository.findById(post.getId()).get();
 		Post updatePost = CertificationReview.builder().id(getPost.getId()) // id 를 덮어써 갱신하기
-				.userAccount(user).title("수정된 제목1").content("수정된 내용1").category(1L).view(0L).build();
+				.userAccount(user).title("수정된 제목1").content("수정된 내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L).build();
 
 		postRepository.save(updatePost);
 
@@ -122,7 +123,7 @@ public class CertificationReviewRepositoryTest {
 				() -> assertEquals(updatePost.getUserAccount(), updateAndSavedPost.getUserAccount()),
 				() -> assertEquals(updatePost.getTitle(), updateAndSavedPost.getTitle()),
 				() -> assertEquals(updatePost.getContent(), updateAndSavedPost.getContent()),
-				() -> assertEquals(updatePost.getCategory(), updateAndSavedPost.getCategory()),
+				() -> assertEquals(updatePost.getPostCategory(), updateAndSavedPost.getPostCategory()),
 				() -> assertEquals(updatePost.getView(), updateAndSavedPost.getView()),
 				() -> assertEquals(updatePost.getPostLikes(), updateAndSavedPost.getPostLikes()),
 				() -> assertEquals(updatePost.getCreatedAt(), updateAndSavedPost.getCreatedAt())
@@ -134,7 +135,7 @@ public class CertificationReviewRepositoryTest {
 	void deletePostTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L)
+		Post post = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
 		postRepository.save(post);
 
@@ -152,19 +153,19 @@ public class CertificationReviewRepositoryTest {
 	void findListByCategoryTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").category(1L).view(0L)
+		Post post1 = CertificationReview.builder().userAccount(user).title("제목1").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("내용2").category(1L).view(0L)
+		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("내용2").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post3 = CertificationReview.builder().userAccount(user).title("제목3").content("내용3").category(1L).view(0L)
+		Post post3 = CertificationReview.builder().userAccount(user).title("제목3").content("내용3").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("내용4").category(1L).view(0L)
+		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("내용4").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post5 = CertificationReview.builder().userAccount(user).title("제목5").content("내용5").category(1L).view(0L)
+		Post post5 = CertificationReview.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post6 = CertificationReview.builder().userAccount(user).title("제목6").content("내용6").category(2L).view(0L)
+		Post post6 = CertificationReview.builder().userAccount(user).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L)
 				.build();
-		Post post7 = CertificationReview.builder().userAccount(user).title("제목7").content("내용7").category(2L).view(0L)
+		Post post7 = CertificationReview.builder().userAccount(user).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L)
 				.build();
 
 		// When
@@ -179,10 +180,10 @@ public class CertificationReviewRepositoryTest {
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 
 		// Then
-		assertEquals(2, postRepository.findAllByCategoryOrderByIdDesc(1L, pageable).getTotalPages());
-		assertEquals(5, postRepository.findAllByCategoryOrderByIdDesc(1L, pageable).getTotalElements());
-		assertEquals(3, postRepository.findAllByCategoryOrderByIdDesc(1L, pageable).getSize());
-		assertThat(postRepository.findAllByCategoryOrderByIdDesc(1L, pageable))
+		assertEquals(2, postRepository.findAllByPostCategoryOrderByIdDesc(PostCategory.CERTIFICATION_REVIEW, pageable).getTotalPages());
+		assertEquals(5, postRepository.findAllByPostCategoryOrderByIdDesc(PostCategory.CERTIFICATION_REVIEW, pageable).getTotalElements());
+		assertEquals(3, postRepository.findAllByPostCategoryOrderByIdDesc(PostCategory.CERTIFICATION_REVIEW, pageable).getSize());
+		assertThat(postRepository.findAllByPostCategoryOrderByIdDesc(PostCategory.CERTIFICATION_REVIEW, pageable))
 				.contains(post3, post4, post5); // 3개씩 자른다면 맨 뒤에 입력된 3개가 출력되어야 함
 	}
 
@@ -203,19 +204,19 @@ public class CertificationReviewRepositoryTest {
 		user1 = userAccountRepository.findByUserId("testId1").get();
 		user2 = userAccountRepository.findByUserId("testId2").get();
 
-		Post post1 = CertificationReview.builder().userAccount(user1).title("제목1").content("내용1").category(1L).view(0L)
+		Post post1 = CertificationReview.builder().userAccount(user1).title("제목1").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post2 = CertificationReview.builder().userAccount(user1).title("제목2").content("내용2").category(1L).view(0L)
+		Post post2 = CertificationReview.builder().userAccount(user1).title("제목2").content("내용2").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post3 = CertificationReview.builder().userAccount(user1).title("제목3").content("내용3").category(1L).view(0L)
+		Post post3 = CertificationReview.builder().userAccount(user1).title("제목3").content("내용3").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post4 = CertificationReview.builder().userAccount(user2).title("제목4").content("내용4").category(1L).view(0L)
+		Post post4 = CertificationReview.builder().userAccount(user2).title("제목4").content("내용4").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post5 = CertificationReview.builder().userAccount(user2).title("제목5").content("내용5").category(1L).view(0L)
+		Post post5 = CertificationReview.builder().userAccount(user2).title("제목5").content("내용5").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post6 = CertificationReview.builder().userAccount(user1).title("제목6").content("내용6").category(2L).view(0L)
+		Post post6 = CertificationReview.builder().userAccount(user1).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L)
 				.build();
-		Post post7 = CertificationReview.builder().userAccount(user2).title("제목7").content("내용7").category(2L).view(0L)
+		Post post7 = CertificationReview.builder().userAccount(user2).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L)
 				.build();
 
 		// When
@@ -239,19 +240,19 @@ public class CertificationReviewRepositoryTest {
 	void searchByKeywordTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = CertificationReview.builder().userAccount(user).title("검검색어어").content("내용1").category(1L)
+		Post post1 = CertificationReview.builder().userAccount(user).title("검검색어어").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L).build();
-		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("검검색어어").category(1L)
+		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("검검색어어").postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L).build();
-		Post post3 = CertificationReview.builder().userAccount(user).title("검색어어어").content("내용3").category(1L)
+		Post post3 = CertificationReview.builder().userAccount(user).title("검색어어어").content("내용3").postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L).build();
-		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("검검검색어어").category(1L)
+		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("검검검색어어").postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L).build();
-		Post post5 = CertificationReview.builder().userAccount(user).title("제목5").content("내용5").category(1L).view(0L)
+		Post post5 = CertificationReview.builder().userAccount(user).title("제목5").content("내용5").postCategory(PostCategory.CERTIFICATION_REVIEW).view(0L)
 				.build();
-		Post post6 = CertificationReview.builder().userAccount(user).title("제목6").content("내용6").category(2L).view(0L)
+		Post post6 = CertificationReview.builder().userAccount(user).title("제목6").content("내용6").postCategory(PostCategory.QNA_BOARD).view(0L)
 				.build();
-		Post post7 = CertificationReview.builder().userAccount(user).title("제목7").content("내용7").category(2L).view(0L)
+		Post post7 = CertificationReview.builder().userAccount(user).title("제목7").content("내용7").postCategory(PostCategory.QNA_BOARD).view(0L)
 				.build();
 
 		// When
@@ -277,19 +278,19 @@ public class CertificationReviewRepositoryTest {
 	void searchByKeywordAndCategoryTest() {
 		// Given
 		UserAccount user = userAccountRepository.findByUserId("testId").get();
-		Post post1 = CertificationReview.builder().userAccount(user).title("검검색어어").content("내용1").category(1L)
+		Post post1 = CertificationReview.builder().userAccount(user).title("검검색어어").content("내용1").postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L).build();
-		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("검검색어어").category(2L)
+		Post post2 = CertificationReview.builder().userAccount(user).title("제목2").content("검검색어어").postCategory(PostCategory.QNA_BOARD)
 				.view(0L).build();
-		Post post3 = CertificationReview.builder().userAccount(user).title("검색어어어").content("내용3").category(1L)
+		Post post3 = CertificationReview.builder().userAccount(user).title("검색어어어").content("내용3").postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L).build();
-		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("검검검색어어").category(2L)
+		Post post4 = CertificationReview.builder().userAccount(user).title("제목4").content("검검검색어어").postCategory(PostCategory.QNA_BOARD)
 				.view(0L).build();
-		Post post5 = CertificationReview.builder().userAccount(user).title("검색어").content("내용5").category(1L)
+		Post post5 = CertificationReview.builder().userAccount(user).title("검색어").content("내용5").postCategory(PostCategory.CERTIFICATION_REVIEW)
 				.view(0L).build();
-		Post post6 = CertificationReview.builder().userAccount(user).title("검색어").content("검색어").category(2L)
+		Post post6 = CertificationReview.builder().userAccount(user).title("검색어").content("검색어").postCategory(PostCategory.QNA_BOARD)
 				.view(0L).build();
-		Post post7 = CertificationReview.builder().userAccount(user).title("제목7").content("검색어").category(2L)
+		Post post7 = CertificationReview.builder().userAccount(user).title("제목7").content("검색어").postCategory(PostCategory.QNA_BOARD)
 				.view(0L).build();
 
 		// When
@@ -303,7 +304,7 @@ public class CertificationReviewRepositoryTest {
 		Pageable pageable = PageRequest.of(0, 3, Sort.by("id").descending());
 
 		// Then
-		Page<Post> result = postRepository.searchByKeywordAndCategory("검색어", 2L, pageable);
+		Page<Post> result = postRepository.searchByKeywordAndCategory("검색어", PostCategory.QNA_BOARD, pageable);
 		assertEquals(2, result.getTotalPages());
 		assertEquals(4, result.getTotalElements());
 		assertEquals(3, result.getSize());
