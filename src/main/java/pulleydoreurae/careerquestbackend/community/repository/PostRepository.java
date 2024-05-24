@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.common.community.repository;
+package pulleydoreurae.careerquestbackend.community.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.common.community.domain.PostCategory;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 
 /**
  * 게시글을 담당하는 Repository

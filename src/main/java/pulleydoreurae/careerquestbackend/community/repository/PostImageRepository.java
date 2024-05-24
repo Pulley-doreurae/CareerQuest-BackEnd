@@ -1,11 +1,11 @@
-package pulleydoreurae.careerquestbackend.common.community.repository;
+package pulleydoreurae.careerquestbackend.community.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.PostImage;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 
 /**
  * 게시글 사진 Repository

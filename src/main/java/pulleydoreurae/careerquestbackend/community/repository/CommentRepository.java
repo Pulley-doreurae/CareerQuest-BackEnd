@@ -1,4 +1,4 @@
-package pulleydoreurae.careerquestbackend.common.community.repository;
+package pulleydoreurae.careerquestbackend.community.repository;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Comment;
-import pulleydoreurae.careerquestbackend.common.community.domain.entity.Post;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
+import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 
 /**
  * 댓글 Repository
