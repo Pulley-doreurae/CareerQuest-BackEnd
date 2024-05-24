@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import pulleydoreurae.careerquestbackend.certification.domain.ExamType;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationDateResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationDateResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationExamDate;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationRegistrationPeriod;

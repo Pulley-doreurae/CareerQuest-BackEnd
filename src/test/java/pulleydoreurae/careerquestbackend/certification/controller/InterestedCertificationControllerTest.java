@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.InterestedCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.request.InterestedCertificationRequest;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.repository.CertificationRepository;
 import pulleydoreurae.careerquestbackend.certification.service.InterestedCertificationService;

@@ -28,8 +28,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.certification.domain.dto.ReviewRequest;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.ReviewResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.request.ReviewRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.ReviewResponse;
 import pulleydoreurae.careerquestbackend.certification.service.ReviewService;
 
 /**

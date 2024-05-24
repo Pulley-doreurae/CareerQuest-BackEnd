@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationResponse;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.InterestedCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.request.InterestedCertificationRequest;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.service.InterestedCertificationService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;

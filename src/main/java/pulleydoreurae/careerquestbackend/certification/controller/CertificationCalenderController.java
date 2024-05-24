@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationDateResponse;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationSearchRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationDateResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.request.CertificationSearchRequest;
 import pulleydoreurae.careerquestbackend.certification.service.CertificationCalenderService;
 
 /**
