@@ -199,9 +199,8 @@ public class PostController {
 			return BAD_REQUEST;
 		}
 
-		if (!postService.updatePost(postId, postRequest)) {
-			return makeBadRequestUsingSimpleResponse("해당 게시글을 수정할 수 없습니다.");
-		}
+		postService.updatePost(postId, postRequest);
+
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(SimpleResponse.builder()
 						.msg("게시글 수정에 성공했습니다.")
@@ -217,9 +216,8 @@ public class PostController {
 	 */
 	@DeleteMapping("/posts/{postId}")
 	public ResponseEntity<SimpleResponse> deletePost(@PathVariable Long postId, String userId) {
-		if (!postService.deletePost(postId, userId)) {
-			return makeBadRequestUsingSimpleResponse("해당 게시글을 삭제할 수 없습니다.");
-		}
+		postService.deletePost(postId, userId);
+
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(SimpleResponse.builder()
 						.msg("게시글 삭제에 성공하였습니다.")

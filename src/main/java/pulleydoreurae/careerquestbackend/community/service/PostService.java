@@ -28,7 +28,9 @@ import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
 import pulleydoreurae.careerquestbackend.community.exception.FileSaveException;
+import pulleydoreurae.careerquestbackend.community.exception.PostDeleteException;
 import pulleydoreurae.careerquestbackend.community.exception.PostSaveException;
+import pulleydoreurae.careerquestbackend.community.exception.PostUpdateException;
 import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
@@ -208,7 +210,7 @@ public class PostService {
 	 * @param postRequest 게시글 요청
 	 */
 	@Transactional // 사진 저장과 게시글 저장을 하나의 트랜잭션으로 묶음
-	public void savePost(PostRequest postRequest) {
+	public Long savePost(PostRequest postRequest) {
 		List<String> fileNames = postRequest.getImages();
 		try {
 			UserAccount user = commonCommunityService.findUserAccount(postRequest.getUserId());
@@ -219,6 +221,7 @@ public class PostService {
 				if (fileNames != null) {
 					saveImages(fileNames, post);
 				}
+				return post.getId();
 			} catch (Exception e) {
 				log.error("게시글 저장 실패 {}", e.getMessage());
 				// 예외가 발생해 게시글 저장에 실패한 경우 미리 저장한 사진 정보를 삭제한다.
@@ -251,18 +254,17 @@ public class PostService {
 	}
 
 	/**
-	 * 게시글 수정 메서드
+	 * 게시글 수정 메서드 (수정에 실패하면 예외를 던진다.)
 	 *
 	 * @param postId      게시글 id
 	 * @param postRequest 게시글 수정요청
-	 * @return 수정에 성공하면 true 실패하면 false
 	 */
-	public boolean updatePost(Long postId, PostRequest postRequest) {
+	public void updatePost(Long postId, PostRequest postRequest) {
 		Post post = commonCommunityService.findPost(postId);
 		UserAccount user = commonCommunityService.findUserAccount(postRequest.getUserId());
 		// 작성자와 수정자가 다르다면 실패
 		if (!post.getUserAccount().getUserId().equals(user.getUserId())) {
-			return false;
+			throw new PostUpdateException("게시글 수정에 실패했습니다.");
 		}
 
 		// 이미지 내용이 있다면 수정처리
@@ -272,8 +274,6 @@ public class PostService {
 
 		Post updatedPost = commonCommunityService.postRequestToPostForUpdate(post, postRequest, user);
 		postRepository.save(updatedPost);
-
-		return true;
 	}
 
 	/**
@@ -281,14 +281,13 @@ public class PostService {
 	 *
 	 * @param postId 게시글 id
 	 * @param userId 삭제 요청자
-	 * @return 삭제 요청이 성공이면 true 실패하면 false
 	 */
-	public boolean deletePost(Long postId, String userId) {
+	public void deletePost(Long postId, String userId) {
 		UserAccount user = commonCommunityService.findUserAccount(userId);
 		Post post = commonCommunityService.findPost(postId);
 		// 작성자와 요청자가 다르다면 실패 (권한 없음)
 		if (!post.getUserAccount().getUserId().equals(user.getUserId())) {
-			return false;
+			throw new PostDeleteException("게시글 삭제에 실패했습니다.");
 		}
 		postRepository.deleteById(postId);
 
@@ -297,8 +296,6 @@ public class PostService {
 		if (!fileNames.isEmpty()) {
 			fileManagementService.deleteFile(fileNames.stream().map(PostImage::getFileName).toList(), IMAGES_SAVE_PATH);
 		}
-
-		return true;
 	}
 
 	/**

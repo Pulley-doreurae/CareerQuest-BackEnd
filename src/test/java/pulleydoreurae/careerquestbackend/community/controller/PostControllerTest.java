@@ -33,6 +33,8 @@ import com.google.gson.Gson;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.exception.PostDeleteException;
+import pulleydoreurae.careerquestbackend.community.exception.PostUpdateException;
 import pulleydoreurae.careerquestbackend.community.service.PostService;
 
 /**
@@ -212,7 +214,7 @@ class PostControllerTest {
 		// Given
 		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD).build();
 
-		given(postService.updatePost(any(), any())).willReturn(false);
+		doThrow(new PostUpdateException("게시글 수정에 실패했습니다.")).when(postService).updatePost(any(), any());
 
 		// When
 		mockMvc.perform(
@@ -249,8 +251,6 @@ class PostControllerTest {
 		// Given
 		PostRequest request = PostRequest.builder().userId("testId").title("수정할 제목").content("수정할 내용").postCategory(PostCategory.FREE_BOARD).build();
 
-		given(postService.updatePost(any(), any())).willReturn(true);
-
 		// When
 		mockMvc.perform(
 						patch("/api/posts/{postId}", 100)
@@ -284,7 +284,7 @@ class PostControllerTest {
 	@WithMockUser
 	void deletePostFailTest() throws Exception {
 		// Given
-		given(postService.deletePost(any(), any())).willReturn(false);
+		doThrow(new PostDeleteException("게시글 삭제에 실패했습니다.")).when(postService).deletePost(any(), any());
 
 		// When
 		mockMvc.perform(
@@ -315,7 +315,6 @@ class PostControllerTest {
 	@WithMockUser
 	void deletePostSuccessTest() throws Exception {
 		// Given
-		given(postService.deletePost(any(), any())).willReturn(true);
 
 		// When
 		mockMvc.perform(

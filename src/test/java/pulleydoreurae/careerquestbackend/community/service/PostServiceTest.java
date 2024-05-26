@@ -34,7 +34,9 @@ import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostRespo
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostViewCheck;
+import pulleydoreurae.careerquestbackend.community.exception.PostDeleteException;
 import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
+import pulleydoreurae.careerquestbackend.community.exception.PostUpdateException;
 import pulleydoreurae.careerquestbackend.community.repository.PostImageRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostLikeRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
@@ -216,7 +218,7 @@ class PostServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
-
+		given(commonCommunityService.postRequestToPost(any(), any())).willReturn(new Post());
 		// When
 
 		// Then
@@ -249,6 +251,7 @@ class PostServiceTest {
 		List<String> images = List.of(image1, image2, image3, image4, image5);
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonCommunityService.postRequestToPost(any(), any())).willReturn(new Post());
 
 		// When
 
@@ -325,11 +328,9 @@ class PostServiceTest {
 		given(commonCommunityService.findUserAccount(any())).willReturn(user2);
 
 		// When
-		boolean result = postService.updatePost(100L,
-				new PostRequest("testId2", "제목", "내용", PostCategory.FREE_BOARD, null));
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostUpdateException.class, () -> postService.updatePost(100L, new PostRequest("testId2", "제목", "내용", PostCategory.FREE_BOARD, null)));
 		verify(commonCommunityService, never()).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository, never()).save(any());
 	}
@@ -344,10 +345,9 @@ class PostServiceTest {
 		given(commonCommunityService.findUserAccount(any())).willReturn(user);
 
 		// When
-		boolean result = postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null));
 
 		// Then
-		assertTrue(result);
+		assertDoesNotThrow(() -> postService.updatePost(100L, new PostRequest("testId", "제목", "내용", PostCategory.FREE_BOARD, null)));
 		verify(commonCommunityService).postRequestToPostForUpdate(any(), any(), any());
 		verify(postRepository).save(any());
 	}
@@ -425,10 +425,9 @@ class PostServiceTest {
 				.willReturn(UserAccount.builder().userId("testId1").build());
 
 		// When
-		boolean result = postService.deletePost(100L, "testId1");
 
 		// Then
-		assertFalse(result);
+		assertThrows(PostDeleteException.class, () -> postService.deletePost(100L, "testId1"));
 		verify(postRepository, never()).deleteById(100L);
 		verify(postImageRepository, never()).findAllByPost(any());
 		verify(fileManagementService, never()).deleteFile(anyList(), anyString());
@@ -445,10 +444,9 @@ class PostServiceTest {
 		given(postImageRepository.findAllByPost(any())).willReturn(List.of());
 
 		// When
-		boolean result = postService.deletePost(100L, "testId");
 
 		// Then
-		assertTrue(result);
+		assertDoesNotThrow(() -> postService.deletePost(100L, "testId"));
 		verify(postRepository).deleteById(100L);
 		verify(postImageRepository).findAllByPost(post);
 		verify(fileManagementService, never()).deleteFile(anyList(), any());
@@ -465,10 +463,9 @@ class PostServiceTest {
 		given(postImageRepository.findAllByPost(any())).willReturn(List.of(new PostImage()));
 
 		// When
-		boolean result = postService.deletePost(100L, "testId");
 
 		// Then
-		assertTrue(result);
+		assertDoesNotThrow(() -> postService.deletePost(100L, "testId"));
 		verify(postRepository).deleteById(100L);
 		verify(postImageRepository).findAllByPost(post);
 		verify(fileManagementService).deleteFile(anyList(), any());
