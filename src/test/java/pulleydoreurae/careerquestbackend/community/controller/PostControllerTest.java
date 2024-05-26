@@ -31,10 +31,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestSearchRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostAndContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.ContestResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.exception.PostDeleteException;
 import pulleydoreurae.careerquestbackend.community.exception.PostUpdateException;
+import pulleydoreurae.careerquestbackend.community.service.ContestService;
 import pulleydoreurae.careerquestbackend.community.service.PostService;
 
 /**
@@ -49,6 +54,8 @@ class PostControllerTest {
 	MockMvc mockMvc;
 	@MockBean
 	PostService postService;
+	@MockBean
+	ContestService contestService;
 	Gson gson = new Gson();
 
 	@Test
@@ -1124,5 +1131,176 @@ class PostControllerTest {
 								parameterWithName("fileName").description("요청할 파일명")
 						)));
 		// Then
+	}
+
+	@Test
+	@DisplayName("공모전 검색조건으로 조회 테스트")
+	@WithMockUser
+	void searchPostsTest() throws Exception {
+	    // Given
+		ContestSearchRequest request = ContestSearchRequest.builder().contestCategory("부산주관").target("대학생").organizer("부산시청").build();
+		ContestResponse contest1 = ContestResponse.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
+		ContestResponse contest2 = ContestResponse.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청2").totalPrize(100000L).build();
+		ContestResponse contest3 = ContestResponse.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청3").totalPrize(100000L).build();
+
+		given(contestService.findBySearchRequest(any(), any())).willReturn(List.of(contest1, contest2, contest3));
+
+	    // When
+		mockMvc.perform(
+						get("/api/contests/search")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isOk()).andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("contestCategory").description("공모전 분야"),
+								fieldWithPath("target").description("대상"),
+								fieldWithPath("organizer").description("주관처")
+						),
+						responseFields(
+								fieldWithPath("[].contestCategory").description("공모전 분야"),
+								fieldWithPath("[].target").description("대상"),
+								fieldWithPath("[].region").description("공모전 분야"),
+								fieldWithPath("[].organizer").description("주관처"),
+								fieldWithPath("[].totalPrize").description("총상금")
+						)));
+
+	    // Then
+	}
+
+	@Test
+	@DisplayName("공모전 정보 조회 테스트")
+	@WithMockUser
+	void getContestTest() throws Exception {
+		// Given
+		ContestResponse contest = ContestResponse.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
+
+		given(contestService.findByPostId(100L)).willReturn(contest);
+
+		// When
+		mockMvc.perform(
+						get("/api/contests/{postId}", 100L)
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("postId").description("게시글 id")
+						),
+						responseFields(
+								fieldWithPath("contestCategory").description("공모전 분야"),
+								fieldWithPath("target").description("대상"),
+								fieldWithPath("region").description("공모전 분야"),
+								fieldWithPath("organizer").description("주관처"),
+								fieldWithPath("totalPrize").description("총상금")
+						)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("게시글 + 공모전 저장 테스트")
+	@WithMockUser
+	void saveContestTest() throws Exception {
+		// Given
+		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).build();
+		ContestRequest contestRequest = ContestRequest.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
+		PostAndContestRequest request = PostAndContestRequest.builder().postRequest(postRequest).contestRequest(contestRequest).build();
+
+		// When
+		mockMvc.perform(
+						post("/api/contests")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						responseFields(
+								fieldWithPath("msg").description("처리결과")
+						)));
+
+		// Then
+		verify(contestService).save(any(), any());
+	}
+
+	@Test
+	@DisplayName("게시글 + 공모전 수정 테스트")
+	@WithMockUser
+	void updateContestTest() throws Exception {
+		// Given
+		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).images(List.of()).build();
+		ContestRequest contestRequest = ContestRequest.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
+		PostAndContestRequest request = PostAndContestRequest.builder().postRequest(postRequest).contestRequest(contestRequest).build();
+
+		// When
+		mockMvc.perform(
+						patch("/api/contests/{postId}", 100L)
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("postId").description("게시글 id")
+						),
+						requestFields(
+								fieldWithPath("postRequest.userId").description("작성자"),
+								fieldWithPath("postRequest.title").description("제목"),
+								fieldWithPath("postRequest.content").description("내용"),
+								fieldWithPath("postRequest.postCategory").description("카테고리 (공모전으로 고정할것)"),
+								fieldWithPath("postRequest.images").description("공모전 이미지"),
+								fieldWithPath("contestRequest.contestCategory").description("공모전 분야"),
+								fieldWithPath("contestRequest.target").description("대상"),
+								fieldWithPath("contestRequest.region").description("지역"),
+								fieldWithPath("contestRequest.organizer").description("주관처"),
+								fieldWithPath("contestRequest.totalPrize").description("총상금")
+						),
+						responseFields(
+								fieldWithPath("msg").description("처리결과")
+						)));
+
+		// Then
+		verify(contestService).update(any(), any(), any());
+	}
+
+	@Test
+	@DisplayName("게시글 + 공모전 삭제 테스트")
+	@WithMockUser
+	void deleteContestTest() throws Exception {
+		// Given
+
+		// When
+		mockMvc.perform(
+						delete("/api/contests/{postId}", 100L)
+								.queryParam("userId", "testId")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("postId").description("게시글 id")
+						),
+						queryParameters(
+								parameterWithName("userId").description("요청자 id")
+						),
+						responseFields(
+								fieldWithPath("msg").description("처리결과")
+						)));
+
+		// Then
+		verify(contestService).delete(any(), any());
 	}
 }
