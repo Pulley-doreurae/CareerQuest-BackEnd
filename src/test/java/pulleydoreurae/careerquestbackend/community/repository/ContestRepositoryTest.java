@@ -89,13 +89,17 @@ class ContestRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
 		contestRepository.save(contest3);
 
 		// When
@@ -118,13 +122,17 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
 		contestRepository.save(contest3);
 
 		// When
@@ -148,13 +156,17 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
 		contestRepository.save(contest3);
 
 		// When
@@ -178,13 +190,17 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
 		contestRepository.save(contest3);
 
 		// When
@@ -208,13 +224,17 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
 		contestRepository.save(contest3);
 
 		// When
@@ -238,13 +258,17 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
 		contestRepository.save(contest3);
 
 		// When
@@ -268,15 +292,21 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post4);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
 		contestRepository.save(contest3);
-		Contest contest4 = new Contest(103L, post, "부산주관", "대학생", "부산", "병무청", 100001L);
+		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L);
 		contestRepository.save(contest4);
 
 		// When
@@ -299,15 +329,21 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
-		postRepository.save(post);
-		Contest contest1 = new Contest(100L, post, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post4);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
 		contestRepository.save(contest3);
-		Contest contest4 = new Contest(103L, post, "부산주관", "대학생", "부산", "병무청", 100001L);
+		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L);
 		contestRepository.save(contest4);
 
 		// When
