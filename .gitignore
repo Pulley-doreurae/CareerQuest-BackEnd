@@ -230,3 +230,4 @@ client_yml-2.sh
 docker-compose.yml
 Dockerfile
 path.yml
+generated/

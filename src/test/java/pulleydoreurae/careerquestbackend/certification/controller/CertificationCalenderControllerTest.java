@@ -31,10 +31,10 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import pulleydoreurae.careerquestbackend.certification.domain.ExamType;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationDateResponse;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationExamDateResponse;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationPeriodResponse;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.CertificationSearchRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationDateResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationExamDateResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationPeriodResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.request.CertificationSearchRequest;
 import pulleydoreurae.careerquestbackend.certification.service.CertificationCalenderService;
 
 /**

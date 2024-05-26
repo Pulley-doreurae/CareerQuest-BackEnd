@@ -54,7 +54,7 @@ class InterestedCertificationServiceTest {
 		assertEquals(1, result.size());
 		assertEquals("정보처리기사", result.get(0).getCertificationName());
 	}
-	
+
 	@Test
 	@DisplayName("관심 자격증 추가 테스트")
 	void saveInterestedCertificationTest() {
@@ -66,7 +66,7 @@ class InterestedCertificationServiceTest {
 
 	    // When
 		interestedCertificationService.saveInterestedCertification("testId", "정보처리기사");
-	    
+
 	    // Then
 		verify(userAccountRepository).findByUserId("testId");
 		verify(certificationRepository).findByCertificationName("정보처리기사");

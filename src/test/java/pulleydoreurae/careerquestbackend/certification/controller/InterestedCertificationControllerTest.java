@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,9 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.InterestedCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.request.InterestedCertificationRequest;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.repository.CertificationRepository;
 import pulleydoreurae.careerquestbackend.certification.service.InterestedCertificationService;
