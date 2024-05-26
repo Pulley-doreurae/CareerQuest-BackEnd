@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Review;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  * 자격증 후기 Repository 테스트
@@ -28,6 +30,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.Review;
  */
 @DataJpaTest
 @DisplayName("자격증 후기 DB 테스트")
+@Import(QueryDSLConfig.class)
 public class ReviewRepositoryTest {
 
 	@Autowired

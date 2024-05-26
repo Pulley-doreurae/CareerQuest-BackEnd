@@ -10,10 +10,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  * @author : parkjihyeok
@@ -21,6 +23,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
  */
 @DataJpaTest
 @DisplayName("직무 Repository 테스트")
+@Import(QueryDSLConfig.class)
 class UserCareerDetailsRepositoryTest {
 
 	@Autowired

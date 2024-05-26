@@ -9,10 +9,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  *
@@ -23,6 +25,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.Certificati
 @DataJpaTest
 @DisplayName("자격증의 기본 정보를 정상적으로 불러오는지 테스트")
 @Transactional
+@Import(QueryDSLConfig.class)
 class CertificationRepositoryTest {
 
 	@Autowired

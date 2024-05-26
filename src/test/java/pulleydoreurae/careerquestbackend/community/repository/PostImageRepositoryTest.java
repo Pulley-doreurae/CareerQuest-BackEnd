@@ -7,12 +7,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  * @author : parkjihyeok
@@ -20,6 +22,7 @@ import pulleydoreurae.careerquestbackend.community.domain.entity.PostImage;
  */
 @DataJpaTest
 @DisplayName("사진 Repository 테스트")
+@Import(QueryDSLConfig.class)
 class PostImageRepositoryTest {
 
 	@Autowired

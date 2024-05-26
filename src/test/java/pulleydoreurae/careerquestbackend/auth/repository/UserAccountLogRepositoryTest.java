@@ -8,16 +8,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccessLog;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  * UserAccountLogRepository 클래스를 테스트 하는 클래스
  */
 @DataJpaTest
 @DisplayName("접속기록 Repository 테스트")
+@Import(QueryDSLConfig.class)
 public class UserAccountLogRepositoryTest {
 
     @Autowired

@@ -8,12 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.InterestedCertification;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  * 관심자격증 RepositoryTest
@@ -24,6 +26,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.InterestedC
 @DataJpaTest
 @DisplayName("관심자격증 Repository 테스트")
 @Transactional
+@Import(QueryDSLConfig.class)
 class InterestedCertificationRepositoryTest {
 
 	@Autowired

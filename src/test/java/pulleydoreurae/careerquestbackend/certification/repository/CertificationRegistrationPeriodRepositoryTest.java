@@ -12,11 +12,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import pulleydoreurae.careerquestbackend.certification.domain.ExamType;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.CertificationRegistrationPeriod;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  *
@@ -27,6 +29,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.Certificati
 @DataJpaTest
 @DisplayName("자격증 접수기간 정보를 정상적으로 불러오는지 테스트")
 @Transactional
+@Import(QueryDSLConfig.class)
 class CertificationRegistrationPeriodRepositoryTest {
 
 	@Autowired

@@ -7,15 +7,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.config.QueryDSLConfig;
 
 /**
  * UserAccountRepository 클래스를 테스트하는 클래스
  */
 @DataJpaTest
+@Import(QueryDSLConfig.class)
 class UserAccountRepositoryTest {
 
 	@Autowired
