@@ -1208,7 +1208,7 @@ class PostControllerTest {
 	@WithMockUser
 	void saveContestTest() throws Exception {
 		// Given
-		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).build();
+		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).images(List.of()).build();
 		ContestRequest contestRequest = ContestRequest.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
 		PostAndContestRequest request = PostAndContestRequest.builder().postRequest(postRequest).contestRequest(contestRequest).build();
 
@@ -1223,6 +1223,18 @@ class PostControllerTest {
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("postRequest.userId").description("작성자"),
+								fieldWithPath("postRequest.title").description("제목"),
+								fieldWithPath("postRequest.content").description("내용"),
+								fieldWithPath("postRequest.postCategory").description("카테고리 (공모전으로 고정할것)"),
+								fieldWithPath("postRequest.images").description("공모전 이미지"),
+								fieldWithPath("contestRequest.contestCategory").description("공모전 분야"),
+								fieldWithPath("contestRequest.target").description("대상"),
+								fieldWithPath("contestRequest.region").description("지역"),
+								fieldWithPath("contestRequest.organizer").description("주관처"),
+								fieldWithPath("contestRequest.totalPrize").description("총상금")
+						),
 						responseFields(
 								fieldWithPath("msg").description("처리결과")
 						)));
