@@ -15,4 +15,6 @@ import pulleydoreurae.careerquestbackend.community.domain.entity.Contest;
 public interface ContestRepository extends JpaRepository<Contest, Long>, ContestRepositoryCustom {
 
 	Optional<Contest> findByPostId(Long postId);
+
+	void deleteByPostId(Long postId);
 }

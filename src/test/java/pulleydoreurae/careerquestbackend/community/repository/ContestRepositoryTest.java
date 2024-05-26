@@ -67,7 +67,7 @@ class ContestRepositoryTest {
 
 	@Test
 	@DisplayName("공모전 삭제")
-	void contestDeleteTest() {
+	void contestDeleteTest1() {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
@@ -80,6 +80,24 @@ class ContestRepositoryTest {
 		contestRepository.delete(contest);
 
 	    // Then
+		assertEquals(Optional.empty(), contestRepository.findById(contest.getId()));
+	}
+
+	@Test
+	@DisplayName("공모전 postId로 삭제")
+	void contestDeleteTest2() {
+		// Given
+		UserAccount userAccount = UserAccount.builder().userId("testId").build();
+		userAccountRepository.save(userAccount);
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post);
+		Contest contest = new Contest(100L, post, "정부주관", "대학생", "서울", "서울시청", 100000L);
+		contestRepository.save(contest);
+
+		// When
+		contestRepository.deleteByPostId(post.getId());
+
+		// Then
 		assertEquals(Optional.empty(), contestRepository.findById(contest.getId()));
 	}
 
