@@ -28,9 +28,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestSearchRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostAndContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.ContestResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostFailResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
+import pulleydoreurae.careerquestbackend.community.service.ContestService;
 import pulleydoreurae.careerquestbackend.community.service.PostService;
 
 /**
@@ -45,6 +49,7 @@ import pulleydoreurae.careerquestbackend.community.service.PostService;
 public class PostController {
 
 	private final PostService postService;
+	private final ContestService contestService;
 
 	/**
 	 * 게시글 전체 조회
@@ -114,6 +119,23 @@ public class PostController {
 	}
 
 	/**
+	 * 공모전 검색조회
+	 *
+	 * @param contestSearchRequest 공모전 검색조회
+	 * @param pageable             페이지 정보
+	 * @return 게시글 리스트
+	 */
+	@GetMapping("/contests/search")
+	public ResponseEntity<List<ContestResponse>> searchPosts(@RequestBody ContestSearchRequest contestSearchRequest,
+			@PageableDefault(size = 15, direction = Sort.Direction.DESC) Pageable pageable) {
+
+		List<ContestResponse> contests = contestService.findBySearchRequest(contestSearchRequest, pageable);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(contests);
+	}
+
+	/**
 	 * 게시글 단건 조회
 	 *
 	 * @param request  요청자 정보
@@ -129,6 +151,21 @@ public class PostController {
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(post);
+	}
+
+	/**
+	 * 공모전 정보 조회
+	 *
+	 * @param postId 게시글 정보
+	 * @return 게시글
+	 */
+	@GetMapping("/contests/{postId}")
+	public ResponseEntity<?> getContest(@PathVariable Long postId) {
+
+		ContestResponse contest = contestService.findByPostId(postId);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(contest);
 	}
 
 	/**
@@ -225,15 +262,70 @@ public class PostController {
 	}
 
 	/**
-	 * SimpleResponse 형태의 BAD_REQUEST 생성 메서드
+	 * 게시글 + 공모전 저장
 	 *
-	 * @param message 작성할 메시지
-	 * @return 완성된 BAD_REQUEST
+	 * @param request       게시글 + 공모전 정보
+	 * @param bindingResult 에러 검증
+	 * @return 처리에 대한 결과
 	 */
-	private ResponseEntity<SimpleResponse> makeBadRequestUsingSimpleResponse(String message) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	@PostMapping("/contests")
+	public ResponseEntity<?> saveContest(@Valid @RequestBody PostAndContestRequest request,
+			BindingResult bindingResult) {
+
+		// 검증
+		ResponseEntity<PostFailResponse> BAD_REQUEST = validCheckContest(request, bindingResult);
+		if (BAD_REQUEST != null) {
+			return BAD_REQUEST;
+		}
+
+		contestService.save(request.getPostRequest(), request.getContestRequest());
+
+		return ResponseEntity.status(HttpStatus.OK)
 				.body(SimpleResponse.builder()
-						.msg(message)
+						.msg("공모전 등록에 성공했습니다.")
+						.build());
+	}
+
+	/**
+	 * 게시글 + 공모전 수정
+	 *
+	 * @param postId        게시글 정보
+	 * @param request       게시글 + 공모전 업데이트 정보
+	 * @param bindingResult 에러 검증
+	 * @return 처리 결과
+	 */
+	@PatchMapping("/contests/{postId}")
+	public ResponseEntity<?> updateContest(@PathVariable Long postId,
+			@Valid @RequestBody PostAndContestRequest request, BindingResult bindingResult) {
+
+		// 검증
+		ResponseEntity<PostFailResponse> BAD_REQUEST = validCheckContest(request, bindingResult);
+		if (BAD_REQUEST != null) {
+			return BAD_REQUEST;
+		}
+
+		contestService.update(postId, request.getPostRequest(), request.getContestRequest());
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(SimpleResponse.builder()
+						.msg("공모전 수정에 성공했습니다.")
+						.build());
+	}
+
+	/**
+	 * 게시글 + 공모전 삭제
+	 *
+	 * @param postId 게시글 정보
+	 * @param userId 요청자 정보
+	 * @return 처리 결과
+	 */
+	@DeleteMapping("/contests/{postId}")
+	public ResponseEntity<SimpleResponse> deleteContest(@PathVariable Long postId, String userId) {
+		contestService.delete(postId, userId);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(SimpleResponse.builder()
+						.msg("공모전 삭제에 성공하였습니다.")
 						.build());
 	}
 
@@ -251,6 +343,35 @@ public class PostController {
 			for (ObjectError error : bindingResult.getAllErrors()) {
 				errors[index++] = error.getDefaultMessage();
 			}
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(PostFailResponse.builder()
+							.title(postRequest.getTitle())
+							.content(postRequest.getContent())
+							.postCategory(postRequest.getPostCategory())
+							.errors(errors)
+							.build());
+		}
+		return null;
+	}
+
+	/**
+	 * 검증 메서드
+	 *
+	 * @param request       게시글 + 공모전 요청 (검증에 실패하더라도 입력한 값은 그대로 돌려준다.)
+	 * @param bindingResult 검증 결과
+	 * @return 검증결과 에러가 없다면 null 에러가 있다면 해당 에러를 담은 ResponseEntity 반환
+	 */
+	private ResponseEntity<PostFailResponse> validCheckContest(PostAndContestRequest request,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			String[] errors = new String[bindingResult.getAllErrors().size()];
+			int index = 0;
+			for (ObjectError error : bindingResult.getAllErrors()) {
+				errors[index++] = error.getDefaultMessage();
+			}
+
+			PostRequest postRequest = request.getPostRequest();
 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(PostFailResponse.builder()
