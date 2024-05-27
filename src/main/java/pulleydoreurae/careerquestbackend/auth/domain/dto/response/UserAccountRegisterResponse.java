@@ -17,5 +17,6 @@ public class UserAccountRegisterResponse {
 	private String phoneNum;
 	private String birth;
 	private String gender;
+	private Boolean isMarketed;
 	private String msg;
 }

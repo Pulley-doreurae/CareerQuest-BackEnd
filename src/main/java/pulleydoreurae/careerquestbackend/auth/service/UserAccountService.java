@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowUserDetailsToChangeRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.*;
 import pulleydoreurae.careerquestbackend.auth.repository.*;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
@@ -36,9 +37,10 @@ public class UserAccountService implements Serializable {
 	private final UserCareerDetailsRepository userCareerDetailsRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final MailService mailService;
-	private final CareerDetailsRepository careerDetailsRepository;
 	private final TechnologyStackRepository technologyStackRepository;
-	private final UserFirstAddInfoRepository userFirstAddInfoRepository;
+	private final MajorCareersRepository majorCareersRepository;
+	private final MiddleCareersRepository middleCareersRepository;
+	private final SmallCareersRepository smallCareersRepository;
 
 	@Value("${spring.mail.domain}")
 	private String domain;
@@ -123,14 +125,18 @@ public class UserAccountService implements Serializable {
 	 *
 	 * @param uuid  비밀번호 찾기를 요청한 uuid
 	 */
-	public void deleteHelpUser(String uuid) { helpUserPasswordRepository.deleteById(uuid); }
+	public void deleteHelpUser(String uuid) {
+		helpUserPasswordRepository.deleteById(uuid);
+	}
 
 	/**
 	 * user를 삭제하는 메서드
 	 *
 	 * @param user 삭제할 user
 	 */
-	public void deleteUser(UserAccount user) { userAccountRepository.delete(user); }
+	public void deleteUser(UserAccount user) {
+		userAccountRepository.delete(user);
+	}
 
 	/**
 	 * 유저를 삭제할 때 본인확인을 위해 입력한 비밀번호와 삭제할 유저의 현재 비밀번호가 서로 일치하는지 확인하는 메서드
@@ -146,10 +152,10 @@ public class UserAccountService implements Serializable {
 	/**
 	 * 이메일 변경 주소로 인증 링크를 보내주는 메서드
 	 *
-	 * @param userId	이메일 변경을 요청한 userId
-	 * @param email		변경할 이메일 주소
+	 * @param userId    이메일 변경을 요청한 userId
+	 * @param email        변경할 이메일 주소
 	 */
-	public void sendUpdateEmailLink(String userId, String email){
+	public void sendUpdateEmailLink(String userId, String email) {
 		String uuid = UUID.randomUUID().toString();
 		String verification_url = domain + updateEmailPath + uuid;
 
@@ -160,7 +166,7 @@ public class UserAccountService implements Serializable {
 		mailService.sendMail(email, verification_url, "updateEmailForm", "취준진담 이메일 변경");
 	}
 
-	public ChangeUserEmail checkUpdateEmailUserIdByUuid(String uuid){
+	public ChangeUserEmail checkUpdateEmailUserIdByUuid(String uuid) {
 		Optional<ChangeUserEmail> helpUser = changeUserEmailRepository.findById(uuid);
 
 		// uuid가 없다면
@@ -171,7 +177,7 @@ public class UserAccountService implements Serializable {
 		return helpUser.get();
 	}
 
-	public void updateEmail(ChangeUserEmail changeUser){
+	public void updateEmail(ChangeUserEmail changeUser) {
 		Optional<UserAccount> userAccount = userAccountRepository.findByUserId(changeUser.getUserId());
 		if (userAccount.isPresent()) {
 			UserAccount user = userAccount.get();
@@ -185,43 +191,50 @@ public class UserAccountService implements Serializable {
 
 		user.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
 
+		Optional<UserCareerDetails> careerDetails = userCareerDetailsRepository.findByUserAccount(user);
+
+		if(careerDetails.isEmpty()) {
+			log.error("{} 의 해당하는 직무를 찾을 수 없습니다.", user.getUserId());
+			throw new UsernameNotFoundException("요청한 회원 정보를 찾을 수 없습니다.");
+		}
+
 		UserCareerDetails updateUserCareerDetails = UserCareerDetails.builder()
-				.id(user.getUserCareerDetails().getId()) // 동일한 id 로 덮어쓰기
-				.majorCategory(showUserDetailsToChangeRequest.getMajorCategory())
-				.middleCategory(showUserDetailsToChangeRequest.getMiddleCategory())
-				.smallCategory(showUserDetailsToChangeRequest.getSmallCategory())
-				.build();
+			.id(careerDetails.get().getId()) // 동일한 id 로 덮어쓰기
+			.smallCategory(showUserDetailsToChangeRequest.getSmallCategory())
+			.userAccount(user)
+			.build();
 		userCareerDetailsRepository.save(updateUserCareerDetails);
 
-		Collections.sort( showUserDetailsToChangeRequest.getTechnologyStacks() ); // 오름차순 정렬 후
+		Collections.sort(showUserDetailsToChangeRequest.getTechnologyStacks()); // 오름차순 정렬 후
 
-		if(showUserDetailsToChangeRequest.getTechnologyStacks().size() > user.getStacks().size()){	// 크기가 더 크다 -> 기술을 더 추가함
-			for(int i =  user.getStacks().size() ; i < showUserDetailsToChangeRequest.getTechnologyStacks().size() ;i++){
+		if (showUserDetailsToChangeRequest.getTechnologyStacks().size() > user.getStacks()
+			.size()) {    // 크기가 더 크다 -> 기술을 더 추가함
+			for (int i = user.getStacks().size();
+				 i < showUserDetailsToChangeRequest.getTechnologyStacks().size(); i++) {
 				UserTechnologyStack userTechnologyStack = UserTechnologyStack.builder()
-						.stackId(showUserDetailsToChangeRequest.getTechnologyStacks().get(i))
-						.userAccount(user)								 	// 크기가 넘은 나머진 부분은 새로 정의하여 추가
-						.build();
+					.stackId(showUserDetailsToChangeRequest.getTechnologyStacks().get(i))
+					.userAccount(user)                                    // 크기가 넘은 나머진 부분은 새로 정의하여 추가
+					.build();
 				userTechnologyStackRepository.save(userTechnologyStack);
 				user.getStacks().add(userTechnologyStack);
 			}
-		}
-
-		else if (showUserDetailsToChangeRequest.getTechnologyStacks().size() < user.getStacks().size()){ // 크기가 더 작다 -> 기술을 더 제거
+		} else if (showUserDetailsToChangeRequest.getTechnologyStacks().size() < user.getStacks()
+			.size()) { // 크기가 더 작다 -> 기술을 더 제거
 			int size = user.getStacks().size() - 1; // 삭제할 인덱스 지정(맨 뒤에서부터 삭제)
 			int sizeDifference = user.getStacks().size() - showUserDetailsToChangeRequest.getTechnologyStacks().size();
-			for(int i = 0; i < sizeDifference; i++){
-				UserTechnologyStack removeTech = user.getStacks().get(size-i);
+			for (int i = 0; i < sizeDifference; i++) {
+				UserTechnologyStack removeTech = user.getStacks().get(size - i);
 				user.getStacks().remove(removeTech);
 				userTechnologyStackRepository.delete(removeTech);
 			}
 		}
 
-		for(int i = 0 ; i <  user.getStacks().size() ;i++) { // 기존에 있던 기술스택을 재사용
+		for (int i = 0; i < user.getStacks().size(); i++) { // 기존에 있던 기술스택을 재사용
 			UserTechnologyStack userTechnologyStack = UserTechnologyStack.builder()
-					.id(user.getStacks().get(i).getId())                // 크기가 동일한 부분은 가지고 있던 기술스택에셔 변경
-					.userAccount(user)
-					.stackId(showUserDetailsToChangeRequest.getTechnologyStacks().get(i))
-					.build();
+				.id(user.getStacks().get(i).getId())                // 크기가 동일한 부분은 가지고 있던 기술스택에셔 변경
+				.userAccount(user)
+				.stackId(showUserDetailsToChangeRequest.getTechnologyStacks().get(i))
+				.build();
 			userTechnologyStackRepository.save(userTechnologyStack);
 		}
 
@@ -231,47 +244,65 @@ public class UserAccountService implements Serializable {
 	public List<String> getTechnologyStack(UserAccount user) {
 		List<String> stackIds = new ArrayList<>();
 
-		for(UserTechnologyStack userTechnologyStack : user.getStacks()){
+		for (UserTechnologyStack userTechnologyStack : user.getStacks()) {
 			stackIds.add(userTechnologyStack.getStackId());
 		}
 		return stackIds;
 	}
 
-	public List<String> getCareerList(String categoryType){
-		List<Careers> careerList = careerDetailsRepository.findAllByCategoryType(categoryType);
+	public List<ShowCareersResponse> getCareerList(String major, String middle) {
+		List<ShowCareersResponse> careerList = new ArrayList<>();
 
-		if (careerList.isEmpty()) {
-			log.error(" 해당하는 정보를 찾을 수 없습니다.");
-			throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
+		if(major == null) {
+			List<MajorCareers> majorCareersList = majorCareersRepository.findAll();
+			for(MajorCareers m : majorCareersList) careerList.add(ShowCareersResponse.builder().categoryName(m.getCategoryName()).categoryImage(m.getCategoryImage()).build());
+		}
+		else if(middle == null) {
+			Optional<MajorCareers> majorCareers = majorCareersRepository.findMajorCareersByCategoryName(major);
+			if (majorCareers.isPresent()) {
+				List<MiddleCareers> middleCareersList = middleCareersRepository.findAllByMajorCategory(majorCareers.get());
+				for(MiddleCareers m : middleCareersList) careerList.add(ShowCareersResponse.builder().categoryName(m.getCategoryName()).categoryImage(m.getCategoryImage()).build());
+			}else{
+				log.error("해당하는 중분류를 찾을 수 없습니다.");
+				throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
+			}
+		}
+		else{
+			Optional<MiddleCareers> middleCareers = middleCareersRepository.findMiddleCareersByCategoryName(middle);
+			if (middleCareers.isPresent()) {
+				List<SmallCareers> smallCareersList = smallCareersRepository.findAllByMiddleCategory(middleCareers.get());
+				for(SmallCareers m : smallCareersList) careerList.add(ShowCareersResponse.builder().categoryName(m.getCategoryName()).categoryImage(m.getCategoryImage()).build());
+			}else {
+				log.error("해당하는 소분류를 찾을 수 없습니다.");
+				throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
+			}
 		}
 
-		List<String> careerNameList = new ArrayList<>();
-        for (Careers careers : careerList) {
-            careerNameList.add(careers.getCategoryName());
-        }
-
-		return careerNameList;
+		return careerList;
 	}
 
-	public List<TechnologyStack> getTechnologyStackByKeyword(String keyword){
-        return technologyStackRepository.findByStackNameContaining(keyword);
+	public List<TechnologyStack> getTechnologyStackByKeyword(String keyword) {
+		return technologyStackRepository.findByStackNameContaining(keyword);
 	}
 
-	public boolean isAddInfoShow(String user) {
-		boolean isAddInfo = userFirstAddInfoRepository.existsByUserId(user);
-		if (isAddInfo){ userFirstAddInfoRepository.deleteByUserId(user); }
-
-		return !isAddInfo;
+	public boolean isAddInfoShow(UserAccount user) {
+		return !userCareerDetailsRepository.existsByUserAccount(user);
 	}
 
 	public void saveUser(UserAccount user) {
-
 		userAccountRepository.save(user);
 		mailService.removeVerifiedUser(user.getUserId(), user.getEmail());
-		userFirstAddInfoRepository.save(UserFirstAddInfo.builder()
-				.userId(user.getUserId())
-				.build()
-		);
+	}
 
+	public UserCareerDetails findCareerDetailsByUser(UserAccount user) {
+
+		Optional<UserCareerDetails> userCareerDetails = userCareerDetailsRepository.findByUserAccount(user);
+
+		if (userCareerDetails.isEmpty()) {
+			log.error("해당하는 정보를 찾을 수 없습니다.");
+			throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
+		}
+
+		return userCareerDetails.get();
 	}
 }

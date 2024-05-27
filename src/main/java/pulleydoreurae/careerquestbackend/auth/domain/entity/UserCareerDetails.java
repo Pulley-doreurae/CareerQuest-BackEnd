@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,8 +30,10 @@ public class UserCareerDetails  extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false) // 최소한 대분류는 null 일 수 없다.
-	private String majorCategory; // 대분류
-	private String middleCategory; // 중분류
+	@Column(nullable = false) // 소분류는 null 일 수 없다.
 	private String smallCategory; // 소분류
+
+	@OneToOne // 단방향 매핑, 직무정보가 회원정보에 대한 정보를 가진다.
+	@JoinColumn(name = "user_id")
+	private UserAccount userAccount;
 }
