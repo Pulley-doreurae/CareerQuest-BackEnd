@@ -54,6 +54,12 @@ class CertificationRegistrationPeriodRepositoryTest {
 						+ "values (100, 'FIRST_STAGE', 1234, '2024-03-10','2024-04-20', '2024-01-01','2024-01-01')";
 
 		jdbcTemplate.execute(sql2);
+
+		String sql3 =
+				"insert into certification_registration_period(certification_id, exam_type, exam_round, start_date, end_date, created_at, modified_at) "
+						+ "values (100, 'LAST_STAGE', 1234, '2024-07-10','2024-08-20', '2024-01-01','2024-01-01')";
+
+		jdbcTemplate.execute(sql3);
 	}
 
 	@Test
@@ -63,7 +69,7 @@ class CertificationRegistrationPeriodRepositoryTest {
 
 		// When
 		CertificationRegistrationPeriod result = certificationRegistrationPeriodRepository.findByNameAndExamRound(
-				"정보처리기사", 1234L).get();
+				"정보처리기사", 1234L).get(0);
 
 		// Then
 		assertEquals(certificationRepository.findById(100L).get(), result.getCertification());
@@ -87,5 +93,23 @@ class CertificationRegistrationPeriodRepositoryTest {
 		assertEquals(1, result.size());
 		assertEquals("정보처리기사", result.get(0).getCertification().getCertificationName());
 		assertEquals(ExamType.FIRST_STAGE, result.get(0).getExamType());
+	}
+
+	@Test
+	@DisplayName("자격증 이름으로 리스트 불러오기")
+	void findByNameTest() {
+	    // Given
+
+	    // When
+		List<CertificationRegistrationPeriod> result = certificationRegistrationPeriodRepository.findAllByName(
+				"정보처리기사");
+
+		// Then
+		assertEquals(2, result.size());
+		assertEquals("정보처리기사", result.get(0).getCertification().getCertificationName());
+		assertEquals(ExamType.FIRST_STAGE, result.get(0).getExamType());
+		assertEquals(LocalDate.of(2024, 3, 10), result.get(0).getStartDate());
+		assertEquals(ExamType.LAST_STAGE, result.get(1).getExamType());
+		assertEquals(LocalDate.of(2024, 7, 10), result.get(1).getStartDate());
 	}
 }
