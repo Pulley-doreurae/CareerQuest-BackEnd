@@ -1,0 +1,11 @@
+== 자격증 API (CertificationController)
+=== 자격증 이름으로 자격증 정보 불러오기 - 실패
+==== 요청
+operation::certification-controller-test/find-by-name-test1[snippets="http-request,path-parameters"]
+==== 응답
+operation::certification-controller-test/find-by-name-test1[snippets="http-response,response-fields"]
+=== 자격증 이름으로 자격증 정보 불러오기 - 성공
+==== 요청
+operation::certification-controller-test/find-by-name-test2[snippets="http-request,path-parameters"]
+==== 응답
+operation::certification-controller-test/find-by-name-test2[snippets="http-response,response-fields"]

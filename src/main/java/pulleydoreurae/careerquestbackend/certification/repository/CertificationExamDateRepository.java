@@ -22,4 +22,7 @@ public interface CertificationExamDateRepository extends JpaRepository<Certifica
 
 	@Query("select ced from CertificationExamDate ced where ced.examDate = :date")
 	List<CertificationExamDate> findByDate(LocalDate date);
+
+	@Query("select ced from CertificationExamDate ced where ced.certification.certificationName = :name")
+	List<CertificationExamDate> findAllByName(String name);
 }

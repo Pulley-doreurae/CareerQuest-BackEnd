@@ -75,11 +75,26 @@ class CertificationExamDateRepositoryTest {
 				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
 						+ "values (201, 'LAST_STAGE', 1234, '2024-05-10','2024-01-01','2024-01-01')";
 
+		String sql6 =
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (200, 'LAST_STAGE', 1234, '2024-03-10','2024-01-01','2024-01-01')";
+
+		String sql7 =
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (200, 'LAST_STAGE', 1234, '2024-03-11','2024-01-01','2024-01-01')";
+
+		String sql8 =
+				"insert into certification_exam_date(certification_id, exam_type, exam_round, exam_date, created_at, modified_at) "
+						+ "values (200, 'LAST_STAGE', 1234, '2024-03-12','2024-01-01','2024-01-01')";
+
 		jdbcTemplate.execute(sql1);
 		jdbcTemplate.execute(sql2);
 		jdbcTemplate.execute(sql3);
 		jdbcTemplate.execute(sql4);
 		jdbcTemplate.execute(sql5);
+		jdbcTemplate.execute(sql6);
+		jdbcTemplate.execute(sql7);
+		jdbcTemplate.execute(sql8);
 	}
 
 	@Test
@@ -117,5 +132,25 @@ class CertificationExamDateRepositoryTest {
 		assertEquals(2, result.size());
 		assertEquals(ExamType.FIRST_STAGE, result.get(0).getExamType());
 		assertEquals(ExamType.FIRST_STAGE, result.get(1).getExamType());
+	}
+
+	@Test
+	@DisplayName("자격증 이름으로 시험일정 불러오기")
+	void findByNameTest() {
+	    // Given
+	    
+	    // When
+		List<CertificationExamDate> result = certificationExamDateRepository.findAllByName("정보처리기사");
+
+		// Then
+		assertEquals(6, result.size());
+		assertEquals(ExamType.FIRST_STAGE, result.get(0).getExamType());
+		assertEquals(ExamType.LAST_STAGE, result.get(3).getExamType());
+		assertEquals(LocalDate.of(2024, 1, 10), result.get(0).getExamDate());
+		assertEquals(LocalDate.of(2024, 1, 11), result.get(1).getExamDate());
+		assertEquals(LocalDate.of(2024, 1, 12), result.get(2).getExamDate());
+		assertEquals(LocalDate.of(2024, 3, 10), result.get(3).getExamDate());
+		assertEquals(LocalDate.of(2024, 3, 11), result.get(4).getExamDate());
+		assertEquals(LocalDate.of(2024, 3, 12), result.get(5).getExamDate());
 	}
 }
