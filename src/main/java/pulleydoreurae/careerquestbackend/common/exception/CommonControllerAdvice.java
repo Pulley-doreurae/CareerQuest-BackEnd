@@ -29,7 +29,8 @@ public class CommonControllerAdvice {
 				.body(SimpleResponse.builder().msg("예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.").build());
 	}
 
-	@ExceptionHandler({UsernameNotFoundException.class, CommunityException.class, MalformedURLException.class})
+	@ExceptionHandler({UsernameNotFoundException.class, CommunityException.class, MalformedURLException.class,
+			IllegalArgumentException.class})
 	public ResponseEntity<SimpleResponse> community(Exception e) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(SimpleResponse.builder().msg(e.getMessage()).build());
