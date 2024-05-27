@@ -11,7 +11,11 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,11 +30,39 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
-import pulleydoreurae.careerquestbackend.auth.domain.dto.request.*;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.*;
-import pulleydoreurae.careerquestbackend.auth.repository.*;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowCareersRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowUserDetailsToChangeRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserCareerDetailsRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserChangeEmailRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserDeleteRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserFindPasswordChangeRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserIdRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserPasswordUpdateRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.MajorCareers;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.MiddleCareers;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.SmallCareers;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.TechnologyStack;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
+import pulleydoreurae.careerquestbackend.auth.repository.CareerDetailsRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.ChangeUserEmailRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.HelpUserPasswordRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.MajorCareersRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.MiddleCareersRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.SmallCareersRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.TechnologyStackRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserFirstAddInfoRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
 import pulleydoreurae.careerquestbackend.auth.service.UserAccountService;
 import pulleydoreurae.careerquestbackend.mail.repository.EmailAuthenticationRepository;
 import pulleydoreurae.careerquestbackend.mail.repository.UserInfoUserIdRepository;
@@ -75,6 +106,13 @@ class UserAccountControllerTest {
 	private TechnologyStackRepository technologyStackRepository;
 	@MockBean
 	private UserAccountService userAccountService;
+	@MockBean
+	private MajorCareersRepository majorCareersRepository;
+	@MockBean
+	private MiddleCareersRepository middleCareersRepository;
+	@MockBean
+	private SmallCareersRepository smallCareersRepository;
+
 
 	Gson gson = new Gson();
 
@@ -93,51 +131,55 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.userName").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.birth").exists())
-				.andExpect(jsonPath("$.gender").exists())
-				.andDo(print())
-				// Spring REST Docs
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.userName").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.isMarketed").exists())
+			.andDo(print())
+			// Spring REST Docs
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 		// 이메일 전송 메서드가 동작했는지 확인
 		verify(mailService).emailAuthentication(request.getUserId(), request.getUserName(), request.getPhoneNum(),
-				request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(), request.getGender());
+			request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(), request.getGender(), request.getIsMarketed());
 	}
 
 	@Test
@@ -157,44 +199,49 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.userName").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.birth").exists())
-				.andExpect(jsonPath("$.gender").exists()).andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.userName").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.isMarketed").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 		// id 로 검색하는 메서드가 동작했는지 확인
@@ -218,44 +265,49 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.userName").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.birth").exists())
-				.andExpect(jsonPath("$.gender").exists()).andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.userName").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.isMarketed").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 		// email 로 검색하는 메서드가 동작했는지 확인
@@ -277,45 +329,49 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.userName").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.birth").exists())
-				.andExpect(jsonPath("$.gender").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.userName").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.isMarketed").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -335,45 +391,49 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.userName").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.birth").exists())
-				.andExpect(jsonPath("$.gender").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.userName").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.isMarketed").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -393,45 +453,49 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.userName").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.birth").exists())
-				.andExpect(jsonPath("$.gender").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.userName").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.isMarketed").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -451,46 +515,49 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.userName").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.birth").exists())
-				.andExpect(jsonPath("$.gender").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.userName").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.isMarketed").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -503,22 +570,22 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/username/{userId}", "testId")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.field").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("userId").description("확인할 아이디")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("field").description("요청한 아이디"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/username/{userId}", "testId")
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.field").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("userId").description("확인할 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("field").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -532,22 +599,22 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/username/{userId}", "testId")
-								.with(csrf()))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.field").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("userId").description("확인할 아이디")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("field").description("요청한 아이디"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/username/{userId}", "testId")
+					.with(csrf()))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.field").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("userId").description("확인할 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("field").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -560,22 +627,22 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/email/{email}", "test@email.com")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.field").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("email").description("확인할 이메일")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("field").description("요청한 이메일"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/email/{email}", "test@email.com")
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.field").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("email").description("확인할 이메일")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("field").description("요청한 이메일"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -589,22 +656,22 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/email/{email}", "test@email.com")
-								.with(csrf()))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.field").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("email").description("확인할 이메일")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("field").description("요청한 이메일"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/email/{email}", "test@email.com")
+					.with(csrf()))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.field").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("email").description("확인할 이메일")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("field").description("요청한 이메일"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}
@@ -619,23 +686,23 @@ class UserAccountControllerTest {
 		// When
 		mockMvc.perform(
 				get("/api/users/details/{username}","testId")
-						.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("username").description("확인할 아이디")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("username").description("확인할 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 		// Then
-		verify(userAccountService).isAddInfoShow(anyString());
+		verify(userAccountService).isAddInfoShow(any());
 
 	}
 
@@ -648,24 +715,24 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/{username}","testId")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("username").description("확인할 아이디")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/details/{username}","testId")
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("username").description("확인할 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 		// Then
-		verify(userAccountService).isAddInfoShow(anyString());
+		verify(userAccountService).isAddInfoShow(any());
 	}
 
 	@Test
@@ -673,38 +740,40 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showMajorCareersSuccessTest() throws Exception{
 		// Given
-		careerDetailsRepository.save(new Careers(0L, "대분류", "경영", "/src/images/0"));
-		careerDetailsRepository.save(new Careers(1L , "대분류", "IT", "/src/images/1"));
-		careerDetailsRepository.save(new Careers(2L , "중분류", "서버", "/src/images/2"));
-		careerDetailsRepository.save(new Careers(3L , "소분류", "웹 개발자", "/src/images/3"));
+		MajorCareers majorCareers1 = MajorCareers.builder().id(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
+		MajorCareers majorCareers2 = MajorCareers.builder().id(1L).categoryName("경영·회계·사무").categoryType("대분류").categoryImage("/major/images/1").build();
 
-		List<String> list = new ArrayList<>();
-		list.add("경영");
-		list.add("IT");
+		List<ShowCareersResponse> majorList = Arrays.asList(ShowCareersResponse.builder().categoryName(majorCareers1.getCategoryName()).categoryImage(majorCareers1.getCategoryImage()).build(),
+			ShowCareersResponse.builder().categoryName(majorCareers2.getCategoryName()).categoryImage(majorCareers2.getCategoryImage()).build());
 
-		given(userAccountService.getCareerList(anyString())).willReturn(list);
+		given(userAccountService.getCareerList(any(), any())).willReturn(majorList);
+
+		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("").middle("").build();
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/careers/{categoryType}","대분류")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.lists").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("categoryType").description("카테고리 분류")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("lists").description("요청한 카테고리 리스트"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/details/careers")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(showCareersRequest))
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.lists").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("major").description("대분류"),
+					fieldWithPath("middle").description("중분류")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("lists").description("요청한 카테고리 리스트"),
+					fieldWithPath("lists[].categoryName").description("카테고리 이름"),
+					fieldWithPath("lists[].categoryImage").description("카테고리 이미지"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 		// Then
-
-		careerDetailsRepository.deleteAll();
 	}
 
 	@Test
@@ -712,34 +781,41 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showMiddleCareersSuccessTest() throws Exception{
 		// Given
-		careerDetailsRepository.save(new Careers(0L, "대분류", "경영", "/src/images/0"));
-		careerDetailsRepository.save(new Careers(1L , "대분류", "IT", "/src/images/1"));
-		careerDetailsRepository.save(new Careers(2L , "중분류", "서버", "/src/images/2"));
-		careerDetailsRepository.save(new Careers(3L , "소분류", "웹 개발자", "/src/images/3"));
+		MajorCareers majorCareers1 = MajorCareers.builder().id(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
 
-		List<String> list = new ArrayList<>();
-		list.add("서버");
+		MiddleCareers middleCareers1 = MiddleCareers.builder().id(0L).categoryName("사업관리").categoryType("중분류").categoryImage("/middle/images/0").majorCategory(majorCareers1).build();
+		MiddleCareers middleCareers2 = MiddleCareers.builder().id(1L).categoryName("기획사무").categoryType("중분류").categoryImage("/middle/images/1").majorCategory(majorCareers1).build();
 
-		given(userAccountService.getCareerList(anyString())).willReturn(list);
+		List<ShowCareersResponse> middleList = Arrays.asList(ShowCareersResponse.builder().categoryName(middleCareers1.getCategoryName()).categoryImage(middleCareers1.getCategoryImage()).build(),
+			ShowCareersResponse.builder().categoryName(middleCareers2.getCategoryName()).categoryImage(middleCareers2.getCategoryImage()).build());
+
+		given(userAccountService.getCareerList(any(), any())).willReturn(middleList);
+
+		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("사업관리").middle("").build();
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/careers/{categoryType}","중분류")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.lists").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("categoryType").description("카테고리 분류")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("lists").description("요청한 카테고리 리스트"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/details/careers")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(showCareersRequest))
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.lists").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("major").description("대분류"),
+					fieldWithPath("middle").description("중분류")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("lists").description("요청한 카테고리 리스트"),
+					fieldWithPath("lists[].categoryName").description("카테고리 이름"),
+					fieldWithPath("lists[].categoryImage").description("카테고리 이미지"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 		// Then
 		careerDetailsRepository.deleteAll();
 	}
@@ -749,36 +825,45 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showSmallCareersSuccessTest() throws Exception{
 		// Given
-		careerDetailsRepository.save(new Careers(0L, "대분류", "경영", "/src/images/0"));
-		careerDetailsRepository.save(new Careers(1L , "대분류", "IT", "/src/images/1"));
-		careerDetailsRepository.save(new Careers(2L , "중분류", "서버", "/src/images/2"));
-		careerDetailsRepository.save(new Careers(3L , "소분류", "웹 개발자", "/src/images/3"));
+		MajorCareers majorCareers1 = MajorCareers.builder().id(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
 
-		List<String> list = new ArrayList<>();
-		list.add("웹 개발자");
+		MiddleCareers middleCareers1 = MiddleCareers.builder().id(0L).categoryName("기획사무").categoryType("중분류").categoryImage("/middle/images/0").majorCategory(majorCareers1).build();
 
-		given(userAccountService.getCareerList(anyString())).willReturn(list);
+		SmallCareers smallCareers1 = SmallCareers.builder().id(0L).categoryName("경영기획").categoryType("소분류").categoryImage("/small/image/0").middleCategory(middleCareers1).build();
+		SmallCareers smallCareers2 = SmallCareers.builder().id(1L).categoryName("홍보·광고").categoryType("소분류").categoryImage("/small/image/1").middleCategory(middleCareers1).build();
+
+		List<ShowCareersResponse> smallList = Arrays.asList(ShowCareersResponse.builder().categoryName(smallCareers1.getCategoryName()).categoryImage(smallCareers1.getCategoryImage()).build(),
+			ShowCareersResponse.builder().categoryName(smallCareers2.getCategoryName()).categoryImage(smallCareers2.getCategoryImage()).build());
+
+		given(userAccountService.getCareerList(any(), any())).willReturn(smallList);
+
+		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("사업관리").middle("기획사무").build();
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/careers/{categoryType}","소분류")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.lists").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("categoryType").description("카테고리 분류")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("lists").description("요청한 카테고리 리스트"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/details/careers")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(showCareersRequest))
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.lists").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("major").description("대분류"),
+					fieldWithPath("middle").description("중분류")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("lists").description("요청한 카테고리 리스트"),
+					fieldWithPath("lists[].categoryName").description("카테고리 이름"),
+					fieldWithPath("lists[].categoryImage").description("카테고리 이미지"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 		// Then
-		careerDetailsRepository.deleteAll();
+
 	}
 
 	@Test
@@ -786,24 +871,31 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showCareersFailTest() throws Exception{
 		// Given
-		given(userAccountService.getCareerList(anyString())).willReturn(null);
+		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("hi").middle("hi").build();
+
+		given(userAccountService.getCareerList(any(), any())).willReturn(List.of());
+
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/careers/{categoryType}","hi")
-								.with(csrf()))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("categoryType").description("카테고리 분류")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/details/careers")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(showCareersRequest))
+					.with(csrf()))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("major").description("대분류"),
+					fieldWithPath("middle").description("중분류")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("").ignored(),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 		// Then
 	}
 
@@ -812,35 +904,31 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void addCareerFailTest() throws Exception {
 		// Given
-
+		given(userAccountService.findUserByUserId(any())).willReturn(null);
+		UserCareerDetailsRequest userCareerDetailsRequest = new UserCareerDetailsRequest();
+		userCareerDetailsRequest.setUserId("testId"); userCareerDetailsRequest.setSmallCategory("경영기획");
 		// When
 		mockMvc.perform(
-						post("/api/users/details/careers")
-								.with(csrf())
-								.param("userId", "testId")
-								.param("majorCategory", "1")
-								.param("middleCategory", "1")
-								.param("smallCategory", "1")
-				)
-				.andExpect(status().isBadRequest())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						formParameters(    // form-data 형식
-								parameterWithName("userId").description("사용자 아이디")
-										.attributes(field("constraints", "String")),
-								parameterWithName("majorCategory").description("대분류 코드(id)")
-										.attributes(field("constraints", "String")),
-								parameterWithName("middleCategory").description("중분류 코드(id)")
-										.attributes(field("constraints", "String")),
-								parameterWithName("smallCategory").description("소분류 코드(id)")
-										.attributes(field("constraints", "String")),
-								parameterWithName("_csrf").description("csrf 코드 (무시)")
-						),
-						responseFields(
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/details/careers")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userCareerDetailsRequest))
+					.with(csrf())
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(    // Json 형식
+					fieldWithPath("userId").description("사용자 아이디")
+						.attributes(field("constraints", "String")),
+					fieldWithPath("smallCategory").description("소분류")
+						.attributes(field("constraints", "String"))
+				),
+				responseFields(
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 		verify(userAccountService).findUserByUserId(any());
 	}
@@ -850,31 +938,25 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void addCareerFailTest2() throws Exception {
 		// Given
-
+		UserCareerDetailsRequest userCareerDetailsRequest = new UserCareerDetailsRequest();
+		userCareerDetailsRequest.setUserId("Id "); userCareerDetailsRequest.setSmallCategory("경영기획");
 		// When
 		mockMvc.perform(
 				post("/api/users/details/careers")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userCareerDetailsRequest))
 					.with(csrf())
-					.param("userId", "id ")
-					.param("majorCategory", "1")
-					.param("middleCategory", "1")
-					.param("smallCategory", "1")
 			)
 			.andExpect(status().isBadRequest())
 			.andDo(print())
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				formParameters(    // form-data 형식
-					parameterWithName("userId").description("사용자 아이디")
+				requestFields(    // Json 형식
+					fieldWithPath("userId").description("사용자 아이디")
 						.attributes(field("constraints", "String")),
-					parameterWithName("majorCategory").description("대분류 코드(id)")
-						.attributes(field("constraints", "String")),
-					parameterWithName("middleCategory").description("중분류 코드(id)")
-						.attributes(field("constraints", "String")),
-					parameterWithName("smallCategory").description("소분류 코드(id)")
-						.attributes(field("constraints", "String")),
-					parameterWithName("_csrf").description("csrf 코드 (무시)")
+					fieldWithPath("smallCategory").description("소분류")
+						.attributes(field("constraints", "String"))
 				),
 				responseFields(
 					fieldWithPath("userId").description("요청한 사용자"),
@@ -888,41 +970,36 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void addCareerSuccessTest() throws Exception {
 		// Given
+		UserCareerDetailsRequest userCareerDetailsRequest = new UserCareerDetailsRequest();
+		userCareerDetailsRequest.setUserId("testId"); userCareerDetailsRequest.setSmallCategory("경영기획");
+
 		given(userAccountService.findUserByUserId(any())) // 사용자 id가 들어왔다면
-				.willReturn(new UserAccount());
+			.willReturn(new UserAccount());
 
 		// When
 		mockMvc.perform(
-						post("/api/users/details/careers")
-								.with(csrf())
-								.param("userId", "testId")
-								.param("majorCategory", "1")
-								.param("middleCategory", "1")
-								.param("smallCategory", "1")
-				)
-				.andExpect(status().isOk())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						formParameters(    // json 형식
-								parameterWithName("userId").description("사용자 아이디")
-										.attributes(field("constraints", "String")),
-								parameterWithName("majorCategory").description("대분류 코드(id)")
-										.attributes(field("constraints", "Long")),
-								parameterWithName("middleCategory").description("중분류 코드(id)")
-										.attributes(field("constraints", "Long")),
-								parameterWithName("smallCategory").description("소분류 코드(id)")
-										.attributes(field("constraints", "Long")),
-								parameterWithName("_csrf").description("csrf 코드 (무시)")
-						),
-						responseFields(
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/details/careers")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userCareerDetailsRequest))
+					.with(csrf())
+			)
+			.andExpect(status().isOk())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(    // Json 형식
+					fieldWithPath("userId").description("사용자 아이디")
+						.attributes(field("constraints", "String")),
+					fieldWithPath("smallCategory").description("소분류")
+						.attributes(field("constraints", "String"))
+				),
+				responseFields(
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 
 		// Then
 		verify(userAccountService).findUserByUserId(any());
-		verify(userAccountRepository).save(any());
 		verify(userCareerDetailsRepository).save(any());
 	}
 
@@ -931,14 +1008,11 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showStacksSuccessTest() throws Exception{
 		// Given
-		TechnologyStack tech1 = TechnologyStack.builder().stackName("Javascript").description("자바스크립트").stackImage("/src/image/tech/0").build();
-		TechnologyStack tech2 = TechnologyStack.builder().stackName("Java").description("자바").stackImage("/src/image/tech/1").build();
-		TechnologyStack tech3 = TechnologyStack.builder().stackName("C").description("C언어").stackImage("/src/image/tech/2").build();
-		TechnologyStack tech4 = TechnologyStack.builder().stackName("시각디자인").description("디자인 분야 중 시각디자인").stackImage("/src/image/tech/3").build();
+		TechnologyStack tech1 = TechnologyStack.builder().id(0L).stackName("Javascript").description("자바스크립트").stackImage("/src/image/tech/0").build();
+		TechnologyStack tech2 = TechnologyStack.builder().id(1L).stackName("Java").description("자바").stackImage("/src/image/tech/1").build();
 
-		technologyStackRepository.save(tech1);technologyStackRepository.save(tech2);technologyStackRepository.save(tech3);technologyStackRepository.save(tech4);
-
-		List<TechnologyStack> technologyStackList = technologyStackRepository.findByStackNameContaining("Java");
+		List<TechnologyStack> technologyStackList = new ArrayList<>();
+		technologyStackList.add(tech1); technologyStackList.add(tech2);
 
 		given(userAccountService.getTechnologyStackByKeyword(anyString())).willReturn(technologyStackList);
 
@@ -947,21 +1021,25 @@ class UserAccountControllerTest {
 		mockMvc.perform(
 				get("/api/users/details/stacks")
 					.queryParam("keyword","Java")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.lists").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						queryParameters(
-								parameterWithName("keyword").description("검색 키워드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("lists").description("요청한 기술스택 리스트"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.lists").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				queryParameters(
+					parameterWithName("keyword").description("검색 키워드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("lists").description("요청한 기술스택 리스트"),
+					fieldWithPath("lists[].id").description("기술스택 id"),
+					fieldWithPath("lists[].stackName").description("기술스택 이름"),
+					fieldWithPath("lists[].description").description("기술스택 설명"),
+					fieldWithPath("lists[].stackImage").description("기술스택 이미지"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 		technologyStackRepository.deleteAll();
@@ -976,23 +1054,23 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/stacks")
-								.queryParam("keyword","")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.lists").isEmpty())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						queryParameters(
-								parameterWithName("keyword").description("검색 키워드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("lists").description("요청한 기술스택 리스트"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/details/stacks")
+					.queryParam("keyword","")
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.lists").isEmpty())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				queryParameters(
+					parameterWithName("keyword").description("검색 키워드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("lists").description("요청한 기술스택 리스트"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 		technologyStackRepository.deleteAll();
@@ -1014,23 +1092,23 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/details/stacks")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(stackRequest))
-				)
-				.andExpect(status().isBadRequest())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields(    // Json 형식
-								fieldWithPath("userId").description("사용자 아이디"),
-								fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
-						),
-						responseFields(		// Json 응답 형식
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/details/stacks")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(stackRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(    // Json 형식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
+				),
+				responseFields(		// Json 응답 형식
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 		verify(userAccountService).findUserByUserId(any());
 
@@ -1091,23 +1169,23 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/details/stacks")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(stackRequest))
-				)
-				.andExpect(status().isOk())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields(    // Json 방식
-								fieldWithPath("userId").description("사용자 아이디"),
-								fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
-						),
-						responseFields(		// Json 응답 형식
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/details/stacks")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(stackRequest))
+			)
+			.andExpect(status().isOk())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(    // Json 방식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
+				),
+				responseFields(		// Json 응답 형식
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 		verify(userAccountService).findUserByUserId(any());
 		verify(userAccountRepository).save(any());
@@ -1121,13 +1199,13 @@ class UserAccountControllerTest {
 	void sendFindPasswordLinkSuccess() throws Exception {
 		// Given
 		UserAccount userAccount = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		String userId = "user_1";
 		UserIdRequest userIdRequest = new UserIdRequest();
@@ -1137,23 +1215,23 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/password")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userIdRequest)))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디")
-						),
-					responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/help/password")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userIdRequest)))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 		verify(userAccountService).findPassword(userAccount.getUserId(), userAccount.getEmail());
 	}
@@ -1171,22 +1249,22 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/password")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userIdRequest)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields(  // Json 형식
-								fieldWithPath("userId").description("사용자 아이디")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/help/password")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userIdRequest)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(  // Json 형식
+					fieldWithPath("userId").description("사용자 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 	}
 
@@ -1233,21 +1311,21 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
-								.with(csrf()))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("uuid").description("사용자 식별 코드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				get("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("uuid").description("사용자 식별 코드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 
 	}
@@ -1263,21 +1341,21 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
-								.with(csrf()))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식 방식
-								parameterWithName("uuid").description("사용자 식별 코드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				get("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
+					.with(csrf()))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식 방식
+					parameterWithName("uuid").description("사용자 식별 코드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 	}
 
@@ -1289,13 +1367,13 @@ class UserAccountControllerTest {
 		String test_uuid = "0123-4567-89AB-CDEF";
 
 		UserAccount userAccount = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserFindPasswordChangeRequest userFindPasswordChangeRequest = new UserFindPasswordChangeRequest();
 
@@ -1306,29 +1384,29 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userFindPasswordChangeRequest))
-				)
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("uuid").description("사용자 식별 코드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userFindPasswordChangeRequest))
+			)
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("uuid").description("사용자 식별 코드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 
 		// Then
 		verify(userAccountService).updatePassword(userAccount.getUserId(), bCryptPasswordEncoder.encode(
-				userFindPasswordChangeRequest.getPassword1()));
+			userFindPasswordChangeRequest.getPassword1()));
 		verify(userAccountService).deleteHelpUser(test_uuid);
 	}
 
@@ -1348,24 +1426,24 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userFindPasswordChangeRequest))
-				)
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("uuid").description("사용자 식별 코드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자").ignored(),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userFindPasswordChangeRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("uuid").description("사용자 식별 코드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자").ignored(),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 
 		// Then
 
@@ -1379,13 +1457,13 @@ class UserAccountControllerTest {
 		String test_uuid = "0123-4567-89AB-CDEF";
 
 		UserAccount userAccount = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserFindPasswordChangeRequest userFindPasswordChangeRequest = new UserFindPasswordChangeRequest();
 
@@ -1396,25 +1474,25 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userFindPasswordChangeRequest))
-				)
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").isEmpty())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("uuid").description("사용자 식별 코드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userFindPasswordChangeRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").isEmpty())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("uuid").description("사용자 식별 코드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 
 	}
@@ -1427,13 +1505,13 @@ class UserAccountControllerTest {
 		String test_uuid = "0123-4567-89AB-CDEF";
 
 		UserAccount userAccount = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserFindPasswordChangeRequest userFindPasswordChangeRequest = new UserFindPasswordChangeRequest();
 
@@ -1444,25 +1522,25 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userFindPasswordChangeRequest))
-				)
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						pathParameters( // PathVariable 방식
-								parameterWithName("uuid").description("사용자 식별 코드")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/help/{uuid}", "0123-4567-89AB-CDEF")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userFindPasswordChangeRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				pathParameters( // PathVariable 방식
+					parameterWithName("uuid").description("사용자 식별 코드")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 
 		// Then
 
@@ -1474,13 +1552,13 @@ class UserAccountControllerTest {
 	void successDeleteUser() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserDeleteRequest userDeleteRequest = new UserDeleteRequest();
 		userDeleteRequest.setUserId("user_1");
@@ -1491,26 +1569,26 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/delete")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userDeleteRequest)))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디"),
-								fieldWithPath("password").description("사용자 현재 비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/delete")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userDeleteRequest)))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("password").description("사용자 현재 비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 
 		// Then
 		verify(userAccountService).deleteUser(user);
@@ -1522,13 +1600,13 @@ class UserAccountControllerTest {
 	void failedDeleteUser1() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserDeleteRequest userDeleteRequest = new UserDeleteRequest();
 		userDeleteRequest.setUserId("user");
@@ -1538,27 +1616,27 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/delete")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userDeleteRequest))
-				)
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디"),
-								fieldWithPath("password").description("사용자 현재 비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/delete")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userDeleteRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("password").description("사용자 현재 비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 
 		// Then
 
@@ -1570,13 +1648,13 @@ class UserAccountControllerTest {
 	void failedDeleteUser2() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserDeleteRequest userDeleteRequest = new UserDeleteRequest();
 		userDeleteRequest.setUserId("id ");
@@ -1586,27 +1664,27 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/delete")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userDeleteRequest))
-				)
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디"),
-								fieldWithPath("password").description("사용자 현재 비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/delete")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userDeleteRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("password").description("사용자 현재 비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 
 		// Then
 	}
@@ -1617,13 +1695,13 @@ class UserAccountControllerTest {
 	void failedDeleteUser3() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName1")
-				.email("test1@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName1")
+			.email("test1@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserDeleteRequest userDeleteRequest = new UserDeleteRequest();
 		userDeleteRequest.setUserId("user_1");
@@ -1633,27 +1711,27 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						post("/api/users/delete")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userDeleteRequest))
-				)
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디"),
-								fieldWithPath("password").description("사용자 현재 비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 사용자"),
-								fieldWithPath("msg").description("요청에 대한 결과")
-						)));
+				post("/api/users/delete")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userDeleteRequest))
+			)
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("password").description("사용자 현재 비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상"))
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 사용자"),
+					fieldWithPath("msg").description("요청에 대한 결과")
+				)));
 		// Then
 	}
 
@@ -1663,73 +1741,68 @@ class UserAccountControllerTest {
 	void successShowUserDetail() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder()
-				.userId("user_1")
-				.userName("testName")
-				.email("test@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.birth("01-01-01")
-				.gender("M")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory("대분류_1")
-				.middleCategory("중분류_1")
-				.smallCategory("소분류_1")
-				.build();
+			.smallCategory("소분류_1")
+			.userAccount(user)
+			.build();
 
 		UserTechnologyStack stack1 = UserTechnologyStack.builder()
-				.stackId("JAVA")
-				.userAccount(user)
-				.build();
+			.stackId("JAVA")
+			.userAccount(user)
+			.build();
 
 		UserTechnologyStack stack2 = UserTechnologyStack.builder()
-				.stackId("PHP")
-				.userAccount(user)
-				.build();
+			.stackId("PHP")
+			.userAccount(user)
+			.build();
 
 		List<UserTechnologyStack> stacks = new ArrayList<>();
 		stacks.add(stack1);
 		stacks.add(stack2);
 
-		user.setUserCareerDetails(userCareerDetails);
 		user.setStacks(stacks);
 
 		UserIdRequest userIdRequest = new UserIdRequest();
 		userIdRequest.setUserId("user_1");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
+		given(userAccountService.findCareerDetailsByUser(user)).willReturn(userCareerDetails);
 		given(userAccountService.getTechnologyStack(user)).willReturn(Arrays.asList("JAVA", "PHP"));
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/info")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userIdRequest)))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.email").exists())
-				.andExpect(jsonPath("$.majorCategory").exists())
-				.andExpect(jsonPath("$.middleCategory").exists())
-				.andExpect(jsonPath("$.smallCategory").exists())
-				.andExpect(jsonPath("$.technologyStacks").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("majorCategory").description("요청한 직무[대분류]"),
-								fieldWithPath("middleCategory").description("요청한 직무[중분류]"),
-								fieldWithPath("smallCategory").description("요청한 직무[소분류]"),
-								fieldWithPath("technologyStacks").description("요청한 기술스택")
-						)));
+				get("/api/users/details/info")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userIdRequest)))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.smallCategory").exists())
+			.andExpect(jsonPath("$.technologyStacks").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("smallCategory").description("요청한 직무[소분류]"),
+					fieldWithPath("technologyStacks").description("요청한 기술스택")
+				)));
 		// Then
 
 	}
@@ -1747,22 +1820,22 @@ class UserAccountControllerTest {
 
 		// When
 		mockMvc.perform(
-						get("/api/users/details/info")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(userIdRequest)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				get("/api/users/details/info")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(userIdRequest)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 		// Then
 	}
 
@@ -1799,12 +1872,12 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("회원 정보 수정 성공 ")
+	@DisplayName("회원 정보 수정 성공")
 	@WithMockUser
 	void successChangeUserDetail() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
-		UserCareerDetails userCareerDetails = UserCareerDetails.builder().majorCategory("대분류_1").middleCategory("중분류_1").smallCategory("소분류_1").build();
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder().smallCategory("소분류_1").userAccount(user).build();
 
 		UserTechnologyStack stack1 = UserTechnologyStack.builder().stackId("JAVA").userAccount(user).build();
 		UserTechnologyStack stack2 = UserTechnologyStack.builder().stackId("PHP").userAccount(user).build();
@@ -1813,7 +1886,6 @@ class UserAccountControllerTest {
 		stacks.add(stack1);
 		stacks.add(stack2);
 
-		user.setUserCareerDetails(userCareerDetails);
 		user.setStacks(stacks);
 
 		List<String> changeStack = new ArrayList<>();
@@ -1823,57 +1895,51 @@ class UserAccountControllerTest {
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
 		showUserDetailsToChangeRequest.setUserId("user_1");
 		showUserDetailsToChangeRequest.setPhoneNum("010-9999-8888");
-		showUserDetailsToChangeRequest.setMajorCategory("대분류_2");
-		showUserDetailsToChangeRequest.setMiddleCategory("중분류_2");
 		showUserDetailsToChangeRequest.setSmallCategory("소분류_2");
 		showUserDetailsToChangeRequest.setTechnologyStacks(changeStack);
 		showUserDetailsToChangeRequest.setPassword("testPassword");
 
+
 		UserAccount changeUser = user;
 		changeUser.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
-		changeUser.setUserCareerDetails(UserCareerDetails.builder().majorCategory("대분류_2").middleCategory("중분류_2").smallCategory("소분류_2").build());
+		UserCareerDetails changeUserCareerDetails = UserCareerDetails.builder().userAccount(changeUser).smallCategory("소분류_2").build();
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
 		given(userAccountService.isCurrentPassword(any(UserAccount.class), eq("testPassword"))).willReturn(true);
 		given(userAccountRepository.findByUserId("user_1")).willReturn(Optional.of(user));
 		given(userAccountRepository.save(user)).willReturn(changeUser);
+		given(userAccountService.findCareerDetailsByUser(changeUser)).willReturn(changeUserCareerDetails);
 		given(userAccountService.getTechnologyStack(changeUser)).willReturn(changeStack);
 
 
 		// When
 		mockMvc.perform(
-						post("/api/users/details/info")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(showUserDetailsToChangeRequest)))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.userId").exists())
-				.andExpect(jsonPath("$.phoneNum").exists())
-				.andExpect(jsonPath("$.majorCategory").exists())
-				.andExpect(jsonPath("$.middleCategory").exists())
-				.andExpect(jsonPath("$.smallCategory").exists())
-				.andExpect(jsonPath("$.technologyStacks").exists())
-				.andDo(print())
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 방식
-								fieldWithPath("userId").description("사용자 아이디"),
-								fieldWithPath("phoneNum").description("사용자 전화번호"),
-								fieldWithPath("majorCategory").description("사용자 직무[대분류]"),
-								fieldWithPath("middleCategory").description("사용자 직무[중분류]"),
-								fieldWithPath("smallCategory").description("사용자 직무[소분류]"),
-								fieldWithPath("technologyStacks").description("사용자 기술스택"),
-								fieldWithPath("password").description("사용자 비밀번호")
-						),
-						responseFields( // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("phoneNum").description("요청한 전화번호"),
-								fieldWithPath("majorCategory").description("요청한 직무[대분류]"),
-								fieldWithPath("middleCategory").description("요청한 직무[중분류]"),
-								fieldWithPath("smallCategory").description("요청한 직무[소분류]"),
-								fieldWithPath("technologyStacks").description("요청한 기술스택")
-						)));
+				post("/api/users/details/info")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(showUserDetailsToChangeRequest)))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.phoneNum").exists())
+			.andExpect(jsonPath("$.smallCategory").exists())
+			.andExpect(jsonPath("$.technologyStacks").exists())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 방식
+					fieldWithPath("userId").description("사용자 아이디"),
+					fieldWithPath("phoneNum").description("사용자 전화번호"),
+					fieldWithPath("smallCategory").description("사용자 직무[소분류]"),
+					fieldWithPath("technologyStacks").description("사용자 기술스택"),
+					fieldWithPath("password").description("사용자 비밀번호")
+				),
+				responseFields( // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("phoneNum").description("요청한 전화번호"),
+					fieldWithPath("smallCategory").description("요청한 직무[소분류]"),
+					fieldWithPath("technologyStacks").description("요청한 기술스택")
+				)));
 
 		// Then
 		verify(userAccountService).updateDetails(refEq(user),refEq(showUserDetailsToChangeRequest));
@@ -1893,8 +1959,6 @@ class UserAccountControllerTest {
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
 		showUserDetailsToChangeRequest.setUserId("user_1");
 		showUserDetailsToChangeRequest.setPhoneNum("010-9999-8888");
-		showUserDetailsToChangeRequest.setMajorCategory("대분류_2");
-		showUserDetailsToChangeRequest.setMiddleCategory("중분류_2");
 		showUserDetailsToChangeRequest.setSmallCategory("소분류_2");
 		showUserDetailsToChangeRequest.setTechnologyStacks(changeStack);
 		showUserDetailsToChangeRequest.setPassword("testPassword");
@@ -1917,8 +1981,6 @@ class UserAccountControllerTest {
 				requestFields( // Json 방식
 					fieldWithPath("userId").description("사용자 아이디"),
 					fieldWithPath("phoneNum").description("사용자 전화번호"),
-					fieldWithPath("majorCategory").description("사용자 직무[대분류]"),
-					fieldWithPath("middleCategory").description("사용자 직무[중분류]"),
 					fieldWithPath("smallCategory").description("사용자 직무[소분류]"),
 					fieldWithPath("technologyStacks").description("사용자 기술스택"),
 					fieldWithPath("password").description("사용자 비밀번호")
@@ -1944,8 +2006,6 @@ class UserAccountControllerTest {
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
 		showUserDetailsToChangeRequest.setUserId("id ");
 		showUserDetailsToChangeRequest.setPhoneNum("010-9-8");
-		showUserDetailsToChangeRequest.setMajorCategory("대분류_2");
-		showUserDetailsToChangeRequest.setMiddleCategory("중분류_2");
 		showUserDetailsToChangeRequest.setSmallCategory("소분류_2");
 		showUserDetailsToChangeRequest.setTechnologyStacks(changeStack);
 		showUserDetailsToChangeRequest.setPassword("");
@@ -1968,8 +2028,6 @@ class UserAccountControllerTest {
 				requestFields( // Json 방식
 					fieldWithPath("userId").description("사용자 아이디"),
 					fieldWithPath("phoneNum").description("사용자 전화번호"),
-					fieldWithPath("majorCategory").description("사용자 직무[대분류]"),
-					fieldWithPath("middleCategory").description("사용자 직무[중분류]"),
 					fieldWithPath("smallCategory").description("사용자 직무[소분류]"),
 					fieldWithPath("technologyStacks").description("사용자 기술스택"),
 					fieldWithPath("password").description("사용자 비밀번호")
@@ -1996,8 +2054,6 @@ class UserAccountControllerTest {
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
 		showUserDetailsToChangeRequest.setUserId("user_1");
 		showUserDetailsToChangeRequest.setPhoneNum("010-9999-8888");
-		showUserDetailsToChangeRequest.setMajorCategory("대분류_2");
-		showUserDetailsToChangeRequest.setMiddleCategory("중분류_2");
 		showUserDetailsToChangeRequest.setSmallCategory("소분류_2");
 		showUserDetailsToChangeRequest.setTechnologyStacks(changeStack);
 		showUserDetailsToChangeRequest.setPassword("password");
@@ -2020,8 +2076,6 @@ class UserAccountControllerTest {
 				requestFields( // Json 방식
 					fieldWithPath("userId").description("사용자 아이디"),
 					fieldWithPath("phoneNum").description("사용자 전화번호"),
-					fieldWithPath("majorCategory").description("사용자 직무[대분류]"),
-					fieldWithPath("middleCategory").description("사용자 직무[중분류]"),
 					fieldWithPath("smallCategory").description("사용자 직무[소분류]"),
 					fieldWithPath("technologyStacks").description("사용자 기술스택"),
 					fieldWithPath("password").description("사용자 비밀번호")
@@ -2433,40 +2487,42 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver.com");
 		request.setBirth("00-01-01");
 		request.setGender("M");
+		request.setIsMarketed(true);
 
 		// When
 		mockMvc.perform(
-						post("/api/users/email")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				// Spring REST Docs
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users/email")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			// Spring REST Docs
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 		// 이메일 전송 메서드가 동작했는지 확인
 		verify(mailService).sendAgainAuthenticationEmail(request.getUserId(), request.getUserName(), request.getPhoneNum(),
-				request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(), request.getGender());
+			request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(), request.getGender(), request.getIsMarketed());
 	}
 
 	@Test
@@ -2483,41 +2539,46 @@ class UserAccountControllerTest {
 		request.setEmail("hgd123@naver");
 		request.setBirth("00 01 01");
 		request.setGender("M");
+		request.setIsMarketed(null);
+
+		Gson gson = new GsonBuilder().serializeNulls().create();
 
 		// When
 		mockMvc.perform(
-						post("/api/users/email")
-								.with(csrf())
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(gson.toJson(request)))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.msg").exists())
-				.andDo(print())
-				// Spring REST Docs
-				.andDo(document("{class-name}/{method-name}/",
-						preprocessRequest(prettyPrint()),
-						preprocessResponse(prettyPrint()),
-						requestFields( // Json 요청 방식
-								fieldWithPath("userId").description("사용할 아이디")
-										.attributes(field("constraints", "아이디는 5자 이상")),
-								fieldWithPath("userName").description("사용자 이름"),
-								fieldWithPath("email").description("사용자 이메일")
-										.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
-								fieldWithPath("phoneNum").description("사용자 연락처"),
-								fieldWithPath("password").description("비밀번호")
-										.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
-								fieldWithPath("birth").description("사용자 생일"),
-								fieldWithPath("gender").description("사용자 성별")
-						),
-						responseFields(    // Json 응답 형식
-								fieldWithPath("userId").description("요청한 아이디"),
-								fieldWithPath("userName").description("요청한 이름"),
-								fieldWithPath("email").description("요청한 이메일"),
-								fieldWithPath("phoneNum").description("요청한 연락처"),
-								fieldWithPath("birth").description("요청한 생일"),
-								fieldWithPath("gender").description("요청한 성별"),
-								fieldWithPath("msg").description("요청에 대한 처리결과")
-						)));
+				post("/api/users/email")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			// Spring REST Docs
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // Json 요청 방식
+					fieldWithPath("userId").description("사용할 아이디")
+						.attributes(field("constraints", "아이디는 5자 이상")),
+					fieldWithPath("userName").description("사용자 이름"),
+					fieldWithPath("email").description("사용자 이메일")
+						.attributes(new Attributes.Attribute("constraints", "이메일 형식만 가능")),
+					fieldWithPath("phoneNum").description("사용자 연락처"),
+					fieldWithPath("password").description("비밀번호")
+						.attributes(new Attributes.Attribute("constraints", "비밀번호는 8자 이상")),
+					fieldWithPath("birth").description("사용자 생일"),
+					fieldWithPath("gender").description("사용자 성별"),
+					fieldWithPath("isMarketed").description("사용자 마케팅 수신 여부")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("userName").description("요청한 이름"),
+					fieldWithPath("email").description("요청한 이메일"),
+					fieldWithPath("phoneNum").description("요청한 연락처"),
+					fieldWithPath("birth").description("요청한 생일"),
+					fieldWithPath("gender").description("요청한 성별"),
+					fieldWithPath("isMarketed").description("요청한 마케팅 수신 여부"),
+					fieldWithPath("msg").description("요청에 대한 처리결과")
+				)));
 
 		// Then
 	}

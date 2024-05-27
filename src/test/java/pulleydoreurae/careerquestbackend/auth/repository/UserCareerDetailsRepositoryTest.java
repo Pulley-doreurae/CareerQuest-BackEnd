@@ -35,13 +35,13 @@ class UserCareerDetailsRepositoryTest {
 	@BeforeEach
 	public void before() { // 사용자 정보 미리 저장
 		UserAccount user = UserAccount.builder()
-				.userId(userId)
-				.userName("testName")
-				.email("test@email.com")
-				.phoneNum("010-1111-2222")
-				.password("testPassword")
-				.role(UserRole.ROLE_TEMPORARY_USER)
-				.build();
+			.userId(userId)
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		userAccountRepository.save(user);
 	}
@@ -57,10 +57,8 @@ class UserCareerDetailsRepositoryTest {
 	void addNewCareerTest() {
 		// Given
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory("1L")
-				.middleCategory("1L")
-				.smallCategory("1L")
-				.build();
+			.smallCategory("1L")
+			.build();
 
 		// When
 		userCareerDetailsRepository.save(userCareerDetails);
@@ -73,26 +71,21 @@ class UserCareerDetailsRepositoryTest {
 	@DisplayName("2. 직무 업데이트 테스트")
 	void updateCareerTest() {
 		// Given
-		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory("1L")
-				.middleCategory("1L")
-				.smallCategory("1L")
-				.build();
-
-		// When
 		UserAccount user = userAccountRepository.findByUserId(userId).orElseThrow();
 
-		userCareerDetailsRepository.save(userCareerDetails);
-		user.setUserCareerDetails(userCareerDetails);
-		userAccountRepository.save(user);
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
+			.smallCategory("1L")
+			.userAccount(user)
+			.build();
 
+		userCareerDetailsRepository.save(userCareerDetails);
+		// When
+		Optional<UserCareerDetails> careerDetails = userCareerDetailsRepository.findByUserAccount(user);
 
 		UserCareerDetails updateUserCareerDetails = UserCareerDetails.builder()
-				.id(user.getUserCareerDetails().getId()) // 동일한 id 로 덮어쓰기
-				.majorCategory("1L")
-				.middleCategory("1L")
-				.smallCategory("1L")
-				.build();
+			.id(careerDetails.get().getId()) // 동일한 id 로 덮어쓰기
+			.smallCategory("1L")
+			.build();
 
 		userCareerDetailsRepository.save(updateUserCareerDetails);
 
@@ -104,30 +97,27 @@ class UserCareerDetailsRepositoryTest {
 	@DisplayName("3. 저장된 직무를 사용자 아이디로 조회하는 테스트")
 	void findByUserIdTest() {
 		// Given
-		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory("1L")
-				.middleCategory("1L")
-				.smallCategory("1L")
-				.build();
 
 		// When
 		UserAccount user = userAccountRepository.findByUserId(userId).orElseThrow();
 
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
+			.userAccount(user)
+			.smallCategory("1L")
+			.build();
+
 		userCareerDetailsRepository.save(userCareerDetails);
-		user.setUserCareerDetails(userCareerDetails);
-		userAccountRepository.save(user);
 
 		// Then
 		UserAccount getUser = userAccountRepository.findByUserId(userId).orElseThrow();
 
-		UserCareerDetails getUserUserCareerDetails = getUser.getUserCareerDetails();
+		UserCareerDetails getUserUserCareerDetails = userCareerDetailsRepository.findByUserAccount(getUser).get();
+
 		assertAll(
-				() -> assertEquals(userCareerDetails.getId(), getUserUserCareerDetails.getId()),
-				() -> assertEquals(userCareerDetails.getMajorCategory(), getUserUserCareerDetails.getMajorCategory()),
-				() -> assertEquals(userCareerDetails.getMiddleCategory(), getUserUserCareerDetails.getMiddleCategory()),
-				() -> assertEquals(userCareerDetails.getSmallCategory(), getUserUserCareerDetails.getSmallCategory()),
-				() -> assertEquals(userCareerDetails.getCreatedAt(), getUserUserCareerDetails.getCreatedAt()),
-				() -> assertEquals(userCareerDetails.getModifiedAt(), getUserUserCareerDetails.getModifiedAt())
+			() -> assertEquals(userCareerDetails.getId(), getUserUserCareerDetails.getId()),
+			() -> assertEquals(userCareerDetails.getSmallCategory(), getUserUserCareerDetails.getSmallCategory()),
+			() -> assertEquals(userCareerDetails.getCreatedAt(), getUserUserCareerDetails.getCreatedAt()),
+			() -> assertEquals(userCareerDetails.getModifiedAt(), getUserUserCareerDetails.getModifiedAt())
 		);
 	}
 
@@ -135,26 +125,21 @@ class UserCareerDetailsRepositoryTest {
 	@DisplayName("4. 직무 삭제 테스트")
 	void removeCareerTest() {
 		// Given
-		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-				.majorCategory("1L")
-				.middleCategory("1L")
-				.smallCategory("1L")
-				.build();
-
-		// When
 		UserAccount user = userAccountRepository.findByUserId(userId).orElseThrow();
 
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
+			.userAccount(user)
+			.smallCategory("1L")
+			.build();
+
+		// When
 		userCareerDetailsRepository.save(userCareerDetails);
-		user.setUserCareerDetails(userCareerDetails);
-		userAccountRepository.save(user);
 
 		UserAccount getUser = userAccountRepository.findByUserId(userId).orElseThrow();
-		UserCareerDetails getUserCareerDetails = getUser.getUserCareerDetails();
-		user.setUserCareerDetails(null);
+		UserCareerDetails getUserCareerDetails = userCareerDetailsRepository.findByUserAccount(getUser).get();
 		userCareerDetailsRepository.delete(getUserCareerDetails);
 
 		// Then
-		assertNull(getUser.getUserCareerDetails());
 		assertEquals(Optional.empty(), userCareerDetailsRepository.findById(getUserCareerDetails.getId()));
 	}
 }
