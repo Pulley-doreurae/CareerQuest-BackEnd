@@ -77,7 +77,9 @@ class InterestedCertificationControllerTest {
 								fieldWithPath("[].qualification").description("응시 자격"),
 								fieldWithPath("[].organizer").description("주관처"),
 								fieldWithPath("[].registrationLink").description("접수링크"),
-								fieldWithPath("[].aiSummary").description("AI요약")
+								fieldWithPath("[].aiSummary").description("AI요약"),
+								fieldWithPath("[].periodResponse").description("접수일정").ignored(),
+								fieldWithPath("[].examDateResponses").description("시험일정").ignored()
 						)));
 
 	    // Then
