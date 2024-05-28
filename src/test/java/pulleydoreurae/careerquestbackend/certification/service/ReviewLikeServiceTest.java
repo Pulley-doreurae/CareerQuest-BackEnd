@@ -24,6 +24,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.dto.response.Revie
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Review;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.ReviewLike;
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewLikeRepository;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
 
 /**
@@ -40,6 +41,8 @@ class ReviewLikeServiceTest {
 	ReviewLikeRepository reviewLikeRepository;
 	@Mock
 	CommonReviewService commonReviewService;
+	@Mock
+	CommonService commonService;
 
 	@Test
 	@DisplayName("좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")
@@ -47,7 +50,7 @@ class ReviewLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonReviewService.findUserAccount("testId"))
+		given(commonService.findUserAccount("testId", true))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -65,7 +68,7 @@ class ReviewLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonReviewService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonReviewService.findReview(10000L))
 				.willThrow(new PostNotFoundException("후기 정보를 찾을 수 없습니다."));
 
@@ -85,7 +88,7 @@ class ReviewLikeServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Review review = Review.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(commonReviewService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonReviewService.findReview(10000L)).willReturn(review);
 
 		// When
@@ -104,7 +107,7 @@ class ReviewLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonReviewService.findUserAccount("testId"))
+		given(commonService.findUserAccount("testId", true))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -122,7 +125,7 @@ class ReviewLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonReviewService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonReviewService.findReview(10000L))
 				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
@@ -142,7 +145,7 @@ class ReviewLikeServiceTest {
 		Review review = Review.builder().userAccount(user).id(10000L).title("제목1").build();
 		ReviewLike reviewLike = ReviewLike.builder().userAccount(user).review(review).build();
 
-		given(commonReviewService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonReviewService.findReview(10000L)).willReturn(review);
 		given(commonReviewService.findReviewLike(review, user)).willReturn(reviewLike);
 
@@ -176,7 +179,7 @@ class ReviewLikeServiceTest {
 		Page<ReviewLike> list = new PageImpl<>(
 				List.of(reviewLike3, reviewLike4, reviewLike5), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
 
-		given(commonReviewService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", false)).willReturn(user);
 		given(commonReviewService.reviewToReviewResponse(review3, false)).willReturn(reviewToReviewResponse(review3));
 		given(commonReviewService.reviewToReviewResponse(review4, false)).willReturn(reviewToReviewResponse(review4));
 		given(commonReviewService.reviewToReviewResponse(review5, false)).willReturn(reviewToReviewResponse(review5));
