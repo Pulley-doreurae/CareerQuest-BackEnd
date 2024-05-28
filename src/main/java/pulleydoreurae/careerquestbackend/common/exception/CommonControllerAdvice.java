@@ -30,7 +30,7 @@ public class CommonControllerAdvice {
 	}
 
 	@ExceptionHandler({UsernameNotFoundException.class, CommunityException.class, MalformedURLException.class,
-			IllegalArgumentException.class})
+			IllegalArgumentException.class, IllegalAccessError.class})
 	public ResponseEntity<SimpleResponse> community(Exception e) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(SimpleResponse.builder().msg(e.getMessage()).build());

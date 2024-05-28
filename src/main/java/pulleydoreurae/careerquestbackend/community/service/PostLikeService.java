@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
@@ -26,6 +27,7 @@ public class PostLikeService {
 
 	private final PostLikeRepository postLikeRepository;
 	private final CommonCommunityService commonCommunityService;
+	private final CommonService commonService;
 
 	/**
 	 * 좋아요 상태를 변경하는 메서드
@@ -33,7 +35,7 @@ public class PostLikeService {
 	 * @param postLikeRequest 좋아요 요청 (isLiked 가 false 일땐 추가, true 일땐 제거)
 	 */
 	public void changePostLike(PostLikeRequest postLikeRequest) {
-		UserAccount user = commonCommunityService.findUserAccount(postLikeRequest.getUserId());
+		UserAccount user = commonService.findUserAccount(postLikeRequest.getUserId(), true);
 		Post post = commonCommunityService.findPost(postLikeRequest.getPostId());
 
 		if (postLikeRequest.getIsLiked()) { // 좋아요 제거
@@ -53,7 +55,7 @@ public class PostLikeService {
 	 * @return 게시글 리스트
 	 */
 	public List<PostResponse> findAllPostLikeByUserAccount(String userId, Pageable pageable) {
-		UserAccount user = commonCommunityService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, false);
 		List<PostResponse> list = new ArrayList<>();
 
 		postLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable)

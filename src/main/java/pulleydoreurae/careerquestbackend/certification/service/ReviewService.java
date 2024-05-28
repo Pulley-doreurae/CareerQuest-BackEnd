@@ -20,6 +20,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.ReviewViewC
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewLikeRepository;
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewRepository;
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewViewCheckRepository;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 
 /**
  * 자격증 후기 서비스 구현체
@@ -36,6 +37,7 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final ReviewLikeRepository reviewLikeRepository;
 	private final ReviewViewCheckRepository reviewViewCheckRepository;
+	private final CommonService commonService;
 
 	/**
 	 * 후기 리스트를 불러오는 메서드
@@ -68,7 +70,7 @@ public class ReviewService {
 	 * @return 회원정보에 맞는 리스트 반환
 	 */
 	public List<ReviewResponse> getReviewListByUserAccount(String userId, Pageable pageable) {
-		UserAccount user = commonReviewService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, false);
 
 		return commonReviewService.reviewListToReviewResponseList(
 				reviewRepository.findAllByUserAccountOrderByIdDesc(user, pageable));
@@ -147,7 +149,7 @@ public class ReviewService {
 	 */
 	public Boolean getIsLiked(String userId, Review review) {
 		// userId 로 회원을 가져온다.
-		UserAccount user = commonReviewService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, false);
 		// user 가 null 이거나 좋아요 누른 정보를 가져올 수 없다면 false, 눌렀다면 true
 		return reviewLikeRepository.existsByReviewAndUserAccount(review, user);
 	}
@@ -158,7 +160,7 @@ public class ReviewService {
 	 * @param reviewRequest 게시글 요청
 	 */
 	public void saveReview(ReviewRequest reviewRequest) {
-		UserAccount user = commonReviewService.findUserAccount(reviewRequest.getUserId());
+		UserAccount user = commonService.findUserAccount(reviewRequest.getUserId(), true);
 		Review review = commonReviewService.reviewRequestToReview(reviewRequest, user);
 		reviewRepository.save(review);
 	}
@@ -172,7 +174,7 @@ public class ReviewService {
 	 */
 	public boolean updatePost(Long reviewId, ReviewRequest reviewRequest) {
 		Review review = commonReviewService.findReview(reviewId);
-		UserAccount user = commonReviewService.findUserAccount(reviewRequest.getUserId());
+		UserAccount user = commonService.findUserAccount(reviewRequest.getUserId(), true);
 		// 작성자와 수정자가 다르다면 실패
 		if (!review.getUserAccount().getUserId().equals(user.getUserId())) {
 			return false;
@@ -192,7 +194,7 @@ public class ReviewService {
 	 * @return 삭제 요청이 성공이면 true 실패하면 false
 	 */
 	public boolean deleteReview(Long reviewId, String userId) {
-		UserAccount user = commonReviewService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, true);
 		Review review = commonReviewService.findReview(reviewId);
 		// 작성자와 요청자가 다르다면 실패 (권한 없음)
 		if (!review.getUserAccount().getUserId().equals(user.getUserId())) {

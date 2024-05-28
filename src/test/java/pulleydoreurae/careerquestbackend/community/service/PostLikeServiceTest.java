@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostLikeRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
@@ -40,6 +41,8 @@ class PostLikeServiceTest {
 	PostLikeRepository postLikeRepository;
 	@Mock
 	CommonCommunityService commonCommunityService;
+	@Mock
+	CommonService commonService;
 
 	@Test
 	@DisplayName("1. 좋아요 증가 테스트 (실패 - 회원정보를 찾을 수 없음)")
@@ -47,7 +50,7 @@ class PostLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId"))
+		given(commonService.findUserAccount("testId", true))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -65,7 +68,7 @@ class PostLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonCommunityService.findPost(10000L))
 				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
@@ -85,7 +88,7 @@ class PostLikeServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonCommunityService.findPost(10000L)).willReturn(post);
 
 		// When
@@ -104,7 +107,7 @@ class PostLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId"))
+		given(commonService.findUserAccount("testId", true))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -122,7 +125,7 @@ class PostLikeServiceTest {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonCommunityService.findPost(10000L))
 				.willThrow(new PostNotFoundException("게시글 정보를 찾을 수 없습니다."));
 
@@ -142,7 +145,7 @@ class PostLikeServiceTest {
 		Post post = Post.builder().userAccount(user).id(10000L).title("제목1").build();
 		PostLike postLike = PostLike.builder().userAccount(user).post(post).build();
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonCommunityService.findPost(10000L)).willReturn(post);
 		given(commonCommunityService.findPostLike(post, user)).willReturn(postLike);
 
@@ -176,7 +179,7 @@ class PostLikeServiceTest {
 		Page<PostLike> list = new PageImpl<>(
 				List.of(postLike3, postLike4, postLike5), pageable, 3); // 3개씩 자른다면 마지막 3개가 반환되어야 함
 
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", false)).willReturn(user);
 		given(commonCommunityService.postToPostResponse(post3, false)).willReturn(postToPostResponse(post3));
 		given(commonCommunityService.postToPostResponse(post4, false)).willReturn(postToPostResponse(post4));
 		given(commonCommunityService.postToPostResponse(post5, false)).willReturn(postToPostResponse(post5));

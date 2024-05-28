@@ -15,10 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.ReviewRequest;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.response.ReviewResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Review;
@@ -40,8 +38,6 @@ class CommonReviewServiceTest {
 
 	@InjectMocks
 	CommonReviewService commonReviewService;
-	@Mock
-	UserAccountRepository userAccountRepository;
 	@Mock
 	ReviewRepository reviewRepository;
 	@Mock
@@ -148,31 +144,6 @@ class CommonReviewServiceTest {
 		);
 	}
 
-	@Test
-	@DisplayName("사용자 찾기 실패")
-	void findUserAccountFailTest() {
-		// Given
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.empty());
-
-		// When
-
-		// Then
-		assertThrows(UsernameNotFoundException.class, () -> commonReviewService.findUserAccount("testId"));
-	}
-
-	@Test
-	@DisplayName("사용자 찾기 성공")
-	void findUserAccountSuccessTest() {
-		// Given
-		UserAccount user = UserAccount.builder().userId("testId").build();
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-
-		// When
-		UserAccount result = commonReviewService.findUserAccount("testId");
-
-		// Then
-		assertEquals(user, result);
-	}
 
 	@Test
 	@DisplayName("조회수 중복이 아닌 경우")

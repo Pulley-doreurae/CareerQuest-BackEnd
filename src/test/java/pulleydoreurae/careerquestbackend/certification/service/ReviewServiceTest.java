@@ -28,6 +28,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.ReviewViewC
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewLikeRepository;
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewRepository;
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewViewCheckRepository;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
 
 /**
@@ -48,6 +49,8 @@ class ReviewServiceTest {
 	ReviewViewCheckRepository reviewViewCheckRepository;
 	@Mock
 	CommonReviewService commonReviewService;
+	@Mock
+	CommonService commonService;
 
 	@Test
 	@DisplayName("후기 불러오기 실패")
@@ -165,7 +168,7 @@ class ReviewServiceTest {
 	void saveReviewSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		given(commonReviewService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 
 		// When
 
@@ -177,7 +180,7 @@ class ReviewServiceTest {
 	@DisplayName("후기 등록 테스트 (실패)")
 	void saveReviewFailTest() {
 		// Given
-		given(commonReviewService.findUserAccount("testId")).willThrow(UsernameNotFoundException.class);
+		given(commonService.findUserAccount("testId", true)).willThrow(UsernameNotFoundException.class);
 
 		// When
 
@@ -208,7 +211,7 @@ class ReviewServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Review review = Review.builder().title("제목").content("내용").userAccount(user).view(1L).certificationName("정보처리기사").build();
 		given(commonReviewService.findReview(any())).willReturn(review);
-		given(commonReviewService.findUserAccount(any()))
+		given(commonService.findUserAccount(any(), anyBoolean()))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -228,7 +231,7 @@ class ReviewServiceTest {
 		UserAccount user2 = UserAccount.builder().userId("testId2").build();
 		Review review = Review.builder().title("제목").content("내용").userAccount(user1).view(1L).certificationName("정보처리기사").build();
 		given(commonReviewService.findReview(any())).willReturn(review);
-		given(commonReviewService.findUserAccount(any())).willReturn(user2);
+		given(commonService.findUserAccount(any(), anyBoolean())).willReturn(user2);
 
 		// When
 		boolean result = reviewService.updatePost(100L, new ReviewRequest("testId", "정보처리기사", "제목", "내용"));
@@ -246,7 +249,7 @@ class ReviewServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Review review = Review.builder().title("제목").content("내용").userAccount(user).view(1L).certificationName("정보처리기사").build();
 		given(commonReviewService.findReview(any())).willReturn(review);
-		given(commonReviewService.findUserAccount(any())).willReturn(user);
+		given(commonService.findUserAccount(any(), anyBoolean())).willReturn(user);
 
 		// When
 		boolean result = reviewService.updatePost(100L, new ReviewRequest("testId", "정보처리기사", "제목", "내용"));
@@ -274,7 +277,7 @@ class ReviewServiceTest {
 	@DisplayName("후기 삭제 실패 (사용자 찾을 수 없음)")
 	void deleteReviewFail2Test() {
 		// Given
-		given(commonReviewService.findUserAccount("testId"))
+		given(commonService.findUserAccount("testId", true))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -291,7 +294,7 @@ class ReviewServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Review review = Review.builder().title("제목").content("내용").userAccount(user).view(1L).certificationName("정보처리기사").build();
 		given(commonReviewService.findReview(100L)).willReturn(review);
-		given(commonReviewService.findUserAccount("testId1"))
+		given(commonService.findUserAccount("testId1", true))
 				.willReturn(UserAccount.builder().userId("testId1").build());
 
 		// When
@@ -310,7 +313,7 @@ class ReviewServiceTest {
 		Review review = Review.builder().title("제목").content("내용").userAccount(user).view(1L).certificationName("정보처리기사").build();
 
 		given(commonReviewService.findReview(any())).willReturn(review);
-		given(commonReviewService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 
 		// When
 		boolean result = reviewService.deleteReview(100L, "testId");
