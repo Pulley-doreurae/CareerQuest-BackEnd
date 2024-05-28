@@ -44,6 +44,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserIdRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserPasswordUpdateRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.Careers;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.MajorCareers;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.MiddleCareers;
@@ -817,7 +818,6 @@ class UserAccountControllerTest {
 					fieldWithPath("msg").description("요청에 대한 처리결과")
 				)));
 		// Then
-		careerDetailsRepository.deleteAll();
 	}
 
 	@Test
@@ -1000,7 +1000,6 @@ class UserAccountControllerTest {
 
 		// Then
 		verify(userAccountService).findUserByUserId(any());
-		verify(userCareerDetailsRepository).save(any());
 	}
 
 	@Test
@@ -1751,8 +1750,12 @@ class UserAccountControllerTest {
 			.role(UserRole.ROLE_TEMPORARY_USER)
 			.build();
 
+		Careers major = Careers.builder().careerId(0L).categoryName("대분류_1").categoryType("대분류").categoryImage("/major/image0").build();
+		Careers middle = Careers.builder().careerId(1L).categoryName("중분류_1").categoryType("중분류").categoryImage("/middle/image0").parent(major).build();
+		Careers small = Careers.builder().careerId(2L).categoryName("소분류_1").categoryType("소분류").categoryImage("/small/image0").parent(middle).build();
+
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-			.smallCategory("소분류_1")
+			.smallCategory(small)
 			.userAccount(user)
 			.build();
 
@@ -1877,7 +1880,11 @@ class UserAccountControllerTest {
 	void successChangeUserDetail() throws Exception {
 		// Given
 		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
-		UserCareerDetails userCareerDetails = UserCareerDetails.builder().smallCategory("소분류_1").userAccount(user).build();
+		Careers major = Careers.builder().careerId(0L).categoryName("대분류_1").categoryType("대분류").categoryImage("/major/image0").build();
+		Careers middle = Careers.builder().careerId(1L).categoryName("중분류_1").categoryType("중분류").categoryImage("/middle/image0").parent(major).build();
+		Careers small = Careers.builder().careerId(2L).categoryName("소분류_1").categoryType("소분류").categoryImage("/small/image0").parent(middle).build();
+
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder().smallCategory(Careers.builder().build()).userAccount(user).smallCategory(small).build();
 
 		UserTechnologyStack stack1 = UserTechnologyStack.builder().stackId("JAVA").userAccount(user).build();
 		UserTechnologyStack stack2 = UserTechnologyStack.builder().stackId("PHP").userAccount(user).build();
@@ -1902,7 +1909,10 @@ class UserAccountControllerTest {
 
 		UserAccount changeUser = user;
 		changeUser.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
-		UserCareerDetails changeUserCareerDetails = UserCareerDetails.builder().userAccount(changeUser).smallCategory("소분류_2").build();
+		Careers major2 = Careers.builder().careerId(3L).categoryName("대분류_2").categoryType("대분류").categoryImage("/major/image1").build();
+		Careers middle2 = Careers.builder().careerId(4L).categoryName("중분류_2").categoryType("중분류").categoryImage("/middle/image1").parent(major2).build();
+		Careers small2 = Careers.builder().careerId(5L).categoryName("소분류_2").categoryType("소분류").categoryImage("/small/image1").parent(middle2).build();
+		UserCareerDetails changeUserCareerDetails = UserCareerDetails.builder().userAccount(changeUser).smallCategory(small2).build();
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
 		given(userAccountService.isCurrentPassword(any(UserAccount.class), eq("testPassword"))).willReturn(true);
