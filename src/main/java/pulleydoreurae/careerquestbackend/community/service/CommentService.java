@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.CommentRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.CommentResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
@@ -25,6 +26,7 @@ public class CommentService {
 
 	private final CommentRepository commentRepository;
 	private final CommonCommunityService commonCommunityService;
+	private final CommonService commonService;
 
 	/**
 	 * 댓글 저장 메서드
@@ -32,7 +34,7 @@ public class CommentService {
 	 * @param commentRequest 댓글 요청
 	 */
 	public void saveComment(CommentRequest commentRequest) {
-		UserAccount user = commonCommunityService.findUserAccount(commentRequest.getUserId());
+		UserAccount user = commonService.findUserAccount(commentRequest.getUserId(), true);
 		Post post = commonCommunityService.findPost(commentRequest.getPostId());
 		Comment comment = commentRequestToComment(commentRequest, user, post);
 		commentRepository.save(comment);
@@ -46,7 +48,7 @@ public class CommentService {
 	 * @return 수정에 성공하면 true, 실패하면 false
 	 */
 	public boolean updateComment(CommentRequest commentRequest, Long commentId) {
-		UserAccount user = commonCommunityService.findUserAccount(commentRequest.getUserId());
+		UserAccount user = commonService.findUserAccount(commentRequest.getUserId(), true);
 		Post post = commonCommunityService.findPost(commentRequest.getPostId());
 		Comment comment = commonCommunityService.findComment(commentId);
 
@@ -70,7 +72,7 @@ public class CommentService {
 	 * @return 삭제에 성공하면 true, 실패하면 false
 	 */
 	public boolean deleteComment(Long commentId, Long postId, String userId) {
-		UserAccount user = commonCommunityService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, true);
 		Post post = commonCommunityService.findPost(postId);
 		Comment comment = commonCommunityService.findComment(commentId);
 
@@ -111,7 +113,7 @@ public class CommentService {
 	 * @return 댓글 리스트
 	 */
 	public List<CommentResponse> findListByUserAccount(String userId, Pageable pageable) {
-		UserAccount user = commonCommunityService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, false);
 		return commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable).stream()
 				.map(comment -> CommentResponse.builder()
 						.userId(comment.getUserAccount().getUserId())
