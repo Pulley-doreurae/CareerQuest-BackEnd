@@ -1,17 +1,20 @@
 package pulleydoreurae.careerquestbackend.auth.domain.entity;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.Careers;
 
 /**
  * 회원 상세정보 (회원직무 엔티티)
@@ -30,8 +33,9 @@ public class UserCareerDetails  extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false) // 소분류는 null 일 수 없다.
-	private String smallCategory; // 소분류
+	@ManyToOne
+	@JoinColumn(name = "small_category_id", nullable = false) // 소분류는 null 일 수 없다.
+	private Careers smallCategory; // 소분류
 
 	@OneToOne // 단방향 매핑, 직무정보가 회원정보에 대한 정보를 가진다.
 	@JoinColumn(name = "user_id")

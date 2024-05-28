@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.CustomUserDetails;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.JwtTokenProvider;
+import pulleydoreurae.careerquestbackend.auth.domain.jwt.dto.JwtTokenResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.entity.JwtAccessToken;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.entity.JwtRefreshToken;
 import pulleydoreurae.careerquestbackend.auth.domain.jwt.repository.JwtAccessTokenRepository;
@@ -115,10 +116,14 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 			Optional<JwtRefreshToken> jwtRefreshToken = jwtRefreshTokenRepository.findById(userId);
 			if (jwtRefreshToken.isPresent() && refreshToken.equals(jwtRefreshToken.get().getRefreshToken())) {
 				// 리프레시 토큰이 저장되어 있고 전달받은 리프레시 토큰이 일치한다면 새로운 액세스 토큰을 반환
+				JwtTokenResponse jwtTokenResponse = jwtTokenProvider.refreshAccessToken(refreshToken);
+				JwtAccessToken newAccessToken = new JwtAccessToken(userId, jwtTokenResponse.getAccess_token());
+				jwtAccessTokenRepository.save(newAccessToken);
+
 				response.setStatus(HttpStatus.OK.value());
 				response.setContentType("application/json;charset=UTF-8");
 				response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-				response.getWriter().write(gson.toJson(jwtTokenProvider.refreshAccessToken(refreshToken)));
+				response.getWriter().write(gson.toJson(jwtTokenResponse));
 				return;
 			}
 			// 리프레시 토큰이 만료되어 없거나 일치하지 않는다면

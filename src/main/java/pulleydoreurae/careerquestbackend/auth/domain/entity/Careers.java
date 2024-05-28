@@ -1,5 +1,7 @@
 package pulleydoreurae.careerquestbackend.auth.domain.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,13 +16,22 @@ import lombok.NoArgsConstructor;
 public class Careers {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 생성
+    @Column(name = "career_id")
+    private Long careerId;
 
     @Column(nullable = false)
-    private String categoryType; // 직무종류
-    @Column(nullable = false)
-    private String categoryName; // 직무이름
+    private String categoryName;
 
-    private String categoryImage; // 직무
+    @Column(nullable = false)
+    private String categoryType;
+
+    private String categoryImage;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "parent_id", referencedColumnName = "career_id")
+    private Careers parent;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    private List<Careers> children;
 }

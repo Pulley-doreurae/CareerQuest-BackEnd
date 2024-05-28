@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.MajorCareers;
 
+@Deprecated
 public interface MajorCareersRepository extends JpaRepository<MajorCareers, Long> {
 	Optional<MajorCareers> findMajorCareersByCategoryName(String name);
 }

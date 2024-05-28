@@ -1,23 +1,39 @@
 package pulleydoreurae.careerquestbackend.auth.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowUserDetailsToChangeRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.*;
-import pulleydoreurae.careerquestbackend.auth.repository.*;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.Careers;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.HelpUserPassword;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.TechnologyStack;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
+import pulleydoreurae.careerquestbackend.auth.repository.CareerDetailsRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.ChangeUserEmailRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.HelpUserPasswordRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.MajorCareersRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.MiddleCareersRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.SmallCareersRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.TechnologyStackRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
+import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
 import pulleydoreurae.careerquestbackend.mail.service.MailService;
-
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * 사용자 계정을 관리하는 서비스
@@ -30,6 +46,8 @@ import java.util.*;
 @Slf4j
 public class UserAccountService implements Serializable {
 
+	@Value("${serialVersionUID}")
+	private static long serialVersionUID;
 	private final UserAccountRepository userAccountRepository;
 	private final HelpUserPasswordRepository helpUserPasswordRepository;
 	private final ChangeUserEmailRepository changeUserEmailRepository;
@@ -41,18 +59,13 @@ public class UserAccountService implements Serializable {
 	private final MajorCareersRepository majorCareersRepository;
 	private final MiddleCareersRepository middleCareersRepository;
 	private final SmallCareersRepository smallCareersRepository;
-
+	private final CareerDetailsRepository careerDetailsRepository;
 	@Value("${spring.mail.domain}")
 	private String domain;
-
 	@Value("${FIND_PASSWORD_PATH}")
 	private String findPasswordPath;
-
 	@Value("${UPDATE_EMAIL_PATH}")
 	private String updateEmailPath;
-
-	@Value("${serialVersionUID}")
-	private static long serialVersionUID;
 
 	/**
 	 * userId에 해당하는 UserAccount를 찾는 메서드
@@ -192,15 +205,17 @@ public class UserAccountService implements Serializable {
 		user.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
 
 		Optional<UserCareerDetails> careerDetails = userCareerDetailsRepository.findByUserAccount(user);
+		Optional<Careers> career = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(
+			showUserDetailsToChangeRequest.getSmallCategory(), "소분류");
 
-		if(careerDetails.isEmpty()) {
+		if (careerDetails.isEmpty() || career.isEmpty()) {
 			log.error("{} 의 해당하는 직무를 찾을 수 없습니다.", user.getUserId());
 			throw new UsernameNotFoundException("요청한 회원 정보를 찾을 수 없습니다.");
 		}
 
 		UserCareerDetails updateUserCareerDetails = UserCareerDetails.builder()
 			.id(careerDetails.get().getId()) // 동일한 id 로 덮어쓰기
-			.smallCategory(showUserDetailsToChangeRequest.getSmallCategory())
+			.smallCategory(career.get())    // 직무 이름에 해당하는 직무로 덮어쓰기
 			.userAccount(user)
 			.build();
 		userCareerDetailsRepository.save(updateUserCareerDetails);
@@ -251,28 +266,44 @@ public class UserAccountService implements Serializable {
 	}
 
 	public List<ShowCareersResponse> getCareerList(String major, String middle) {
-		List<ShowCareersResponse> careerList = new ArrayList<>();
-
-		if(major == null) {
-			List<MajorCareers> majorCareersList = majorCareersRepository.findAll();
-			for(MajorCareers m : majorCareersList) careerList.add(ShowCareersResponse.builder().categoryName(m.getCategoryName()).categoryImage(m.getCategoryImage()).build());
-		}
-		else if(middle == null) {
-			Optional<MajorCareers> majorCareers = majorCareersRepository.findMajorCareersByCategoryName(major);
-			if (majorCareers.isPresent()) {
-				List<MiddleCareers> middleCareersList = middleCareersRepository.findAllByMajorCategory(majorCareers.get());
-				for(MiddleCareers m : middleCareersList) careerList.add(ShowCareersResponse.builder().categoryName(m.getCategoryName()).categoryImage(m.getCategoryImage()).build());
-			}else{
+		List<ShowCareersResponse> careerList = new ArrayList<>();	// 직무 리스트를 담을 변수
+		if (major.isEmpty() && middle.isEmpty()) {			// 대분류, 중분류가 없으면 -> 대분류 가져오기
+			List<Careers> majorCareersList = careerDetailsRepository.findAllByCategoryType("대분류");
+			for (Careers c : majorCareersList)
+				careerList.add(ShowCareersResponse.builder()
+					.categoryName(c.getCategoryName())
+					.categoryImage(c.getCategoryImage())
+					.build());
+		} else if (!major.isEmpty() && middle.isEmpty()) {		// 대분류가 있고 중분류가 없으면 -> 중분류 가져오기
+			Optional<Careers> majorCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(major, "대분류");	// 대분류 직무 를 변수로 가져옴
+			if (majorCareer.isPresent()) {																									// 해당 대분류가 존재하면
+				List<Careers> middleCareersList = careerDetailsRepository.findAllByCategoryType("중분류");									// 중분류 전체 리스트를 가져와서
+				for (Careers m : middleCareersList) {
+					if (m.getParent().getCareerId().equals(majorCareer.get().getCareerId())) {												// 대분류를 부모로 가지는 중분류를 담음
+						careerList.add(ShowCareersResponse.builder()
+							.categoryName(m.getCategoryName())
+							.categoryImage(m.getCategoryImage())
+							.build());
+					}
+				}
+			} else {
 				log.error("해당하는 중분류를 찾을 수 없습니다.");
 				throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
 			}
-		}
-		else{
-			Optional<MiddleCareers> middleCareers = middleCareersRepository.findMiddleCareersByCategoryName(middle);
-			if (middleCareers.isPresent()) {
-				List<SmallCareers> smallCareersList = smallCareersRepository.findAllByMiddleCategory(middleCareers.get());
-				for(SmallCareers m : smallCareersList) careerList.add(ShowCareersResponse.builder().categoryName(m.getCategoryName()).categoryImage(m.getCategoryImage()).build());
-			}else {
+		} else if(!major.isEmpty()) {		// 대분류와 중분류 모두 있으면 -> 소분류 가져오기
+			Optional<Careers> middleCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(middle, "중분류");	// 중분류를 직무로 가져오고
+			Optional<Careers> majorCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(major, "대분류");	// 대분류를 직무로 가져오고
+			if (middleCareer.isPresent() && majorCareer.isPresent()) {																		// 해당하는 대/중분류 직무가 있으면
+				List<Careers> middleCareersList = careerDetailsRepository.findAllByCategoryType("소분류");									// 소분류 리스트를 전부 가져와
+				for (Careers m : middleCareersList) {
+					if (m.getParent().equals(middleCareer.get()) && m.getParent().getParent().equals(majorCareer.get())) {					// 소분류의 중분류, 대분류가 일치하는지 확인하고 담음
+						careerList.add(ShowCareersResponse.builder()
+							.categoryName(m.getCategoryName())
+							.categoryImage(m.getCategoryImage())
+							.build());
+					}
+				}
+			} else {
 				log.error("해당하는 소분류를 찾을 수 없습니다.");
 				throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
 			}
@@ -304,5 +335,22 @@ public class UserAccountService implements Serializable {
 		}
 
 		return userCareerDetails.get();
+	}
+
+	public void saveUserCareerDetail(UserAccount user, String smallCategory) {
+
+		Optional<Careers> careers = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(smallCategory, "소분류");
+
+		if (careers.isEmpty()) {
+			log.error("해당하는 직무를 찾을 수 없습니다.");
+			throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
+		}
+
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
+			.smallCategory(careers.get())
+			.userAccount(user)
+			.build();
+		userCareerDetailsRepository.save(userCareerDetails);
+
 	}
 }
