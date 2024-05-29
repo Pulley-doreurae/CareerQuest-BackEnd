@@ -23,10 +23,11 @@ public class EmailAuthentication {
 	private final String password;
 	private final String birth;
 	private final String gender;
+	private final Boolean isMarketed;
 	private final String code;
 
 	public EmailAuthentication(String email, String userId, String userName, String phoneNum, String password,
-			String birth, String gender, String code) {
+		String birth, String gender, String code, Boolean isMarketed) {
 		this.email = email;
 		this.userId = userId;
 		this.userName = userName;
@@ -34,6 +35,7 @@ public class EmailAuthentication {
 		this.password = password;
 		this.birth = birth;
 		this.gender = gender;
+		this.isMarketed = isMarketed;
 		this.code = code;
 	}
 }

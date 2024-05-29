@@ -2,6 +2,7 @@ package pulleydoreurae.careerquestbackend.auth.domain.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -39,4 +40,7 @@ public class UserAccountRegisterRequest {
 
 	@NotBlank(message = "성별 선택은 필수입니다.")
 	private String gender;
+
+	@NotNull(message = "마케팅 수신 여부는 필수입니다.")
+	private Boolean isMarketed;
 }

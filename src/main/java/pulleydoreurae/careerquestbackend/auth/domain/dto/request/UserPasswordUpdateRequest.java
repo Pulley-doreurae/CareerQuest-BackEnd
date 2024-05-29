@@ -5,6 +5,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 비밀번호를 변경을 요청하는 Request
+ *
+ * @author : hanjaeseong
+ */
 @Getter
 @Setter
 public class UserPasswordUpdateRequest {

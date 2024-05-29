@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Deprecated
 public class UserFirstAddInfo {
 
     @Id

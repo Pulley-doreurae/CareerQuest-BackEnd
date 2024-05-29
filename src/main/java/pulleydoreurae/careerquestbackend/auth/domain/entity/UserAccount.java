@@ -3,6 +3,7 @@ package pulleydoreurae.careerquestbackend.auth.domain.entity;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -47,14 +48,12 @@ public class UserAccount extends BaseEntity {
 	private String phoneNum;
 	private String birth;
 	private String gender;
+	@Setter
+	@Column(columnDefinition = "boolean default false")
+	private Boolean isMarketed;
 
 	@Enumerated(EnumType.STRING)    // enum 을 데이터베이스에 문자열로 저장한다.
 	private UserRole role;
-
-	@Setter
-	@OneToOne // 단방향 매핑, 회원객체가 직무정보에 대한 정보를 가진다.
-	@JoinColumn(name = "user_career_id")
-	private UserCareerDetails userCareerDetails;
 
 	@Setter
 	@OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)

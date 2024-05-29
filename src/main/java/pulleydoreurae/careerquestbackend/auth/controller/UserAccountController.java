@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.*;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.*;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.*;
+import pulleydoreurae.careerquestbackend.auth.repository.CareerDetailsRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
@@ -87,6 +88,7 @@ public class UserAccountController {
                             .phoneNum(request.getPhoneNum())
                             .birth(request.getBirth())
                             .gender(request.getGender())
+                            .isMarketed(request.getIsMarketed())
                             .msg(sb.toString())
                             .build()
             );
@@ -184,6 +186,7 @@ public class UserAccountController {
                             .phoneNum(user.getPhoneNum())
                             .birth(user.getBirth())
                             .gender(user.getGender())
+                            .isMarketed(user.getIsMarketed())
                             .msg("이미 존재하는 아이디입니다.")
                             .build());
         }
@@ -203,13 +206,14 @@ public class UserAccountController {
                             .phoneNum(user.getPhoneNum())
                             .birth(user.getBirth())
                             .gender(user.getGender())
+                            .isMarketed(user.getIsMarketed())
                             .msg("이미 존재하는 이메일입니다.")
                             .build());
         }
 
         // 이메일 인증 전송
         mailService.emailAuthentication(user.getUserId(), user.getUserName(), user.getPhoneNum(), user.getEmail(),
-                bCryptPasswordEncoder.encode(user.getPassword()), user.getBirth(), user.getGender());
+                bCryptPasswordEncoder.encode(user.getPassword()), user.getBirth(), user.getGender(), user.getIsMarketed());
 
         log.info("[회원가입 - 인증] 인증을 요청한 회원 : {}", user.getUserId());
 
@@ -222,6 +226,7 @@ public class UserAccountController {
                         .phoneNum(user.getPhoneNum())
                         .birth(user.getBirth())
                         .gender(user.getGender())
+                        .isMarketed(user.getIsMarketed())
                         .msg("이메일 인증을 요청했습니다.")
                         .build()
         );
@@ -243,7 +248,7 @@ public class UserAccountController {
             return BAD_REQUEST;
 
         mailService.sendAgainAuthenticationEmail(user.getUserId(), user.getUserName(), user.getPhoneNum(), user.getEmail(),
-                bCryptPasswordEncoder.encode(user.getPassword()), user.getBirth(), user.getGender());
+                bCryptPasswordEncoder.encode(user.getPassword()), user.getBirth(), user.getGender(), user.getIsMarketed());
 
         log.info("[회원가입 - 인증] 인증을 요청한 회원 : {}", user.getUserId());
 
@@ -290,6 +295,7 @@ public class UserAccountController {
                                 .phoneNum(user.getPhoneNum())
                                 .birth(user.getBirth())
                                 .gender(user.getGender())
+                                .isMarketed(user.getIsMarketed())
                                 .msg("회원가입에 성공하였습니다.")
                                 .build()
                 );
@@ -304,7 +310,7 @@ public class UserAccountController {
     @GetMapping("/users/details/{username}")
     public ResponseEntity<?> addInfoCheck(@PathVariable String username) {
 
-        boolean isCheck = userAccountService.isAddInfoShow(username);
+        boolean isCheck = userAccountService.isAddInfoShow(userAccountService.findUserByUserId(username));
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 UserIdResponse.builder()
@@ -315,21 +321,22 @@ public class UserAccountController {
 
     /**
      * 카테고리 분류에 따른 카테고리 리스트를 불러오는 메서드
-     *
-     * @param categoryType 카테고리 분류 [대분류, 중분류, 소분류]
+     * 00 10 11
      * @return 분류에 해당하는 카테고리 리스트
      */
-    @GetMapping("/users/details/careers/{categoryType}")
-    public ResponseEntity<?> showCareers(@PathVariable String categoryType) {
-        List<String> careers = userAccountService.getCareerList(categoryType);
+    @GetMapping("/users/details/careers")
+    public ResponseEntity<?> showCareers(@RequestBody ShowCareersRequest showCareersRequest) {
+        List<ShowCareersResponse> careers = userAccountService.getCareerList(showCareersRequest.getMajor(), showCareersRequest.getMiddle());
 
-        if (careers.isEmpty()) makeBadRequestUsingUserIdResponse("해당하는 카테고리가 없습니다.", null);
+        if(careers.isEmpty()) return makeBadRequestUsingUserIdResponse("[회원 - 직무 리스트 요청] 해당하는 회원직무가 없습니다.", null);
+
+        String msg = showCareersRequest.getMiddle().isEmpty() ? (showCareersRequest.getMajor().isEmpty() ? "대분류" : "중분류")  : "소분류" ;
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                ListResponse.builder()
-                        .lists(careers)
-                        .msg("요청한 분류 : " + categoryType)
-                        .build());
+            ListResponse.builder()
+                .lists(careers)
+                .msg(msg +" 리스트 요청을 했습니다.")
+                .build());
     }
 
 
@@ -340,7 +347,7 @@ public class UserAccountController {
      * @return 요청에 대한 응답
      */
     @PostMapping("/users/details/careers")
-    public ResponseEntity<?> addCareer(@Valid UserCareerDetailsRequest userCareerDetailsRequest,
+    public ResponseEntity<?> addCareer(@RequestBody @Valid UserCareerDetailsRequest userCareerDetailsRequest,
                                        BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -350,14 +357,11 @@ public class UserAccountController {
 
         UserAccount user = userAccountService.findUserByUserId(userCareerDetailsRequest.getUserId());
 
-        UserCareerDetails userCareerDetails = UserCareerDetails.builder()
-                .majorCategory(userCareerDetailsRequest.getMajorCategory())
-                .middleCategory(userCareerDetailsRequest.getMiddleCategory())
-                .smallCategory(userCareerDetailsRequest.getSmallCategory())
-                .build();
-        user.setUserCareerDetails(userCareerDetails);
-        userAccountRepository.save(user); // 직무에 대한 정보 저장
-        userCareerDetailsRepository.save(userCareerDetails);
+        if (user == null) return makeBadRequestUsingUserIdResponse("[회원 - 직무 추가] 유저 조회 실패 : {}",
+            userCareerDetailsRequest.getUserId());
+
+        userAccountService.saveUserCareerDetail(user, userCareerDetailsRequest.getSmallCategory());
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(SimpleResponse.builder()
                         .msg("직무 등록에 성공하였습니다.")
@@ -550,6 +554,7 @@ public class UserAccountController {
         }
 
         UserAccount user = userAccountService.findUserByUserId(userIdRequest.getUserId());
+        UserCareerDetails careerDetails = userAccountService.findCareerDetailsByUser(user);
 
         List<String> stacks = userAccountService.getTechnologyStack(user);
 
@@ -558,9 +563,7 @@ public class UserAccountController {
                 UserDetailsResponse.builder()
                         .userId(user.getUserId())
                         .email(user.getEmail())
-                        .majorCategory(user.getUserCareerDetails().getMajorCategory())
-                        .middleCategory(user.getUserCareerDetails().getMiddleCategory())
-                        .smallCategory(user.getUserCareerDetails().getSmallCategory())
+                        .smallCategory(careerDetails.getSmallCategory().getCategoryName())
                         .technologyStacks(stacks)
                         .build()
         );
@@ -588,15 +591,14 @@ public class UserAccountController {
                 showUserDetailsToChangeRequest.getPassword())) {
 
             userAccountService.updateDetails(user, showUserDetailsToChangeRequest);
+            UserCareerDetails careerDetails = userAccountService.findCareerDetailsByUser(user);
             List<String> stacks = userAccountService.getTechnologyStack(user);
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     ShowUserDetailsToChangeResponse.builder()
                             .userId(user.getUserId())
                             .phoneNum(user.getPhoneNum())
-                            .majorCategory(user.getUserCareerDetails().getMajorCategory())
-                            .middleCategory(user.getUserCareerDetails().getMiddleCategory())
-                            .smallCategory(user.getUserCareerDetails().getSmallCategory())
+                            .smallCategory(careerDetails.getSmallCategory().getCategoryName())
                             .technologyStacks(stacks)
                             .build()
             );

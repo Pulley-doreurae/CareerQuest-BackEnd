@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.18">
+<meta name="generator" content="Asciidoctor 2.0.20">
 <title>회원가입 API (UserAccountController)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -208,13 +208,10 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -393,7 +390,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -435,6 +432,118 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+/*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+.tabs {
+    margin-bottom: 1.25em;
+}
+
+.tablist > ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tablist > ul li {
+    align-items: center;
+    background-color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-weight: bold;
+    line-height: 1.5;
+    padding: 0.25em 1em;
+    position: relative;
+}
+
+.tablist > ul li:focus-visible {
+    outline: none;
+}
+
+.tablist.ulist,
+.tablist.ulist > ul li {
+    margin: 0;
+}
+
+.tablist.ulist > ul li + li {
+    margin-left: 0.25em;
+}
+
+.tabs .tablist li::after {
+    content: "";
+    display: block;
+    height: 1px;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+}
+
+.tabs.is-loading .tablist li:not(:first-child),
+.tabs:not(.is-loading) .tablist li:not(.is-selected) {
+    background-color: #f5f5f5;
+}
+
+.tabs.is-loading .tablist li:first-child::after,
+.tabs:not(.is-loading) .tablist li.is-selected::after {
+    background-color: #fff;
+}
+
+/*
+.tabs:not(.is-loading) .tablist li,
+.tabs:not(.is-loading) .tablist li::after {
+  transition: background-color 200ms ease-in-out;
+}
+*/
+
+.tablist > ul p {
+    line-height: inherit;
+    margin: 0;
+}
+
+.tabpanel {
+    background-color: #fff;
+    padding: 1.25em;
+}
+
+.tablist > ul li,
+.tabpanel {
+    border: 1px solid #dcdcdc;
+}
+
+.tablist > ul li {
+    border-bottom: 0;
+}
+
+.tabs.is-loading .tabpanel + .tabpanel,
+.tabs:not(.is-loading) .tabpanel.is-hidden {
+    display: none;
+}
+
+.tabpanel > :first-child {
+    margin-top: 0;
+}
+
+/* #content is a signature of the Asciidoctor standalone HTML output */
+#content .tabpanel > :last-child,
+#content .tabpanel > :last-child > :last-child,
+#content .tabpanel > :last-child > :last-child > li:last-child > :last-child {
+    margin-bottom: 0;
+}
+
+.tablecontainer {
+    overflow-x: auto;
+}
+
+#content .tablecontainer {
+    margin-bottom: 1.25em;
+}
+
+#content .tablecontainer > table.tableblock {
+    margin-bottom: 0;
+}
+</style>
 </head>
 <body class="article">
 <div id="header">
@@ -451,19 +560,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=CnThUZHQOdJ6MNk5K2jFfnV8xxT0LWvAzj1qP8-d0Yf7hCqyOhLSZaC2DuFXU-wIHkXxTkBO6naRFVLtrFxaWfyk4-bKs06L HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=3IyK6NKvu36f85nkHbhiW_rDipqX5XrseCbZIqSzJn3mdfRA7O7v3OeaiUqywPiFeJVWPcr2p_uk10vBSBK7FcLWEEmHTc1w HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 186
+Content-Length: 218
 Host: localhost:8080
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk",
-  "birth" : "00-01-01",
-  "gender" : "M"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;password&quot; : &quot;wjsansrk&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
 }</code></pre>
 </div>
 </div>
@@ -519,6 +629,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -529,7 +644,7 @@ Host: localhost:8080
 <h5 id="_응답_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -537,16 +652,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 212
+Content-Length: 244
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "birth" : "00-01-01",
-  "gender" : "M",
-  "msg" : "이메일 인증을 요청했습니다."
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true,
+  &quot;msg&quot; : &quot;이메일 인증을 요청했습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -598,6 +714,11 @@ Content-Length: 212
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -615,19 +736,20 @@ Content-Length: 212
 <h5 id="_요청_2_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=C_mdDlsnAjVoV-M8uCrDaEe0zJqoUwWTt0Wr2q_uiC3MlgMyPZr7Om8WZgFFNIZdiwf3WneA4aObNzO-gXLO7pfXvRr8oWYF HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=hzWQ4s-qCzNCRNzfMSxGdbl4mTPnhdF7cfEwq6smyYFgyfBOtAyp2vzJaFVvIb-7AgFyFN9PtAuCtOJWFZNRk8oX_-cGr8gq HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 186
+Content-Length: 218
 Host: localhost:8080
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk",
-  "birth" : "00-01-01",
-  "gender" : "M"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;password&quot; : &quot;wjsansrk&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
 }</code></pre>
 </div>
 </div>
@@ -683,6 +805,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -693,7 +820,7 @@ Host: localhost:8080
 <h5 id="_응답_2_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -701,16 +828,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 212
+Content-Length: 244
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "birth" : "00-01-01",
-  "gender" : "M",
-  "msg" : "이미 존재하는 아이디입니다."
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true,
+  &quot;msg&quot; : &quot;이미 존재하는 아이디입니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -762,6 +890,11 @@ Content-Length: 212
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -779,19 +912,20 @@ Content-Length: 212
 <h5 id="_요청_3_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=qoaqvlHcZzVUGxEtrf3y0QrvEuG74oI8QVfd4bgHVs5WwY4pnrGS3WfvBgJ5KidOmdDG4j_aP9nf1bURJDK5g4szY6gypL0b HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=f2hmJX8BVS1PqALHCJ1KqFmynHHb0s6eFVjSw6Izqdj1-jn-HA0HRh1kZh5inGT2abB-nmCEsRPosK-zLWm38pEHkb7Nwg_K HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 186
+Content-Length: 218
 Host: localhost:8080
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk",
-  "birth" : "00-01-01",
-  "gender" : "M"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;password&quot; : &quot;wjsansrk&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
 }</code></pre>
 </div>
 </div>
@@ -847,6 +981,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -857,7 +996,7 @@ Host: localhost:8080
 <h5 id="_응답_3_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -865,16 +1004,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 212
+Content-Length: 244
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "birth" : "00-01-01",
-  "gender" : "M",
-  "msg" : "이미 존재하는 이메일입니다."
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true,
+  &quot;msg&quot; : &quot;이미 존재하는 이메일입니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -926,6 +1066,11 @@ Content-Length: 212
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -943,19 +1088,20 @@ Content-Length: 212
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=x2B-Dm1QmUOLrp_di--MP_eRUfIp_wzkLiZZLhWuXq20yLmE81ZKPVxl_XCmzKvu6cK4XsGmfJNIyDjJF0dtSiSaOsjVrt-8 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=uSG1MjwYhfcmgdMYJCR_BVey0JQTVSdZ2ChBJIKl68SPulW32EeFVA0h5pUL4OArEwlLMWSL_awjNh507xpwHbud2f3rg2SG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 184
+Content-Length: 216
 Host: localhost:8080
 
 {
-  "userId" : "hgd1",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk",
-  "birth" : "00-01-01",
-  "gender" : "M"
+  &quot;userId&quot; : &quot;hgd1&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;password&quot; : &quot;wjsansrk&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
 }</code></pre>
 </div>
 </div>
@@ -1011,6 +1157,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1021,7 +1172,7 @@ Host: localhost:8080
 <h5 id="_응답_4_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1029,16 +1180,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 223
+Content-Length: 255
 
 {
-  "userId" : "hgd1",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "birth" : "00-01-01",
-  "gender" : "M",
-  "msg" : "아이디는 5자 이상으로 입력해주세요.\n"
+  &quot;userId&quot; : &quot;hgd1&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true,
+  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -1090,6 +1242,11 @@ Content-Length: 223
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1107,19 +1264,20 @@ Content-Length: 223
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=zBv4_es1reyBbBYxH1mBViAmVZKOuip6P1iZ4a93KVAXqomJr3iZmNINlNysXndXfnS1YhkeeKq72R1XB2H9hJtCT2UjnLmw HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=2RmLACoKLvbfzRKiXbPQNC1Z-m9wYp-zm8eIot7TbU_Yl-wG7i2yYRIzT8Py_nCRZZ7kVRk811cTAfyeo6LpmuzmX3y89Ik0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 181
+Content-Length: 213
 Host: localhost:8080
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "password" : "aaa",
-  "birth" : "00-01-01",
-  "gender" : "M"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;password&quot; : &quot;aaa&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
 }</code></pre>
 </div>
 </div>
@@ -1175,6 +1333,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1185,7 +1348,7 @@ Host: localhost:8080
 <h5 id="_응답_5_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1193,16 +1356,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 228
+Content-Length: 260
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-1111-2222",
-  "birth" : "00-01-01",
-  "gender" : "M",
-  "msg" : "비밀번호는 8자 이상으로 입력해주세요.\n"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true,
+  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -1254,6 +1418,11 @@ Content-Length: 228
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1271,19 +1440,20 @@ Content-Length: 228
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=_xhRKURtWxRrYQ2zr0xVcnT5JARMUm_dL4YvO2QFhC2H6QuynSA3HnFbbiFGUDXSnmFhS03ICWZ9a1fwTuIXClE1txWw0TqK HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=8_pjvXcqFHoSpWCFaagc1J4FcLEHFL12b8qO9kLZvA9OyzRew85SjhUTcEk_x1njXoUosPo8XYg_J45bX_O-wHbrjW0v_FFn HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 180
+Content-Length: 212
 Host: localhost:8080
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123.com",
-  "phoneNum" : "010-1111-2222",
-  "password" : "wjsansrk",
-  "birth" : "00-01-01",
-  "gender" : "M"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;password&quot; : &quot;wjsansrk&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
 }</code></pre>
 </div>
 </div>
@@ -1339,6 +1509,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1349,7 +1524,7 @@ Host: localhost:8080
 <h5 id="_응답_6_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1357,16 +1532,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 205
+Content-Length: 237
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123.com",
-  "phoneNum" : "010-1111-2222",
-  "birth" : "00-01-01",
-  "gender" : "M",
-  "msg" : "이메일 형식만 가능합니다.\n"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true,
+  &quot;msg&quot; : &quot;이메일 형식만 가능합니다.\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -1418,6 +1594,11 @@ Content-Length: 205
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1435,19 +1616,20 @@ Content-Length: 205
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=bt3KAlRxX3v8i6SvaHU_D70RXlXhZ-0RacNYrEQhQa1PnnBuV-WrY20VaR3Ru8WYXFgLN490czTWV9Q8D_JslSVCJZ8s-xRb HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=qzhCamM-3tzJscl9y2UbFyzkzdho6pDJo-t5wTnjJVld-X5yyl4mDAcG77jk0v1FqUgvcU3S4OBRjKTkwtxA9gqGQTpqn01F HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 182
+Content-Length: 214
 Host: localhost:8080
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-11-22",
-  "password" : "wjsansrk",
-  "birth" : "00-01-01",
-  "gender" : "M"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-11-22&quot;,
+  &quot;password&quot; : &quot;wjsansrk&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
 }</code></pre>
 </div>
 </div>
@@ -1503,6 +1685,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1513,7 +1700,7 @@ Host: localhost:8080
 <h5 id="_응답_7_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1521,16 +1708,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 224
+Content-Length: 256
 
 {
-  "userId" : "hgd123",
-  "userName" : "홍길동",
-  "email" : "hgd123@naver.com",
-  "phoneNum" : "010-11-22",
-  "birth" : "00-01-01",
-  "gender" : "M",
-  "msg" : "휴대폰 번호 형식에 맞춰 입력해주세요.\n"
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-11-22&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true,
+  &quot;msg&quot; : &quot;휴대폰 번호 형식에 맞춰 입력해주세요.\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -1582,6 +1770,11 @@ Content-Length: 224
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -1599,7 +1792,7 @@ Content-Length: 224
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=Z1cbiWpXS-Y0FcK2sn7QCc9a3IqFv4KU8M9fXLek357BPCwLBWAusQ40eYcZc_KP01PkMa5s8bOz3Oe5wqtmZY-Q5qyiDhQ9 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/username/testId?_csrf=JreH4WSDcMUfFyjbsAU-D7lN_Qnr4Ny1dhhUwk7xZ3ccghy9FYa_1FaxQacych2-0SgKOIx40GjZ0uuYRSAwp32QA0MrsSyE HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1633,7 +1826,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_8_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1641,11 +1834,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 74
+Content-Length: 77
 
 {
-  "field" : "testId",
-  "msg" : "가입 가능한 아이디입니다."
+  &quot;field&quot; : &quot;testId&quot;,
+  &quot;msg&quot; : &quot;가입 가능한 아이디입니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -1689,7 +1882,7 @@ Content-Length: 74
 <h5 id="_요청_9_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=SCcF5m0pGHUo7eLTMjw254avuiqV75U2otuSDNTQO8rp6ya5cUMz3lwbKBQF1dC2BxEC17WYlxL3jKQblb_2PbHhWfjR3B6K HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/username/testId?_csrf=p6kAoY-BqBcPFudLUS7qzZ9BZQyQVn5ixnC49KM1R-SGmLxWnp5kwre3n3Mid4JzaQPeqKh5SDSpY0hPokWIx8EHIdOzoIhn HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1723,7 +1916,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_9_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1731,11 +1924,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 77
+Content-Length: 80
 
 {
-  "field" : "testId",
-  "msg" : "이미 존재하는 아이디입니다."
+  &quot;field&quot; : &quot;testId&quot;,
+  &quot;msg&quot; : &quot;이미 존재하는 아이디입니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -1779,7 +1972,7 @@ Content-Length: 77
 <h5 id="_요청_10_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=7asUhUQeTrp-hSjpj9k8-99vHAdT2dChWkvxpWYOgnh3GxCIj5ks4yAndopTsU3duPQIyetfMWVh7OeMayjCw1E4tRoWKCi- HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/email/test@email.com?_csrf=uOjBT0LjHYXXDGaAe3Bnx2aY6gDHBY_aA76-kX8tc8skms4h29mnLnPVeOH6blPiQ11T81L7x2KiPe33YIzY8xtMEagTqvsW HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1813,7 +2006,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_10_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Disposition: inline;filename=f.txt
 Content-Type: application/json
 X-Content-Type-Options: nosniff
@@ -1822,11 +2015,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 82
+Content-Length: 85
 
 {
-  "field" : "test@email.com",
-  "msg" : "가입 가능한 이메일입니다."
+  &quot;field&quot; : &quot;test@email.com&quot;,
+  &quot;msg&quot; : &quot;가입 가능한 이메일입니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -1870,7 +2063,7 @@ Content-Length: 82
 <h5 id="_요청_11_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=R5t1emwtCkBmWybIUOiEARj3MtQwRh8ovNmIwfbvF7OJKzE2c_kRTwgYbiJLPUOrMcWwNy_GH7UFcy8F2L_q-JLYLoPsHVUA HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/email/test@email.com?_csrf=F9LQrXDEY3bf06v3U1QeGBCc-Ge8rqKRKRO9vztona6-Qp2McrCyzEn0W0Ty65nPYHkqKnP41V6OmZK8GHXc3Vhe-M-Lcavp HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1911,7 +2104,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_요청_12_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/testId?_csrf=y7f5VURLhaT0C7pvdeWAJiUbGH3aC6U59dFYnQPo_GZpzy6n_o_LZHAut5HZPd5dF8i0FxEsNRy5O8EUx-BhqTvYygULqxjC HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/testId?_csrf=-KJIcEm50DRYUFTseF4pFLHlmIu9FHwHitdSxK-lINSedefLyJp-Ei2BtAV1NGWNTXMdJYXRtbOELB8q77Jlpc2RGOWuEIX_ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1945,7 +2138,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_12_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1953,11 +2146,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 44
+Content-Length: 47
 
 {
-  "userId" : "testId",
-  "msg" : "false"
+  &quot;userId&quot; : &quot;testId&quot;,
+  &quot;msg&quot; : &quot;false&quot;
 }</code></pre>
 </div>
 </div>
@@ -2001,7 +2194,7 @@ Content-Length: 44
 <h5 id="_요청_13_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/testId?_csrf=tYRlCNiCLwsNsg97iEqpX4bdH8tKt5tU-SNwlxi_yMYKL2ssh-AAOru6TW4g0Gsd7WedarS_MqouhK95wUBJ8yCI-6A9TFpJ HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/testId?_csrf=xY27g-CS9NDArx13ZjTLEM2SXeEcYAO1A8A01hbNvfSa6Kewpr_Zs4P2leTtyywTAxn_dvylcIMqVmeYZaNQsCSohMGp2MTU HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2035,7 +2228,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_13_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2043,11 +2236,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 44
+Content-Length: 47
 
 {
-  "userId" : "testId",
-  "msg" : "false"
+  &quot;userId&quot; : &quot;testId&quot;,
+  &quot;msg&quot; : &quot;false&quot;
 }</code></pre>
 </div>
 </div>
@@ -2091,29 +2284,43 @@ Content-Length: 44
 <h5 id="_요청_14_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers/%EB%8C%80%EB%B6%84%EB%A5%98?_csrf=i8SUd8uv1YCB0n3YltLGKxaTgkMw54dkRWfuY7nOBjxhnPPY6PKiT_qd47Cs4Engov_yHHP3ryEH0uVJcQLXVYmtYF1W-Jfv HTTP/1.1
-Host: localhost:8080</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=GKdt4t78MC5VQz42hPaxZoEuFgImyz-eCmgKjfqfMCbhYBJ_fsNVg-7ICB94eghX4duFArgWOzpEqg2zMg44u8uoBhfSBHQd HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 38
+Host: localhost:8080
+
+{
+  &quot;major&quot; : &quot;&quot;,
+  &quot;middle&quot; : &quot;&quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_14_path_parameters">Path parameters</h5>
+<h5 id="_요청_14_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/users/details/careers/{categoryType}</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 분류</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>major</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대분류</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중분류</p></td>
 </tr>
 </tbody>
 </table>
@@ -2125,7 +2332,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_14_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2133,11 +2340,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 76
+Content-Length: 265
 
 {
-  "lists" : [ "경영", "IT" ],
-  "msg" : "요청한 분류 : 대분류"
+  &quot;lists&quot; : [ {
+    &quot;categoryName&quot; : &quot;사업관리&quot;,
+    &quot;categoryImage&quot; : &quot;/major/images/0&quot;
+  }, {
+    &quot;categoryName&quot; : &quot;경영·회계·사무&quot;,
+    &quot;categoryImage&quot; : &quot;/major/images/1&quot;
+  } ],
+  &quot;msg&quot; : &quot;카테고리 리스트 요청을 했습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -2164,6 +2377,16 @@ Content-Length: 76
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 카테고리 리스트</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].categoryName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].categoryImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이미지</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -2181,29 +2404,43 @@ Content-Length: 76
 <h5 id="_요청_15_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers/%EC%A4%91%EB%B6%84%EB%A5%98?_csrf=SfQOobr2Fw5JoPd6Qnwe5tl4Q_LOsBJRMZDKXv7YD6hkWMxdccw5k9_AJjpkw5VKI1EqhOBKbpP_03N8VaX5aMq-PstVa_s- HTTP/1.1
-Host: localhost:8080</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=kHt65vwEv2ySwbvK91I3ovr_QnfOAAQvZ01vbx4RUFmy4rQJ8x9M18ww2g-_9tj9wX8DlcOcbxWvMDQCAS9aX3wmNG_R14w4 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 50
+Host: localhost:8080
+
+{
+  &quot;major&quot; : &quot;사업관리&quot;,
+  &quot;middle&quot; : &quot;&quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_15_path_parameters">Path parameters</h5>
+<h5 id="_요청_15_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/users/details/careers/{categoryType}</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 분류</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>major</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대분류</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중분류</p></td>
 </tr>
 </tbody>
 </table>
@@ -2215,7 +2452,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_15_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2223,11 +2460,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 70
+Content-Length: 257
 
 {
-  "lists" : [ "서버" ],
-  "msg" : "요청한 분류 : 중분류"
+  &quot;lists&quot; : [ {
+    &quot;categoryName&quot; : &quot;사업관리&quot;,
+    &quot;categoryImage&quot; : &quot;/middle/images/0&quot;
+  }, {
+    &quot;categoryName&quot; : &quot;기획사무&quot;,
+    &quot;categoryImage&quot; : &quot;/middle/images/1&quot;
+  } ],
+  &quot;msg&quot; : &quot;카테고리 리스트 요청을 했습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -2254,6 +2497,16 @@ Content-Length: 70
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 카테고리 리스트</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].categoryName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].categoryImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이미지</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -2271,29 +2524,43 @@ Content-Length: 70
 <h5 id="_요청_16_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers/%EC%86%8C%EB%B6%84%EB%A5%98?_csrf=IsoIyWXXzqHnhZuC4RZtMRQZ9GCy1J7YsTF2b0LHt3Hf6JS_EK5s_Ve0-sfKtKi1gDtZACd82VnR4Pv1gAUQWHPx0xS6jveM HTTP/1.1
-Host: localhost:8080</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=bUEbqdyNItmdWqWrK7dYUK5kk0pUR6c5rMn50oj-ihXKE6LqXHkizLi9Ru6wap2aGppsY8hTvnMydZMUmfqd4bjGvib7JcfT HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 62
+Host: localhost:8080
+
+{
+  &quot;major&quot; : &quot;사업관리&quot;,
+  &quot;middle&quot; : &quot;기획사무&quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_16_path_parameters">Path parameters</h5>
+<h5 id="_요청_16_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/users/details/careers/{categoryType}</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 분류</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>major</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대분류</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중분류</p></td>
 </tr>
 </tbody>
 </table>
@@ -2305,7 +2572,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_16_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2313,11 +2580,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 77
+Content-Length: 255
 
 {
-  "lists" : [ "웹 개발자" ],
-  "msg" : "요청한 분류 : 소분류"
+  &quot;lists&quot; : [ {
+    &quot;categoryName&quot; : &quot;경영기획&quot;,
+    &quot;categoryImage&quot; : &quot;/small/image/0&quot;
+  }, {
+    &quot;categoryName&quot; : &quot;홍보·광고&quot;,
+    &quot;categoryImage&quot; : &quot;/small/image/1&quot;
+  } ],
+  &quot;msg&quot; : &quot;카테고리 리스트 요청을 했습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -2344,6 +2617,16 @@ Content-Length: 77
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 카테고리 리스트</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].categoryName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].categoryImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이미지</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
@@ -2361,29 +2644,43 @@ Content-Length: 77
 <h5 id="_요청_17_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers/hi?_csrf=4nvUMqL5j8A7WlCXfxoOk-j1MDfpjrJlmpICufYNvzJrrBG01EqxB5LAuqIWbzT2TTc6oNzBHVaMuYtIoqRhi89vjAsOnyKH HTTP/1.1
-Host: localhost:8080</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=FhJO4AIej81YruRrdgNCHkBA_1K48Hz8vxXEzU54ZTKLzK9hJiZ3gzR97fp1z9cKFS52KyNw0mvbyUzRjyzx_XceAAru-JxZ HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 42
+Host: localhost:8080
+
+{
+  &quot;major&quot; : &quot;hi&quot;,
+  &quot;middle&quot; : &quot;hi&quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_17_path_parameters">Path parameters</h5>
+<h5 id="_요청_17_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/users/details/careers/{categoryType}</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 분류</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>major</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대분류</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중분류</p></td>
 </tr>
 </tbody>
 </table>
@@ -2395,7 +2692,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_17_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2403,10 +2700,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 115
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : null,
+  &quot;msg&quot; : &quot;[회원 - 직무 리스트 요청] 해당하는 회원직무가 없습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -2445,17 +2743,20 @@ Content-Length: 98
 <h5 id="_요청_18_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/careers HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/careers?_csrf=gc38n-0zotw33pCQY4cWbg3L6PzWMCkmswIxrG9Tz7v4rxyJuKjM-tsLm-ka6qinBaoiXzT6xZ2yVRkLizBUlF8xrtqZyn2w HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 64
 Host: localhost:8080
-Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=ZB8li7v2Qc0UjYK-rdhkCjH7Vh3intodSu1Msg-mSH12PMxsVi5A7oiQeKs5uOPan_VQPgHPe3-Hp7swKdx50GyeKktHDPlZ</code></pre>
+{
+  &quot;userId&quot; : &quot;testId&quot;,
+  &quot;smallCategory&quot; : &quot;경영기획&quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_18_form_parameters">Form parameters</h5>
+<h5 id="_요청_18_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2464,36 +2765,21 @@ userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">파라미터</th>
-<th class="tableblock halign-left valign-top">제약조건</th>
-<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">대분류 코드(id)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">중분류 코드(id)</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">소분류 코드(id)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_csrf</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">csrf 코드 (무시)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소분류</p></td>
 </tr>
 </tbody>
 </table>
@@ -2505,7 +2791,7 @@ userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_
 <h5 id="_응답_18_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2513,10 +2799,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 92
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : &quot;testId&quot;,
+  &quot;msg&quot; : &quot;[회원 - 직무 추가] 유저 조회 실패 : {}&quot;
 }</code></pre>
 </div>
 </div>
@@ -2538,6 +2825,115 @@ Content-Length: 98
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_직무_추가_실패_유효성_검사_실패">직무 추가 실패 (유효성 검사 실패)</h3>
+<div class="sect3">
+<h4 id="_요청_19">요청</h4>
+<div class="sect4">
+<h5 id="_요청_19_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/careers?_csrf=SV_FulGH6wx8FwzU6yb529oVYkzno5d2b6ai8QHTGWUE0BDXcDygi2e-3z5RIG3k2wvN774nT3XUkKZbDpSTlDHgLAc243Sz HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 61
+Host: localhost:8080
+
+{
+  &quot;userId&quot; : &quot;Id &quot;,
+  &quot;smallCategory&quot; : &quot;경영기획&quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_19_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소분류</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_19">응답</h4>
+<div class="sect4">
+<h5 id="_응답_19_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 127
+
+{
+  &quot;userId&quot; : null,
+  &quot;msg&quot; : &quot;직무[소분류] 입력은 필수입니다.\\n사용자 아이디는 필수입니다.\\n&quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_19_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -2550,22 +2946,25 @@ Content-Length: 98
 <div class="sect2">
 <h3 id="_직무_추가_성공">직무 추가 성공</h3>
 <div class="sect3">
-<h4 id="_요청_19">요청</h4>
+<h4 id="_요청_20">요청</h4>
 <div class="sect4">
-<h5 id="_요청_19_http_request">HTTP request</h5>
+<h5 id="_요청_20_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/careers HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/careers?_csrf=w5oXwoVe9wbH8WUoHQLcMrUBCVJlIhVZpn4Y6R6NhYvcX83fp_8ip7VmwGPqwAAefi_oCtcyJGpXGi10w0p9233s5rq-bqnv HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 64
 Host: localhost:8080
-Content-Length: 165
 
-userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_csrf=v9Lw0Y6yoo9j3gRqjOuPe1LajcVy_68hyetQd_T9prSH254r2eOVsuyHxr1O6zZfvsa7TDfsoP0XmZwM_Y4zEsTLl9C_uacS</code></pre>
+{
+  &quot;userId&quot; : &quot;testId&quot;,
+  &quot;smallCategory&quot; : &quot;경영기획&quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_19_form_parameters">Form parameters</h5>
+<h5 id="_요청_20_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2574,48 +2973,33 @@ userId=testId&amp;majorCategory=1&amp;middleCategory=1&amp;smallCategory=1&amp;_
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">파라미터</th>
-<th class="tableblock halign-left valign-top">제약조건</th>
-<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">대분류 코드(id)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">중분류 코드(id)</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">소분류 코드(id)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_csrf</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">csrf 코드 (무시)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소분류</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_19">응답</h4>
+<h4 id="_응답_20">응답</h4>
 <div class="sect4">
-<h5 id="_응답_19_http_response">HTTP response</h5>
+<h5 id="_응답_20_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2623,16 +3007,16 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+Content-Length: 57
 
 {
-  "msg" : "직무 등록에 성공하였습니다."
+  &quot;msg&quot; : &quot;직무 등록에 성공하였습니다.&quot;
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_응답_19_response_fields">Response fields</h5>
+<h5 id="_응답_20_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2660,101 +3044,12 @@ Content-Length: 55
 <div class="sect2">
 <h3 id="_기술스택_검색_키워드_java">기술스택 검색 (키워드 : Java)</h3>
 <div class="sect3">
-<h4 id="_요청_20">요청</h4>
-<div class="sect4">
-<h5 id="_요청_20_http_request">HTTP request</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/stacks?keyword=Java HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_요청_20_query_parameters">Query parameters</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>keyword</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">검색 키워드</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_20">응답</h4>
-<div class="sect4">
-<h5 id="_응답_20_http_response">HTTP response</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 59
-
-{
-  "lists" : [ ],
-  "msg" : "검색한 키워드 : Java"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_응답_20_response_fields">Response fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 기술스택 리스트</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_기술스택_검색_키워드에_들어있는_값이_없음">기술스택 검색 (키워드에 들어있는 값이 없음)</h3>
-<div class="sect3">
 <h4 id="_요청_21">요청</h4>
 <div class="sect4">
 <h5 id="_요청_21_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/stacks?keyword= HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/stacks?keyword=Java HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2787,7 +3082,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_21_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2795,17 +3090,136 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 56
+Content-Length: 321
 
 {
-  "lists" : null,
-  "msg" : "검색한 키워드 : "
+  &quot;lists&quot; : [ {
+    &quot;id&quot; : 0,
+    &quot;stackName&quot; : &quot;Javascript&quot;,
+    &quot;stackImage&quot; : &quot;/src/image/tech/0&quot;,
+    &quot;description&quot; : &quot;자바스크립트&quot;
+  }, {
+    &quot;id&quot; : 1,
+    &quot;stackName&quot; : &quot;Java&quot;,
+    &quot;stackImage&quot; : &quot;/src/image/tech/1&quot;,
+    &quot;description&quot; : &quot;자바&quot;
+  } ],
+  &quot;msg&quot; : &quot;검색한 키워드 : Java&quot;
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_응답_21_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 기술스택 리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기술스택 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].stackName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기술스택 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기술스택 설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lists[].stackImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기술스택 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_기술스택_검색_키워드에_들어있는_값이_없음">기술스택 검색 (키워드에 들어있는 값이 없음)</h3>
+<div class="sect3">
+<h4 id="_요청_22">요청</h4>
+<div class="sect4">
+<h5 id="_요청_22_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/stacks?keyword= HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_22_query_parameters">Query parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>keyword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색 키워드</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_22">응답</h4>
+<div class="sect4">
+<h5 id="_응답_22_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 59
+
+{
+  &quot;lists&quot; : null,
+  &quot;msg&quot; : &quot;검색한 키워드 : &quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_22_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2838,117 +3252,19 @@ Content-Length: 56
 <div class="sect2">
 <h3 id="_기술스택_추가_실패_회원_정보를_찾을_수_없음">기술스택 추가 실패 (회원 정보를 찾을 수 없음)</h3>
 <div class="sect3">
-<h4 id="_요청_22">요청</h4>
-<div class="sect4">
-<h5 id="_요청_22_http_request">HTTP request</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=NAta-7OwF7_3Dvq5GFHhf6G0foKLuL7dXaRRvvixBt9S8XbIDThrwoPTc9raOcLbKHzVGZSHU7qzjYrwbMVg28CFYr43kxL- HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 66
-Host: localhost:8080
-
-{
-  "userId" : "testId",
-  "stacks" : [ "1L", "2L", "3L", "4L" ]
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_요청_22_request_fields">Request fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stacks</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">추가할 스택들의 id 값 (List 형식)</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_22">응답</h4>
-<div class="sect4">
-<h5 id="_응답_22_http_response">HTTP response</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 98
-
-{
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_응답_22_response_fields">Response fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_기술스택_추가_성공">기술스택 추가 성공</h3>
-<div class="sect3">
 <h4 id="_요청_23">요청</h4>
 <div class="sect4">
 <h5 id="_요청_23_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=VtCtd5bnMIxbO4BYTGr7hkSVj7rmDwTeZ6OBrdhHT8qVdbbHZufPQKLVUrp2WbNsKEfP5yGlotjRbmDzBpWymOlwfaz3E9D3 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/stacks?_csrf=yAhSvvuldQpJUp0dJdPFWlxWAKz3qTcgxCqxdcWu1GHj2xaL-Wo33MuTTDNka60sHf7xaD83Lc3Oyg4N_UmFTKHK41eA4i-_ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 66
+Content-Length: 69
 Host: localhost:8080
 
 {
-  "userId" : "testId",
-  "stacks" : [ "1L", "2L", "3L", "4L" ]
+  &quot;userId&quot; : &quot;testId&quot;,
+  &quot;stacks&quot; : [ &quot;1L&quot;, &quot;2L&quot;, &quot;3L&quot;, &quot;4L&quot; ]
 }</code></pre>
 </div>
 </div>
@@ -2989,7 +3305,7 @@ Host: localhost:8080
 <h5 id="_응답_23_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2997,10 +3313,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+Content-Length: 100
 
 {
-  "msg" : "직무 등록에 성공하였습니다."
+  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3032,20 +3348,21 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크_발송_성공">회원 비밀번호 찾기 링크 발송 성공</h3>
+<h3 id="_기술스택_추가_성공">기술스택 추가 성공</h3>
 <div class="sect3">
 <h4 id="_요청_24">요청</h4>
 <div class="sect4">
 <h5 id="_요청_24_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/password?_csrf=lVbNEptpfjLyd9qKMzsd-JnARZfKTmsUeCTCJEpDTqBRxeQapzX1JP9aRwvfT7izCxYpy_-haPb_Kl85QEHwEnpzKpIw9IZ5 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/stacks?_csrf=eGmmpiflYI66jo8rqjkbs9pnp4A6fNIjp9ay1AXKVrfJZdCkSgjDw0HRUriXvuwenhQv1epRirheHeAOl-OA7WauN9XwXObC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 25
+Content-Length: 69
 Host: localhost:8080
 
 {
-  "userId" : "user_1"
+  &quot;userId&quot; : &quot;testId&quot;,
+  &quot;stacks&quot; : [ &quot;1L&quot;, &quot;2L&quot;, &quot;3L&quot;, &quot;4L&quot; ]
 }</code></pre>
 </div>
 </div>
@@ -3071,6 +3388,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stacks</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추가할 스택들의 id 값 (List 형식)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3081,7 +3403,7 @@ Host: localhost:8080
 <h5 id="_응답_24_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3089,11 +3411,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 78
+Content-Length: 57
 
 {
-  "userId" : "user_1",
-  "msg" : "이메일 인증을 요청했습니다."
+  &quot;msg&quot; : &quot;직무 등록에 성공하였습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3115,11 +3436,6 @@ Content-Length: 78
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -3130,20 +3446,20 @@ Content-Length: 78
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크_발송_실패_회원_정보를_찾을_수_없음">회원 비밀번호 찾기 링크 발송 실패 (회원 정보를 찾을 수 없음)</h3>
+<h3 id="_회원_비밀번호_찾기_링크_발송_성공">회원 비밀번호 찾기 링크 발송 성공</h3>
 <div class="sect3">
 <h4 id="_요청_25">요청</h4>
 <div class="sect4">
 <h5 id="_요청_25_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/password?_csrf=9VIuwdse12lAPCCVA0_WxNj5Ro6HTooCtaAedCA4u4FFG2GrxWUcpe4rsQ1tWkP3ZmLip-6ba7a3fLsv15EnTBMI2rhzflLO HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/password?_csrf=TOePdL42tMpQM6GZll9EQXLdJx6ZDk9Zt0rv2U6F9ja-Tqmbe9W_EIkB1vN9BpOro3JweUC_Cif6Nn50gCiJ73u3xwSNdpH4 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 25
+Content-Length: 27
 Host: localhost:8080
 
 {
-  "userId" : "user_1"
+  &quot;userId&quot; : &quot;user_1&quot;
 }</code></pre>
 </div>
 </div>
@@ -3179,7 +3495,7 @@ Host: localhost:8080
 <h5 id="_응답_25_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3187,10 +3503,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 81
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;이메일 인증을 요청했습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3212,6 +3529,11 @@ Content-Length: 98
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -3222,20 +3544,20 @@ Content-Length: 98
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크_발송_실패_유효성_검사_실패">회원 비밀번호 찾기 링크 발송 실패 (유효성 검사 실패)</h3>
+<h3 id="_회원_비밀번호_찾기_링크_발송_실패_회원_정보를_찾을_수_없음">회원 비밀번호 찾기 링크 발송 실패 (회원 정보를 찾을 수 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_26">요청</h4>
 <div class="sect4">
 <h5 id="_요청_26_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/password?_csrf=gEeMIiFut2q31GAy8hTYNUwJ6E3Vlj1ufFET3SenrR0byPQBuXDpRhkPhlma4FdQwznsDXkwxXS0pQhDS2Vy6EOTyCp--sU2 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/password?_csrf=wek7WtIzT40E8L6szIeKr9hzSG3m-SqmhPVUMHDNxKM6kuzZ9ogNObBRf-spwdvKqKq-muxEZVXTmBqLtZY3UUn98JIP8dvu HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 22
+Content-Length: 27
 Host: localhost:8080
 
 {
-  "userId" : "id "
+  &quot;userId&quot; : &quot;user_1&quot;
 }</code></pre>
 </div>
 </div>
@@ -3271,7 +3593,7 @@ Host: localhost:8080
 <h5 id="_응답_26_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3279,11 +3601,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 89
+Content-Length: 100
 
 {
-  "userId" : "id ",
-  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n"
+  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3305,11 +3626,6 @@ Content-Length: 89
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -3320,36 +3636,44 @@ Content-Length: 89
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크_접속_성공">회원 비밀번호 찾기 링크 접속 성공</h3>
+<h3 id="_회원_비밀번호_찾기_링크_발송_실패_유효성_검사_실패">회원 비밀번호 찾기 링크 발송 실패 (유효성 검사 실패)</h3>
 <div class="sect3">
 <h4 id="_요청_27">요청</h4>
 <div class="sect4">
 <h5 id="_요청_27_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=3ljQrj4TFToAtklfVo7zKUNJBfZHsRYVx_ZN8sNlARf14X6L7T7mmgx1LFktgHo9NKPHGyB-KJRzgC84_5AoxvpXNnPBgh_q HTTP/1.1
-Host: localhost:8080</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/password?_csrf=MR2yfkud4dKyIOL1OIKW9txdrVFDA8J9kSAM0CMS4nwtLgWhBSiGSn78h7efRdCXC6-iwe5tgDN7ZaNQohc5s0Akh04UHzGU HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 24
+Host: localhost:8080
+
+{
+  &quot;userId&quot; : &quot;id &quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_27_path_parameters">Path parameters</h5>
+<h5 id="_요청_27_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/users/help/{uuid}</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 식별 코드</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
 </tr>
 </tbody>
 </table>
@@ -3361,7 +3685,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_27_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3369,11 +3693,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 75
+Content-Length: 92
 
 {
-  "userId" : "user_1",
-  "msg" : "일치하는 계정이 있습니다."
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -3410,14 +3734,14 @@ Content-Length: 75
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크_접속_실패_uuid가_없음">회원 비밀번호 찾기 링크 접속 실패 (uuid가 없음)</h3>
+<h3 id="_회원_비밀번호_찾기_링크_접속_성공">회원 비밀번호 찾기 링크 접속 성공</h3>
 <div class="sect3">
 <h4 id="_요청_28">요청</h4>
 <div class="sect4">
 <h5 id="_요청_28_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=AnS8DaIzBT90lueZCtldjwSLB8Kq5fvRrDBsh2whaLKXnp_RMEbdOMAGMA9Zpd_7M_Rp7me5KvqSh8n8zlMPvg9FXoCg-K_l HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=ECkMEhGVRYeLFujGgx0ap_JFcz9Ze1kuE8NcciFrSh-S0JjYJRBucSTwdb-mdN-k4DAunst3XgY4T2gDJfRvR0NZfHyr4Pzv HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3451,7 +3775,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_28_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3459,11 +3783,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 95
+Content-Length: 78
 
 {
-  "userId" : null,
-  "msg" : "[비밀번호 - 찾기] 일치하는 계저이 없습니다."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;일치하는 계정이 있습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3486,7 +3810,7 @@ Content-Length: 95
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
 </tr>
 <tr>
@@ -3500,22 +3824,15 @@ Content-Length: 95
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_성공">회원 비밀번호 찾기 링크로 비밀번호 변경 성공</h3>
+<h3 id="_회원_비밀번호_찾기_링크_접속_실패_uuid가_없음">회원 비밀번호 찾기 링크 접속 실패 (uuid가 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_29">요청</h4>
 <div class="sect4">
 <h5 id="_요청_29_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=WgcJthOnmo9MXhKsSgMT26VlIa943YqlxM6ag3DF0PHgxi1SbWQ9hCuQquxhaHaeKy4n75cADJZI7buIp_n_shLxs8TW9RVg HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 70
-Host: localhost:8080
-
-{
-  "password1" : "changePassword",
-  "password2" : "changePassword"
-}</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=81oT59UMpbcONc_YlwkEN1LbhcrtQ_gF36Yx75AG5lWI5yiAkjsg1bc8wNEjAarqryQwDzfqqPOPdZwo7p4HiqNggma81E21 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -3548,7 +3865,7 @@ Host: localhost:8080
 <h5 id="_응답_29_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3556,11 +3873,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 77
+Content-Length: 98
 
 {
-  "userId" : "user_1",
-  "msg" : "비밀번호를 변경하였습니다."
+  &quot;userId&quot; : null,
+  &quot;msg&quot; : &quot;[비밀번호 - 찾기] 일치하는 계저이 없습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3583,8 +3900,8 @@ Content-Length: 77
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
@@ -3597,21 +3914,21 @@ Content-Length: 77
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_실패_uuid가_없음">회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (uuid가 없음)</h3>
+<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_성공">회원 비밀번호 찾기 링크로 비밀번호 변경 성공</h3>
 <div class="sect3">
 <h4 id="_요청_30">요청</h4>
 <div class="sect4">
 <h5 id="_요청_30_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=tLVIF5oymHBsK3MIWkQclrV26_EL3yD-ZBDx0Ga_Q5X9Vdl01YZxc69W-xJBSEY9O2kor9FExsg7ukTTAnbJ5FCOJfbFYLoW HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=VcXrqN60OSjMxY9oqOidDWk3PZZR5C0UPqWtoVezloHpEfM4bPfTyuvWChDh_L5am8WpNAtUEPQy0Bs5DZWcx27S9LSIJpYB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 70
+Content-Length: 73
 Host: localhost:8080
 
 {
-  "password1" : "changePassword",
-  "password2" : "changePassword"
+  &quot;password1&quot; : &quot;changePassword&quot;,
+  &quot;password2&quot; : &quot;changePassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -3645,7 +3962,7 @@ Host: localhost:8080
 <h5 id="_응답_30_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3653,11 +3970,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 95
+Content-Length: 80
 
 {
-  "userId" : null,
-  "msg" : "[비밀번호 - 찾기] 일치하는 계저이 없습니다."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;비밀번호를 변경하였습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3679,6 +3996,11 @@ Content-Length: 95
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -3689,21 +4011,21 @@ Content-Length: 95
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_실패_비밀번호_입력_유효성_검사_실패">회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호 입력 유효성 검사 실패)</h3>
+<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_실패_uuid가_없음">회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (uuid가 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_31">요청</h4>
 <div class="sect4">
 <h5 id="_요청_31_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=UmmBiS96AQ_thaxlv65AjM8eRHi4WL3iNHNxcaY-ZBQ-mCZKN1_jvhdNZz3As84EhoN07vd4aUDZbNjPBkBJSZEKBXYOoBR7 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=Es9mQf68fRjDvdhXwo594g0UM5sHDeIVTfhRUHkMowRR-Z_gI60Dc8_aTijui-428KNJ1jQlHqI0NNU4L85mYkttkDdpyKqE HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 50
+Content-Length: 73
 Host: localhost:8080
 
 {
-  "password1" : "pass",
-  "password2" : "pass"
+  &quot;password1&quot; : &quot;changePassword&quot;,
+  &quot;password2&quot; : &quot;changePassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -3737,7 +4059,7 @@ Host: localhost:8080
 <h5 id="_응답_31_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3745,11 +4067,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 147
+Content-Length: 98
 
 {
-  "userId" : null,
-  "msg" : "비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n"
+  &quot;userId&quot; : null,
+  &quot;msg&quot; : &quot;[비밀번호 - 찾기] 일치하는 계저이 없습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3771,11 +4093,6 @@ Content-Length: 147
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -3786,21 +4103,21 @@ Content-Length: 147
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_실패_비밀번호와_비밀번호_확인이_서로_일치하지_않음">회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호와 비밀번호 확인이 서로 일치하지 않음)</h3>
+<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_실패_비밀번호_입력_유효성_검사_실패">회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호 입력 유효성 검사 실패)</h3>
 <div class="sect3">
 <h4 id="_요청_32">요청</h4>
 <div class="sect4">
 <h5 id="_요청_32_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=aJoRgdQFmMLAvymQBdy89mMK5RQJArH2Yu6sO3GrZRNriei_W_4l5-dhoPXthx2nZvGIx1U9yHY4MtLbUN-bX0HJAHYOvYuM HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=GbihE0H8qI6c4IMQAlPrQ-vzA8PBflMLDAB08P5gMjBPwfZ0LI-WJSLLzuqx1uckO37fJdPHLvqlT2ImbTMXxJpUBAJ5oMEW HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 53
 Host: localhost:8080
 
 {
-  "password1" : "changePassword",
-  "password2" : "password"
+  &quot;password1&quot; : &quot;pass&quot;,
+  &quot;password2&quot; : &quot;pass&quot;
 }</code></pre>
 </div>
 </div>
@@ -3834,7 +4151,7 @@ Host: localhost:8080
 <h5 id="_응답_32_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3842,11 +4159,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 111
+Content-Length: 150
 
 {
-  "userId" : "user_1",
-  "msg" : "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다."
+  &quot;userId&quot; : null,
+  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -3869,7 +4186,7 @@ Content-Length: 111
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
 </tr>
 <tr>
@@ -3883,50 +4200,43 @@ Content-Length: 111
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_삭제_성공">회원 삭제 성공</h3>
+<h3 id="_회원_비밀번호_찾기_링크로_비밀번호_변경_실패_비밀번호와_비밀번호_확인이_서로_일치하지_않음">회원 비밀번호 찾기 링크로 비밀번호 변경 실패 (비밀번호와 비밀번호 확인이 서로 일치하지 않음)</h3>
 <div class="sect3">
 <h4 id="_요청_33">요청</h4>
 <div class="sect4">
 <h5 id="_요청_33_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=IMTKiCQjmzwDDafUQMGnIiDlVvuOBn0ykqp6TFJ4cI6Ta5Z-E_Wvv0IR-gwuP5_lcOyTRkXde5nqMx4fpc9OeGJAQrqkDvJN HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=dNJZDe39OrOHhkuDO8R0A2ePOZeQONmRhnUDTbzp-V6-VDdwROs4aNvFCdGq4yrhC-lAMlbtFPbyXb28tRQ7LISIym6ObQYS HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 56
+Content-Length: 67
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "password" : "testPassword"
+  &quot;password1&quot; : &quot;changePassword&quot;,
+  &quot;password2&quot; : &quot;password&quot;
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_33_request_fields">Request fields</h5>
+<h5 id="_요청_33_path_parameters">Path parameters</h5>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/users/help/{uuid}</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 현재 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 식별 코드</p></td>
 </tr>
 </tbody>
 </table>
@@ -3938,7 +4248,7 @@ Host: localhost:8080
 <h5 id="_응답_33_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3946,11 +4256,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 75
+Content-Length: 114
 
 {
-  "userId" : "user_1",
-  "msg" : "일치하는 계정이 있습니다."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -3987,21 +4297,21 @@ Content-Length: 75
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_삭제_실패_회원_정보를_찾을_수_없음">회원 삭제 실패 (회원 정보를 찾을 수 없음)</h3>
+<h3 id="_회원_삭제_성공">회원 삭제 성공</h3>
 <div class="sect3">
 <h4 id="_요청_34">요청</h4>
 <div class="sect4">
 <h5 id="_요청_34_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=l2CwOPEmxyyyam2m9_RbDc7413qAFHwsmRCSHmLGv7H9OSdJrlOBCZdC_kmfUwiSx9lvafjJ-hizJk0B-yCnLFT03IPEXxN9 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=zc7ts0pydxqMm8bSkSRdpZ_jLNT0J500sVuJF3EraFwcju7DrqjdhitAEXyhqqLlqQlpwfvXAbaQFKoZhG66LkYcXjgpt931 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 54
+Content-Length: 59
 Host: localhost:8080
 
 {
-  "userId" : "user",
-  "password" : "testPassword"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;password&quot; : &quot;testPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -4042,7 +4352,7 @@ Host: localhost:8080
 <h5 id="_응답_34_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4050,11 +4360,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 90
+Content-Length: 78
 
 {
-  "userId" : "user",
-  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;일치하는 계정이 있습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -4091,21 +4401,21 @@ Content-Length: 90
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_삭제_실패_본인확인_비밀번호_유효성_검사_실패">회원 삭제 실패 (본인확인 비밀번호 유효성 검사 실패)</h3>
+<h3 id="_회원_삭제_실패_회원_정보를_찾을_수_없음">회원 삭제 실패 (회원 정보를 찾을 수 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_35">요청</h4>
 <div class="sect4">
 <h5 id="_요청_35_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=cmrER9an3f9gFy-X6FIrnuaonfzpwK9j_C3rgESIxRLOCfpqS16hcODB5MdNchmljn8fqYKasMSP-JhOzBuOtna6pCWsbJhb HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=aLU4ipK_L7NmAQrwpP5IHiGeObIU2vLjPgJ9HTWAR806L3e3DoIMu_SJTIBLOT6TldN8e0KtFNAtucbOXzdJKlTjIfVeTBGG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 41
+Content-Length: 57
 Host: localhost:8080
 
 {
-  "userId" : "id ",
-  "password" : ""
+  &quot;userId&quot; : &quot;user&quot;,
+  &quot;password&quot; : &quot;testPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -4146,7 +4456,7 @@ Host: localhost:8080
 <h5 id="_응답_35_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4154,11 +4464,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 135
+Content-Length: 93
 
 {
-  "userId" : "id ",
-  "msg" : "삭제 시 비밀번호은 필수입니다.\\n아이디는 5자 이상으로 입력해주세요.\\n"
+  &quot;userId&quot; : &quot;user&quot;,
+  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -4195,21 +4505,21 @@ Content-Length: 135
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_삭제_실패_본인확인_비밀번호가_일치하지_않음">회원 삭제 실패 (본인확인 비밀번호가 일치하지 않음)</h3>
+<h3 id="_회원_삭제_실패_본인확인_비밀번호_유효성_검사_실패">회원 삭제 실패 (본인확인 비밀번호 유효성 검사 실패)</h3>
 <div class="sect3">
 <h4 id="_요청_36">요청</h4>
 <div class="sect4">
 <h5 id="_요청_36_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=idvFlbZ18YVjp1U-BT6baWan_PgdvwXjEd1cEIaop5oiMO6huLmnotdHxrZOkG1dNBOvUAfD0Zl42mPOd7k9J-San6IUAojE HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=MOXc2lxErYzfQM7ZH4jR-qffC4ELTHr5rGubRPPkpaxnxfkOB4C66mwhnunycP3gKKXlmZboJuNpdBzUmVz-c8eAnJoCpJ86 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 56
+Content-Length: 44
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "password" : "PasswordTest"
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;password&quot; : &quot;&quot;
 }</code></pre>
 </div>
 </div>
@@ -4250,7 +4560,7 @@ Host: localhost:8080
 <h5 id="_응답_36_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4258,11 +4568,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 121
+Content-Length: 138
 
 {
-  "userId" : "user_1",
-  "msg" : "본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다."
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n삭제 시 비밀번호은 필수입니다.\\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -4299,20 +4609,21 @@ Content-Length: 121
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_열람_성공">회원 정보 열람 성공</h3>
+<h3 id="_회원_삭제_실패_본인확인_비밀번호가_일치하지_않음">회원 삭제 실패 (본인확인 비밀번호가 일치하지 않음)</h3>
 <div class="sect3">
 <h4 id="_요청_37">요청</h4>
 <div class="sect4">
 <h5 id="_요청_37_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/info?_csrf=VEA5JO1ALt-xptJcQuhEAYSzEgr_u6XWDxuHMT6NfIeQnhVUN3ZcFNQiHOqckeE_esVwZ7PXPzLG2MT7OHmyCA61RbSl-Hcy HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=1RIJa2ogiMCLkU5DSVAhgB7V83dooRXfWaX_aHYR-8vYWgVm4SBsDVJD7fempSh3eH0VuHzl3hULkXDybJydXhUkmvvpa2dR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 25
+Content-Length: 59
 Host: localhost:8080
 
 {
-  "userId" : "user_1"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;password&quot; : &quot;PasswordTest&quot;
 }</code></pre>
 </div>
 </div>
@@ -4338,6 +4649,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 현재 비밀번호</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4348,7 +4664,7 @@ Host: localhost:8080
 <h5 id="_응답_37_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4356,15 +4672,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 203
+Content-Length: 124
 
 {
-  "userId" : "user_1",
-  "email" : "test@email.com",
-  "majorCategory" : "대분류_1",
-  "middleCategory" : "중분류_1",
-  "smallCategory" : "소분류_1",
-  "technologyStacks" : [ "JAVA", "PHP" ]
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -4388,32 +4700,12 @@ Content-Length: 203
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 이메일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[대분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[중분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[소분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technologyStacks</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 기술스택</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
 </tr>
 </tbody>
 </table>
@@ -4421,20 +4713,20 @@ Content-Length: 203
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_열람_실패_회원_정보를_찾을_수_없음">회원 정보 열람 실패 (회원 정보를 찾을 수 없음)</h3>
+<h3 id="_회원_정보_열람_성공">회원 정보 열람 성공</h3>
 <div class="sect3">
 <h4 id="_요청_38">요청</h4>
 <div class="sect4">
 <h5 id="_요청_38_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/info?_csrf=TSecLixNBWsmt1ccG28_E5IdB0AyXVhcPjKRh2eOv6p8l65tfkSvTRQuNQ4L1mF4K0ILdfEuKiELOWtxCQT34wXriMxFo81Y HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/info?_csrf=FhQ41zwyLpbvLq12nVi7B_pHbhWtXa0-Si5fhJtEHO1bY7gNd3IN5QUGHfPCH8tA-HWPY8olQ3TIOZ0TKU1msP0mLo9qAoE5 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 25
+Content-Length: 27
 Host: localhost:8080
 
 {
-  "userId" : "user_1"
+  &quot;userId&quot; : &quot;user_1&quot;
 }</code></pre>
 </div>
 </div>
@@ -4470,7 +4762,7 @@ Host: localhost:8080
 <h5 id="_응답_38_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4478,10 +4770,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 137
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;email&quot; : &quot;test@email.com&quot;,
+  &quot;smallCategory&quot; : &quot;소분류_1&quot;,
+  &quot;technologyStacks&quot; : [ &quot;JAVA&quot;, &quot;PHP&quot; ]
 }</code></pre>
 </div>
 </div>
@@ -4503,9 +4798,24 @@ Content-Length: 98
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[소분류]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technologyStacks</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 기술스택</p></td>
 </tr>
 </tbody>
 </table>
@@ -4513,20 +4823,20 @@ Content-Length: 98
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_열람_실패_유효성_검사_실패">회원 정보 열람 실패 (유효성 검사 실패)</h3>
+<h3 id="_회원_정보_열람_실패_회원_정보를_찾을_수_없음">회원 정보 열람 실패 (회원 정보를 찾을 수 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_39">요청</h4>
 <div class="sect4">
 <h5 id="_요청_39_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/info?_csrf=5A2VvjNqpKbrS6IC7r_OvhNNTV-JlYrO8F3AgLVPgmz1O9_J3Gmn3AVanMTGc8A015L6jiV1YGa59-njw22mtNR5tg6TDufx HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/info?_csrf=JmXpvBM-M0JQJD6MyH4zMrtQ1qJVWG-IKq9Wtwjz2cQobUqMFlDf2nYGBCF9FFjtq1MHAt41-5tnaFmlGptn0T7H4PEaWC66 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 22
+Content-Length: 27
 Host: localhost:8080
 
 {
-  "userId" : "id "
+  &quot;userId&quot; : &quot;user_1&quot;
 }</code></pre>
 </div>
 </div>
@@ -4562,7 +4872,7 @@ Host: localhost:8080
 <h5 id="_응답_39_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4570,17 +4880,109 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 89
+Content-Length: 100
 
 {
-  "userId" : "id ",
-  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n"
+  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_응답_39_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원_정보_열람_실패_유효성_검사_실패">회원 정보 열람 실패 (유효성 검사 실패)</h3>
+<div class="sect3">
+<h4 id="_요청_40">요청</h4>
+<div class="sect4">
+<h5 id="_요청_40_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/info?_csrf=lMFRvERpyJTykwCi6Jm_i04hAQpNb991mvcr-w1lmN-cwyZdrfg0j3RZqqffoTnHjLSLs34WLGh7XbtY-M8bnT0Hq-z48h4_ HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 24
+Host: localhost:8080
+
+{
+  &quot;userId&quot; : &quot;id &quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_40_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_40">응답</h4>
+<div class="sect4">
+<h5 id="_응답_40_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 92
+
+{
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n&quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_40_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -4613,182 +5015,22 @@ Content-Length: 89
 <div class="sect2">
 <h3 id="_회원_정보_수정_성공">회원 정보 수정 성공</h3>
 <div class="sect3">
-<h4 id="_요청_40">요청</h4>
-<div class="sect4">
-<h5 id="_요청_40_http_request">HTTP request</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=LLjQA9iw911DztLy3Klr8DuzJ_fkcQu9mYpgGYfXmVHHKSuWFdqzNOyIkThu-bHCvoRfww2ACs-BSTqQ--lZe7floTTySxuh HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 239
-Host: localhost:8080
-
-{
-  "userId" : "user_1",
-  "phoneNum" : "010-9999-8888",
-  "majorCategory" : "대분류_2",
-  "middleCategory" : "중분류_2",
-  "smallCategory" : "소분류_2",
-  "technologyStacks" : [ "C", "C#", "C++" ],
-  "password" : "testPassword"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_요청_40_request_fields">Request fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNum</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 전화번호</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[대분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[중분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[소분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technologyStacks</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 기술스택</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 비밀번호</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_40">응답</h4>
-<div class="sect4">
-<h5 id="_응답_40_http_response">HTTP response</h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 208
-
-{
-  "userId" : "user_1",
-  "phoneNum" : "010-9999-8888",
-  "majorCategory" : "대분류_2",
-  "middleCategory" : "중분류_2",
-  "smallCategory" : "소분류_2",
-  "technologyStacks" : [ "C", "C#", "C++" ]
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_응답_40_response_fields">Response fields</h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNum</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 전화번호</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[대분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[중분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[소분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technologyStacks</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 기술스택</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_회원_정보_수정_실패_회원_정보를_찾을_수_없음">회원 정보 수정 실패 (회원 정보를 찾을 수 없음)</h3>
-<div class="sect3">
 <h4 id="_요청_41">요청</h4>
 <div class="sect4">
 <h5 id="_요청_41_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=zkIKsIdSEnPmwCj_xEAqYqvcB2f0aiQKhaPTsDzhC4MBb2X--XNv1LdiIRHL90rG8W0eAc65KgbNDEIntsK2hwiHOLMxXFOd HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=8-N63lEPyaWc03gExbGZpMqah434unu8vH3YXGoqJg3Eu9TEx9Ebumc-8MSx5xo1oJytwq75qrTAj0-RjkjuZV9PQ2z1iLel HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 239
+Content-Length: 174
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "phoneNum" : "010-9999-8888",
-  "majorCategory" : "대분류_2",
-  "middleCategory" : "중분류_2",
-  "smallCategory" : "소분류_2",
-  "technologyStacks" : [ "C", "C#", "C++" ],
-  "password" : "testPassword"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
+  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
+  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
+  &quot;password&quot; : &quot;testPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -4820,16 +5062,6 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 전화번호</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[대분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[중분류]</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[소분류]</p></td>
@@ -4854,7 +5086,7 @@ Host: localhost:8080
 <h5 id="_응답_41_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4862,10 +5094,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 142
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
+  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
+  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ]
 }</code></pre>
 </div>
 </div>
@@ -4887,9 +5122,24 @@ Content-Length: 98
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 전화번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 직무[소분류]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technologyStacks</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 기술스택</p></td>
 </tr>
 </tbody>
 </table>
@@ -4897,26 +5147,24 @@ Content-Length: 98
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_수정_실패_유효성_검사_실패">회원 정보 수정 실패 (유효성 검사 실패)</h3>
+<h3 id="_회원_정보_수정_실패_회원_정보를_찾을_수_없음">회원 정보 수정 실패 (회원 정보를 찾을 수 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_42">요청</h4>
 <div class="sect4">
 <h5 id="_요청_42_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=NGz-cmq4MUQNrDwu41433YX3AzdkyDkBmRhjtTenjEdvbEDJDAidRw6OBXcgmAga0HMD5bLOLlYF_Qws_yBShwGf7yNcCHP8 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=wnAlO277Ppafj8er_Danze5C8Wrhppmchrdyo6HLVcLbga1S8EJGCFjLXPSyvPDKyBuTrI173AjWx6uxsYBEwJP5Y_Pi5Jli HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 218
+Content-Length: 174
 Host: localhost:8080
 
 {
-  "userId" : "id ",
-  "phoneNum" : "010-9-8",
-  "majorCategory" : "대분류_2",
-  "middleCategory" : "중분류_2",
-  "smallCategory" : "소분류_2",
-  "technologyStacks" : [ "C", "C#", "C++" ],
-  "password" : ""
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
+  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
+  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
+  &quot;password&quot; : &quot;testPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -4948,16 +5196,6 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 전화번호</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[대분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[중분류]</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[소분류]</p></td>
@@ -4982,7 +5220,7 @@ Host: localhost:8080
 <h5 id="_응답_42_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4990,11 +5228,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 204
+Content-Length: 100
 
 {
-  "userId" : "id ",
-  "msg" : "회원정보 수정 시 비밀번호는 필수입니다.\\n휴대폰 번호 형식에 맞춰 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n"
+  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
 }</code></pre>
 </div>
 </div>
@@ -5016,11 +5253,6 @@ Content-Length: 204
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -5031,26 +5263,24 @@ Content-Length: 204
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_수정_실패_유저의_비밀번호가_일치하지_않음">회원 정보 수정 실패 (유저의 비밀번호가 일치하지 않음)</h3>
+<h3 id="_회원_정보_수정_실패_유효성_검사_실패">회원 정보 수정 실패 (유효성 검사 실패)</h3>
 <div class="sect3">
 <h4 id="_요청_43">요청</h4>
 <div class="sect4">
 <h5 id="_요청_43_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=5akoIogkAmXfXGpUWc3L_FxhF9SDsuoLbWUujSb6ZzfwYyM_3ZtJGuoUYFbyPg5hauD_nmxZOuzig9smXVQd6xDNUFHFUkAG HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=YHnRC2taRN08RXdfTAYi-E7XVtQA7nWm_W_c8CY2-b_UbDvuUkHobVI8drsRdBFodCsWyX7le7VhjEeLxQzvwRRSm9zlXg6K HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 235
+Content-Length: 153
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "phoneNum" : "010-9999-8888",
-  "majorCategory" : "대분류_2",
-  "middleCategory" : "중분류_2",
-  "smallCategory" : "소분류_2",
-  "technologyStacks" : [ "C", "C#", "C++" ],
-  "password" : "password"
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;phoneNum&quot; : &quot;010-9-8&quot;,
+  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
+  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
+  &quot;password&quot; : &quot;&quot;
 }</code></pre>
 </div>
 </div>
@@ -5082,16 +5312,6 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 전화번호</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>majorCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[대분류]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>middleCategory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[중분류]</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[소분류]</p></td>
@@ -5116,7 +5336,7 @@ Host: localhost:8080
 <h5 id="_응답_43_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5124,11 +5344,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 67
+Content-Length: 207
 
 {
-  "userId" : "user_1",
-  "msg" : "비밀번호가 다릅니다"
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;msg&quot; : &quot;휴대폰 번호 형식에 맞춰 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -5165,23 +5385,24 @@ Content-Length: 67
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_변경_성공">회원 비밀번호 변경 성공</h3>
+<h3 id="_회원_정보_수정_실패_유저의_비밀번호가_일치하지_않음">회원 정보 수정 실패 (유저의 비밀번호가 일치하지 않음)</h3>
 <div class="sect3">
 <h4 id="_요청_44">요청</h4>
 <div class="sect4">
 <h5 id="_요청_44_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=cFPBJYKC0zKQuDwTavfiQd9r4YN0vxFdta6U4UueTrwCf0B5QTWlFbS0tQG9iV8nW9rWd-tazLtB3SJwgJutgi__fYgxHXcY HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=ExKZulG4kQN64TBAPnF3OUxsbk5r4h5GJnZMsKP7-Mha2kjBJSP_3zCJojpX1gIiD1xDAS5ZQy9dgC1rRBJ7gZGYzq5q43mn HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 131
+Content-Length: 170
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "currentPassword" : "testPassword",
-  "newPassword1" : "newPassword",
-  "newPassword2" : "newPassword"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
+  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
+  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
+  &quot;password&quot; : &quot;password&quot;
 }</code></pre>
 </div>
 </div>
@@ -5208,19 +5429,24 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>currentPassword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNum</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 현재 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 전화번호</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>newPassword1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>smallCategory</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 새로운 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 직무[소분류]</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>newPassword2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technologyStacks</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 기술스택</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 새로운 비밀번호 확인</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 비밀번호</p></td>
 </tr>
 </tbody>
 </table>
@@ -5232,7 +5458,7 @@ Host: localhost:8080
 <h5 id="_응답_44_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5240,11 +5466,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 77
+Content-Length: 70
 
 {
-  "userId" : "user_1",
-  "msg" : "비밀번호를 변경하였습니다."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;비밀번호가 다릅니다&quot;
 }</code></pre>
 </div>
 </div>
@@ -5281,23 +5507,23 @@ Content-Length: 77
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_변경_성공_회원_정보를_찾을_수_없음">회원 비밀번호 변경 성공 (회원 정보를 찾을 수 없음)</h3>
+<h3 id="_회원_비밀번호_변경_성공">회원 비밀번호 변경 성공</h3>
 <div class="sect3">
 <h4 id="_요청_45">요청</h4>
 <div class="sect4">
 <h5 id="_요청_45_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=7F8-6Fh5xJSSvf5a9VuGKYGccGouL45Hk1WFHlThzF8B9pVQ3jwIi2hPoPC_hZ87kHayGLP5XVIXHrtqoGTnfWXUqD05xa01 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=Z6ONt0Fo0pWj43Gdxy3YAV3m4VUMQPAT7cysqY9aSltXIWPwBce01CVQ5qOO1Rer8ADsMmrRzDduIsk-3vybmOpiLD8zRAbB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 131
+Content-Length: 136
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "currentPassword" : "testPassword",
-  "newPassword1" : "newPassword",
-  "newPassword2" : "newPassword"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;currentPassword&quot; : &quot;testPassword&quot;,
+  &quot;newPassword1&quot; : &quot;newPassword&quot;,
+  &quot;newPassword2&quot; : &quot;newPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -5348,7 +5574,7 @@ Host: localhost:8080
 <h5 id="_응답_45_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5356,10 +5582,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 80
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;비밀번호를 변경하였습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -5381,6 +5608,11 @@ Content-Length: 98
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -5391,23 +5623,23 @@ Content-Length: 98
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_변경_성공_유효성_검사_실패">회원 비밀번호 변경 성공 (유효성 검사 실패)</h3>
+<h3 id="_회원_비밀번호_변경_성공_회원_정보를_찾을_수_없음">회원 비밀번호 변경 성공 (회원 정보를 찾을 수 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_46">요청</h4>
 <div class="sect4">
 <h5 id="_요청_46_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=iNgvHKXQp0yqseFdJT-A0AGjzofTj5S28pcV31fRIPxh2_36uL0bKpezkH6Hg4dpHRK05GDC477nvKabkfZz52SyFJ8H6syc HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=gnSl4DKgLcqs7yFHh82BmfVlSXW29iSJGYfc6WgnUR-aLK5Nu0XEhFOTGfqB2kd3v-C1-8JQZBTVxhKkeLK4jFtDaCr5GJx8 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 102
+Content-Length: 136
 Host: localhost:8080
 
 {
-  "userId" : "id ",
-  "currentPassword" : "",
-  "newPassword1" : "word",
-  "newPassword2" : "word"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;currentPassword&quot; : &quot;testPassword&quot;,
+  &quot;newPassword1&quot; : &quot;newPassword&quot;,
+  &quot;newPassword2&quot; : &quot;newPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -5458,7 +5690,7 @@ Host: localhost:8080
 <h5 id="_응답_46_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5466,11 +5698,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 260
+Content-Length: 100
 
 {
-  "userId" : "id ",
-  "msg" : "회원정보 수정 시 비밀번호는 필수입니다.\\n비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n"
+  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
 }</code></pre>
 </div>
 </div>
@@ -5492,11 +5723,6 @@ Content-Length: 260
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -5507,23 +5733,23 @@ Content-Length: 260
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_변경_성공_유저의_비밀번호가_일치하지_않음">회원 비밀번호 변경 성공 (유저의 비밀번호가 일치하지 않음)</h3>
+<h3 id="_회원_비밀번호_변경_성공_유효성_검사_실패">회원 비밀번호 변경 성공 (유효성 검사 실패)</h3>
 <div class="sect3">
 <h4 id="_요청_47">요청</h4>
 <div class="sect4">
 <h5 id="_요청_47_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=8hwpDStXg9LPZl67mDpPKaAPPe5un6k07IoQSUxg7ZCvNLshwCkca0pjtODiXz3Y_Rd7GJA3EI8PrZ8Zjel0fi8E2PSaDd5F HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=ZCLijzCcfo7IDQ36RsOh0ogKzj6LNJXRK0EjfSfKhHzKQws-VRTR6QmoSOrlbzmfJO6Vsbg_4wezBvb8T3VFGESptEr6cD8O HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 127
+Content-Length: 107
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "currentPassword" : "password",
-  "newPassword1" : "newPassword",
-  "newPassword2" : "newPassword"
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;currentPassword&quot; : &quot;&quot;,
+  &quot;newPassword1&quot; : &quot;word&quot;,
+  &quot;newPassword2&quot; : &quot;word&quot;
 }</code></pre>
 </div>
 </div>
@@ -5574,7 +5800,7 @@ Host: localhost:8080
 <h5 id="_응답_47_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5582,11 +5808,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 121
+Content-Length: 263
 
 {
-  "userId" : "user_1",
-  "msg" : "본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다."
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n아이디는 5자 이상으로 입력해주세요.\\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -5623,23 +5849,23 @@ Content-Length: 121
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_변경_성공_새로운_비밀번호가_서로_일치하지_않음">회원 비밀번호 변경 성공 (새로운 비밀번호가 서로 일치하지 않음)</h3>
+<h3 id="_회원_비밀번호_변경_성공_유저의_비밀번호가_일치하지_않음">회원 비밀번호 변경 성공 (유저의 비밀번호가 일치하지 않음)</h3>
 <div class="sect3">
 <h4 id="_요청_48">요청</h4>
 <div class="sect4">
 <h5 id="_요청_48_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=J_9GztYf80xLjMsYVvnTmRxYP3qk0jwLupQ0M5Cl-K6gU9veFMwlreEsxypmuq0uMtTnrixgEkOS4QwmjvUNBKmXm52Xarm6 HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=1s9lEtLoFDpaA1QdlZ28YCL-S3JOUdmW87MdM5RLmP5ApVljs6lRI-PbcV53ZzB7rLCIURCYZkooN-u7w4J8UqMqrclzljpa HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 128
+Content-Length: 132
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "currentPassword" : "testPassword",
-  "newPassword1" : "Password",
-  "newPassword2" : "newPassword"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;currentPassword&quot; : &quot;password&quot;,
+  &quot;newPassword1&quot; : &quot;newPassword&quot;,
+  &quot;newPassword2&quot; : &quot;newPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -5690,7 +5916,7 @@ Host: localhost:8080
 <h5 id="_응답_48_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5698,11 +5924,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 131
+Content-Length: 124
 
 {
-  "userId" : "user_1",
-  "msg" : "새로운 비밀번호와 새로운 비밀번호 확인이 서로 일치하지 않습니다."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -5739,21 +5965,23 @@ Content-Length: 131
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_이메일_변경_메일_전송_성공">회원 이메일 변경 메일 전송 성공</h3>
+<h3 id="_회원_비밀번호_변경_성공_새로운_비밀번호가_서로_일치하지_않음">회원 비밀번호 변경 성공 (새로운 비밀번호가 서로 일치하지 않음)</h3>
 <div class="sect3">
 <h4 id="_요청_49">요청</h4>
 <div class="sect4">
 <h5 id="_요청_49_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/email?_csrf=JgT4H_v3p4kFX-XSV0AR-HXwktRST_VXURg8uWlG4bxCCQ5YHzHPK5nPnrAoadTnMm0lz0bJv-0xKZZ6Z34M3Vhy2YV6bW9h HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=QVRlydGz7YaPbBYfLoGM34QlmOR5rD64CIkL4DnABCzI2TRPd2xV8ObVib6iCSUrFqy4vL0StYYcmFiVPL4_1Q72Mhr47AAt HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 57
+Content-Length: 133
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "email" : "newTest@test.com"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;currentPassword&quot; : &quot;testPassword&quot;,
+  &quot;newPassword1&quot; : &quot;Password&quot;,
+  &quot;newPassword2&quot; : &quot;newPassword&quot;
 }</code></pre>
 </div>
 </div>
@@ -5780,9 +6008,19 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>currentPassword</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자가 변경할 이메일 주소</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 현재 비밀번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>newPassword1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 새로운 비밀번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>newPassword2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 새로운 비밀번호 확인</p></td>
 </tr>
 </tbody>
 </table>
@@ -5794,7 +6032,7 @@ Host: localhost:8080
 <h5 id="_응답_49_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5802,11 +6040,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 102
+Content-Length: 134
 
 {
-  "userId" : "user_1",
-  "msg" : "변경할 이메일 주소로 인증 메일을 보냈습니다."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;새로운 비밀번호와 새로운 비밀번호 확인이 서로 일치하지 않습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -5843,21 +6081,21 @@ Content-Length: 102
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_이메일_변경_메일_전송_실패_회원_정보를_찾을_수_없음">회원 이메일 변경 메일 전송 실패 (회원 정보를 찾을 수 없음)</h3>
+<h3 id="_회원_이메일_변경_메일_전송_성공">회원 이메일 변경 메일 전송 성공</h3>
 <div class="sect3">
 <h4 id="_요청_50">요청</h4>
 <div class="sect4">
 <h5 id="_요청_50_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/email?_csrf=5107zW-nKDgzsuB3WFV5LsJB41XpASFw7cElLo_ZTFxLUG100Wxf_1-eHAgehtFOa3hNFqN2zm2PZBFd1PlGGra_Lj1_ZFpG HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/email?_csrf=AU1i-nzCX0q0a718WGWAmjDz2EGg7jngVtwzcSZBsHH2EmR6OHtQmx71O3qZCYlLbUi0qQeV9XjBi1_NNetWQ0J10xKVIQdM HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 57
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "userId" : "user_1",
-  "email" : "newTest@test.com"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;email&quot; : &quot;newTest@test.com&quot;
 }</code></pre>
 </div>
 </div>
@@ -5898,7 +6136,7 @@ Host: localhost:8080
 <h5 id="_응답_50_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5906,10 +6144,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 105
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;변경할 이메일 주소로 인증 메일을 보냈습니다.&quot;
 }</code></pre>
 </div>
 </div>
@@ -5931,6 +6170,11 @@ Content-Length: 98
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -5941,21 +6185,21 @@ Content-Length: 98
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_이메일_변경_메일_전송_실패_유효성_검사_실패">회원 이메일 변경 메일 전송 실패 (유효성 검사 실패)</h3>
+<h3 id="_회원_이메일_변경_메일_전송_실패_회원_정보를_찾을_수_없음">회원 이메일 변경 메일 전송 실패 (회원 정보를 찾을 수 없음)</h3>
 <div class="sect3">
 <h4 id="_요청_51">요청</h4>
 <div class="sect4">
 <h5 id="_요청_51_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/email?_csrf=shD-I28V4wcioYmD936zciX69gD1Og3bkdDnhfffHSGu_mo7h3THRlcs12IPwuznwVOHShLN22KRCDX29OPQtMG6LxOYyggM HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/email?_csrf=BgWsFzbOebbTKxXP3s9csmPtlAKqOwqmAQmbvdb0zkWYrjzMMDKVcQKsG4H-HCH_7OJo01SPuTrMWTKLODj4hbTM_3T-n170 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 45
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "userId" : "id ",
-  "email" : "newTest"
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;email&quot; : &quot;newTest@test.com&quot;
 }</code></pre>
 </div>
 </div>
@@ -5996,7 +6240,7 @@ Host: localhost:8080
 <h5 id="_응답_51_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6004,11 +6248,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 128
+Content-Length: 100
 
 {
-  "userId" : "id ",
-  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n이메일 형식만 가능합니다.\\n"
+  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
 }</code></pre>
 </div>
 </div>
@@ -6030,11 +6273,6 @@ Content-Length: 128
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
@@ -6045,36 +6283,50 @@ Content-Length: 128
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_이메일_변경_성공">회원 이메일 변경 성공</h3>
+<h3 id="_회원_이메일_변경_메일_전송_실패_유효성_검사_실패">회원 이메일 변경 메일 전송 실패 (유효성 검사 실패)</h3>
 <div class="sect3">
 <h4 id="_요청_52">요청</h4>
 <div class="sect4">
 <h5 id="_요청_52_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=uH904JlvfdrV63zCWF_MMxjKK0SFVHMxLucgmvyg7SLA2nsPjx1EgaAMGLn40kqjOnL4BSGvBia2NkIcTdNC_MSYiRXw70g- HTTP/1.1
-Host: localhost:8080</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/email?_csrf=hKUER7ilMob4WXmsolc735FoKlycultGLkkSN7BL3Iagxw9ht5c2c4mXULfVPBzJk3oPvPMKBz2q3z5rGXohVId47eSQ8D1R HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 48
+Host: localhost:8080
+
+{
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;email&quot; : &quot;newTest&quot;
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_요청_52_path_parameters">Path parameters</h5>
+<h5 id="_요청_52_request_fields">Request fields</h5>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/users/details/email/{uuid}</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일 변경 유저 식별자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자가 변경할 이메일 주소</p></td>
 </tr>
 </tbody>
 </table>
@@ -6086,7 +6338,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_52_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6094,11 +6346,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 71
+Content-Length: 131
 
 {
-  "userId" : "user_1",
-  "msg" : "이메일을 변경했습니다."
+  &quot;userId&quot; : &quot;id &quot;,
+  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n이메일 형식만 가능합니다.\\n&quot;
 }</code></pre>
 </div>
 </div>
@@ -6135,14 +6387,14 @@ Content-Length: 71
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_이메일_변경_실패_uuid에_일치하는_유저가_없음">회원 이메일 변경 실패 (uuid에 일치하는 유저가 없음)</h3>
+<h3 id="_회원_이메일_변경_성공">회원 이메일 변경 성공</h3>
 <div class="sect3">
 <h4 id="_요청_53">요청</h4>
 <div class="sect4">
 <h5 id="_요청_53_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=Qxk4jobOYjOQfFgJQXf915CrWZsA-Qm4FtF-ELrOkIXZ5wjVdnhZvr7-Wwa9S2g8clrJs6SZdPkzyz6VI7RLIYurqbDqgTrh HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=k9IE7XeUDGgjwpSaLaoP9lIb0Jj0RSjatnUurCsRaMaAeecgoeJm1BGiOFwO9Kb_G4c7wmZ-_aCQIEv30EUbmxpyUfO0TdcW HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -6176,7 +6428,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_53_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6184,16 +6436,106 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 74
 
 {
-  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
+  &quot;userId&quot; : &quot;user_1&quot;,
+  &quot;msg&quot; : &quot;이메일을 변경했습니다.&quot;
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_응답_53_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원_이메일_변경_실패_uuid에_일치하는_유저가_없음">회원 이메일 변경 실패 (uuid에 일치하는 유저가 없음)</h3>
+<div class="sect3">
+<h4 id="_요청_54">요청</h4>
+<div class="sect4">
+<h5 id="_요청_54_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=GqzEwS7erHjAW24e3sFDXoDrgafa9PcBeszObs9E4BpRzUB_LZ_y8xa6mRrtOlcp5ux3ZuHSrJ7ul5MsHKn9Wvxx1ill-CNI HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_54_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/users/details/email/{uuid}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일 변경 유저 식별자</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_54">응답</h4>
+<div class="sect4">
+<h5 id="_응답_54_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 100
+
+{
+  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_54_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -6218,14 +6560,452 @@ Content-Length: 98
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_회원가입_이메일_인증_재전송_성공">회원가입 이메일 인증 재전송 성공</h3>
+<div class="sect3">
+<h4 id="_요청_55">요청</h4>
+<div class="sect4">
+<h5 id="_요청_55_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/email?_csrf=Uu_r9vXiP_Tn7Do0yWc9Td0RfDb5EHzHD5ZobURCHteeFaTIN9yPw8TXDc3KiVlX_EoJLOpwUQ_PJE7qN6VdXXR2KrGqIcfw HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 218
+Host: localhost:8080
+
+{
+  &quot;userId&quot; : &quot;hgd123&quot;,
+  &quot;userName&quot; : &quot;홍길동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
+  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
+  &quot;password&quot; : &quot;wjsansrk&quot;,
+  &quot;birth&quot; : &quot;00-01-01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_55_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용할 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 연락처</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_55">응답</h4>
+<div class="sect4">
+<h5 id="_응답_55_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 69
+
+{
+  &quot;msg&quot; : &quot;이메일 인증을 재전송을 요청했습니다&quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_55_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원가입_이메일_인증_재전송_실패_유효성_검사_실패">회원가입 이메일 인증 재전송 실패 (유효성 검사 실패)</h3>
+<div class="sect3">
+<h4 id="_요청_56">요청</h4>
+<div class="sect4">
+<h5 id="_요청_56_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/email?_csrf=z0G4r2WhUIzA6YqpPRb-icJuEbsnEWvJy4Sit8HV9ZtYu3d-qiWLn1eWNrrt3-7ICjvK6vZXPNlCIVnk-LaU1PngkKtqi0Af HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 207
+Host: localhost:8080
+
+{
+  &quot;userId&quot; : &quot;hgd&quot;,
+  &quot;userName&quot; : &quot;홍 길 동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver&quot;,
+  &quot;phoneNum&quot; : &quot;01011112222&quot;,
+  &quot;password&quot; : &quot;wjsa&quot;,
+  &quot;birth&quot; : &quot;00 01 01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_56_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용할 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 연락처</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 마케팅 수신 여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_56">응답</h4>
+<div class="sect4">
+<h5 id="_응답_56_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 405
+
+{
+  &quot;userId&quot; : &quot;hgd&quot;,
+  &quot;userName&quot; : &quot;홍 길 동&quot;,
+  &quot;email&quot; : &quot;hgd123@naver&quot;,
+  &quot;phoneNum&quot; : &quot;01011112222&quot;,
+  &quot;birth&quot; : &quot;00 01 01&quot;,
+  &quot;gender&quot; : &quot;M&quot;,
+  &quot;isMarketed&quot; : null,
+  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\n아이디는 5자 이상으로 입력해주세요.\n마케팅 수신 여부는 필수입니다.\n휴대폰 번호 형식에 맞춰 입력해주세요.\n&quot;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_56_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phoneNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 연락처</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 생일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isMarketed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 마케팅 수신 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청에 대한 처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-05-16 17:04:23 +0900
+Last updated 2024-05-28 05:32:13 +0900
 </div>
 </div>
+<script>
+;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+  'use strict'
+
+  var config = (document.currentScript || {}).dataset || {}
+  var forEach = Array.prototype.forEach
+
+  init(document.querySelectorAll('.tabs'))
+
+  function init (tabsBlocks) {
+    if (!tabsBlocks.length) return
+    forEach.call(tabsBlocks, function (tabs) {
+      var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
+      var tablist = tabs.querySelector('.tablist ul')
+      tablist.setAttribute('role', 'tablist')
+      var start
+      forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
+        tab.tabIndex = -1
+        tab.setAttribute('role', tab.classList.add('tab') || 'tab')
+        var id, anchor, syncId
+        if (!(id = tab.id) && (anchor = tab.querySelector('a[id]'))) {
+          id = tab.id = anchor.parentNode.removeChild(anchor).id
+        }
+        var panel = id && tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
+        if (!panel) return idx ? undefined : toggleSelected(tab, true) // invalid state
+        syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
+        (syncIds[(tab.dataset.syncId = syncId)] = tab)
+        idx || (syncIds && (start = { tab: tab, panel: panel })) ? toggleHidden(panel, true) : toggleSelected(tab, true)
+        tab.setAttribute('aria-controls', panel.id)
+        panel.setAttribute('role', 'tabpanel')
+        var onClick = syncId === undefined ? activateTab : activateTabSync
+        tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
+      })
+      if (!tabs.closest('.tabpanel')) {
+        forEach.call(tabs.querySelectorAll('.tabpanel table.tableblock'), function (table) {
+          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
+          table.parentNode.insertBefore(container, table).appendChild(table)
+        })
+      }
+      if (start) {
+        var syncGroupId
+        for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
+          if (!(className = lst.item(i)).startsWith('data-sync-group-id=')) continue
+          tabs.dataset.syncGroupId = syncGroupId = lst.remove(className) || className.slice(19).replace(/\u00a0/g, ' ')
+          break
+        }
+        if (syncGroupId === undefined) tabs.dataset.syncGroupId = syncGroupId = Object.keys(syncIds).sort().join('|')
+        var preferredSyncId = 'syncStorageKey' in config &&
+          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
+        var tab = preferredSyncId && syncIds[preferredSyncId]
+        tab && Object.assign(start, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
+        toggleSelected(start.tab, true) || toggleHidden(start.panel, false)
+      }
+    })
+    onHashChange()
+    toggleClassOnEach(tabsBlocks, 'is-loading', 'remove')
+    window.setTimeout(toggleClassOnEach.bind(null, tabsBlocks, 'is-loaded', 'add'), 0)
+    window.addEventListener('hashchange', onHashChange)
+  }
+
+  function activateTab (e) {
+    var tab = this.tab
+    var tabs = this.tabs || (this.tabs = tab.closest('.tabs'))
+    var panel = this.panel || (this.panel = document.getElementById(tab.getAttribute('aria-controls')))
+    querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (el) {
+      toggleSelected(el, el === tab)
+    })
+    querySelectorWithSiblings(tabs, '.tabpanel', 'tabpanel').forEach(function (el) {
+      toggleHidden(el, el !== panel)
+    })
+    if (!this.isSync && 'syncStorageKey' in config && 'syncGroupId' in tabs.dataset) {
+      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroupId
+      window[(config.syncStorageScope || 'local') + 'Storage'].setItem(storageKey, tab.dataset.syncId)
+    }
+    if (!e) return
+    var loc = window.location
+    var hashIdx = loc.hash ? loc.href.indexOf('#') : -1
+    if (~hashIdx) window.history.replaceState(null, '', loc.href.slice(0, hashIdx))
+    e.preventDefault()
+  }
+
+  function activateTabSync (e) {
+    activateTab.call(this, e)
+    var thisTabs = this.tabs
+    var thisTab = this.tab
+    var initialY = thisTabs.getBoundingClientRect().y
+    forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
+      if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
+      querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (tab) {
+        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
+      })
+    })
+    var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
+    if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
+  }
+
+  function querySelectorWithSiblings (scope, selector, siblingClass) {
+    var el = scope.querySelector(selector)
+    if (!el) return []
+    var result = [el]
+    while ((el = el.nextElementSibling) && el.classList.contains(siblingClass)) result.push(el)
+    return result
+  }
+
+  function toggleClassOnEach (elements, className, method) {
+    forEach.call(elements, function (el) {
+      el.classList[method](className)
+    })
+  }
+
+  function toggleHidden (el, state) {
+    el.classList[(el.hidden = state) ? 'add' : 'remove']('is-hidden')
+  }
+
+  function toggleSelected (el, state) {
+    el.setAttribute('aria-selected', '' + state)
+    el.classList[state ? 'add' : 'remove']('is-selected')
+    el.tabIndex = state ? 0 : -1
+  }
+
+  function onHashChange () {
+    var id = window.location.hash.slice(1)
+    if (!id) return
+    var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
+    if (!(tab && tab.classList.contains('tab'))) return
+    'syncId' in tab.dataset ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
+  }
+})()
+</script>
 </body>
 </html>

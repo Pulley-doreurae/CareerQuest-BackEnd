@@ -6,6 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 변경할 이메일을 담는 Request
+ *
+ * @author : hanjaeseong
+ */
 @Getter
 @Setter
 public class UserChangeEmailRequest {
