@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
@@ -62,6 +63,8 @@ class CommonCommunityServiceTest {
 	PostImageRepository postImageRepository;
 	@Mock
 	PostViewCheckRepository postViewCheckRepository;
+	@Mock
+	CommonService commonService;
 
 	@Test
 	@DisplayName("게시글 Entity -> 게시글 Response 변환 메서드 테스트")
@@ -209,32 +212,6 @@ class CommonCommunityServiceTest {
 
 		// Then
 		assertEquals(comment, result);
-	}
-
-	@Test
-	@DisplayName("사용자 찾기 실패")
-	void findUserAccountFailTest() {
-		// Given
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.empty());
-
-		// When
-
-		// Then
-		assertThrows(UsernameNotFoundException.class, () -> commonCommunityService.findUserAccount("testId"));
-	}
-
-	@Test
-	@DisplayName("사용자 찾기 성공")
-	void findUserAccountSuccessTest() {
-		// Given
-		UserAccount user = UserAccount.builder().userId("testId").build();
-		given(userAccountRepository.findByUserId("testId")).willReturn(Optional.of(user));
-
-		// When
-		UserAccount result = commonCommunityService.findUserAccount("testId");
-
-		// Then
-		assertEquals(user, result);
 	}
 
 	@Test

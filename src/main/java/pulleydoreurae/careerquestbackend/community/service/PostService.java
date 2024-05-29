@@ -20,6 +20,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
@@ -53,6 +54,7 @@ public class PostService {
 	private final PostViewCheckRepository postViewCheckRepository;
 	private final PostImageRepository postImageRepository;
 	private final FileManagementService fileManagementService;
+	private final CommonService commonService;
 
 	@Value("${IMAGES_SAVE_PATH}")
 	protected String IMAGES_SAVE_PATH;
@@ -88,7 +90,7 @@ public class PostService {
 	 * @return 회원정보에 맞는 리스트 반환
 	 */
 	public List<PostResponse> getPostListByUserAccount(String userId, Pageable pageable) {
-		UserAccount user = commonCommunityService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, false);
 
 		return commonCommunityService.postListToPostResponseList(
 				postRepository.findAllByUserAccountOrderByIdDesc(user, pageable));
@@ -179,7 +181,7 @@ public class PostService {
 	 */
 	public Boolean getIsLiked(String userId, Post post) {
 		// userId 로 회원을 가져온다.
-		UserAccount user = commonCommunityService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, false);
 		// user 가 null 이거나 좋아요 누른 정보를 가져올 수 없다면 false, 눌렀다면 true
 		return postLikeRepository.existsByPostAndUserAccount(post, user);
 	}
@@ -213,7 +215,7 @@ public class PostService {
 	public Long savePost(PostRequest postRequest) {
 		List<String> fileNames = postRequest.getImages();
 		try {
-			UserAccount user = commonCommunityService.findUserAccount(postRequest.getUserId());
+			UserAccount user = commonService.findUserAccount(postRequest.getUserId(), true);
 			Post post = commonCommunityService.postRequestToPost(postRequest, user);
 			try {
 				postRepository.save(post);
@@ -261,7 +263,7 @@ public class PostService {
 	 */
 	public void updatePost(Long postId, PostRequest postRequest) {
 		Post post = commonCommunityService.findPost(postId);
-		UserAccount user = commonCommunityService.findUserAccount(postRequest.getUserId());
+		UserAccount user = commonService.findUserAccount(postRequest.getUserId(), true);
 		// 작성자와 수정자가 다르다면 실패
 		if (!post.getUserAccount().getUserId().equals(user.getUserId())) {
 			throw new PostUpdateException("게시글 수정에 실패했습니다.");
@@ -283,7 +285,7 @@ public class PostService {
 	 * @param userId 삭제 요청자
 	 */
 	public void deletePost(Long postId, String userId) {
-		UserAccount user = commonCommunityService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, true);
 		Post post = commonCommunityService.findPost(postId);
 		// 작성자와 요청자가 다르다면 실패 (권한 없음)
 		if (!post.getUserAccount().getUserId().equals(user.getUserId())) {

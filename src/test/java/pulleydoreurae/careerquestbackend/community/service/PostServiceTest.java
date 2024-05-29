@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.common.service.FileManagementService;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
@@ -66,6 +67,8 @@ class PostServiceTest {
 	FileManagementService fileManagementService;
 	@Mock
 	CommonCommunityService commonCommunityService;
+	@Mock
+	CommonService commonService;
 
 	@Test
 	@DisplayName("게시글 불러오기 실패")
@@ -217,7 +220,7 @@ class PostServiceTest {
 	void savePostSuccessTest() {
 		// Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonCommunityService.postRequestToPost(any(), any())).willReturn(new Post());
 		// When
 
@@ -230,7 +233,7 @@ class PostServiceTest {
 	@DisplayName("게시글 등록 테스트 (실패)")
 	void savePostFailTest() {
 		// Given
-		given(commonCommunityService.findUserAccount("testId")).willThrow(UsernameNotFoundException.class);
+		given(commonService.findUserAccount("testId", true)).willThrow(UsernameNotFoundException.class);
 
 		// When
 
@@ -250,7 +253,7 @@ class PostServiceTest {
 		String image5 = "image5.png";
 		List<String> images = List.of(image1, image2, image3, image4, image5);
 		UserAccount user = UserAccount.builder().userId("testId").build();
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(commonCommunityService.postRequestToPost(any(), any())).willReturn(new Post());
 
 		// When
@@ -270,7 +273,7 @@ class PostServiceTest {
 		String image4 = "image4.png";
 		String image5 = "image5.png";
 		List<String> images = List.of(image1, image2, image3, image4, image5);
-		given(commonCommunityService.findUserAccount("testId")).willThrow(UsernameNotFoundException.class);
+		given(commonService.findUserAccount("testId", true)).willThrow(UsernameNotFoundException.class);
 
 		// When
 
@@ -304,7 +307,7 @@ class PostServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
-		given(commonCommunityService.findUserAccount(any()))
+		given(commonService.findUserAccount(any(), anyBoolean()))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -325,7 +328,7 @@ class PostServiceTest {
 		UserAccount user2 = UserAccount.builder().userId("testId2").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user1).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
-		given(commonCommunityService.findUserAccount(any())).willReturn(user2);
+		given(commonService.findUserAccount(any(), anyBoolean())).willReturn(user2);
 
 		// When
 
@@ -342,7 +345,7 @@ class PostServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
-		given(commonCommunityService.findUserAccount(any())).willReturn(user);
+		given(commonService.findUserAccount(any(), anyBoolean())).willReturn(user);
 
 		// When
 
@@ -402,7 +405,7 @@ class PostServiceTest {
 	@DisplayName("게시글 삭제 실패 (사용자 찾을 수 없음)")
 	void deletePostFail2Test() {
 		// Given
-		given(commonCommunityService.findUserAccount("testId"))
+		given(commonService.findUserAccount("testId", true))
 				.willThrow(new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
 
 		// When
@@ -421,7 +424,7 @@ class PostServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(100L)).willReturn(post);
-		given(commonCommunityService.findUserAccount("testId1"))
+		given(commonService.findUserAccount("testId1", true))
 				.willReturn(UserAccount.builder().userId("testId1").build());
 
 		// When
@@ -440,7 +443,7 @@ class PostServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(postImageRepository.findAllByPost(any())).willReturn(List.of());
 
 		// When
@@ -459,7 +462,7 @@ class PostServiceTest {
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		Post post = Post.builder().title("제목").content("내용").userAccount(user).view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(100L)).willReturn(post);
-		given(commonCommunityService.findUserAccount("testId")).willReturn(user);
+		given(commonService.findUserAccount("testId", true)).willReturn(user);
 		given(postImageRepository.findAllByPost(any())).willReturn(List.of(new PostImage()));
 
 		// When

@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.Cookie;
@@ -14,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.ReviewRequest;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.response.ReviewResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Review;
@@ -37,7 +35,6 @@ import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundExcepti
 @RequiredArgsConstructor
 public class CommonReviewService {
 
-	private final UserAccountRepository userAccountRepository;
 	private final ReviewRepository reviewRepository;
 	private final ReviewLikeRepository reviewLikeRepository;
 	private final ReviewViewCheckRepository reviewViewCheckRepository;
@@ -56,23 +53,6 @@ public class CommonReviewService {
 			throw new PostNotFoundException("요청한 후기 정보를 찾을 수 없습니다.");
 		}
 		return findPost.get();
-	}
-
-	/**
-	 * 회원아이디로 회원정보를 찾아오는 메서드
-	 *
-	 * @param userId 회원아이디
-	 * @return 해당하는 회원정보가 있으면 회원정보를, 없다면 null 리턴
-	 */
-	public UserAccount findUserAccount(String userId) {
-		Optional<UserAccount> findUser = userAccountRepository.findByUserId(userId);
-
-		// 회원정보를 찾을 수 없다면
-		if (findUser.isEmpty()) {
-			log.error("{} 의 회원 정보를 찾을 수 없습니다.", userId);
-			throw new UsernameNotFoundException("요청한 회원 정보를 찾을 수 없습니다.");
-		}
-		return findUser.get();
 	}
 
 	/**

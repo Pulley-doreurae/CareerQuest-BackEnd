@@ -13,6 +13,7 @@ import pulleydoreurae.careerquestbackend.certification.domain.dto.response.Revie
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Review;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.ReviewLike;
 import pulleydoreurae.careerquestbackend.certification.repository.ReviewLikeRepository;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 
 /**
  * 자격증 좋아요 서비스 구현체
@@ -26,6 +27,7 @@ public class ReviewLikeService {
 
 	private final CommonReviewService commonReviewService;
 	private final ReviewLikeRepository reviewLikeRepository;
+	private final CommonService commonService;
 
 	/**
 	 * 좋아요 상태를 변경하는 메서드
@@ -33,7 +35,7 @@ public class ReviewLikeService {
 	 * @param reviewLikeRequest 좋아요 요청 (isLiked 가 0일땐 증가, 1일땐 감소)
 	 */
 	public void changeReviewLike(ReviewLikeRequest reviewLikeRequest) {
-		UserAccount user = commonReviewService.findUserAccount(reviewLikeRequest.getUserId());
+		UserAccount user = commonService.findUserAccount(reviewLikeRequest.getUserId(), true);
 		Review review = commonReviewService.findReview(reviewLikeRequest.getReviewId());
 
 		if (reviewLikeRequest.getIsLiked()) { // 감소
@@ -53,7 +55,7 @@ public class ReviewLikeService {
 	 * @return 게시글 리스트
 	 */
 	public List<ReviewResponse> findAllReviewLikeByUserAccount(String userId, Pageable pageable) {
-		UserAccount user = commonReviewService.findUserAccount(userId);
+		UserAccount user = commonService.findUserAccount(userId, false);
 		List<ReviewResponse> list = new ArrayList<>();
 
 		reviewLikeRepository.findAllByUserAccountOrderByIdDesc(user, pageable)
