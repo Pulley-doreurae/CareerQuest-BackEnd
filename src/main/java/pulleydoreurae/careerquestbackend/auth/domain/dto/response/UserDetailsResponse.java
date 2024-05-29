@@ -6,6 +6,11 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * 요청한 유저 정보를 담아서 반환하는 Response
+ *
+ * @author : hanjaeseong
+ */
 @Getter
 @Setter
 @Builder

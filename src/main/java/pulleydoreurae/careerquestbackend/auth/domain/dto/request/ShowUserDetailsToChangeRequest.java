@@ -8,6 +8,11 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * 정보 변경한 내용을 담아 변경을 요청하는 Request
+ *
+ * @author : hanjaeseong
+ */
 @Getter
 @Setter
 public class ShowUserDetailsToChangeRequest {

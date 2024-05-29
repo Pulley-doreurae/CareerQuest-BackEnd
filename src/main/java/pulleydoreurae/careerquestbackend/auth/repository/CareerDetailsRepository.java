@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 
-
+/**
+ * 직무 조회 및 변경에 관한 Repository
+ *
+ * @author : hanjaeseong
+ */
 public interface CareerDetailsRepository extends JpaRepository<Careers, Long> {
 
     List<Careers> findAllByCategoryType(String categoryType);

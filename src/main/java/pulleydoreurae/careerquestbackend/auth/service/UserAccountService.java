@@ -179,6 +179,12 @@ public class UserAccountService implements Serializable {
 		mailService.sendMail(email, verification_url, "updateEmailForm", "취준진담 이메일 변경");
 	}
 
+	/**
+	 * 이메일 변경을 요청한 유저를 반환하는 메서드
+	 *
+	 * @param uuid 이메일 변경을 요청한 uuid
+	 * @return uuid에 해당하는 요청한 유저
+	 */
 	public ChangeUserEmail checkUpdateEmailUserIdByUuid(String uuid) {
 		Optional<ChangeUserEmail> helpUser = changeUserEmailRepository.findById(uuid);
 
@@ -190,6 +196,11 @@ public class UserAccountService implements Serializable {
 		return helpUser.get();
 	}
 
+	/**
+	 * 이메일을 변경하는 메서드
+	 *
+	 * @param changeUser 변경할 유저
+	 */
 	public void updateEmail(ChangeUserEmail changeUser) {
 		Optional<UserAccount> userAccount = userAccountRepository.findByUserId(changeUser.getUserId());
 		if (userAccount.isPresent()) {
@@ -200,10 +211,18 @@ public class UserAccountService implements Serializable {
 		changeUserEmailRepository.delete(changeUser);
 	}
 
+	/**
+	 * 회원 정보를 변경하는 메서드
+	 *
+	 * @param user	변경할 유저
+	 * @param showUserDetailsToChangeRequest 변경할 정보가 담아이는 변수
+	 */
 	public void updateDetails(UserAccount user, ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest) {
 
+		// 전화번호 변경
 		user.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
 
+		// 직무 변경
 		Optional<UserCareerDetails> careerDetails = userCareerDetailsRepository.findByUserAccount(user);
 		Optional<Careers> career = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(
 			showUserDetailsToChangeRequest.getSmallCategory(), "소분류");
@@ -220,6 +239,7 @@ public class UserAccountService implements Serializable {
 			.build();
 		userCareerDetailsRepository.save(updateUserCareerDetails);
 
+		// 기술스택 변경
 		Collections.sort(showUserDetailsToChangeRequest.getTechnologyStacks()); // 오름차순 정렬 후
 
 		if (showUserDetailsToChangeRequest.getTechnologyStacks().size() > user.getStacks()
@@ -256,6 +276,12 @@ public class UserAccountService implements Serializable {
 		userAccountRepository.save(user);
 	}
 
+	/**
+	 * 회원의 기술스택을 보여주는 메서드
+	 *
+	 * @param user 보여줄 회원
+	 * @return	기술스택의 이름이 담아있는 List를 반환
+	 */
 	public List<String> getTechnologyStack(UserAccount user) {
 		List<String> stackIds = new ArrayList<>();
 
@@ -265,21 +291,33 @@ public class UserAccountService implements Serializable {
 		return stackIds;
 	}
 
+	/**
+	 * 직무 리스트를 반환하는 메서드
+	 *
+	 * @param major 	대분류의 이름
+	 * @param middle	중분류의 이름
+	 * @return	해당하는 직무를 리스트에 담아서 반환
+	 */
 	public List<ShowCareersResponse> getCareerList(String major, String middle) {
-		List<ShowCareersResponse> careerList = new ArrayList<>();	// 직무 리스트를 담을 변수
-		if (major.isEmpty() && middle.isEmpty()) {			// 대분류, 중분류가 없으면 -> 대분류 가져오기
+		List<ShowCareersResponse> careerList = new ArrayList<>();    // 직무 리스트를 담을 변수
+		if (major.isEmpty() && middle.isEmpty()) {            // 대분류, 중분류가 없으면 -> 대분류 가져오기
 			List<Careers> majorCareersList = careerDetailsRepository.findAllByCategoryType("대분류");
 			for (Careers c : majorCareersList)
 				careerList.add(ShowCareersResponse.builder()
 					.categoryName(c.getCategoryName())
 					.categoryImage(c.getCategoryImage())
 					.build());
-		} else if (!major.isEmpty() && middle.isEmpty()) {		// 대분류가 있고 중분류가 없으면 -> 중분류 가져오기
-			Optional<Careers> majorCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(major, "대분류");	// 대분류 직무 를 변수로 가져옴
-			if (majorCareer.isPresent()) {																									// 해당 대분류가 존재하면
-				List<Careers> middleCareersList = careerDetailsRepository.findAllByCategoryType("중분류");									// 중분류 전체 리스트를 가져와서
+		} else if (!major.isEmpty() && middle.isEmpty()) {        // 대분류가 있고 중분류가 없으면 -> 중분류 가져오기
+			Optional<Careers> majorCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(major,
+				"대분류");    // 대분류 직무 를 변수로 가져옴
+			if (majorCareer.isPresent()) {                                                                                                    // 해당 대분류가 존재하면
+				List<Careers> middleCareersList = careerDetailsRepository.findAllByCategoryType(
+					"중분류");                                    // 중분류 전체 리스트를 가져와서
 				for (Careers m : middleCareersList) {
-					if (m.getParent().getCareerId().equals(majorCareer.get().getCareerId())) {												// 대분류를 부모로 가지는 중분류를 담음
+					if (m.getParent()
+						.getCareerId()
+						.equals(majorCareer.get()
+							.getCareerId())) {                                                // 대분류를 부모로 가지는 중분류를 담음
 						careerList.add(ShowCareersResponse.builder()
 							.categoryName(m.getCategoryName())
 							.categoryImage(m.getCategoryImage())
@@ -290,13 +328,19 @@ public class UserAccountService implements Serializable {
 				log.error("해당하는 중분류를 찾을 수 없습니다.");
 				throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
 			}
-		} else if(!major.isEmpty()) {		// 대분류와 중분류 모두 있으면 -> 소분류 가져오기
-			Optional<Careers> middleCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(middle, "중분류");	// 중분류를 직무로 가져오고
-			Optional<Careers> majorCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(major, "대분류");	// 대분류를 직무로 가져오고
-			if (middleCareer.isPresent() && majorCareer.isPresent()) {																		// 해당하는 대/중분류 직무가 있으면
-				List<Careers> middleCareersList = careerDetailsRepository.findAllByCategoryType("소분류");									// 소분류 리스트를 전부 가져와
+		} else if (!major.isEmpty()) {        // 대분류와 중분류 모두 있으면 -> 소분류 가져오기
+			Optional<Careers> middleCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(middle,
+				"중분류");    // 중분류를 직무로 가져오고
+			Optional<Careers> majorCareer = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(major,
+				"대분류");    // 대분류를 직무로 가져오고
+			if (middleCareer.isPresent()
+				&& majorCareer.isPresent()) {                                                                        // 해당하는 대/중분류 직무가 있으면
+				List<Careers> middleCareersList = careerDetailsRepository.findAllByCategoryType(
+					"소분류");                                    // 소분류 리스트를 전부 가져와
 				for (Careers m : middleCareersList) {
-					if (m.getParent().equals(middleCareer.get()) && m.getParent().getParent().equals(majorCareer.get())) {					// 소분류의 중분류, 대분류가 일치하는지 확인하고 담음
+					if (m.getParent().equals(middleCareer.get()) && m.getParent()
+						.getParent()
+						.equals(majorCareer.get())) {                    // 소분류의 중분류, 대분류가 일치하는지 확인하고 담음
 						careerList.add(ShowCareersResponse.builder()
 							.categoryName(m.getCategoryName())
 							.categoryImage(m.getCategoryImage())
@@ -312,10 +356,22 @@ public class UserAccountService implements Serializable {
 		return careerList;
 	}
 
+	/**
+	 * 기술스택을 검색하는 메서드
+	 *
+	 * @param keyword 검색 키워드
+	 * @return 키워드에 해당하는 기술스택을 반환
+	 */
 	public List<TechnologyStack> getTechnologyStackByKeyword(String keyword) {
 		return technologyStackRepository.findByStackNameContaining(keyword);
 	}
 
+	/**
+	 * 추가 정보를 입력했는지 확인하는 메서드
+	 *
+	 * @param user 확인할 유저
+	 * @return true: 추가정보 입력함 / false: 입력안함
+	 */
 	public boolean isAddInfoShow(UserAccount user) {
 		return !userCareerDetailsRepository.existsByUserAccount(user);
 	}
@@ -339,7 +395,8 @@ public class UserAccountService implements Serializable {
 
 	public void saveUserCareerDetail(UserAccount user, String smallCategory) {
 
-		Optional<Careers> careers = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(smallCategory, "소분류");
+		Optional<Careers> careers = careerDetailsRepository.findCareersByCategoryNameAndCategoryType(smallCategory,
+			"소분류");
 
 		if (careers.isEmpty()) {
 			log.error("해당하는 직무를 찾을 수 없습니다.");

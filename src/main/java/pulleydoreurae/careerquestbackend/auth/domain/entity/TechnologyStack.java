@@ -7,6 +7,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 기술 스택 엔티티
+ *
+ * @author : hanjaeseong
+ */
 @Entity
 @Getter
 @NoArgsConstructor
