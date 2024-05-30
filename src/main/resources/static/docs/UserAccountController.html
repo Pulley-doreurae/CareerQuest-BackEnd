@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.18">
 <title>회원가입 API (UserAccountController)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -208,10 +208,13 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -390,7 +393,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -432,118 +435,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<style>
-/*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
-.tabs {
-    margin-bottom: 1.25em;
-}
-
-.tablist > ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.tablist > ul li {
-    align-items: center;
-    background-color: #fff;
-    cursor: pointer;
-    display: flex;
-    font-weight: bold;
-    line-height: 1.5;
-    padding: 0.25em 1em;
-    position: relative;
-}
-
-.tablist > ul li:focus-visible {
-    outline: none;
-}
-
-.tablist.ulist,
-.tablist.ulist > ul li {
-    margin: 0;
-}
-
-.tablist.ulist > ul li + li {
-    margin-left: 0.25em;
-}
-
-.tabs .tablist li::after {
-    content: "";
-    display: block;
-    height: 1px;
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-}
-
-.tabs.is-loading .tablist li:not(:first-child),
-.tabs:not(.is-loading) .tablist li:not(.is-selected) {
-    background-color: #f5f5f5;
-}
-
-.tabs.is-loading .tablist li:first-child::after,
-.tabs:not(.is-loading) .tablist li.is-selected::after {
-    background-color: #fff;
-}
-
-/*
-.tabs:not(.is-loading) .tablist li,
-.tabs:not(.is-loading) .tablist li::after {
-  transition: background-color 200ms ease-in-out;
-}
-*/
-
-.tablist > ul p {
-    line-height: inherit;
-    margin: 0;
-}
-
-.tabpanel {
-    background-color: #fff;
-    padding: 1.25em;
-}
-
-.tablist > ul li,
-.tabpanel {
-    border: 1px solid #dcdcdc;
-}
-
-.tablist > ul li {
-    border-bottom: 0;
-}
-
-.tabs.is-loading .tabpanel + .tabpanel,
-.tabs:not(.is-loading) .tabpanel.is-hidden {
-    display: none;
-}
-
-.tabpanel > :first-child {
-    margin-top: 0;
-}
-
-/* #content is a signature of the Asciidoctor standalone HTML output */
-#content .tabpanel > :last-child,
-#content .tabpanel > :last-child > :last-child,
-#content .tabpanel > :last-child > :last-child > li:last-child > :last-child {
-    margin-bottom: 0;
-}
-
-.tablecontainer {
-    overflow-x: auto;
-}
-
-#content .tablecontainer {
-    margin-bottom: 1.25em;
-}
-
-#content .tablecontainer > table.tableblock {
-    margin-bottom: 0;
-}
-</style>
 </head>
 <body class="article">
 <div id="header">
@@ -560,20 +451,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=3IyK6NKvu36f85nkHbhiW_rDipqX5XrseCbZIqSzJn3mdfRA7O7v3OeaiUqywPiFeJVWPcr2p_uk10vBSBK7FcLWEEmHTc1w HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=uAdpBBUMdv__03m7K2p7BdljdekgTFdTTL9MOWr7APLDVCsFgDBaNSI1TsnStkmDHUdPN-oGWNASfWR-dd18XwmdMJHxMBNh HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 218
+Content-Length: 209
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;password&quot; : &quot;wjsansrk&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -644,7 +535,7 @@ Host: localhost:8080
 <h5 id="_응답_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -652,17 +543,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 244
+Content-Length: 235
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true,
-  &quot;msg&quot; : &quot;이메일 인증을 요청했습니다.&quot;
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true,
+  "msg" : "이메일 인증을 요청했습니다."
 }</code></pre>
 </div>
 </div>
@@ -736,20 +627,20 @@ Content-Length: 244
 <h5 id="_요청_2_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=hzWQ4s-qCzNCRNzfMSxGdbl4mTPnhdF7cfEwq6smyYFgyfBOtAyp2vzJaFVvIb-7AgFyFN9PtAuCtOJWFZNRk8oX_-cGr8gq HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=25Gd0xuFuJSa455Faeix2eWXWN-QXWntKBVdxupHjQdJbJ_o46Ol63nnj6K31Pp2CMWFu9Tzdb2oa1vAEXFkp9gmvjIrWa3Y HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 218
+Content-Length: 209
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;password&quot; : &quot;wjsansrk&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -820,7 +711,7 @@ Host: localhost:8080
 <h5 id="_응답_2_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -828,17 +719,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 244
+Content-Length: 235
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true,
-  &quot;msg&quot; : &quot;이미 존재하는 아이디입니다.&quot;
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true,
+  "msg" : "이미 존재하는 아이디입니다."
 }</code></pre>
 </div>
 </div>
@@ -912,20 +803,20 @@ Content-Length: 244
 <h5 id="_요청_3_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=f2hmJX8BVS1PqALHCJ1KqFmynHHb0s6eFVjSw6Izqdj1-jn-HA0HRh1kZh5inGT2abB-nmCEsRPosK-zLWm38pEHkb7Nwg_K HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=VTpgtn8rwiF0-DPf00eKQHQWW3cCRdOUXd80FhAar5KrVqlvY1gD1Bkc-kRZwFC-sGq-dxIhdhU7c-C5POoMJSQsmKfPZ8xc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 218
+Content-Length: 209
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;password&quot; : &quot;wjsansrk&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -996,7 +887,7 @@ Host: localhost:8080
 <h5 id="_응답_3_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1004,17 +895,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 244
+Content-Length: 235
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true,
-  &quot;msg&quot; : &quot;이미 존재하는 이메일입니다.&quot;
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true,
+  "msg" : "이미 존재하는 이메일입니다."
 }</code></pre>
 </div>
 </div>
@@ -1088,20 +979,20 @@ Content-Length: 244
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=uSG1MjwYhfcmgdMYJCR_BVey0JQTVSdZ2ChBJIKl68SPulW32EeFVA0h5pUL4OArEwlLMWSL_awjNh507xpwHbud2f3rg2SG HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=eRiyp8wUG6k4DW5KkCaRN3tk1kkhO70pRjDYVaiiHA_yy2WzHyqEwq53ep0VOFt6pQulARlU-3ETAt8EIAjuNpvGKz_HqFzV HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 216
+Content-Length: 207
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd1&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;password&quot; : &quot;wjsansrk&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd1",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -1172,7 +1063,7 @@ Host: localhost:8080
 <h5 id="_응답_4_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1180,17 +1071,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 255
+Content-Length: 246
 
 {
-  &quot;userId&quot; : &quot;hgd1&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true,
-  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\n&quot;
+  "userId" : "hgd1",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true,
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\n"
 }</code></pre>
 </div>
 </div>
@@ -1264,20 +1155,20 @@ Content-Length: 255
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=2RmLACoKLvbfzRKiXbPQNC1Z-m9wYp-zm8eIot7TbU_Yl-wG7i2yYRIzT8Py_nCRZZ7kVRk811cTAfyeo6LpmuzmX3y89Ik0 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=dJbBQNVBgu3rv5p15AZFnHFLHhZbe0OQq4kIX5N6EwaTnEu_R6SiIeN0so_GhqwW1ytxqRAqMy9oTne9m7owaqUfIzX1_S_b HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 213
+Content-Length: 204
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;password&quot; : &quot;aaa&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "password" : "aaa",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -1348,7 +1239,7 @@ Host: localhost:8080
 <h5 id="_응답_5_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1356,17 +1247,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 260
+Content-Length: 251
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true,
-  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\n&quot;
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true,
+  "msg" : "비밀번호는 8자 이상으로 입력해주세요.\n"
 }</code></pre>
 </div>
 </div>
@@ -1440,20 +1331,20 @@ Content-Length: 260
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=8_pjvXcqFHoSpWCFaagc1J4FcLEHFL12b8qO9kLZvA9OyzRew85SjhUTcEk_x1njXoUosPo8XYg_J45bX_O-wHbrjW0v_FFn HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=-ypxAtp_PkOW6Hn3lNAvZef5HcUrbzuADUBJZFyu3UgvdzzkyBpIO7lMDXK7ik6Tp_0bA9DJMP1IVgytbnV_B2WYuXkbEl6F HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 212
+Content-Length: 203
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;password&quot; : &quot;wjsansrk&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123.com",
+  "phoneNum" : "010-1111-2222",
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -1524,7 +1415,7 @@ Host: localhost:8080
 <h5 id="_응답_6_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1532,17 +1423,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 237
+Content-Length: 228
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true,
-  &quot;msg&quot; : &quot;이메일 형식만 가능합니다.\n&quot;
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123.com",
+  "phoneNum" : "010-1111-2222",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true,
+  "msg" : "이메일 형식만 가능합니다.\n"
 }</code></pre>
 </div>
 </div>
@@ -1616,20 +1507,20 @@ Content-Length: 237
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users?_csrf=qzhCamM-3tzJscl9y2UbFyzkzdho6pDJo-t5wTnjJVld-X5yyl4mDAcG77jk0v1FqUgvcU3S4OBRjKTkwtxA9gqGQTpqn01F HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users?_csrf=d0gsoJl1Vu6yxRbajo8OEs_uxTkyRc7w6vdJa0T7LFbmwkY6QypPkqhGNYyf9SPt6KI6IvqP6FgBfK3d35EsCHfDSmbV9iMD HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 214
+Content-Length: 205
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-11-22&quot;,
-  &quot;password&quot; : &quot;wjsansrk&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-11-22",
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -1700,7 +1591,7 @@ Host: localhost:8080
 <h5 id="_응답_7_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1708,17 +1599,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 256
+Content-Length: 247
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-11-22&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true,
-  &quot;msg&quot; : &quot;휴대폰 번호 형식에 맞춰 입력해주세요.\n&quot;
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-11-22",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true,
+  "msg" : "휴대폰 번호 형식에 맞춰 입력해주세요.\n"
 }</code></pre>
 </div>
 </div>
@@ -1792,7 +1683,7 @@ Content-Length: 256
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/username/testId?_csrf=JreH4WSDcMUfFyjbsAU-D7lN_Qnr4Ny1dhhUwk7xZ3ccghy9FYa_1FaxQacych2-0SgKOIx40GjZ0uuYRSAwp32QA0MrsSyE HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=NPLOwuJsEZs7vfB2lsdChQVvQntKefAsrkwyNgIwDsquMQ59VseopoEIc_gWicNC9Op2tDVbb0MuSpYBmHwCVTMCaq7MV2we HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1826,7 +1717,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_8_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1834,11 +1725,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 77
+Content-Length: 74
 
 {
-  &quot;field&quot; : &quot;testId&quot;,
-  &quot;msg&quot; : &quot;가입 가능한 아이디입니다.&quot;
+  "field" : "testId",
+  "msg" : "가입 가능한 아이디입니다."
 }</code></pre>
 </div>
 </div>
@@ -1882,7 +1773,7 @@ Content-Length: 77
 <h5 id="_요청_9_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/username/testId?_csrf=p6kAoY-BqBcPFudLUS7qzZ9BZQyQVn5ixnC49KM1R-SGmLxWnp5kwre3n3Mid4JzaQPeqKh5SDSpY0hPokWIx8EHIdOzoIhn HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/username/testId?_csrf=HBJkQiGykShaEbTOj7ZGMt9C1SBYuFGAeCQB7V8O64-eDXxOeCBQchbX9Bh3J4L3tptyBL4m-Bk5jGitGhU33Gk4376taE95 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1916,7 +1807,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_9_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -1924,11 +1815,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 80
+Content-Length: 77
 
 {
-  &quot;field&quot; : &quot;testId&quot;,
-  &quot;msg&quot; : &quot;이미 존재하는 아이디입니다.&quot;
+  "field" : "testId",
+  "msg" : "이미 존재하는 아이디입니다."
 }</code></pre>
 </div>
 </div>
@@ -1972,7 +1863,7 @@ Content-Length: 80
 <h5 id="_요청_10_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/email/test@email.com?_csrf=uOjBT0LjHYXXDGaAe3Bnx2aY6gDHBY_aA76-kX8tc8skms4h29mnLnPVeOH6blPiQ11T81L7x2KiPe33YIzY8xtMEagTqvsW HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=KzLtCpc-7ZG-rvtLebeWbrAjoVo3LIIdJQLO5ZCfirFWiqebTwLeOfRY1feTl8MvS5qiWoVCjGIBHrMwETv8g6ervoFj6JSt HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2006,7 +1897,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_10_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Disposition: inline;filename=f.txt
 Content-Type: application/json
 X-Content-Type-Options: nosniff
@@ -2015,11 +1906,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 85
+Content-Length: 82
 
 {
-  &quot;field&quot; : &quot;test@email.com&quot;,
-  &quot;msg&quot; : &quot;가입 가능한 이메일입니다.&quot;
+  "field" : "test@email.com",
+  "msg" : "가입 가능한 이메일입니다."
 }</code></pre>
 </div>
 </div>
@@ -2063,7 +1954,7 @@ Content-Length: 85
 <h5 id="_요청_11_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/email/test@email.com?_csrf=F9LQrXDEY3bf06v3U1QeGBCc-Ge8rqKRKRO9vztona6-Qp2McrCyzEn0W0Ty65nPYHkqKnP41V6OmZK8GHXc3Vhe-M-Lcavp HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/email/test@email.com?_csrf=NDj1qvRJdcikBbwxNHk-8fu2S7H2JA_te0Y0BNxjClChcn2wB13BmpYvEKuJY4hTUVQKyMKGZtDEQT_AGHANZ-VRPGmZQxmI HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2104,7 +1995,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_요청_12_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/testId?_csrf=-KJIcEm50DRYUFTseF4pFLHlmIu9FHwHitdSxK-lINSedefLyJp-Ei2BtAV1NGWNTXMdJYXRtbOELB8q77Jlpc2RGOWuEIX_ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/testId?_csrf=d0eUR8atZiaYfH1U6umAKmXkbvLBuJ-6yaREoCzv24Q0xkanFSGjdPGZVRS1GE9g38S0SwfVQ8vw3fmX8MZ0xRje6eVR9X6f HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2138,7 +2029,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_12_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2146,11 +2037,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 47
+Content-Length: 44
 
 {
-  &quot;userId&quot; : &quot;testId&quot;,
-  &quot;msg&quot; : &quot;false&quot;
+  "userId" : "testId",
+  "msg" : "false"
 }</code></pre>
 </div>
 </div>
@@ -2194,7 +2085,7 @@ Content-Length: 47
 <h5 id="_요청_13_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/testId?_csrf=xY27g-CS9NDArx13ZjTLEM2SXeEcYAO1A8A01hbNvfSa6Kewpr_Zs4P2leTtyywTAxn_dvylcIMqVmeYZaNQsCSohMGp2MTU HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/testId?_csrf=iltlReLL0p00EM8YC0V0yRaIfNztzF4xc-uqiwj19XHbr_gz6TgGc4P_6_4ZJaotMmhA8He6Ub7ZrT8cFdnPs2yXkUK-zZlQ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2228,7 +2119,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_13_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2236,11 +2127,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 47
+Content-Length: 44
 
 {
-  &quot;userId&quot; : &quot;testId&quot;,
-  &quot;msg&quot; : &quot;false&quot;
+  "userId" : "testId",
+  "msg" : "false"
 }</code></pre>
 </div>
 </div>
@@ -2284,14 +2175,14 @@ Content-Length: 47
 <h5 id="_요청_14_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=GKdt4t78MC5VQz42hPaxZoEuFgImyz-eCmgKjfqfMCbhYBJ_fsNVg-7ICB94eghX4duFArgWOzpEqg2zMg44u8uoBhfSBHQd HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers?_csrf=fGuboGykKO7h3jpwFYw9hY0GTGOGb9_U19Qbn5wqtN-1WCWWSluvlVuREIrM6wxBd6EJtelnYVuxW-r5tLV-qv4Z1eeNahSn HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 38
+Content-Length: 35
 Host: localhost:8080
 
 {
-  &quot;major&quot; : &quot;&quot;,
-  &quot;middle&quot; : &quot;&quot;
+  "major" : "",
+  "middle" : ""
 }</code></pre>
 </div>
 </div>
@@ -2332,7 +2223,7 @@ Host: localhost:8080
 <h5 id="_응답_14_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2340,17 +2231,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 265
+Content-Length: 253
 
 {
-  &quot;lists&quot; : [ {
-    &quot;categoryName&quot; : &quot;사업관리&quot;,
-    &quot;categoryImage&quot; : &quot;/major/images/0&quot;
+  "lists" : [ {
+    "categoryName" : "사업관리",
+    "categoryImage" : "/major/images/0"
   }, {
-    &quot;categoryName&quot; : &quot;경영·회계·사무&quot;,
-    &quot;categoryImage&quot; : &quot;/major/images/1&quot;
+    "categoryName" : "경영·회계·사무",
+    "categoryImage" : "/major/images/1"
   } ],
-  &quot;msg&quot; : &quot;카테고리 리스트 요청을 했습니다.&quot;
+  "msg" : "대분류 리스트 요청을 했습니다."
 }</code></pre>
 </div>
 </div>
@@ -2404,14 +2295,14 @@ Content-Length: 265
 <h5 id="_요청_15_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=kHt65vwEv2ySwbvK91I3ovr_QnfOAAQvZ01vbx4RUFmy4rQJ8x9M18ww2g-_9tj9wX8DlcOcbxWvMDQCAS9aX3wmNG_R14w4 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers?_csrf=O46DcDZ06liht1tUapAoY4D-q_5f93fkRkF3yCADjDkSswJ_Wby0FANB3j6M1G1kCL0cW-bMhp9uwETJJ3ZG-0Y0v1t00TRO HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 50
+Content-Length: 47
 Host: localhost:8080
 
 {
-  &quot;major&quot; : &quot;사업관리&quot;,
-  &quot;middle&quot; : &quot;&quot;
+  "major" : "사업관리",
+  "middle" : ""
 }</code></pre>
 </div>
 </div>
@@ -2452,7 +2343,7 @@ Host: localhost:8080
 <h5 id="_응답_15_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2460,17 +2351,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 257
+Content-Length: 245
 
 {
-  &quot;lists&quot; : [ {
-    &quot;categoryName&quot; : &quot;사업관리&quot;,
-    &quot;categoryImage&quot; : &quot;/middle/images/0&quot;
+  "lists" : [ {
+    "categoryName" : "사업관리",
+    "categoryImage" : "/middle/images/0"
   }, {
-    &quot;categoryName&quot; : &quot;기획사무&quot;,
-    &quot;categoryImage&quot; : &quot;/middle/images/1&quot;
+    "categoryName" : "기획사무",
+    "categoryImage" : "/middle/images/1"
   } ],
-  &quot;msg&quot; : &quot;카테고리 리스트 요청을 했습니다.&quot;
+  "msg" : "중분류 리스트 요청을 했습니다."
 }</code></pre>
 </div>
 </div>
@@ -2524,14 +2415,14 @@ Content-Length: 257
 <h5 id="_요청_16_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=bUEbqdyNItmdWqWrK7dYUK5kk0pUR6c5rMn50oj-ihXKE6LqXHkizLi9Ru6wap2aGppsY8hTvnMydZMUmfqd4bjGvib7JcfT HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers?_csrf=IypI2crX0zWrhymN_U_wLl5l9UGmC9i606qIYIkGj7LT5IPUQBks7v_g6gOG4xu-xGLEGjhc2COTPeqX45_rVrEx6dSx3bq2 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 62
+Content-Length: 59
 Host: localhost:8080
 
 {
-  &quot;major&quot; : &quot;사업관리&quot;,
-  &quot;middle&quot; : &quot;기획사무&quot;
+  "major" : "사업관리",
+  "middle" : "기획사무"
 }</code></pre>
 </div>
 </div>
@@ -2572,7 +2463,7 @@ Host: localhost:8080
 <h5 id="_응답_16_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2580,17 +2471,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 255
+Content-Length: 243
 
 {
-  &quot;lists&quot; : [ {
-    &quot;categoryName&quot; : &quot;경영기획&quot;,
-    &quot;categoryImage&quot; : &quot;/small/image/0&quot;
+  "lists" : [ {
+    "categoryName" : "경영기획",
+    "categoryImage" : "/small/image/0"
   }, {
-    &quot;categoryName&quot; : &quot;홍보·광고&quot;,
-    &quot;categoryImage&quot; : &quot;/small/image/1&quot;
+    "categoryName" : "홍보·광고",
+    "categoryImage" : "/small/image/1"
   } ],
-  &quot;msg&quot; : &quot;카테고리 리스트 요청을 했습니다.&quot;
+  "msg" : "소분류 리스트 요청을 했습니다."
 }</code></pre>
 </div>
 </div>
@@ -2644,14 +2535,14 @@ Content-Length: 255
 <h5 id="_요청_17_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/careers?_csrf=FhJO4AIej81YruRrdgNCHkBA_1K48Hz8vxXEzU54ZTKLzK9hJiZ3gzR97fp1z9cKFS52KyNw0mvbyUzRjyzx_XceAAru-JxZ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/careers?_csrf=cbaef7Frx21wY-M3y28L6rEeVygtVrHrhXBFMceQMyBivctQQISvHIdZpV1dB9tUqEI_idMrekoabtTGsRN2VPOnAUJT36hj HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 42
+Content-Length: 39
 Host: localhost:8080
 
 {
-  &quot;major&quot; : &quot;hi&quot;,
-  &quot;middle&quot; : &quot;hi&quot;
+  "major" : "hi",
+  "middle" : "hi"
 }</code></pre>
 </div>
 </div>
@@ -2692,7 +2583,7 @@ Host: localhost:8080
 <h5 id="_응답_17_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2700,11 +2591,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 115
+Content-Length: 112
 
 {
-  &quot;userId&quot; : null,
-  &quot;msg&quot; : &quot;[회원 - 직무 리스트 요청] 해당하는 회원직무가 없습니다.&quot;
+  "userId" : null,
+  "msg" : "[회원 - 직무 리스트 요청] 해당하는 회원직무가 없습니다."
 }</code></pre>
 </div>
 </div>
@@ -2743,14 +2634,14 @@ Content-Length: 115
 <h5 id="_요청_18_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/careers?_csrf=gc38n-0zotw33pCQY4cWbg3L6PzWMCkmswIxrG9Tz7v4rxyJuKjM-tsLm-ka6qinBaoiXzT6xZ2yVRkLizBUlF8xrtqZyn2w HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/careers?_csrf=g89N4vw0BYhhbaj0L3wYJmFWjJF0x8hEM4NKrNYrUGzG0twxsPp8g89SZ7xMWc3GF1EsQFlkoahE9K1pAOd4mrIeYVnwseoB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 61
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;testId&quot;,
-  &quot;smallCategory&quot; : &quot;경영기획&quot;
+  "userId" : "testId",
+  "smallCategory" : "경영기획"
 }</code></pre>
 </div>
 </div>
@@ -2791,7 +2682,7 @@ Host: localhost:8080
 <h5 id="_응답_18_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2799,11 +2690,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 92
+Content-Length: 89
 
 {
-  &quot;userId&quot; : &quot;testId&quot;,
-  &quot;msg&quot; : &quot;[회원 - 직무 추가] 유저 조회 실패 : {}&quot;
+  "userId" : "testId",
+  "msg" : "[회원 - 직무 추가] 유저 조회 실패 : {}"
 }</code></pre>
 </div>
 </div>
@@ -2847,14 +2738,14 @@ Content-Length: 92
 <h5 id="_요청_19_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/careers?_csrf=SV_FulGH6wx8FwzU6yb529oVYkzno5d2b6ai8QHTGWUE0BDXcDygi2e-3z5RIG3k2wvN774nT3XUkKZbDpSTlDHgLAc243Sz HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/careers?_csrf=Ezh1pKocjjV9GSuJC__Y0tBerSIs1yt86PImAlncqHUGYyS-KwoQlZx6t1BQfU-4PdLs5ORrgENO5xlR3cFFNj3smUFjARXc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 61
+Content-Length: 58
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;Id &quot;,
-  &quot;smallCategory&quot; : &quot;경영기획&quot;
+  "userId" : "Id ",
+  "smallCategory" : "경영기획"
 }</code></pre>
 </div>
 </div>
@@ -2895,7 +2786,7 @@ Host: localhost:8080
 <h5 id="_응답_19_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -2903,11 +2794,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 127
+Content-Length: 89
 
 {
-  &quot;userId&quot; : null,
-  &quot;msg&quot; : &quot;직무[소분류] 입력은 필수입니다.\\n사용자 아이디는 필수입니다.\\n&quot;
+  "userId" : "Id ",
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -2930,7 +2821,7 @@ Content-Length: 127
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청한 사용자</p></td>
 </tr>
 <tr>
@@ -2951,14 +2842,14 @@ Content-Length: 127
 <h5 id="_요청_20_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/careers?_csrf=w5oXwoVe9wbH8WUoHQLcMrUBCVJlIhVZpn4Y6R6NhYvcX83fp_8ip7VmwGPqwAAefi_oCtcyJGpXGi10w0p9233s5rq-bqnv HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/careers?_csrf=zO5qrKaNXd9rSANCuYlKP_-2J_b-kZJr_Z9eWOzmePtMX7G5-tZTmJa_bO5GcGVxiqR-CM-HCs-b96tGn_1obYqESM5-OteA HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 61
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;testId&quot;,
-  &quot;smallCategory&quot; : &quot;경영기획&quot;
+  "userId" : "testId",
+  "smallCategory" : "경영기획"
 }</code></pre>
 </div>
 </div>
@@ -2999,7 +2890,7 @@ Host: localhost:8080
 <h5 id="_응답_20_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3007,10 +2898,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 57
+Content-Length: 55
 
 {
-  &quot;msg&quot; : &quot;직무 등록에 성공하였습니다.&quot;
+  "msg" : "직무 등록에 성공하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -3049,7 +2940,7 @@ Content-Length: 57
 <h5 id="_요청_21_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/stacks?keyword=Java HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/stacks?keyword=Java HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3082,7 +2973,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_21_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3090,21 +2981,21 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 321
+Content-Length: 308
 
 {
-  &quot;lists&quot; : [ {
-    &quot;id&quot; : 0,
-    &quot;stackName&quot; : &quot;Javascript&quot;,
-    &quot;stackImage&quot; : &quot;/src/image/tech/0&quot;,
-    &quot;description&quot; : &quot;자바스크립트&quot;
+  "lists" : [ {
+    "id" : 0,
+    "stackName" : "Javascript",
+    "stackImage" : "/src/image/tech/0",
+    "description" : "자바스크립트"
   }, {
-    &quot;id&quot; : 1,
-    &quot;stackName&quot; : &quot;Java&quot;,
-    &quot;stackImage&quot; : &quot;/src/image/tech/1&quot;,
-    &quot;description&quot; : &quot;자바&quot;
+    "id" : 1,
+    "stackName" : "Java",
+    "stackImage" : "/src/image/tech/1",
+    "description" : "자바"
   } ],
-  &quot;msg&quot; : &quot;검색한 키워드 : Java&quot;
+  "msg" : "검색한 키워드 : Java"
 }</code></pre>
 </div>
 </div>
@@ -3168,7 +3059,7 @@ Content-Length: 321
 <h5 id="_요청_22_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/stacks?keyword= HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/stacks?keyword= HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3201,7 +3092,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_22_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3209,11 +3100,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 59
+Content-Length: 56
 
 {
-  &quot;lists&quot; : null,
-  &quot;msg&quot; : &quot;검색한 키워드 : &quot;
+  "lists" : null,
+  "msg" : "검색한 키워드 : "
 }</code></pre>
 </div>
 </div>
@@ -3257,14 +3148,14 @@ Content-Length: 59
 <h5 id="_요청_23_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/stacks?_csrf=yAhSvvuldQpJUp0dJdPFWlxWAKz3qTcgxCqxdcWu1GHj2xaL-Wo33MuTTDNka60sHf7xaD83Lc3Oyg4N_UmFTKHK41eA4i-_ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=tCwxq0nTzAnVVNmz-gG0_yurUiUX0Z61Ifn1HJdLICv1pM1pgx1SyH_m_Wr4bb3WnyyAmxOTfx0h6KqYEcDDKPN5Eh3ClfxY HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 69
+Content-Length: 66
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;testId&quot;,
-  &quot;stacks&quot; : [ &quot;1L&quot;, &quot;2L&quot;, &quot;3L&quot;, &quot;4L&quot; ]
+  "userId" : "testId",
+  "stacks" : [ "1L", "2L", "3L", "4L" ]
 }</code></pre>
 </div>
 </div>
@@ -3305,7 +3196,7 @@ Host: localhost:8080
 <h5 id="_응답_23_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3313,10 +3204,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 100
+Content-Length: 98
 
 {
-  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
 }</code></pre>
 </div>
 </div>
@@ -3355,14 +3246,14 @@ Content-Length: 100
 <h5 id="_요청_24_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/stacks?_csrf=eGmmpiflYI66jo8rqjkbs9pnp4A6fNIjp9ay1AXKVrfJZdCkSgjDw0HRUriXvuwenhQv1epRirheHeAOl-OA7WauN9XwXObC HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/stacks?_csrf=yizHSHYKh3VV0rbHOmRwFU6fG2lTcq-FoSFGwg_ihYjT4x7L_Bj1LU9u5BB46tf0C0lEJCr7NlBqQZyolRZ38GrSs-ng23z9 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 69
+Content-Length: 66
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;testId&quot;,
-  &quot;stacks&quot; : [ &quot;1L&quot;, &quot;2L&quot;, &quot;3L&quot;, &quot;4L&quot; ]
+  "userId" : "testId",
+  "stacks" : [ "1L", "2L", "3L", "4L" ]
 }</code></pre>
 </div>
 </div>
@@ -3403,7 +3294,7 @@ Host: localhost:8080
 <h5 id="_응답_24_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3411,10 +3302,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 57
+Content-Length: 55
 
 {
-  &quot;msg&quot; : &quot;직무 등록에 성공하였습니다.&quot;
+  "msg" : "직무 등록에 성공하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -3453,13 +3344,13 @@ Content-Length: 57
 <h5 id="_요청_25_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/password?_csrf=TOePdL42tMpQM6GZll9EQXLdJx6ZDk9Zt0rv2U6F9ja-Tqmbe9W_EIkB1vN9BpOro3JweUC_Cif6Nn50gCiJ73u3xwSNdpH4 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/password?_csrf=saTQif-o-h3Cu9ydiu5Jsw2rQPFQ9aCynaQ85ODMIYzzIclO15Pk68-QnCrvjOilucN9hjqdbZA1wZmf-JAE1ND4FrzCF612 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 27
+Content-Length: 25
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;
+  "userId" : "user_1"
 }</code></pre>
 </div>
 </div>
@@ -3495,7 +3386,7 @@ Host: localhost:8080
 <h5 id="_응답_25_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3503,11 +3394,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 81
+Content-Length: 78
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;이메일 인증을 요청했습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "이메일 인증을 요청했습니다."
 }</code></pre>
 </div>
 </div>
@@ -3551,13 +3442,13 @@ Content-Length: 81
 <h5 id="_요청_26_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/password?_csrf=wek7WtIzT40E8L6szIeKr9hzSG3m-SqmhPVUMHDNxKM6kuzZ9ogNObBRf-spwdvKqKq-muxEZVXTmBqLtZY3UUn98JIP8dvu HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/password?_csrf=IHnANclMHfpFrFepwPsz-7VDdJBQ8cAkRIkwsWVnQWgzWK5KEkCmV_suf8JomWGQ9NYHzNB6WfI0x6YJdLgHiVdWJVwKPc9_ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 27
+Content-Length: 25
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;
+  "userId" : "user_1"
 }</code></pre>
 </div>
 </div>
@@ -3593,7 +3484,7 @@ Host: localhost:8080
 <h5 id="_응답_26_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3601,10 +3492,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 100
+Content-Length: 98
 
 {
-  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
 }</code></pre>
 </div>
 </div>
@@ -3643,13 +3534,13 @@ Content-Length: 100
 <h5 id="_요청_27_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/password?_csrf=MR2yfkud4dKyIOL1OIKW9txdrVFDA8J9kSAM0CMS4nwtLgWhBSiGSn78h7efRdCXC6-iwe5tgDN7ZaNQohc5s0Akh04UHzGU HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/password?_csrf=EvYa9uRvCHG_7GtUpGC15xIWRUkARCxBX7vrFLcsTvvBkmtuc84rxtcLOBKSiQpnlk2BhSYiaHE4chhsbNjaIdZJfp_3oVNb HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 24
+Content-Length: 22
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;id &quot;
+  "userId" : "id "
 }</code></pre>
 </div>
 </div>
@@ -3685,7 +3576,7 @@ Host: localhost:8080
 <h5 id="_응답_27_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3693,11 +3584,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 92
+Content-Length: 89
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n&quot;
+  "userId" : "id ",
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -3741,7 +3632,7 @@ Content-Length: 92
 <h5 id="_요청_28_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=ECkMEhGVRYeLFujGgx0ap_JFcz9Ze1kuE8NcciFrSh-S0JjYJRBucSTwdb-mdN-k4DAunst3XgY4T2gDJfRvR0NZfHyr4Pzv HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=wdcUu1c7uQZNegfdP0FGhrc6TJX7XvR-32q7QGroL6y_9vmmoOcs3W4I2DFgTWLsD2xyv45fYffCbcNTu17dJVPcFp-JxZ2f HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3775,7 +3666,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_28_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3783,11 +3674,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 78
+Content-Length: 75
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;일치하는 계정이 있습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "일치하는 계정이 있습니다."
 }</code></pre>
 </div>
 </div>
@@ -3831,7 +3722,7 @@ Content-Length: 78
 <h5 id="_요청_29_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=81oT59UMpbcONc_YlwkEN1LbhcrtQ_gF36Yx75AG5lWI5yiAkjsg1bc8wNEjAarqryQwDzfqqPOPdZwo7p4HiqNggma81E21 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=qEYR-ENme_9gPZY7mQ48kDIwltF6YG40QMmr37Mv58DwW1KKnnQkz3YFGcdNW6IKrCMI9lFWu7NMVFsZIfub74EagqaTY2Du HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3865,7 +3756,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_29_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3873,11 +3764,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 95
 
 {
-  &quot;userId&quot; : null,
-  &quot;msg&quot; : &quot;[비밀번호 - 찾기] 일치하는 계저이 없습니다.&quot;
+  "userId" : null,
+  "msg" : "[비밀번호 - 찾기] 일치하는 계저이 없습니다."
 }</code></pre>
 </div>
 </div>
@@ -3921,14 +3812,14 @@ Content-Length: 98
 <h5 id="_요청_30_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=VcXrqN60OSjMxY9oqOidDWk3PZZR5C0UPqWtoVezloHpEfM4bPfTyuvWChDh_L5am8WpNAtUEPQy0Bs5DZWcx27S9LSIJpYB HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=6duPFw_UjHde_oBEOVyAGB9xFNVfcp4dgtI8BzPoiouL08mUjOPsJTnj6ERzz-QgCXG0LHtJOew6QPswteAINVKLvri46_Gi HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 73
+Content-Length: 70
 Host: localhost:8080
 
 {
-  &quot;password1&quot; : &quot;changePassword&quot;,
-  &quot;password2&quot; : &quot;changePassword&quot;
+  "password1" : "changePassword",
+  "password2" : "changePassword"
 }</code></pre>
 </div>
 </div>
@@ -3962,7 +3853,7 @@ Host: localhost:8080
 <h5 id="_응답_30_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -3970,11 +3861,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 80
+Content-Length: 77
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;비밀번호를 변경하였습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "비밀번호를 변경하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -4018,14 +3909,14 @@ Content-Length: 80
 <h5 id="_요청_31_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=Es9mQf68fRjDvdhXwo594g0UM5sHDeIVTfhRUHkMowRR-Z_gI60Dc8_aTijui-428KNJ1jQlHqI0NNU4L85mYkttkDdpyKqE HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=ttAFvQa4_Lv2APtWICV3BNpEXmUrtIKY10l4NWf1w3zhj_oJ0-M13jOOmY7bYp5nFAhDYL4ncwcYhOa1tXAZUwTDp03Zuss5 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 73
+Content-Length: 70
 Host: localhost:8080
 
 {
-  &quot;password1&quot; : &quot;changePassword&quot;,
-  &quot;password2&quot; : &quot;changePassword&quot;
+  "password1" : "changePassword",
+  "password2" : "changePassword"
 }</code></pre>
 </div>
 </div>
@@ -4059,7 +3950,7 @@ Host: localhost:8080
 <h5 id="_응답_31_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4067,11 +3958,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 98
+Content-Length: 95
 
 {
-  &quot;userId&quot; : null,
-  &quot;msg&quot; : &quot;[비밀번호 - 찾기] 일치하는 계저이 없습니다.&quot;
+  "userId" : null,
+  "msg" : "[비밀번호 - 찾기] 일치하는 계저이 없습니다."
 }</code></pre>
 </div>
 </div>
@@ -4110,14 +4001,14 @@ Content-Length: 98
 <h5 id="_요청_32_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=GbihE0H8qI6c4IMQAlPrQ-vzA8PBflMLDAB08P5gMjBPwfZ0LI-WJSLLzuqx1uckO37fJdPHLvqlT2ImbTMXxJpUBAJ5oMEW HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=g8QO3JZUOVgRtEDCmpAThhcC_ZbKVlmCfasB7uPo43OaqVbS4KY_7vcwCz081Xem_r0nsnNk0K-pb2CvTM80iNLfhkD_kWSz HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 53
+Content-Length: 50
 Host: localhost:8080
 
 {
-  &quot;password1&quot; : &quot;pass&quot;,
-  &quot;password2&quot; : &quot;pass&quot;
+  "password1" : "pass",
+  "password2" : "pass"
 }</code></pre>
 </div>
 </div>
@@ -4151,7 +4042,7 @@ Host: localhost:8080
 <h5 id="_응답_32_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4159,11 +4050,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 150
+Content-Length: 147
 
 {
-  &quot;userId&quot; : null,
-  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n&quot;
+  "userId" : null,
+  "msg" : "비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -4207,14 +4098,14 @@ Content-Length: 150
 <h5 id="_요청_33_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=dNJZDe39OrOHhkuDO8R0A2ePOZeQONmRhnUDTbzp-V6-VDdwROs4aNvFCdGq4yrhC-lAMlbtFPbyXb28tRQ7LISIym6ObQYS HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=bykGIYzKjsfL79_z63wn4geIg65tHqJAwDN1vu-VtCNHUqyXXB01GbqsvabmiuiV2VET0DOxrs8MesFtoQJAit_20hAhYZnx HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 67
+Content-Length: 64
 Host: localhost:8080
 
 {
-  &quot;password1&quot; : &quot;changePassword&quot;,
-  &quot;password2&quot; : &quot;password&quot;
+  "password1" : "changePassword",
+  "password2" : "password"
 }</code></pre>
 </div>
 </div>
@@ -4248,7 +4139,7 @@ Host: localhost:8080
 <h5 id="_응답_33_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4256,11 +4147,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 114
+Content-Length: 111
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -4304,14 +4195,14 @@ Content-Length: 114
 <h5 id="_요청_34_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=zc7ts0pydxqMm8bSkSRdpZ_jLNT0J500sVuJF3EraFwcju7DrqjdhitAEXyhqqLlqQlpwfvXAbaQFKoZhG66LkYcXjgpt931 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=V5oSjQySs7XM3X6XFgNDwUo_p9GpvK60I9O8khXAfn6NZQe6Zvt0uT2qhITh6xjzdC53pSlcirPI3ZaZFbHfqiL2Shy9XTaM HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 59
+Content-Length: 56
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;password&quot; : &quot;testPassword&quot;
+  "userId" : "user_1",
+  "password" : "testPassword"
 }</code></pre>
 </div>
 </div>
@@ -4352,7 +4243,7 @@ Host: localhost:8080
 <h5 id="_응답_34_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4360,11 +4251,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 78
+Content-Length: 75
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;일치하는 계정이 있습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "일치하는 계정이 있습니다."
 }</code></pre>
 </div>
 </div>
@@ -4408,14 +4299,14 @@ Content-Length: 78
 <h5 id="_요청_35_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=aLU4ipK_L7NmAQrwpP5IHiGeObIU2vLjPgJ9HTWAR806L3e3DoIMu_SJTIBLOT6TldN8e0KtFNAtucbOXzdJKlTjIfVeTBGG HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=ziNHPgdNETpARx29-MzY5XcK_lInJmgUYGl9lmBMn1TARzEBqkZxXzV_KFxtf3zfy-Hs108_02ofEQw5VA0ZrlN-_W2jIlAz HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 57
+Content-Length: 54
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user&quot;,
-  &quot;password&quot; : &quot;testPassword&quot;
+  "userId" : "user",
+  "password" : "testPassword"
 }</code></pre>
 </div>
 </div>
@@ -4456,7 +4347,7 @@ Host: localhost:8080
 <h5 id="_응답_35_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4464,11 +4355,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 93
+Content-Length: 90
 
 {
-  &quot;userId&quot; : &quot;user&quot;,
-  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n&quot;
+  "userId" : "user",
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -4512,14 +4403,14 @@ Content-Length: 93
 <h5 id="_요청_36_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=MOXc2lxErYzfQM7ZH4jR-qffC4ELTHr5rGubRPPkpaxnxfkOB4C66mwhnunycP3gKKXlmZboJuNpdBzUmVz-c8eAnJoCpJ86 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=lmJ36B-RuibqKMHedG_asKReVYCgkV7MCpAPFm_Q0PVQxPsR8wdB3Syk2RDHEafsF0Lu1MI4eLjE9GbhOaNtI1bi4pEy9s4k HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 44
+Content-Length: 41
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;password&quot; : &quot;&quot;
+  "userId" : "id ",
+  "password" : ""
 }</code></pre>
 </div>
 </div>
@@ -4560,7 +4451,7 @@ Host: localhost:8080
 <h5 id="_응답_36_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4568,11 +4459,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 138
+Content-Length: 135
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n삭제 시 비밀번호은 필수입니다.\\n&quot;
+  "userId" : "id ",
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n삭제 시 비밀번호은 필수입니다.\\n"
 }</code></pre>
 </div>
 </div>
@@ -4616,14 +4507,14 @@ Content-Length: 138
 <h5 id="_요청_37_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/delete?_csrf=1RIJa2ogiMCLkU5DSVAhgB7V83dooRXfWaX_aHYR-8vYWgVm4SBsDVJD7fempSh3eH0VuHzl3hULkXDybJydXhUkmvvpa2dR HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/delete?_csrf=Fvd2SWiCChLzJrqDU3oHTkPOxgqEAujNxFOMRITU7283GcF0d5NCKw3jOXfeE4u3YFczKHSt62u1Y9zgoGa-cbfk3FZVIaVH HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 59
+Content-Length: 56
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;password&quot; : &quot;PasswordTest&quot;
+  "userId" : "user_1",
+  "password" : "PasswordTest"
 }</code></pre>
 </div>
 </div>
@@ -4664,7 +4555,7 @@ Host: localhost:8080
 <h5 id="_응답_37_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4672,11 +4563,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 124
+Content-Length: 121
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -4720,13 +4611,13 @@ Content-Length: 124
 <h5 id="_요청_38_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/info?_csrf=FhQ41zwyLpbvLq12nVi7B_pHbhWtXa0-Si5fhJtEHO1bY7gNd3IN5QUGHfPCH8tA-HWPY8olQ3TIOZ0TKU1msP0mLo9qAoE5 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/info?_csrf=lf8TSLgquh4BT-CgRYaWvAPZYsjq2k_DpVi2Dn7HQ4dp8zRZpclwLIBI3H8sd4KYfauihTfpT_HY73juwDqGPU3_c7VRx1Jh HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 27
+Content-Length: 25
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;
+  "userId" : "user_1"
 }</code></pre>
 </div>
 </div>
@@ -4762,7 +4653,7 @@ Host: localhost:8080
 <h5 id="_응답_38_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4770,13 +4661,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 137
+Content-Length: 132
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;email&quot; : &quot;test@email.com&quot;,
-  &quot;smallCategory&quot; : &quot;소분류_1&quot;,
-  &quot;technologyStacks&quot; : [ &quot;JAVA&quot;, &quot;PHP&quot; ]
+  "userId" : "user_1",
+  "email" : "test@email.com",
+  "smallCategory" : "소분류_1",
+  "technologyStacks" : [ "JAVA", "PHP" ]
 }</code></pre>
 </div>
 </div>
@@ -4830,13 +4721,13 @@ Content-Length: 137
 <h5 id="_요청_39_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/info?_csrf=JmXpvBM-M0JQJD6MyH4zMrtQ1qJVWG-IKq9Wtwjz2cQobUqMFlDf2nYGBCF9FFjtq1MHAt41-5tnaFmlGptn0T7H4PEaWC66 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/info?_csrf=c4rl_vn1-GiryDtqYpjGTGQ9wZs-k6u2_B2vR1V72iY7bm3KRL6AnM7DwFCG_VpfAbXydFUM7KJf8ZmbmSqcITBC6kMMXgms HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 27
+Content-Length: 25
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;
+  "userId" : "user_1"
 }</code></pre>
 </div>
 </div>
@@ -4872,7 +4763,7 @@ Host: localhost:8080
 <h5 id="_응답_39_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4880,10 +4771,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 100
+Content-Length: 98
 
 {
-  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
 }</code></pre>
 </div>
 </div>
@@ -4922,13 +4813,13 @@ Content-Length: 100
 <h5 id="_요청_40_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/info?_csrf=lMFRvERpyJTykwCi6Jm_i04hAQpNb991mvcr-w1lmN-cwyZdrfg0j3RZqqffoTnHjLSLs34WLGh7XbtY-M8bnT0Hq-z48h4_ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/info?_csrf=qFkkJYFWWXJHBuI5-yMX_dxmRT3Npe-Y_zwePdtPzS20Y77Nnm4QRrgyYEdqYNUJnw4jyO1TaAT5kdq1nQ17DO58-RuCU9ys HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 24
+Content-Length: 22
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;id &quot;
+  "userId" : "id "
 }</code></pre>
 </div>
 </div>
@@ -4964,7 +4855,7 @@ Host: localhost:8080
 <h5 id="_응답_40_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -4972,11 +4863,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 92
+Content-Length: 89
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n&quot;
+  "userId" : "id ",
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -5020,17 +4911,17 @@ Content-Length: 92
 <h5 id="_요청_41_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=8-N63lEPyaWc03gExbGZpMqah434unu8vH3YXGoqJg3Eu9TEx9Ebumc-8MSx5xo1oJytwq75qrTAj0-RjkjuZV9PQ2z1iLel HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=vB9_o-y0uBierR50DxMvivwletR2eujyLArcZqOXk1zzm6KC2ihLk9-E2yGzzC5DOD4b6MsXV7UQHovfGzPtVpDx8G-Wq8G3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 174
+Content-Length: 168
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
-  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
-  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
-  &quot;password&quot; : &quot;testPassword&quot;
+  "userId" : "user_1",
+  "phoneNum" : "010-9999-8888",
+  "smallCategory" : "소분류_2",
+  "technologyStacks" : [ "C", "C#", "C++" ],
+  "password" : "testPassword"
 }</code></pre>
 </div>
 </div>
@@ -5086,7 +4977,7 @@ Host: localhost:8080
 <h5 id="_응답_41_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5094,13 +4985,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 142
+Content-Length: 137
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
-  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
-  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ]
+  "userId" : "user_1",
+  "phoneNum" : "010-9999-8888",
+  "smallCategory" : "소분류_2",
+  "technologyStacks" : [ "C", "C#", "C++" ]
 }</code></pre>
 </div>
 </div>
@@ -5154,17 +5045,17 @@ Content-Length: 142
 <h5 id="_요청_42_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=wnAlO277Ppafj8er_Danze5C8Wrhppmchrdyo6HLVcLbga1S8EJGCFjLXPSyvPDKyBuTrI173AjWx6uxsYBEwJP5Y_Pi5Jli HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=wsP0JQn9WMKcXjULv9DAmVWD6y-DSRl2q-wNBgmyIAonDOgw9fPFFmrFb_SxalY_iv30oDexxhaxfS1byo0_NWiDFz0RbYoC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 174
+Content-Length: 168
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
-  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
-  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
-  &quot;password&quot; : &quot;testPassword&quot;
+  "userId" : "user_1",
+  "phoneNum" : "010-9999-8888",
+  "smallCategory" : "소분류_2",
+  "technologyStacks" : [ "C", "C#", "C++" ],
+  "password" : "testPassword"
 }</code></pre>
 </div>
 </div>
@@ -5220,7 +5111,7 @@ Host: localhost:8080
 <h5 id="_응답_42_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5228,10 +5119,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 100
+Content-Length: 98
 
 {
-  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
 }</code></pre>
 </div>
 </div>
@@ -5270,17 +5161,17 @@ Content-Length: 100
 <h5 id="_요청_43_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=YHnRC2taRN08RXdfTAYi-E7XVtQA7nWm_W_c8CY2-b_UbDvuUkHobVI8drsRdBFodCsWyX7le7VhjEeLxQzvwRRSm9zlXg6K HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=hEG-x6fjWxo6ACqbQwiGTITYzo_nwfMUPWK52leHaJTutkSPtXmH8ZGAaSwXYx-udiWyf7G-4-3To8o5ClHcuDTmX_Xa0Hzu HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 153
+Content-Length: 147
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;phoneNum&quot; : &quot;010-9-8&quot;,
-  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
-  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
-  &quot;password&quot; : &quot;&quot;
+  "userId" : "id ",
+  "phoneNum" : "010-9-8",
+  "smallCategory" : "소분류_2",
+  "technologyStacks" : [ "C", "C#", "C++" ],
+  "password" : ""
 }</code></pre>
 </div>
 </div>
@@ -5336,7 +5227,7 @@ Host: localhost:8080
 <h5 id="_응답_43_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5344,11 +5235,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 207
+Content-Length: 204
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;msg&quot; : &quot;휴대폰 번호 형식에 맞춰 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n&quot;
+  "userId" : "id ",
+  "msg" : "회원정보 수정 시 비밀번호는 필수입니다.\\n휴대폰 번호 형식에 맞춰 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -5392,17 +5283,17 @@ Content-Length: 207
 <h5 id="_요청_44_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/info?_csrf=ExKZulG4kQN64TBAPnF3OUxsbk5r4h5GJnZMsKP7-Mha2kjBJSP_3zCJojpX1gIiD1xDAS5ZQy9dgC1rRBJ7gZGYzq5q43mn HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/info?_csrf=5CtuwQT7GAPMxXjHx-k86CDJ6yYhFZGD-rwv_VZWxv-woC9XhU8P8TDLembh_U2m9cQI2xj7xh9CIaauzt8cxWIzp5nSlBZu HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 170
+Content-Length: 164
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;phoneNum&quot; : &quot;010-9999-8888&quot;,
-  &quot;smallCategory&quot; : &quot;소분류_2&quot;,
-  &quot;technologyStacks&quot; : [ &quot;C&quot;, &quot;C#&quot;, &quot;C++&quot; ],
-  &quot;password&quot; : &quot;password&quot;
+  "userId" : "user_1",
+  "phoneNum" : "010-9999-8888",
+  "smallCategory" : "소분류_2",
+  "technologyStacks" : [ "C", "C#", "C++" ],
+  "password" : "password"
 }</code></pre>
 </div>
 </div>
@@ -5458,7 +5349,7 @@ Host: localhost:8080
 <h5 id="_응답_44_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5466,11 +5357,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 70
+Content-Length: 67
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;비밀번호가 다릅니다&quot;
+  "userId" : "user_1",
+  "msg" : "비밀번호가 다릅니다"
 }</code></pre>
 </div>
 </div>
@@ -5514,16 +5405,16 @@ Content-Length: 70
 <h5 id="_요청_45_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=Z6ONt0Fo0pWj43Gdxy3YAV3m4VUMQPAT7cysqY9aSltXIWPwBce01CVQ5qOO1Rer8ADsMmrRzDduIsk-3vybmOpiLD8zRAbB HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=rRMOZYfG414A3EeAvev8gxq4O2UN9f9JmFodp4ajiTW02oCPniI8UbLygWwt5Xfm3sbIs3uIFl01wZ5krjkpw7KVvVCEv-K- HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 136
+Content-Length: 131
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;currentPassword&quot; : &quot;testPassword&quot;,
-  &quot;newPassword1&quot; : &quot;newPassword&quot;,
-  &quot;newPassword2&quot; : &quot;newPassword&quot;
+  "userId" : "user_1",
+  "currentPassword" : "testPassword",
+  "newPassword1" : "newPassword",
+  "newPassword2" : "newPassword"
 }</code></pre>
 </div>
 </div>
@@ -5574,7 +5465,7 @@ Host: localhost:8080
 <h5 id="_응답_45_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5582,11 +5473,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 80
+Content-Length: 77
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;비밀번호를 변경하였습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "비밀번호를 변경하였습니다."
 }</code></pre>
 </div>
 </div>
@@ -5630,16 +5521,16 @@ Content-Length: 80
 <h5 id="_요청_46_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=gnSl4DKgLcqs7yFHh82BmfVlSXW29iSJGYfc6WgnUR-aLK5Nu0XEhFOTGfqB2kd3v-C1-8JQZBTVxhKkeLK4jFtDaCr5GJx8 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=bGSOZU1ArHRJDKjbs82ysO3R1fQeU-aLRgMSHmNQVPxNhJvxXwW9XH4myhFkNMu-1uCG0onl-JZ8at-mc2YgKgY2MZ1-5v_C HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 136
+Content-Length: 131
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;currentPassword&quot; : &quot;testPassword&quot;,
-  &quot;newPassword1&quot; : &quot;newPassword&quot;,
-  &quot;newPassword2&quot; : &quot;newPassword&quot;
+  "userId" : "user_1",
+  "currentPassword" : "testPassword",
+  "newPassword1" : "newPassword",
+  "newPassword2" : "newPassword"
 }</code></pre>
 </div>
 </div>
@@ -5690,7 +5581,7 @@ Host: localhost:8080
 <h5 id="_응답_46_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5698,10 +5589,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 100
+Content-Length: 98
 
 {
-  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
 }</code></pre>
 </div>
 </div>
@@ -5740,16 +5631,16 @@ Content-Length: 100
 <h5 id="_요청_47_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=ZCLijzCcfo7IDQ36RsOh0ogKzj6LNJXRK0EjfSfKhHzKQws-VRTR6QmoSOrlbzmfJO6Vsbg_4wezBvb8T3VFGESptEr6cD8O HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=0InNG_CUYa5YIjwDK64ZzIFE2swTJqUHbR-QF-KU_1iTVQcI4rH0K8TxWJZ1F1k1GIMt-eIh960kEJUqWS-pI9vyzTnwNzM_ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 107
+Content-Length: 102
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;currentPassword&quot; : &quot;&quot;,
-  &quot;newPassword1&quot; : &quot;word&quot;,
-  &quot;newPassword2&quot; : &quot;word&quot;
+  "userId" : "id ",
+  "currentPassword" : "",
+  "newPassword1" : "word",
+  "newPassword2" : "word"
 }</code></pre>
 </div>
 </div>
@@ -5800,7 +5691,7 @@ Host: localhost:8080
 <h5 id="_응답_47_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5808,11 +5699,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 263
+Content-Length: 260
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n아이디는 5자 이상으로 입력해주세요.\\n&quot;
+  "userId" : "id ",
+  "msg" : "비밀번호는 8자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n"
 }</code></pre>
 </div>
 </div>
@@ -5856,16 +5747,16 @@ Content-Length: 263
 <h5 id="_요청_48_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=1s9lEtLoFDpaA1QdlZ28YCL-S3JOUdmW87MdM5RLmP5ApVljs6lRI-PbcV53ZzB7rLCIURCYZkooN-u7w4J8UqMqrclzljpa HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=zTrqHWIXWzfMkmGajDaYzKAhmK4GNl9wGWNkrZGpXA6pvxYr-QrYLgQuaQLhqgKjuBus_cURtcwyB21dewVdlaWePjrIjXca HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 132
+Content-Length: 127
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;currentPassword&quot; : &quot;password&quot;,
-  &quot;newPassword1&quot; : &quot;newPassword&quot;,
-  &quot;newPassword2&quot; : &quot;newPassword&quot;
+  "userId" : "user_1",
+  "currentPassword" : "password",
+  "newPassword1" : "newPassword",
+  "newPassword2" : "newPassword"
 }</code></pre>
 </div>
 </div>
@@ -5916,7 +5807,7 @@ Host: localhost:8080
 <h5 id="_응답_48_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -5924,11 +5815,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 124
+Content-Length: 121
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "본인확인 비밀번호 계정 비밀번호가 서로 일치하지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -5972,16 +5863,16 @@ Content-Length: 124
 <h5 id="_요청_49_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/password?_csrf=QVRlydGz7YaPbBYfLoGM34QlmOR5rD64CIkL4DnABCzI2TRPd2xV8ObVib6iCSUrFqy4vL0StYYcmFiVPL4_1Q72Mhr47AAt HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/password?_csrf=srd41fNEHIMGWj4UfjAR4S64xDVQRbHWjlmV5d-n1nhNUGgChI4dtMonf7QrbFp1SB0l2Bzb6VdhcoD7ujz3g-nBtRx1ZQo0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 133
+Content-Length: 128
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;currentPassword&quot; : &quot;testPassword&quot;,
-  &quot;newPassword1&quot; : &quot;Password&quot;,
-  &quot;newPassword2&quot; : &quot;newPassword&quot;
+  "userId" : "user_1",
+  "currentPassword" : "testPassword",
+  "newPassword1" : "Password",
+  "newPassword2" : "newPassword"
 }</code></pre>
 </div>
 </div>
@@ -6032,7 +5923,7 @@ Host: localhost:8080
 <h5 id="_응답_49_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6040,11 +5931,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 134
+Content-Length: 131
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;새로운 비밀번호와 새로운 비밀번호 확인이 서로 일치하지 않습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "새로운 비밀번호와 새로운 비밀번호 확인이 서로 일치하지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -6088,14 +5979,14 @@ Content-Length: 134
 <h5 id="_요청_50_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/email?_csrf=AU1i-nzCX0q0a718WGWAmjDz2EGg7jngVtwzcSZBsHH2EmR6OHtQmx71O3qZCYlLbUi0qQeV9XjBi1_NNetWQ0J10xKVIQdM HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/email?_csrf=6Go0ofNn9tuDG6se8YVuH2te1bUWZRt1D-ga0pKlKuCk2kr03l8Gk8tUl76uKpkvw6haeV87-NRzUCJYa98rsKecH9mVuC6S HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 60
+Content-Length: 57
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;email&quot; : &quot;newTest@test.com&quot;
+  "userId" : "user_1",
+  "email" : "newTest@test.com"
 }</code></pre>
 </div>
 </div>
@@ -6136,7 +6027,7 @@ Host: localhost:8080
 <h5 id="_응답_50_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6144,11 +6035,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 105
+Content-Length: 102
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;변경할 이메일 주소로 인증 메일을 보냈습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "변경할 이메일 주소로 인증 메일을 보냈습니다."
 }</code></pre>
 </div>
 </div>
@@ -6192,14 +6083,14 @@ Content-Length: 105
 <h5 id="_요청_51_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/email?_csrf=BgWsFzbOebbTKxXP3s9csmPtlAKqOwqmAQmbvdb0zkWYrjzMMDKVcQKsG4H-HCH_7OJo01SPuTrMWTKLODj4hbTM_3T-n170 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/email?_csrf=lCduiGbAeHweT3NZGpwlJ9r6ysjOLx4kfyiCcFTwhdfcZHwIoBAN6lKmGUwzK0ZuebEREO-Z56mtHX0JShG0RGOW5LHvVk05 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 60
+Content-Length: 57
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;email&quot; : &quot;newTest@test.com&quot;
+  "userId" : "user_1",
+  "email" : "newTest@test.com"
 }</code></pre>
 </div>
 </div>
@@ -6240,7 +6131,7 @@ Host: localhost:8080
 <h5 id="_응답_51_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6248,10 +6139,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 100
+Content-Length: 98
 
 {
-  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
 }</code></pre>
 </div>
 </div>
@@ -6290,14 +6181,14 @@ Content-Length: 100
 <h5 id="_요청_52_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/details/email?_csrf=hKUER7ilMob4WXmsolc735FoKlycultGLkkSN7BL3Iagxw9ht5c2c4mXULfVPBzJk3oPvPMKBz2q3z5rGXohVId47eSQ8D1R HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/details/email?_csrf=igUDfWdCQbTN5TV3vdfB7sWCT_j1NqyAgZUmvIhQSkkHqbIqvGY1GwFxdIDg0lBHhPr13KSwYprEBpqtsPZChb01KHllz4JO HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 48
+Content-Length: 45
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;email&quot; : &quot;newTest&quot;
+  "userId" : "id ",
+  "email" : "newTest"
 }</code></pre>
 </div>
 </div>
@@ -6338,7 +6229,7 @@ Host: localhost:8080
 <h5 id="_응답_52_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6346,11 +6237,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 131
+Content-Length: 128
 
 {
-  &quot;userId&quot; : &quot;id &quot;,
-  &quot;msg&quot; : &quot;아이디는 5자 이상으로 입력해주세요.\\n이메일 형식만 가능합니다.\\n&quot;
+  "userId" : "id ",
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n이메일 형식만 가능합니다.\\n"
 }</code></pre>
 </div>
 </div>
@@ -6394,7 +6285,7 @@ Content-Length: 131
 <h5 id="_요청_53_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=k9IE7XeUDGgjwpSaLaoP9lIb0Jj0RSjatnUurCsRaMaAeecgoeJm1BGiOFwO9Kb_G4c7wmZ-_aCQIEv30EUbmxpyUfO0TdcW HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=LXsfTwqcsvYs5Zt5VfvrG-uIFnGPNGIu1Z8nGS_pnHWWUoOOGR0ndmz5h84Bh_kaMNbfLtrrO0m8UFoDt_wXLBrZr0D1aua3 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -6428,7 +6319,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_53_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6436,11 +6327,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 74
+Content-Length: 71
 
 {
-  &quot;userId&quot; : &quot;user_1&quot;,
-  &quot;msg&quot; : &quot;이메일을 변경했습니다.&quot;
+  "userId" : "user_1",
+  "msg" : "이메일을 변경했습니다."
 }</code></pre>
 </div>
 </div>
@@ -6484,7 +6375,7 @@ Content-Length: 74
 <h5 id="_요청_54_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=GqzEwS7erHjAW24e3sFDXoDrgafa9PcBeszObs9E4BpRzUB_LZ_y8xa6mRrtOlcp5ux3ZuHSrJ7ul5MsHKn9Wvxx1ill-CNI HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=oaEy2KyfoA5ocIB0oSs8MqEazsevV_af6VxL0GmOdfGE_R0ZkcIFvMn6xDlFReYWxwYICsAt4_-eM5Oyj2lztly9EZLini9_ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -6518,7 +6409,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_54_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6526,10 +6417,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 100
+Content-Length: 98
 
 {
-  &quot;msg&quot; : &quot;예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.&quot;
+  "msg" : "예상치 못한 오류가 발생했습니다. 관리자에게 문의해주세요."
 }</code></pre>
 </div>
 </div>
@@ -6568,20 +6459,20 @@ Content-Length: 100
 <h5 id="_요청_55_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/email?_csrf=Uu_r9vXiP_Tn7Do0yWc9Td0RfDb5EHzHD5ZobURCHteeFaTIN9yPw8TXDc3KiVlX_EoJLOpwUQ_PJE7qN6VdXXR2KrGqIcfw HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/email?_csrf=AjWPm4BOU5IZ9v6hSUino4BAQx8avzkU_FRIkvd1oByjQa4yM1C5-bF-ZKE0xsfDK2WTxrclbn152gg5mWV58ZZFkSyUd5ZQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 218
+Content-Length: 209
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd123&quot;,
-  &quot;userName&quot; : &quot;홍길동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver.com&quot;,
-  &quot;phoneNum&quot; : &quot;010-1111-2222&quot;,
-  &quot;password&quot; : &quot;wjsansrk&quot;,
-  &quot;birth&quot; : &quot;00-01-01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : true
+  "userId" : "hgd123",
+  "userName" : "홍길동",
+  "email" : "hgd123@naver.com",
+  "phoneNum" : "010-1111-2222",
+  "password" : "wjsansrk",
+  "birth" : "00-01-01",
+  "gender" : "M",
+  "isMarketed" : true
 }</code></pre>
 </div>
 </div>
@@ -6652,7 +6543,7 @@ Host: localhost:8080
 <h5 id="_응답_55_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6660,10 +6551,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 69
+Content-Length: 67
 
 {
-  &quot;msg&quot; : &quot;이메일 인증을 재전송을 요청했습니다&quot;
+  "msg" : "이메일 인증을 재전송을 요청했습니다"
 }</code></pre>
 </div>
 </div>
@@ -6702,20 +6593,20 @@ Content-Length: 69
 <h5 id="_요청_56_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/users/email?_csrf=z0G4r2WhUIzA6YqpPRb-icJuEbsnEWvJy4Sit8HV9ZtYu3d-qiWLn1eWNrrt3-7ICjvK6vZXPNlCIVnk-LaU1PngkKtqi0Af HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/users/email?_csrf=m84KKUW2U4k_3_ItnM4YugPB5dyWEkCWnwCmK9lXK1IirvGo-aw5EHaCZb8S68VIqeMsimajyOWjJ3G7qmKSSL80GWcWnsGf HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 207
+Content-Length: 198
 Host: localhost:8080
 
 {
-  &quot;userId&quot; : &quot;hgd&quot;,
-  &quot;userName&quot; : &quot;홍 길 동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver&quot;,
-  &quot;phoneNum&quot; : &quot;01011112222&quot;,
-  &quot;password&quot; : &quot;wjsa&quot;,
-  &quot;birth&quot; : &quot;00 01 01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : null
+  "userId" : "hgd",
+  "userName" : "홍 길 동",
+  "email" : "hgd123@naver",
+  "phoneNum" : "01011112222",
+  "password" : "wjsa",
+  "birth" : "00 01 01",
+  "gender" : "M",
+  "isMarketed" : null
 }</code></pre>
 </div>
 </div>
@@ -6786,7 +6677,7 @@ Host: localhost:8080
 <h5 id="_응답_56_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 400 Bad Request
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -6794,17 +6685,17 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 405
+Content-Length: 396
 
 {
-  &quot;userId&quot; : &quot;hgd&quot;,
-  &quot;userName&quot; : &quot;홍 길 동&quot;,
-  &quot;email&quot; : &quot;hgd123@naver&quot;,
-  &quot;phoneNum&quot; : &quot;01011112222&quot;,
-  &quot;birth&quot; : &quot;00 01 01&quot;,
-  &quot;gender&quot; : &quot;M&quot;,
-  &quot;isMarketed&quot; : null,
-  &quot;msg&quot; : &quot;비밀번호는 8자 이상으로 입력해주세요.\n아이디는 5자 이상으로 입력해주세요.\n마케팅 수신 여부는 필수입니다.\n휴대폰 번호 형식에 맞춰 입력해주세요.\n&quot;
+  "userId" : "hgd",
+  "userName" : "홍 길 동",
+  "email" : "hgd123@naver",
+  "phoneNum" : "01011112222",
+  "birth" : "00 01 01",
+  "gender" : "M",
+  "isMarketed" : null,
+  "msg" : "마케팅 수신 여부는 필수입니다.\n아이디는 5자 이상으로 입력해주세요.\n비밀번호는 8자 이상으로 입력해주세요.\n휴대폰 번호 형식에 맞춰 입력해주세요.\n"
 }</code></pre>
 </div>
 </div>
@@ -6875,137 +6766,9 @@ Content-Length: 405
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-05-28 05:32:13 +0900
+Version 0.0.1-SNAPSHOT<br>
+Last updated 2024-05-29 20:11:19 +0900
 </div>
 </div>
-<script>
-;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
-  'use strict'
-
-  var config = (document.currentScript || {}).dataset || {}
-  var forEach = Array.prototype.forEach
-
-  init(document.querySelectorAll('.tabs'))
-
-  function init (tabsBlocks) {
-    if (!tabsBlocks.length) return
-    forEach.call(tabsBlocks, function (tabs) {
-      var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
-      var tablist = tabs.querySelector('.tablist ul')
-      tablist.setAttribute('role', 'tablist')
-      var start
-      forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
-        tab.tabIndex = -1
-        tab.setAttribute('role', tab.classList.add('tab') || 'tab')
-        var id, anchor, syncId
-        if (!(id = tab.id) && (anchor = tab.querySelector('a[id]'))) {
-          id = tab.id = anchor.parentNode.removeChild(anchor).id
-        }
-        var panel = id && tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
-        if (!panel) return idx ? undefined : toggleSelected(tab, true) // invalid state
-        syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
-        (syncIds[(tab.dataset.syncId = syncId)] = tab)
-        idx || (syncIds && (start = { tab: tab, panel: panel })) ? toggleHidden(panel, true) : toggleSelected(tab, true)
-        tab.setAttribute('aria-controls', panel.id)
-        panel.setAttribute('role', 'tabpanel')
-        var onClick = syncId === undefined ? activateTab : activateTabSync
-        tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
-      })
-      if (!tabs.closest('.tabpanel')) {
-        forEach.call(tabs.querySelectorAll('.tabpanel table.tableblock'), function (table) {
-          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
-          table.parentNode.insertBefore(container, table).appendChild(table)
-        })
-      }
-      if (start) {
-        var syncGroupId
-        for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
-          if (!(className = lst.item(i)).startsWith('data-sync-group-id=')) continue
-          tabs.dataset.syncGroupId = syncGroupId = lst.remove(className) || className.slice(19).replace(/\u00a0/g, ' ')
-          break
-        }
-        if (syncGroupId === undefined) tabs.dataset.syncGroupId = syncGroupId = Object.keys(syncIds).sort().join('|')
-        var preferredSyncId = 'syncStorageKey' in config &&
-          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
-        var tab = preferredSyncId && syncIds[preferredSyncId]
-        tab && Object.assign(start, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
-        toggleSelected(start.tab, true) || toggleHidden(start.panel, false)
-      }
-    })
-    onHashChange()
-    toggleClassOnEach(tabsBlocks, 'is-loading', 'remove')
-    window.setTimeout(toggleClassOnEach.bind(null, tabsBlocks, 'is-loaded', 'add'), 0)
-    window.addEventListener('hashchange', onHashChange)
-  }
-
-  function activateTab (e) {
-    var tab = this.tab
-    var tabs = this.tabs || (this.tabs = tab.closest('.tabs'))
-    var panel = this.panel || (this.panel = document.getElementById(tab.getAttribute('aria-controls')))
-    querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (el) {
-      toggleSelected(el, el === tab)
-    })
-    querySelectorWithSiblings(tabs, '.tabpanel', 'tabpanel').forEach(function (el) {
-      toggleHidden(el, el !== panel)
-    })
-    if (!this.isSync && 'syncStorageKey' in config && 'syncGroupId' in tabs.dataset) {
-      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroupId
-      window[(config.syncStorageScope || 'local') + 'Storage'].setItem(storageKey, tab.dataset.syncId)
-    }
-    if (!e) return
-    var loc = window.location
-    var hashIdx = loc.hash ? loc.href.indexOf('#') : -1
-    if (~hashIdx) window.history.replaceState(null, '', loc.href.slice(0, hashIdx))
-    e.preventDefault()
-  }
-
-  function activateTabSync (e) {
-    activateTab.call(this, e)
-    var thisTabs = this.tabs
-    var thisTab = this.tab
-    var initialY = thisTabs.getBoundingClientRect().y
-    forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
-      if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
-      querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (tab) {
-        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
-      })
-    })
-    var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
-    if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
-  }
-
-  function querySelectorWithSiblings (scope, selector, siblingClass) {
-    var el = scope.querySelector(selector)
-    if (!el) return []
-    var result = [el]
-    while ((el = el.nextElementSibling) && el.classList.contains(siblingClass)) result.push(el)
-    return result
-  }
-
-  function toggleClassOnEach (elements, className, method) {
-    forEach.call(elements, function (el) {
-      el.classList[method](className)
-    })
-  }
-
-  function toggleHidden (el, state) {
-    el.classList[(el.hidden = state) ? 'add' : 'remove']('is-hidden')
-  }
-
-  function toggleSelected (el, state) {
-    el.setAttribute('aria-selected', '' + state)
-    el.classList[state ? 'add' : 'remove']('is-selected')
-    el.tabIndex = state ? 0 : -1
-  }
-
-  function onHashChange () {
-    var id = window.location.hash.slice(1)
-    if (!id) return
-    var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
-    if (!(tab && tab.classList.contains('tab'))) return
-    'syncId' in tab.dataset ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
-  }
-})()
-</script>
 </body>
 </html>
