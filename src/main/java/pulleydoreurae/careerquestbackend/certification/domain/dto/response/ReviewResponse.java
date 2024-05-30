@@ -19,6 +19,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class ReviewResponse {
 
+	private Long reviewId;
 	private String userId; // 작성자
 	private String title; // 제목
 	private String content; // 내용

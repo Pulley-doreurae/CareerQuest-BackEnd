@@ -19,6 +19,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class CommentResponse {
 
+	private Long commentId;
 	private String userId;
 	private Long postId;
 	private String content;

@@ -22,6 +22,7 @@ import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 @EqualsAndHashCode
 public class PostResponse {
 
+	private Long postId; // 게시글 id
 	private String userId; // 작성자
 	private String title; // 제목
 	private String content; // 내용

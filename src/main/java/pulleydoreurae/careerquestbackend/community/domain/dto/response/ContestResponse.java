@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class ContestResponse {
 
+	private Long contestId; // 공모전 id
 	private String contestCategory; // 공모전 분야 -> enum으로 변경 가능할듯?
 	private String target; // 대상 -> enum으로 변경 가능할듯?
 	private String region; // 개최지역
