@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import pulleydoreurae.careerquestbackend.certification.domain.entity.UserCertification;
 
@@ -21,4 +22,8 @@ public interface UserCertificationRepository extends JpaRepository<UserCertifica
 
 	@Query("select uc from UserCertification uc where uc.certification.certificationName = :certificationName")
 	List<UserCertification> findByCertificationName(String certificationName);
+
+	@Query("select uc from UserCertification uc where uc.certification.certificationName = :certificationName and uc.userAccount.userId = :userId")
+	Optional<UserCertification> findByCertificationNameAndUserId(@Param("certificationName") String certificationName,
+			@Param("userId") String userId);
 }
