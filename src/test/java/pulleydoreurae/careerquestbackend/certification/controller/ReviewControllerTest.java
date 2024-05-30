@@ -54,26 +54,31 @@ class ReviewControllerTest {
 	void getReviewListTest() throws Exception {
 		// Given
 		ReviewResponse review1 = ReviewResponse.builder()
+				.reviewId(100L)
 				.userId("testId").title("제목1").content("내용1").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review2 = ReviewResponse.builder()
+				.reviewId(101L)
 				.userId("testId").title("제목2").content("내용2").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review3 = ReviewResponse.builder()
+				.reviewId(102L)
 				.userId("testId").title("제목3").content("내용3").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review4 = ReviewResponse.builder()
+				.reviewId(103L)
 				.userId("testId").title("제목4").content("내용4").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review5 = ReviewResponse.builder()
+				.reviewId(104L)
 				.userId("testId").title("제목5").content("내용5").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
@@ -95,6 +100,7 @@ class ReviewControllerTest {
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
 						responseFields(
+								fieldWithPath("[].reviewId").description("리뷰 id"),
 								fieldWithPath("[].userId").description("후기 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
@@ -115,26 +121,31 @@ class ReviewControllerTest {
 	void getReviewListByCertificationNameTest() throws Exception {
 		// Given
 		ReviewResponse review1 = ReviewResponse.builder()
+				.reviewId(100L)
 				.userId("testId").title("제목1").content("내용1").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review2 = ReviewResponse.builder()
+				.reviewId(101L)
 				.userId("testId").title("제목2").content("내용2").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review3 = ReviewResponse.builder()
+				.reviewId(102L)
 				.userId("testId").title("제목3").content("내용3").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review4 = ReviewResponse.builder()
+				.reviewId(103L)
 				.userId("testId").title("제목4").content("내용4").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review5 = ReviewResponse.builder()
+				.reviewId(104L)
 				.userId("testId").title("제목5").content("내용5").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
@@ -160,6 +171,7 @@ class ReviewControllerTest {
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
 						responseFields(
+								fieldWithPath("[].reviewId").description("리뷰 id"),
 								fieldWithPath("[].userId").description("후기 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
@@ -382,26 +394,31 @@ class ReviewControllerTest {
 	void getReviewListByUserAccountTest() throws Exception {
 		// Given
 		ReviewResponse review1 = ReviewResponse.builder()
+				.reviewId(100L)
 				.userId("testId").title("제목1").content("내용1").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review2 = ReviewResponse.builder()
+				.reviewId(101L)
 				.userId("testId").title("제목2").content("내용2").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review3 = ReviewResponse.builder()
+				.reviewId(102L)
 				.userId("testId").title("제목3").content("내용3").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review4 = ReviewResponse.builder()
+				.reviewId(103L)
 				.userId("testId").title("제목4").content("내용4").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
 		ReviewResponse review5 = ReviewResponse.builder()
+				.reviewId(104L)
 				.userId("testId").title("제목5").content("내용5").certificationName("정보처리기사").view(0L).postLikeCount(0L)
 				.isLiked(false).createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
@@ -426,6 +443,7 @@ class ReviewControllerTest {
 								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
 						),
 						responseFields(
+								fieldWithPath("[].reviewId").description("리뷰 id"),
 								fieldWithPath("[].userId").description("후기 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),
