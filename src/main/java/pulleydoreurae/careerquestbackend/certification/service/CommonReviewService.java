@@ -132,6 +132,7 @@ public class CommonReviewService {
 	 */
 	public ReviewResponse reviewToReviewResponse(Review review, Boolean isLiked) {
 		return ReviewResponse.builder()
+				.reviewId(review.getId())
 				.userId(review.getUserAccount().getUserId())
 				.title(review.getTitle())
 				.content(review.getContent())
