@@ -91,4 +91,19 @@ class UserCertificationRepositoryTest {
 		assertEquals("testId2", result.get(1).getUserAccount().getUserId());
 		assertEquals("testId3", result.get(2).getUserAccount().getUserId());
 	}
+
+	@Test
+	@DisplayName("자격증 이름과 userId로 취득 자격증을 가져오는 테스트")
+	void findByCertificationNameAndUserIdTest() {
+	    // Given
+
+	    // When
+		UserCertification result = userCertificationRepository.findByCertificationNameAndUserId("정보처리기사",
+				"testId1").get();
+
+		// Then
+		assertEquals("정보처리기사", result.getCertification().getCertificationName());
+		assertEquals("testId1", result.getUserAccount().getUserId());
+		assertEquals(LocalDate.of(2024, 1, 1), result.getAcqDate());
+	}
 }
