@@ -46,9 +46,6 @@ import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyS
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.Careers;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.MajorCareers;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.MiddleCareers;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.SmallCareers;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.TechnologyStack;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
@@ -741,8 +738,8 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showMajorCareersSuccessTest() throws Exception{
 		// Given
-		MajorCareers majorCareers1 = MajorCareers.builder().id(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
-		MajorCareers majorCareers2 = MajorCareers.builder().id(1L).categoryName("경영·회계·사무").categoryType("대분류").categoryImage("/major/images/1").build();
+		Careers majorCareers1 = Careers.builder().careerId(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
+		Careers majorCareers2 = Careers.builder().careerId(1L).categoryName("경영·회계·사무").categoryType("대분류").categoryImage("/major/images/1").build();
 
 		List<ShowCareersResponse> majorList = Arrays.asList(ShowCareersResponse.builder().categoryName(majorCareers1.getCategoryName()).categoryImage(majorCareers1.getCategoryImage()).build(),
 			ShowCareersResponse.builder().categoryName(majorCareers2.getCategoryName()).categoryImage(majorCareers2.getCategoryImage()).build());
@@ -782,10 +779,10 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showMiddleCareersSuccessTest() throws Exception{
 		// Given
-		MajorCareers majorCareers1 = MajorCareers.builder().id(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
+		Careers majorCareers1 = Careers.builder().careerId(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
 
-		MiddleCareers middleCareers1 = MiddleCareers.builder().id(0L).categoryName("사업관리").categoryType("중분류").categoryImage("/middle/images/0").majorCategory(majorCareers1).build();
-		MiddleCareers middleCareers2 = MiddleCareers.builder().id(1L).categoryName("기획사무").categoryType("중분류").categoryImage("/middle/images/1").majorCategory(majorCareers1).build();
+		Careers middleCareers1 = Careers.builder().careerId(1L).categoryName("사업관리").categoryType("중분류").categoryImage("/middle/images/0").parent(majorCareers1).build();
+		Careers middleCareers2 = Careers.builder().careerId(2L).categoryName("기획사무").categoryType("중분류").categoryImage("/middle/images/1").parent(majorCareers1).build();
 
 		List<ShowCareersResponse> middleList = Arrays.asList(ShowCareersResponse.builder().categoryName(middleCareers1.getCategoryName()).categoryImage(middleCareers1.getCategoryImage()).build(),
 			ShowCareersResponse.builder().categoryName(middleCareers2.getCategoryName()).categoryImage(middleCareers2.getCategoryImage()).build());
@@ -825,12 +822,12 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showSmallCareersSuccessTest() throws Exception{
 		// Given
-		MajorCareers majorCareers1 = MajorCareers.builder().id(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
+		Careers majorCareers1 = Careers.builder().careerId(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
 
-		MiddleCareers middleCareers1 = MiddleCareers.builder().id(0L).categoryName("기획사무").categoryType("중분류").categoryImage("/middle/images/0").majorCategory(majorCareers1).build();
+		Careers middleCareers1 = Careers.builder().careerId(1L).categoryName("사업관리").categoryType("중분류").categoryImage("/middle/images/0").parent(majorCareers1).build();
 
-		SmallCareers smallCareers1 = SmallCareers.builder().id(0L).categoryName("경영기획").categoryType("소분류").categoryImage("/small/image/0").middleCategory(middleCareers1).build();
-		SmallCareers smallCareers2 = SmallCareers.builder().id(1L).categoryName("홍보·광고").categoryType("소분류").categoryImage("/small/image/1").middleCategory(middleCareers1).build();
+		Careers smallCareers1 = Careers.builder().careerId(2L).categoryName("경영기획").categoryType("소분류").categoryImage("/small/images/0").parent(middleCareers1).build();
+		Careers smallCareers2 = Careers.builder().careerId(3L).categoryName("홍보·광고").categoryType("소분류").categoryImage("/small/images/1").parent(middleCareers1).build();
 
 		List<ShowCareersResponse> smallList = Arrays.asList(ShowCareersResponse.builder().categoryName(smallCareers1.getCategoryName()).categoryImage(smallCareers1.getCategoryImage()).build(),
 			ShowCareersResponse.builder().categoryName(smallCareers2.getCategoryName()).categoryImage(smallCareers2.getCategoryImage()).build());
