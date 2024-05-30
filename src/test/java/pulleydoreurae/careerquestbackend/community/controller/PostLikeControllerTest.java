@@ -77,11 +77,11 @@ class PostLikeControllerTest {
 	@WithMockUser
 	void findAllPostLikeByUserAccountTest() throws Exception {
 		// Given
-		PostResponse postResponse1 = PostResponse.builder().userId("testId").title("제목1").content("내용1").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
-		PostResponse postResponse2 = PostResponse.builder().userId("testId").title("제목2").content("내용2").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
-		PostResponse postResponse3 = PostResponse.builder().userId("testId").title("제목3").content("내용3").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
-		PostResponse postResponse4 = PostResponse.builder().userId("testId").title("제목4").content("내용4").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
-		PostResponse postResponse5 = PostResponse.builder().userId("testId").title("제목5").content("내용5").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
+		PostResponse postResponse1 = PostResponse.builder().postId(100L).userId("testId").title("제목1").content("내용1").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
+		PostResponse postResponse2 = PostResponse.builder().postId(101L).userId("testId").title("제목2").content("내용2").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
+		PostResponse postResponse3 = PostResponse.builder().postId(102L).userId("testId").title("제목3").content("내용3").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
+		PostResponse postResponse4 = PostResponse.builder().postId(103L).userId("testId").title("제목4").content("내용4").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
+		PostResponse postResponse5 = PostResponse.builder().postId(104L).userId("testId").title("제목5").content("내용5").view(0L).commentCount(0L).postLikeCount(0L).postCategory(PostCategory.FREE_BOARD).isLiked(true).build();
 
 		given(postLikeService.findAllPostLikeByUserAccount(any(), any())).willReturn(List.of(postResponse1, postResponse2, postResponse3, postResponse4, postResponse5));
 
@@ -101,6 +101,7 @@ class PostLikeControllerTest {
 								parameterWithName("page").description("페이지 정보 (0부터 시작)")
 						),
 						responseFields(
+								fieldWithPath("[].postId").description("게시글 id"),
 								fieldWithPath("[].userId").description("게시글 작성자"),
 								fieldWithPath("[].title").description("제목"),
 								fieldWithPath("[].content").description("내용"),

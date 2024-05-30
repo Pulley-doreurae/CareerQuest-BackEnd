@@ -50,22 +50,22 @@ class CommentControllerTest {
 	@WithMockUser
 	void findAllByUserIdTest() throws Exception {
 		// Given
-		CommentResponse comment1 = CommentResponse.builder().userId("testId").postId(10000L).content("내용1")
+		CommentResponse comment1 = CommentResponse.builder().commentId(100L).userId("testId").postId(10000L).content("내용1")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
-		CommentResponse comment2 = CommentResponse.builder().userId("testId").postId(10000L).content("내용2")
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		CommentResponse comment3 = CommentResponse.builder().userId("testId").postId(10000L).content("내용3")
+		CommentResponse comment2 = CommentResponse.builder().commentId(101L).userId("testId").postId(10000L).content("내용2")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment4 = CommentResponse.builder().userId("testId").postId(10000L).content("내용4")
+		CommentResponse comment3 = CommentResponse.builder().commentId(102L).userId("testId").postId(10000L).content("내용3")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment5 = CommentResponse.builder().userId("testId").postId(10000L).content("내용5")
+		CommentResponse comment4 = CommentResponse.builder().commentId(103L).userId("testId").postId(10000L).content("내용4")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		CommentResponse comment5 = CommentResponse.builder().commentId(104L).userId("testId").postId(10000L).content("내용5")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
@@ -89,6 +89,7 @@ class CommentControllerTest {
 								parameterWithName("userId").description("회원아이디")
 						),
 						responseFields(
+								fieldWithPath("[].commentId").description("댓글 id"),
 								fieldWithPath("[].userId").description("댓글 작성자"),
 								fieldWithPath("[].postId").description("게시글 id"),
 								fieldWithPath("[].content").description("댓글 내용"),
@@ -104,22 +105,22 @@ class CommentControllerTest {
 	@WithMockUser
 	void findAllByPostIdTest() throws Exception {
 		// Given
-		CommentResponse comment1 = CommentResponse.builder().userId("testId").postId(10000L).content("내용1")
+		CommentResponse comment1 = CommentResponse.builder().commentId(100L).userId("testId").postId(10000L).content("내용1")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
-		CommentResponse comment2 = CommentResponse.builder().userId("testId").postId(10000L).content("내용2")
-				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
-				.build();
-
-		CommentResponse comment3 = CommentResponse.builder().userId("testId").postId(10000L).content("내용3")
+		CommentResponse comment2 = CommentResponse.builder().commentId(101L).userId("testId").postId(10000L).content("내용2")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment4 = CommentResponse.builder().userId("testId").postId(10000L).content("내용4")
+		CommentResponse comment3 = CommentResponse.builder().commentId(102L).userId("testId").postId(10000L).content("내용3")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
-		CommentResponse comment5 = CommentResponse.builder().userId("testId").postId(10000L).content("내용5")
+		CommentResponse comment4 = CommentResponse.builder().commentId(103L).userId("testId").postId(10000L).content("내용4")
+				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
+				.build();
+
+		CommentResponse comment5 = CommentResponse.builder().commentId(104L).userId("testId").postId(10000L).content("내용5")
 				.createdAt("2024.04.01 15:37").modifiedAt("2024.04.01 15:37")
 				.build();
 
@@ -143,6 +144,7 @@ class CommentControllerTest {
 								parameterWithName("page").description("페이지 정보 (0부터 시작)")
 						),
 						responseFields(
+								fieldWithPath("[].commentId").description("댓글 id"),
 								fieldWithPath("[].userId").description("댓글 작성자"),
 								fieldWithPath("[].postId").description("게시글 id"),
 								fieldWithPath("[].content").description("댓글 내용"),

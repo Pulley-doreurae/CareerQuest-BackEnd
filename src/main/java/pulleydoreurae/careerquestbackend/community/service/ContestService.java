@@ -121,6 +121,7 @@ public class ContestService {
 		Contest contest = byPostId.get();
 
 		return ContestResponse.builder()
+				.contestId(contest.getId())
 				.contestCategory(contest.getContestCategory())
 				.target(contest.getTarget())
 				.region(contest.getRegion())
@@ -141,6 +142,7 @@ public class ContestService {
 		List<ContestResponse> response = new ArrayList<>();
 		bySearchRequest.forEach(contest -> {
 			response.add(ContestResponse.builder()
+					.contestId(contest.getId())
 					.contestCategory(contest.getContestCategory())
 					.target(contest.getTarget())
 					.region(contest.getRegion())

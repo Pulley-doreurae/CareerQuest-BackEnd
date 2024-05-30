@@ -217,6 +217,7 @@ class ContestServiceTest {
 
 	private ContestResponse contestToContestResponse(Contest contest) {
 		return ContestResponse.builder()
+				.contestId(contest.getId())
 				.contestCategory(contest.getContestCategory())
 				.target(contest.getTarget())
 				.region(contest.getRegion())

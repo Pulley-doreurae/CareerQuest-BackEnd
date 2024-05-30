@@ -94,7 +94,7 @@ class PostServiceTest {
 		Post post = Post.builder().title("제목").content("내용").view(1L).postCategory(PostCategory.FREE_BOARD).build();
 		given(commonCommunityService.findPost(any())).willReturn(post);
 		given(commonCommunityService.postToPostResponse(post, false)).willReturn(
-				new PostResponse("A", "A", "A", List.of(), 1L, 1L, 1L, PostCategory.FREE_BOARD, false,"A", "A"));
+				new PostResponse(100L, "A", "A", "A", List.of(), 1L, 1L, 1L, PostCategory.FREE_BOARD, false,"A", "A"));
 
 		// When
 		PostResponse result = postService.findByPostId(request, response, 100L);

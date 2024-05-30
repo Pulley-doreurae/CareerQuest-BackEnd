@@ -58,6 +58,7 @@ public class CommonCommunityService {
 	 */
 	public PostResponse postToPostResponse(Post post, Boolean isLiked) {
 		return PostResponse.builder()
+				.postId(post.getId())
 				.userId(post.getUserAccount().getUserId())
 				.title(post.getTitle())
 				.content(post.getContent())

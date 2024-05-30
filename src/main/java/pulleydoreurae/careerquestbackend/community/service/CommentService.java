@@ -116,6 +116,7 @@ public class CommentService {
 		UserAccount user = commonService.findUserAccount(userId, false);
 		return commentRepository.findAllByUserAccountOrderByIdDesc(user, pageable).stream()
 				.map(comment -> CommentResponse.builder()
+						.commentId(comment.getId())
 						.userId(comment.getUserAccount().getUserId())
 						.postId(comment.getPost().getId())
 						.content(comment.getContent())

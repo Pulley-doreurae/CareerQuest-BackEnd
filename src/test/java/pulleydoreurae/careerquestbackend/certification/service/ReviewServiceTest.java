@@ -76,7 +76,7 @@ class ReviewServiceTest {
 		Review review = Review.builder().title("제목").content("내용").view(1L).certificationName("정보처리기사").build();
 		given(commonReviewService.findReview(any())).willReturn(review);
 		given(commonReviewService.reviewToReviewResponse(review, false)).willReturn(
-				new ReviewResponse("A", "A", "A","정보처리기사", 1L, 1L, false, "A", "A"));
+				new ReviewResponse(100L, "A", "A", "A","정보처리기사", 1L, 1L, false, "A", "A"));
 
 		// When
 		ReviewResponse result = reviewService.findByReviewId(request, response, 100L);
