@@ -48,12 +48,12 @@ class UserCareerDetailsRepositoryTest {
 
 		userAccountRepository.save(user);
 
-		Careers careers1 = Careers.builder().categoryName("사업관리").categoryType("대분류").categoryImage("/major/image/0").build();
+		Careers careers1 = Careers.builder().categoryName("사업관리").categoryType("대분류").categoryImage("/major/image/0").description("직무 설명").build();
 		careerDetailsRepository.save(careers1);
-		Careers careers2 = Careers.builder().categoryName("사업관리").categoryType("중분류").categoryImage("/middle/image/0").parent(careers1).build();
+		Careers careers2 = Careers.builder().categoryName("사업관리").categoryType("중분류").categoryImage("/middle/image/0").parent(careers1).description("직무 설명").build();
 		careerDetailsRepository.save(careers2);
-		Careers careers3 = Careers.builder().categoryName("프로젝트 관리").categoryType("소분류").categoryImage("/small/image/0").parent(careers2).build();
-		Careers careers4 = Careers.builder().categoryName("해외관리").categoryType("소분류").categoryImage("/small/image/1").parent(careers2).build();
+		Careers careers3 = Careers.builder().categoryName("프로젝트 관리").categoryType("소분류").categoryImage("/small/image/0").parent(careers2).description("직무 설명").build();
+		Careers careers4 = Careers.builder().categoryName("해외관리").categoryType("소분류").categoryImage("/small/image/1").parent(careers2).description("직무 설명").build();
 		careerDetailsRepository.save(careers3);
 		careerDetailsRepository.save(careers4);
 

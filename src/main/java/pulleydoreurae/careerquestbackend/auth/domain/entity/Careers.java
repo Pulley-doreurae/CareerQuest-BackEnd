@@ -26,12 +26,14 @@ public class Careers {
     private Long careerId;
 
     @Column(nullable = false)
-    private String categoryName;
+    private String categoryName;    // 직무 이름
 
     @Column(nullable = false)
-    private String categoryType;
+    private String categoryType;    // 직무 타입 : [대분류, 중분류, 소분류]
 
-    private String categoryImage;
+    private String categoryImage;   // 직무 이미지
+
+    private String description;     // 직무 설명
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_id", referencedColumnName = "career_id")
