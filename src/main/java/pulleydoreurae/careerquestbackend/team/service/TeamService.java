@@ -3,6 +3,8 @@ package pulleydoreurae.careerquestbackend.team.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,10 +12,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.common.service.CommonService;
+import pulleydoreurae.careerquestbackend.team.domain.TeamType;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.KickRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamDeleteRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamMemberRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamRequest;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.EmptyTeamMemberResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamDetailResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponseWithPageInfo;
 import pulleydoreurae.careerquestbackend.team.domain.entity.EmptyTeamMember;
 import pulleydoreurae.careerquestbackend.team.domain.entity.Team;
 import pulleydoreurae.careerquestbackend.team.domain.entity.TeamMember;
@@ -37,6 +45,50 @@ public class TeamService {
 	private final EmptyTeamMemberRepository emptyTeamMemberRepository;
 	private final TeamMemberRepository teamMemberRepository;
 	private final CommonService commonService;
+
+	/**
+	 * 전체 팀을 반환하는 메서드
+	 *
+	 * @param pageable 페이지 정보
+	 * @return 팀을 담은 객체
+	 */
+	@Transactional(readOnly = true)
+	public TeamResponseWithPageInfo findAll(Pageable pageable) {
+		Page<Team> allByOrderByIdDesc = teamRepository.findAllByOrderByIdDesc(pageable);
+
+		return makeTeamResponse(allByOrderByIdDesc);
+	}
+
+	/**
+	 * 팀 타입에 맞는 팀들을 반환하는 메서드
+	 *
+	 * @param teamType 팀 타입
+	 * @param pageable 페이지 정보
+	 * @return 팀을 담은 객체
+	 */
+	@Transactional(readOnly = true)
+	public TeamResponseWithPageInfo findAllByTeamType(TeamType teamType, Pageable pageable) {
+		Page<Team> allByOrderByIdDesc = teamRepository.findAllByTeamTypeOrderByIdDesc(teamType, pageable);
+
+		return makeTeamResponse(allByOrderByIdDesc);
+	}
+
+	/**
+	 * 한 팀에 대한 세부정보를 반환하는 메서드
+	 *
+	 * @param teamId 팀ID
+	 * @return 요청한 팀에 대한 세부정보
+	 */
+	@Transactional(readOnly = true)
+	public TeamDetailResponse findByTeamId(Long teamId) {
+		Team team = findTeam(teamId);
+		TeamResponse teamResponse = teamToTeamResponse(team);
+
+		List<TeamMember> teamMembers = teamMemberRepository.findAllByTeamId(teamId);
+		List<EmptyTeamMember> emptyTeamMembers = emptyTeamMemberRepository.findAllByTeamId(teamId);
+
+		return makeTeamDetailResponse(teamResponse, teamMembers, emptyTeamMembers);
+	}
 
 	/**
 	 * 팀장이 팀을 생성하는 메서드
@@ -146,6 +198,71 @@ public class TeamService {
 
 		saveEmptyTeamMember(team, request.getPosition()); // 팀에 빈자리 추가
 		teamMemberRepository.delete(targetMember); // 팀원 제거
+	}
+
+	/**
+	 * Team -> TeamResponse 변환 메서드
+	 *
+	 * @param team 팀
+	 * @return TeamResponse 객체
+	 */
+	private TeamResponse teamToTeamResponse(Team team) {
+		return TeamResponse.builder()
+				.teamId(team.getId())
+				.teamName(team.getTeamName())
+				.teamType(team.getTeamType())
+				.maxMember(team.getMaxMember())
+				.startDate(team.getStartDate())
+				.endDate(team.getEndDate())
+				.build();
+	}
+
+	/**
+	 * 팀의 정보를 담은 페이지를 반환하는 메서드
+	 *
+	 * @param searchResult 검색결과
+	 * @return 변환결과
+	 */
+	private TeamResponseWithPageInfo makeTeamResponse(Page<Team> searchResult) {
+		int totalPages = searchResult.getTotalPages();
+
+		TeamResponseWithPageInfo response = new TeamResponseWithPageInfo(totalPages);
+		searchResult.forEach(team -> {
+			TeamResponse detail = teamToTeamResponse(team);
+			response.getTeamResponse().add(detail);
+		});
+
+		return response;
+	}
+
+	/**
+	 * 팀에 대한 세부 정보를 응답으로 만드는 메서드
+	 *
+	 * @param teamResponse     팀에 대한 기본 정보
+	 * @param teamMembers      팀원에 대한 정보
+	 * @param emptyTeamMembers 선호하는 팀원 포지션
+	 * @return 팀에 대한 전체 내용을 담은 객체
+	 */
+	private TeamDetailResponse makeTeamDetailResponse(TeamResponse teamResponse, List<TeamMember> teamMembers,
+			List<EmptyTeamMember> emptyTeamMembers) {
+
+		TeamDetailResponse response = new TeamDetailResponse(teamResponse);
+
+		teamMembers.forEach(teamMember -> {
+			response.getTeamMemberResponses().add(TeamMemberResponse.builder()
+					.userId(teamMember.getUserAccount().getUserId())
+					.isTeamLeader(teamMember.isTeamLeader())
+					.position(teamMember.getPosition())
+					.build());
+		});
+
+		emptyTeamMembers.forEach(emptyTeamMember -> {
+			response.getEmptyTeamMemberResponses().add(EmptyTeamMemberResponse.builder()
+					.position(emptyTeamMember.getPosition())
+					.build());
+		});
+
+		return response;
 	}
 
 	/**
