@@ -2,6 +2,8 @@ package pulleydoreurae.careerquestbackend.team.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +18,10 @@ import pulleydoreurae.careerquestbackend.team.domain.entity.Team;
  * @since : 2024/05/31
  */
 public interface TeamRepository extends JpaRepository<Team, Long> {
+
+	Page<Team> findAllByOrderByIdDesc(Pageable pageable);
+
+	Page<Team> findAllByTeamTypeOrderByIdDesc(TeamType teamType, Pageable pageable);
 
 	@Query("select t from Team t where t.teamName = :teamName")
 	List<Team> findByTeamName(@Param("teamName") String teamName);
