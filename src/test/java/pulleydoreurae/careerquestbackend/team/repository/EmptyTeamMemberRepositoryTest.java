@@ -36,11 +36,11 @@ class EmptyTeamMemberRepositoryTest {
 		Team team = Team.builder().teamName("정보처리기사1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
 		teamRepository.save(team);
 
-		EmptyTeamMember emptyTeamMember1 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(0).build();
-		EmptyTeamMember emptyTeamMember2 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(1).build();
-		EmptyTeamMember emptyTeamMember3 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(2).build();
-		EmptyTeamMember emptyTeamMember4 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(3).build();
-		EmptyTeamMember emptyTeamMember5 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(4).build();
+		EmptyTeamMember emptyTeamMember1 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember2 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember3 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember4 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember5 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
 		emptyTeamMemberRepository.save(emptyTeamMember1);
 		emptyTeamMemberRepository.save(emptyTeamMember2);
 		emptyTeamMemberRepository.save(emptyTeamMember3);
@@ -58,16 +58,16 @@ class EmptyTeamMemberRepositoryTest {
 
 	@Test
 	@DisplayName("팀장이 지정한 팀원 포지션 팀id, 포지션, 인덱스로 불러오기")
-	void findByTeamIdAndPositionAndIndexTest() {
+	void findAllByTeamIdAndPositionTest() {
 		// Given
 		Team team = Team.builder().teamName("정보처리기사1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
 		teamRepository.save(team);
 
-		EmptyTeamMember emptyTeamMember1 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(0).build();
-		EmptyTeamMember emptyTeamMember2 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(1).build();
-		EmptyTeamMember emptyTeamMember3 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(2).build();
-		EmptyTeamMember emptyTeamMember4 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(3).build();
-		EmptyTeamMember emptyTeamMember5 = EmptyTeamMember.builder().team(team).position("프론트 개발자").index(4).build();
+		EmptyTeamMember emptyTeamMember1 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember2 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember3 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember4 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
+		EmptyTeamMember emptyTeamMember5 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
 		emptyTeamMemberRepository.save(emptyTeamMember1);
 		emptyTeamMemberRepository.save(emptyTeamMember2);
 		emptyTeamMemberRepository.save(emptyTeamMember3);
@@ -75,7 +75,7 @@ class EmptyTeamMemberRepositoryTest {
 		emptyTeamMemberRepository.save(emptyTeamMember5);
 
 		// When
-		EmptyTeamMember result = emptyTeamMemberRepository.findByTeamIdAndPositionAndIndex(team.getId(), "프론트 개발자", 0).get();
+		EmptyTeamMember result = emptyTeamMemberRepository.findAllByTeamIdAndPosition(team.getId(), "프론트 개발자").stream().findAny().get();
 
 		// Then
 		assertEquals("정보처리기사1팀", result.getTeam().getTeamName());
