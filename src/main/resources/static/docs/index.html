@@ -629,6 +629,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_취득_자격증_추가_성공">취득 자격증 추가 성공</a></li>
 </ul>
 </li>
+<li><a href="#_팀_매칭_api_teamcontroller">팀 매칭 API (TeamController)</a>
+<ul class="sectlevel2">
+<li><a href="#_팀_리스트_조회">팀 리스트 조회</a></li>
+<li><a href="#_팀_타입으로_리스트_조회">팀 타입으로 리스트 조회</a></li>
+<li><a href="#_팀_세부정보_조회">팀 세부정보 조회</a></li>
+<li><a href="#_팀_생성">팀 생성</a></li>
+<li><a href="#_팀_수정">팀 수정</a></li>
+<li><a href="#_팀_삭제">팀 삭제</a></li>
+<li><a href="#_팀_참가">팀 참가</a></li>
+<li><a href="#_팀_떠나기">팀 떠나기</a></li>
+<li><a href="#_팀원_추방">팀원 추방</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -644,7 +657,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=82c0lkq0_gszbib8imyhVFSsicMluQX-ftf4QMPbM-TtEzUky18FpijXzT0eWx-a60GVMGabpKEd2jLTSeTMcfK6VYfdcAQV HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=9OY_3_G50s_H_8jePH8H7S9YdSNORt-2V_8TN0k3xA3h6fRwlt9c58CA4q7qnq7sDFIz3xhoWEEvcbmbMp4nUywEpj3U2MBE HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 209
 Host: localhost:8080
@@ -820,7 +833,7 @@ Content-Length: 235
 <h5 id="_요청_2_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=B9Yw4A5mudEZpmN_ekySFlr6Tgj3Z4ULWQLUgq4zrg2SbW2QY-NWg28Hiec0lVBKQmGmJD-YYzGUVeYmOmPkt5wEnW-jXAin HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=Vaxl-LLYl-WMKwVFdCDeBKf-Sf19EBQ2QDz678wTctea60mQZ58Dyobg9tyhSjQhEQ3qM5LHZJ9FKXEbJg_PjPsrRu6v3Sqm HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 209
 Host: localhost:8080
@@ -996,7 +1009,7 @@ Content-Length: 235
 <h5 id="_요청_3_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=Hn_qsFe9vCp8UDKJ_B2tO5Aw3CwJFjS9laTQeXq1WgdqHhPFK0beg2fYi09RaFaxzTCZWfFS8RU-I1CQrZTgHxmHO2ZTeiP1 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=GJ5yHYVITrl3qVJ6gzbETWpndfEIgu2XZvNUtAXByj1ccs2Ie6tCKrErL45ay2tLsRvwLAgDWJBqtom6V8Q10Tb5_g84E6i8 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 209
 Host: localhost:8080
@@ -1172,7 +1185,7 @@ Content-Length: 235
 <h5 id="_요청_4_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=lp3IDXNMivtfOpTjpv-XYGy_uEBivyEI2zh3CPS9oM2e-lqypqusPEQu7MpyWKbVlNKjUwralXhW3hUlv1oUaZKFlqyvnjjR HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=CdXsAhTa3-HK__NYljuN-S5FfhoXyrJU6lZ5Ikytc_WQPs1kOOeIMyTtvNDnmsJu8Ba5yxsjUyNxqdF5jGdAEXSURZTxXKhR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 207
 Host: localhost:8080
@@ -1348,7 +1361,7 @@ Content-Length: 246
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=0iG1EhaUKujeSncB_4zj-j6h2JiRsKO2qsJrDlXns5V9dDI5t0WFcSX2H4rzeE8yzKHXzAfH9aD0h8Wbn_ddPTOCgqNPEQoK HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=1x8wET4Yv7ioNYCHpL_BHbvx9a6wBveyJLmLySQpomkt7YHMsylWJQ172YyFUeS_wJL1Ko_H2M_RNpWfFN_o_Rcfmg8V2rn4 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 204
 Host: localhost:8080
@@ -1524,7 +1537,7 @@ Content-Length: 251
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=hDzLtKiChtawuHgt4sevogQ1VlRSd6g8ZXgeZzhPsEtXHRUotF-u1Zm347Cd3kka0uqblmcHe2xhQssRXUApX14r1ik0eXYR HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=Tv58ZBrwmv7kRoaVKhkJrvZ3-Yq9hXwduXbFYq5AUm6_05w8ecxPVCqS_JjJd-etGDQ9mJcV1LOK5xkw2hT0AZZ0ZwyM4v0O HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 203
 Host: localhost:8080
@@ -1700,7 +1713,7 @@ Content-Length: 228
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=CIBBPJP2_9PZuBXqRKoALYob4t3a2sbKCDRjEy8G5Trbb3F4bLMkBKqTzOD0jyPSc4c0H-wtz7zquf_nbANSJxY10Qi6WRVJ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users?_csrf=aEHhdSGbx5tvpGgw2EIrhPt7b8Iw7dEUQDYWna2AtS5Ckq0_WXXWFEWu965CwFoC4W8f5sMYQqAB2OY5cQ4urcu0gBgj8c4J HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 205
 Host: localhost:8080
@@ -1876,7 +1889,7 @@ Content-Length: 247
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=YjuZo6-fFRWup4RP8g2qjOPUan1c3xwoR0QS7UUQqQXCEJDZA12vmsyuICKDk-d7xSCev9LkRx9q7SUFc3Yk2ydzm2fydvPr HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=Urs1N8R575s0jGfdzJw98Xn24sOR-JnF7u6v3WT9cFZX3XCHYIIFBfwY26oZugW4_rEJwU_Hz6L1y_roi9vMvlGYQ2Ayvkex HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1966,7 +1979,7 @@ Content-Length: 74
 <h5 id="_요청_9_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=yYNCNkEYTKOP7nOhyPgECX8DEs4J0pU68HbrhY5zQlV4F00Hr-V0DncpL5ai3xaR-dUwPx4wP69r4KQXwETY475FI2NIIHw2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/username/testId?_csrf=FjrxlbxSJ8G6ATnzjVKuHD2EHNaAl2skWC9s9qWR7KVLFnAiLlzH8N5lH6OXNljB6H-aLV_mMbe581IJPh0NxcSp2MctcEgQ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2056,7 +2069,7 @@ Content-Length: 77
 <h5 id="_요청_10_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=3LeGJEYitBc4U7vFIcCam7Ka_V5IFc8MHttLsSPXKXC_j7jO6I7kFCUXhCUVa96nFO2urIeu0GZ-I_sheL9yiBDiS0GL6YH- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=yrxFK45BgtxWQsr6k2ABiXDoHPe6n_YuyNeXXE-nX-mArfVKq91xG7pz5rl7JPrK9U017BOKMc_eppUD_u6nOCyUOdvmn8dz HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2147,7 +2160,7 @@ Content-Length: 82
 <h5 id="_요청_11_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=JZ2KqlgRqeGMSB5Ht1km13vB8Hwotg_QoO9_Rikl2rZqpnOYEqS4yWt3y9ahLit11XQS50jy3UVOhD39wopLd0gV74AIkRD- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/email/test@email.com?_csrf=1xrjDbNc4EDQ8ijEW9-TjgmZZU5O1tqZY_7ZF2WHUsucU0g-snmFOoNu1SL9whqlbfKnumz4SHZ67rm0UJvrJgPlZKqtZSoM HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2188,7 +2201,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_요청_12_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=7LIet2NtVW3i7sDbO9WTTmQw_3_W8pq_Uim_ovqpXlgZ5JZXidd_hgBaYVXPjPW9D_infwcI0h7hwf6Sa0_Zms-ePG8o3KVi HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=tniAD9hVsFTQ-O58xs3q60cNGjclgeGTc7_2e2c-apowlPPI10i2Ouo3gWH9nohE8uDeiHA1N1YWs9i-R46THVcGDKpVoMf5 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2278,7 +2291,7 @@ Content-Length: 44
 <h5 id="_요청_13_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=aPb9FrI6HdsG9sc_iqitOpD4b84RQLf79M0QBF-lp6uS8AcVXJfLctNeJOwrwKFeu4WZWfLLQvciJoPWwP9zM22SlcmhxjEt HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/testId?_csrf=aMDRAo-WlNPC-eKbqj-1Y08Uc7dSVZFYejxsHjyyYjSdJey_X_PnZ7ak97bvmNGpkxKBW38sXo8wMaF1HllVKQvTUQb4HIqM HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2368,7 +2381,7 @@ Content-Length: 44
 <h5 id="_요청_14_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=hcWdcnN1yajtmZLqw-33eBxcHe38JJcon5H3wrk6osfNK3_3vfX-RBZA-pDAoaqI-8DDHihtMNTPQPEFrKCW9t8DkqSsSEuU HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=1WYOnU3CK_Or-gqi5Qdy8DHeoVeUJMEMyeAxdfMYJ0B-oQrGsQI4_3v7GMuGyDLAhCpGwQa6jDWhF6Ih_dcIQZEgRnFJwznz HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 35
 Host: localhost:8080
@@ -2488,7 +2501,7 @@ Content-Length: 253
 <h5 id="_요청_15_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=1OQVFcTBWUryWCuqeImrA2SAhlSMtbq-hD4x8_g6lUmaobf4t4Z2JfLxaSjfORuST6SfZQXjqzW_hIyT5gcJksxeoyr7xdTK HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=d2UydtC8w1-TgjYVCae_OSVluuPGyGPZ_h_kV_lwqtiEKoMuE1JRTueNoW6-sAV0a4qLDUdUl9qi8Vf0zS3cNZtCnOy3SOAd HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 47
 Host: localhost:8080
@@ -2608,7 +2621,7 @@ Content-Length: 245
 <h5 id="_요청_16_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=OK036bUvsG1OtqgBDfm-Nd59JMPNdVtrjROibXjidomoUdkaWpUG0NFKhV5jjpxgPdSKVOYfCfr1QW5GuXXGX0zWTrCQYr15 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=QKcBcyEWGANLHNye9iuc-6TCkmuvLY9HuQLztBFt3dYYZftOdp4wShlzfTVmLbmrkgaozsWhvwrNS-tqgDbHhyNau-F-XZko HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 59
 Host: localhost:8080
@@ -2664,15 +2677,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 243
+Content-Length: 245
 
 {
   "lists" : [ {
     "categoryName" : "경영기획",
-    "categoryImage" : "/small/image/0"
+    "categoryImage" : "/small/images/0"
   }, {
     "categoryName" : "홍보·광고",
-    "categoryImage" : "/small/image/1"
+    "categoryImage" : "/small/images/1"
   } ],
   "msg" : "소분류 리스트 요청을 했습니다."
 }</code></pre>
@@ -2728,7 +2741,7 @@ Content-Length: 243
 <h5 id="_요청_17_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=KlxIzFC8CizXC2boIdFLGVYJL_psSmYPRhVM1oIkm5KjwF1kTD0rrWPdPhX6OAXeRPx_fGNoApgIeFIifid8s-ccqqWTpjlR HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/careers?_csrf=Ownkn11zBvK2Fo38_CK9XeoC85wXLyEAJ8yb9tfrbMQTRx9WWDyHqGpHPsCbdOvNng-JbN9j3v5zSRQtRa_9lLHaCv0nISk3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 39
 Host: localhost:8080
@@ -2827,7 +2840,7 @@ Content-Length: 112
 <h5 id="_요청_18_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/careers?_csrf=luTpk0V1ZRKPs3UKYXozLCamVg71uIw5PSsyFsEpdH1BKuXx9NWMonQXAXGiikQ_UFcHShCTe2-R27wUWRIAIvBPFkwlGICQ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/careers?_csrf=RK4ptBB0mtgLpuxU2xpggI9f9wdP7HFqe46zj8BoMAbPax9cccoejHQRr-smx4416jdU5epu2mYr3hBHQ7yK6fkOAWX9Uidr HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 61
 Host: localhost:8080
@@ -2931,7 +2944,7 @@ Content-Length: 89
 <h5 id="_요청_19_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/careers?_csrf=Pl8rIMJTGIQ4hW_RlokJywXG0d3JnP31RLIlgCD9Fi97S3bhXWweE_YyeeEVsVm0r6Q9-WCl_OT4rMzYd9BD5BPNJhhDKBfZ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/careers?_csrf=ChfMFv4U0m2bafPbVKPtJWpvkcpVUb3b0JE8i5T18mx0NYpJaS_5d8Zy5li2D5LtNo7ZQ19fvPJnMoj2sqcL7aaWlFUXVr4t HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 58
 Host: localhost:8080
@@ -3035,7 +3048,7 @@ Content-Length: 89
 <h5 id="_요청_20_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/careers?_csrf=1mGqn5qdLspDe9sEmhETyDKbtEq207SubK4mpxPca_xGcjFUsgPM_K6vS_puT-41rzwn-wKqmSuEtYaDWZofwiG-DZkgSlI1 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/careers?_csrf=Bmmw4j4s6-z_Raq8GkB4DKoVCamznhcFMRREXV3oJ21yO410ZVuF2wwbj4jScpyNIm1Mb5giJJGArHUoCC10ODnZE11EX75D HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 61
 Host: localhost:8080
@@ -3341,7 +3354,7 @@ Content-Length: 56
 <h5 id="_요청_23_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=UmLLwVMRS9ymOKZ2maAGD7tBfdsvInUeSXZ8TWEkyljOKQzSYFX_8zBye--LCpFDro0yP4NyUOMYRkwzfRcfeFRHrGr9TWi2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=0vU1GNKzHC0-JryVXIltYhZJBRel7llDU7wlQsqYNSPphWXN4sFUL7ODJBgTQ973a6RZBnV5KC_H3G5uNdoWd_KgBROM5lf_ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -3439,7 +3452,7 @@ Content-Length: 98
 <h5 id="_요청_24_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=5D7_s5HUgBFQtdRKZG4Fbl60o6AOJLJHb6k5yvBf_CpsD2WQ1VvG0aHgsyd9g-N6UUMxWGuNjsJqQoBqC8wM_Mg-n0wOPQal HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/stacks?_csrf=IB37VYo1GegMfUzyV03FdA7S5favTpzL2i-4dCNyReq7ttstGCiYZ-sNLN0hSHjBbmDxFz_nyJeff6jm6BiJFRsWI4mPgesc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -3537,7 +3550,7 @@ Content-Length: 55
 <h5 id="_요청_25_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=dghJS56AJjvW02gV6VY2A8prI_SOQ46vm-gACKE-oJXdLrfVF2x-fvu4H1j74wwsj3sCYfMKDsy9IbeC_9A0PJRawfHkGtTj HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=EOWuBpMfrIpvUl_R6-PhFve1jcHV34yVQIbtSjqeN_FNlIE-J9TNP6Armb5CMG6y3c7VL5GCoPm05-24dr-Melv8BscvprRc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -3635,7 +3648,7 @@ Content-Length: 78
 <h5 id="_요청_26_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=Q-4K57Ydhk2Sw1CLEebQ52r9eLxp1Q33pBqfn5eZXxLRtjZ_cN0_0YcotC6_92G4IMvkggvMVd5c5GjakH6mrKf7PHPp0lBG HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=FXLyM0v9xo3TXNzJBTy5RcM85ZLUgm4R1zUNUKnS5cFt14fcJUaTUC_N8-7-PeqrZhGNcPQLyKrh51885lZvZZ3g06IL77K- HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -3727,7 +3740,7 @@ Content-Length: 98
 <h5 id="_요청_27_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=_rWylD7vxams0w0K1ICoWPhzu7d3I-UfQ1z7--fV3F3ua45FnIGEpw7Y85uBtj5ut62ca8AWlo4WQtwyezjNy4TkvznfXbh0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/password?_csrf=w645HTefFwSooD63ikc2KZjorO5lnxScNCPdzSPDlIhB7IQj-8wMeAKoI2KFw1_RuGoCGavcgddQrCaxVxa-qxDxrO5wibRB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 22
 Host: localhost:8080
@@ -3825,7 +3838,7 @@ Content-Length: 89
 <h5 id="_요청_28_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=Q-kfYWRGp8tGdpp8MERkdst-uqE0-fn_5h2_jRKMnccAwr9pJtwtUFwjkftrQ6lKVGlQFf8Yl5gNzs3S0C3duCvvrP5m-twM HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=tXX6tjozlqics2Da8RS82H2oHgRFBa2LVO0JfN7-I556bGKJhEzNhl4Fr8qxhQW_lTmI7UmYMzwnYZqmbd49GrvKQadPVFXt HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -3915,7 +3928,7 @@ Content-Length: 75
 <h5 id="_요청_29_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=3vuPGqH1P-dRk73DtV0o3KSleSq3-mk1Ggo0jlsNNj5VC_Jm7M2-eZfBDd98p9_z1nAc68fDVEvWn1gYeDIMumo7BQttPsBX HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/help/0123-4567-89AB-CDEF?_csrf=Xbr7Bo_QnH9t3kOKEeMgIZiatzBFGKFC9f-W5jqjSyADh7AbOd_LMe7jr0hAuna8IM4UGKj-mlEnIJNvlM310A6UeBlntIUs HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -4005,7 +4018,7 @@ Content-Length: 95
 <h5 id="_요청_30_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=6JI5Oy-B6bbJdH1nUzNf_Lbs-96GT-eRWZoCHTqm6gWLOs-f3_QIAx_giITkQE1XYh5rzY_d1r-we4a8bathf1mRiDbuWPmn HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=6VlUSv6g6k3W-Bmii2hkxzghDLg5Osm4WTrdSo3yklzmEIJ50TowL86Rj3_7mSqXskVQ8FoWIYALDP2VaQO7eejGpD2EcbRA HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 70
 Host: localhost:8080
@@ -4102,7 +4115,7 @@ Content-Length: 77
 <h5 id="_요청_31_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=aGWLD_9p5o7klbBYHMxArAxanYMJoWYdUB0MqHfA0dsm28WmCQboOZtY37nJ84A9eOF0nW45sOI-lwMwZCg9zBP14ONEvvSU HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=hk1bMoxyWL4EEbY2BIa9d22IrpnMRIAKxrHkR1Wqj4FElpMl4nRjBu0WOtgpIo5TMauJQF_rg6GtIuIno9OAf23J6bYgoaEc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 70
 Host: localhost:8080
@@ -4194,7 +4207,7 @@ Content-Length: 95
 <h5 id="_요청_32_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=GAYFDItrvsVtvCL54a3e0K9Zka3Oy8_9maxRc4vK4sBAAeVRL2U9O7Naj_FAjBud1YDq5J1gvJX7_a3Q-5w1S738hKVzNNE0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=hPv2h09PQnVMUFMXMWypWRc0Gd2qZnXx-5HTUprjyH_xuKQltsjP4nl-dBdhYmZ0BkGdbyIBNLzOBUDczKDkZvnbqh3HicZG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 50
 Host: localhost:8080
@@ -4291,7 +4304,7 @@ Content-Length: 147
 <h5 id="_요청_33_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=OGZ89Q0yvO7NUqNc0WeHfs70845EWBLciI-PmmsSkb-w6nQWW1FNwTtTitbgNJs5skqzTP7E3u90aSLx6bu_rl8i94yJ20Yl HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/help/0123-4567-89AB-CDEF?_csrf=_lKSPQR8wbdbx7AUqkKtxB3B5jOCr0nrJerCrANmY75K9G09yTb3BGIe9I92ooMgzm-Z_X_zy1LhnijGENujnTYEV918zFxY HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
 Host: localhost:8080
@@ -4388,7 +4401,7 @@ Content-Length: 111
 <h5 id="_요청_34_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=vS7qWOfpmap2-kAX5JDo9IZquGj48GhmtQ1A8m3plcUNmt2q2UrTPteIqc5bnCJ03b3cwuRblVCZyQtL0Dt4ylSLoqRrreud HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=gad1wj7x8b1KtiUWy6GO4lw6To27GhP1cTo5lil4kpG2V8sJ5JZBpFrAyIVnjkYm_Yy6g25YY--JeSfYRV5frxpJpaKANKpt HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 56
 Host: localhost:8080
@@ -4492,7 +4505,7 @@ Content-Length: 75
 <h5 id="_요청_35_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=hZ5F1t_6g3IisfjEWNImUaDwXj3J2KCIrUFa43CUPkQIhEKrsqkj7u6ZuhYP1J32Ov8SY8OSc1_xuZilzHNi0hX2DXZp5Sab HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=8MShJ3UDqunb4TmSCMyNLu76RNL1TLeCExZO81tBaFtEn3dnk6bFFkQ0mYr20AGibuG5GtmfaerAfISvJnR4xWsnWmx1_UVe HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 54
 Host: localhost:8080
@@ -4596,7 +4609,7 @@ Content-Length: 90
 <h5 id="_요청_36_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=mPA4tQIHQLJNE0ljN0Dq0CTvMlFjuTtHN-CceeEmqdiHrIHKoJUNjTc3ItBgKysCAG3esheNHzBb3w9qAdevGNUWzeqxm-T4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=1FKWio09rBxRH__OSah36S11cWKxylSLSuOTvppcnYthJ6Y_sWb3s-kEnCx8Js-sfIVD3h4UXAOArmKmLoGnia04pOpWE5EJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 41
 Host: localhost:8080
@@ -4700,7 +4713,7 @@ Content-Length: 135
 <h5 id="_요청_37_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=tGdmNeL9YDgcxxAAo32yXywcaPjQaYEQ9utJwpGXkjED5xwyhlcCBNPNBAEx9CBjklCGbRwrRZnkUeM9w4ov9fD2pFNg0C4E HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/delete?_csrf=VIqXojUY0mqBmNepQMjSujWlKZzNVLBiE0nVkmNh5kkWz5Tabb_zmgAtsVis-rPNduXm2A2QBP76ZIFPK320qgEC03B1qaK- HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 56
 Host: localhost:8080
@@ -4804,7 +4817,7 @@ Content-Length: 121
 <h5 id="_요청_38_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=ZtfvkwOj3qqRAMuliHpfn4KnWujdb954bjT2CTuvKmBt8JzeU-WL8WXBvJ-8MqmV61drqrqQd9HtXutVXgaQPwOfH1IOx6W9 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=NTCuNIzT4T2qQOzXQkF7YVOB1BUaq6dL6ugm0qtycPJYlsMbAFGfULSx0gSHcoi0d2xPA2Pj-Sx7zpFmjtxH588QFcFrofYp HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -4914,7 +4927,7 @@ Content-Length: 132
 <h5 id="_요청_39_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=i7fhTPG9Ynx3cx8K0owX971vuIaJdaZw9HsBAF9ZX43cTdpT7oLUfJKLV09aFno746EjxoUNleTvQMBdwExiZDtrbLXkKLtl HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=12hlCpNVhcBIh2kcgO-kpJHOsHEdiI2nZI0fGwhRC5emuYmItAkDPqdj4PNlslsqtsKQwfX-nRN_vruKVOgmeDhoOqHE3LC6 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 25
 Host: localhost:8080
@@ -5006,7 +5019,7 @@ Content-Length: 98
 <h5 id="_요청_40_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=W-Irsso5wnYwUuDWvppQ8XBSkMZioVtKoDAeJQs3e-mKnaavOdpOhPIIoUQdMdiy37dkyRVnvadXxGhnkAAtRjJVGNDppcfN HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/info?_csrf=HWDqqhBQVv38AjftV4siuHx8kv8PJJqjZ-Z_rfLC3umGeMcAK1eImSdpZMzRMwTbNaYWgBlPv543FKmOVIdOlZOjv9HgGvNh HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 22
 Host: localhost:8080
@@ -5104,7 +5117,7 @@ Content-Length: 89
 <h5 id="_요청_41_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=vx5bGR6leDO0c5fp4dMVwod3Q6_m0iVE8VlSi9RD_Ib7YyWihns9ICzBHVWZEaDc1_4h87MSbpeA4xNpxztiuuZ1yuedUhGW HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=mnwNUCzpCA4OLHQWH8B3xBR2vkdX5SLKAQ2D7ktV15FTK6psrUk7NhiNbjYjT0FzfO1D8nJDk39u0hrnNDjniykw56A1E55d HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 168
 Host: localhost:8080
@@ -5238,7 +5251,7 @@ Content-Length: 137
 <h5 id="_요청_42_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=dk1Ts_dqVZ7CWw05rR8SS2T_W5KVG4zd322iJmvLAAt5fgL1EH9misRYbKrvaW8LmDImflSedqv2eL_w6luTHl77ZjtISTTB HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=40KievIw7EJvRD89oV0AIZRgN-hyouDzY_3FlLv82lxcMO5M0HeSQpEF3iRCdwcLlXA0FaQFGooTkYLeUMz094LJ6G4-AIov HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 168
 Host: localhost:8080
@@ -5354,7 +5367,7 @@ Content-Length: 98
 <h5 id="_요청_43_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=dx8yA-AUUr3iidEPZG_9T36TRdvHKkDRHN4xz2cMSusPjysqRC8LM9QiZIrPuLNqAELJfkqnaLmhTHH8LOcIq1A7edk-vx5M HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=TdTsXEwAdgO5SnuDx0QP-bZSyws-W7uIpcTSvIg5BspUUAjMfOaKZCphTjaUeB-xpmk7yNUx5mlfa9-lkPSwiLtaZfhkM2uv HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 147
 Host: localhost:8080
@@ -5432,7 +5445,7 @@ Content-Length: 204
 
 {
   "userId" : "id ",
-  "msg" : "회원정보 수정 시 비밀번호는 필수입니다.\\n휴대폰 번호 형식에 맞춰 입력해주세요.\\n아이디는 5자 이상으로 입력해주세요.\\n"
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n휴대폰 번호 형식에 맞춰 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n"
 }</code></pre>
 </div>
 </div>
@@ -5476,7 +5489,7 @@ Content-Length: 204
 <h5 id="_요청_44_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=5Y4X4sr_Q5pQZB6e0DPdnZ2D1ikt2A-hSbAVrZ6mqFHaBDbi3Lgn1_7Od_59UC2psh7p_6y3-0gU6m2MKtIinq6VmGXuYADb HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/info?_csrf=XDLBIGNFMjhqURDRHwcCeaTfayDs1WR18Fost7DElGcL_eABa1CnQVBwUVpHZHHgKio2HJPqRkKI4VNYkWJI1IH88AE-mIU5 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 164
 Host: localhost:8080
@@ -5598,7 +5611,7 @@ Content-Length: 67
 <h5 id="_요청_45_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=gT56_7cfidtbEx4VZipckk8mk25azKWHUr48RGD76d5srkDtuQ4Zm9R677l2KipzBAdo8y1HvlY8qpWqZYgKdVmairhfz3Ta HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=jW_EG40uaHLyMOyNJM-UnGWKSSRvZ_tgTrJaZpdWuVHRl6LmvFulKL0dXEHfANW5F-Kg_gC8ZEVcVsJNd4toUqVi3WPmocHR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 131
 Host: localhost:8080
@@ -5714,7 +5727,7 @@ Content-Length: 77
 <h5 id="_요청_46_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=jka2nquB8CDAYnQA14QsGqwhyCVNLTDVwIXTg90aamaj-jcHuXWPrZOxxRftVEJh7qkYK5UW5RwrSAL487bi57x7CFKRy1Nk HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=-k_VHvjowlaDQF440YdkDrzif7EftUEenUuJhYIjmKkumZO0m3m2KcrYpG6udDxZsKpQPIjbUoguhyQzqnvo57YUq8sZ-PWG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 131
 Host: localhost:8080
@@ -5824,7 +5837,7 @@ Content-Length: 98
 <h5 id="_요청_47_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=4H5VMg0EeXmOLBmE-ynnunW-UoMgEJjWwUf3X197eoGfvgIf1U00AmhgTUujHS_nzQTTjBTbf-JDIK77p3CWbG1PTbn7imN8 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=G_VMuEuxLZb_N4A4JF7haW_lORmyBXXvGbnvv8GImfZssECqfcIt3i-AH_PSVbMAFXPVXlaBFHiANkbCKN_diqW-_8NU1HKd HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 102
 Host: localhost:8080
@@ -5896,7 +5909,7 @@ Content-Length: 260
 
 {
   "userId" : "id ",
-  "msg" : "비밀번호는 8자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n아이디는 5자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n"
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\\n비밀번호는 8자 이상으로 입력해주세요.\\n회원정보 수정 시 비밀번호는 필수입니다.\\n비밀번호는 8자 이상으로 입력해주세요.\\n"
 }</code></pre>
 </div>
 </div>
@@ -5940,7 +5953,7 @@ Content-Length: 260
 <h5 id="_요청_48_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=SWtdZTuvU4RF8YgKaQ3CLDLIWQDG-YZuFNgyWnqq6LRVHj0BLw45BgiYZOFowLo7WSD2HlSrdGKgzudDIr1TORzMjtBhKVxj HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=PkAcOJ4vIuTD9o25unTtU08RJewOIgkjWejpDb4DwdPFsFVcWHZ4W69OFYbuzuzfj1nZNXwkCNQ2GzEObd_da4dgpOT31DZu HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 127
 Host: localhost:8080
@@ -6056,7 +6069,7 @@ Content-Length: 121
 <h5 id="_요청_49_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=ldxejIU1Qqax6C7ZPVDuIfPT4toi3kR2DOdqgBXYoQeVfFcKrL5s7eZTI8OciU26DH3aEcDjz7sTuHJbaINTtCC5wjSiGGM9 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/password?_csrf=o-uBrBGWD0yEsu0726iyeOfep1S_sjB4t03U_5JSjUNZ42K6x963ySilNympgI4I7IWGSdLmijbchlZV1injzfdm6SY41wSO HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 128
 Host: localhost:8080
@@ -6172,7 +6185,7 @@ Content-Length: 131
 <h5 id="_요청_50_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=oInvE71Ga9EeJYgXsMA_jSc7O0y7hCqIW8rmjHto0e6KZV2fxLDXIt9wXOMzEuog0e0Lv0ZfFnSM5xilbf_XtR5R5Na6Vmv9 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=HsMKPhuJim0uZnGyW3axUy2oE05Riphk6RtkXFyal7EA9htSevUyCSy5uQsDV0WGbluFNU6bPiwy6axJ2n0HOGWtpok4lH1i HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
 Host: localhost:8080
@@ -6276,7 +6289,7 @@ Content-Length: 102
 <h5 id="_요청_51_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=AAKkrlJFJbGogWHHp1xB5-T27MIVAdQhZsvIqi63vXVfPiiGYjaXmmInQdKF4lnywnF10YfOwfojYOYMVPPwmkuHiUM8Bkm- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=91hp4iNN6Ywix1xocsOd_uFUCaaFLBaWP-8rsP8jm1fV_ik5wmhY1kB63rQP9W0KS-6pn4cxJJ-zGXe7XdYT1JwTqWKwmx4O HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
 Host: localhost:8080
@@ -6374,7 +6387,7 @@ Content-Length: 98
 <h5 id="_요청_52_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=A_IEB7Dv9qSNXwRcHcykaWVng68jmUPN-Rw1II9_sFSyKN6RYcc1Monfx5egZ2Vse-GQUFUGrs4aqnDgyC0GEr8b02aETLr0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/details/email?_csrf=sWZ9MGXbWp_aQTBOQP-UsQ6KIhrm8fio7Y7blY8FUYgOeaFkhlcfUVW_aav3cgV9c9Kg1Dq-D3veks2F27zq975mMLs_QcAB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 45
 Host: localhost:8080
@@ -6478,7 +6491,7 @@ Content-Length: 128
 <h5 id="_요청_53_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=DBHpJ5Nrfce5M0IVbHTnTLIIiBMBcH-EAN4GDv6uiBLfPdFJbnLbH6NTRfeUUnolW1nTdNcwpSs3R0apMe8wasmX6SHuW7d7 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=nklWtZd84yg-QU0Sj9XouqnUf1MEJ1QozpsL9hZ3e40xykTrp3tiga9IgRETJCkmv_jcjsrsUjI0RWEFqKw9lSREHrwEq3za HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -6568,7 +6581,7 @@ Content-Length: 71
 <h5 id="_요청_54_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=CqgT1EPdFy0-OZF1NerPhg8xdRC2HGQfzvP7IohgqjScZ6bdaZtysXC5cRgTCaUXBsf7tTwJWCjQKVcy_8HDGr5SzgX9ApK5 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/users/details/email/0123-4567-89AB-CDEF?_csrf=R-YJAiAa0oxuwZl_6FaGg0fRJoF9hPshYBAZcE20N27o_siTJNIwZxQs5e9DpP9OinuysHGyC-MfsskMA3QrRn2DAQzdyvyl HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -6652,7 +6665,7 @@ Content-Length: 98
 <h5 id="_요청_55_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/email?_csrf=VorAVi7yIEYEMJksIckgalyK9Vr-Kfr-qIG1BaUTo1Zhgn4JMryjYx6UFX8pBP9PF-QUWD262DvJH8jTyueCY8AlmmFYtB0_ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/email?_csrf=QrUeN2ef9QiGRCUiAFW-Uc1Yzps90QbRtQY3xyjGHCO04S94J9F7BAKvzDqrdkAWN3iKM6k74_oL6WP80DQA9Er3fkKB1Uka HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 209
 Host: localhost:8080
@@ -6786,7 +6799,7 @@ Content-Length: 67
 <h5 id="_요청_56_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/email?_csrf=ahqmvRgepTAimHZWZlMJea1oZONH1bIAmvHS_679u4tG8gfGWSKVhX0pkgEPrEduAn49Sp5QSdpyttAt-5Xqx8jN2Lgkxmak HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/users/email?_csrf=5XOlbcMKQEsE3ZPRF83Q7P4U08PHwnYfEZU3Lupkv5-T2Rqq1kadW6E5cHgp7arkIuDkiZtx_vv38UMydKZSF45d3P3y63yc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 198
 Host: localhost:8080
@@ -6888,7 +6901,7 @@ Content-Length: 396
   "birth" : "00 01 01",
   "gender" : "M",
   "isMarketed" : null,
-  "msg" : "휴대폰 번호 형식에 맞춰 입력해주세요.\n아이디는 5자 이상으로 입력해주세요.\n마케팅 수신 여부는 필수입니다.\n비밀번호는 8자 이상으로 입력해주세요.\n"
+  "msg" : "아이디는 5자 이상으로 입력해주세요.\n비밀번호는 8자 이상으로 입력해주세요.\n마케팅 수신 여부는 필수입니다.\n휴대폰 번호 형식에 맞춰 입력해주세요.\n"
 }</code></pre>
 </div>
 </div>
@@ -7028,9 +7041,9 @@ Content-Length: 471
 {
   "userId" : "testId",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcwNzM0ODEsImV4cCI6MTcxNzA3NDA4MX0.S-VzPB5PSaTAvAt4B0VgrTPLAoR1SUZmR-z7B5Q-PzM",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDIsImV4cCI6MTcxNzI1MzIwMn0.ta37ipvgsakEjvUbVmxWlvyE3yTPfz29f0WS9d4YtbE",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcwNzM0ODEsImV4cCI6MTcxOTIzMzQ4MX0.tOKqCf3aeP0Trmim4EfDsP7uN8M8AvwWZlVEgFIZ20w",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxOTQxMjYwM30.fVuHSZkFtK8gFizpc00iGVjk3qDFdJvgsgjs8i6GDyA",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -7156,9 +7169,9 @@ Content-Length: 501
 {
   "userId" : "test@email.com",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzA3MzQ4MSwiZXhwIjoxNzE3MDc0MDgxfQ.BRkisv-tu9xIJYs6K7gfQakbMhaeiXXyzyLKlGiQNJA",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzI1MjYwMywiZXhwIjoxNzE3MjUzMjAzfQ.YkXpXDvfj2OZk0Hd9aPayOgs0Xy7qTAtst4sKTVJ9cI",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzA3MzQ4MSwiZXhwIjoxNzE5MjMzNDgxfQ.KqkcRo4zR0hnL4shjM-uVqT5l5AEocQ03p1ecsY53Uw",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzI1MjYwMywiZXhwIjoxNzE5NDEyNjAzfQ.kKmjhszHc6UXdpQqWI_oNFJPYuEXSu9-azfGLNxW2iQ",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -7434,7 +7447,7 @@ Content-Length: 133
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /test HTTP/1.1
 userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcwNzM0ODEsImV4cCI6MTcxNzA3NDA4MX0.S-VzPB5PSaTAvAt4B0VgrTPLAoR1SUZmR-z7B5Q-PzM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxNzI1MzIwM30.1QVFWa_KZLx8CpKL7WU71JCVzn82kTxK8_s1gXYx0Cs
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -7593,7 +7606,7 @@ Content-Length: 60
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /test HTTP/1.1
 userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcwNzM0ODEsImV4cCI6MTcxOTIzMzQ4MX0.tOKqCf3aeP0Trmim4EfDsP7uN8M8AvwWZlVEgFIZ20w
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxOTQxMjYwM30.fVuHSZkFtK8gFizpc00iGVjk3qDFdJvgsgjs8i6GDyA
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -7649,7 +7662,7 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcwNzM0ODEsImV4cCI6MTcxNzA3NDA4MX0.S-VzPB5PSaTAvAt4B0VgrTPLAoR1SUZmR-z7B5Q-PzM",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxNzI1MzIwM30.1QVFWa_KZLx8CpKL7WU71JCVzn82kTxK8_s1gXYx0Cs",
   "expires_in" : 600000
 }</code></pre>
 </div>
@@ -9685,7 +9698,7 @@ Content-Length: 944
 <h5 id="_요청_81_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/images/testImage.png?_csrf=wjXUrMiXUtTPz2jFjSuRNmDs6A8NTI16Rf1d-5kWg7rEg1DipFDkm_z1MLHi_V3y7AalDgONxW04fuhXIZxuwq4ksI78ujSB HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/images/testImage.png?_csrf=-gp6MnWeu7TqiI9eXGEz5r68qy5HJ-bJqNPbxWXX3tslSnPkzjNPURGsi4fHvuw_aEwHhd3Yhhd_HoLkmuPt9lyz67oXLkPd HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -9728,7 +9741,7 @@ Host: localhost:8080</code></pre>
 <h5 id="_요청_82_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=96V9hpyKUCPVnI482fOOSgf00lcXm5Bi28XfLtQsjSefh8CDkZxPsq24YhT4-r5fv966c2bE_28g-qNPuaDvGbZOvUWms6Hm HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=GJ4r8Bq0A0MpiJ4Ow0bkAt5Iv-xTd5S4BA1tWWWje9QsfIhZffwZyCnVYncE7K44-mvQZudwko01Q6OVZmwPOFfBSecbTrxh HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -9878,7 +9891,7 @@ Content-Length: 296
 <h5 id="_요청_83_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=5snRsCiRTYFpzRGkbPlDFJIg0H3N_iogm6Mxw03wg-Jevcul0K2z0xqkLrJE_3PHCdR3cKQR_R-rzhsN_ZcE8nTG5ttnjvmc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/100?_csrf=CIeAsR3ViSsygB70vM_BW2bJZdA8qS6S3akN60_Hz6thIE42OuO3iXux6k4f4ifA3uL1a1f8SLILkUq_5Zs8j3z0rJwCRH4D HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -10111,7 +10124,7 @@ Content-Length: 74
 <h5 id="_요청_85_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=6-C_af4E96q2VkV3PWZHZt0VBS3Un0Q3KuNP6iYgTpo3MegS09jZWJ83lp6bNCZGBUtzUep2KBXhp3UaH4V_3B8VdqhSBYwi HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=jCik3m48aYS9KqofiG_lc3NfH4knN02XeiN-SlExl0gydMDyuEvAuFgMXOKQHZp6ukLRQ0FvMugQBiy6HxRIeGEFpSwEFfiQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 106
 Host: localhost:8080
@@ -10221,7 +10234,7 @@ Content-Length: 55
 <h5 id="_요청_86_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=g8JKpgnVt9w_f_xHC4yFa45ejUm1RFGbcTEVYNl7278AW28x5fcrkD3ige8SSsxwaaGxXLdnoHGBImm2QVRxAb8Y6IY4aV0F HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=onTDbEKd37Rz5pjJefpsCa4fqBiZWBX7fHH9YSGjYrSy_lrokkelXSaoudZehaDwH9dYOM0qhSGobXDWTULOAheUWobQyDnR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 106
 Host: localhost:8080
@@ -10331,7 +10344,7 @@ Content-Length: 55
 <h5 id="_요청_87_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=IG8xjfYNtnTdul-_4pb968nr0Ug-nJY_a5GwQ8SsgXIfPC_CF1cH6cdvgULwizzZg7vJjv7Z_CoL_68SUqSHJvHJskYoDh2g HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts?_csrf=DvKQYa3hRmn9xbE9tpniPd2RVY3ra1359nKOtSUNUC7QKrRxPpagA8vYJQ_QpoEM1bTWCe-geO_dU2rUkxO_ghw7NE_kGNZB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 193
 Host: localhost:8080
@@ -10447,7 +10460,7 @@ Content-Length: 55
 <h5 id="_요청_88_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=mmG69m3f9O0N8OeUjSEQPS99GX_WkIgWCos5sfjM_fAnlV95rVmNwljnld8gxtP17gwkXhdKNEay9r87PL4Bhc31xcNFpm4Y HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=n5Q8CGi_FRclYtqmgvGemO2KgyQUTuqyeiLFyukNIj3SmSTpp6AMaV2JLCcIU7ySttyqrYu5rkYjK4yfGED8-Nk-Rw-z-EaK HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 124
 Host: localhost:8080
@@ -10579,7 +10592,7 @@ Content-Length: 55
 <h5 id="_요청_89_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=Yhg-bEFUfM1Rcya6BiSyNVQSa-rOZG-WhMbkvv9pVTNkC_ZuV3tYDycxSfh8FR6PYwmGATUrRtP4XVm74KKBh8lbMQBTPcZY HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/100?_csrf=eQKlKN0mmqnrY5SMzMVGAjgYqKf31oURzefKRZs2gXPdzg0eSzSRTrhDrZvGU6Tq_-hyNAsohcbO7rE8-NCuJqwFsRW5-zQu HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 124
 Host: localhost:8080
@@ -10716,7 +10729,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=zMBTe7pE6bsBtA5gJREquuAfcieDWQO9Po75-xHidVwGkLWa9PlnH98n3NksgjcCQzwejNN5X0axbDKQW-3MyyfaTW4z84ev</code></pre>
+_csrf=y6y4tS3kX2Q3aUBxXp0RoaNFOIoiVFfUW5GxjYpL0WJE57GBqZndhEjXaV0aWXBJabAlmcB3FbISZWL5PqSEv7sq6VMi0tW3</code></pre>
 </div>
 </div>
 </div>
@@ -10825,7 +10838,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=aRErAt1eiYJsrjhib0O0nibG_gpwOz-KkE3v4si2vRTDJcwbCHBKMelm7bBBlw9QX26ArUOj02gWWA6no33fg_CFjCb3Efx4</code></pre>
+_csrf=OvYywNilk0ovVzsF0INSTS3y0NLT0TGBc0D_CoZU2sZXwggRDcJRpeiQ9SsCYw434q5me0-W_bCxt1OsRXKcbOQx7KU0pzsp</code></pre>
 </div>
 </div>
 </div>
@@ -10929,7 +10942,7 @@ Content-Length: 58
 <h5 id="_요청_92_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/contests/search?_csrf=lbR4w3QbSQJB3niZctyaLIAv62Qn_gw30O-aboMuJyXfXV3F94Aa-00reWRs6E39F_GuGbUXxgYVzGga4NaoWLUfQxDrZGqh HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/contests/search?_csrf=i4a-DEGPMXTswqerzUm6Og00AheTLP_u4OyThA7QZvH7z4xisr6OO3m4VxDB8JKa9WSOXz8GLy6gT83D2N-jtGixB8nIqeoA HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 98
 Host: localhost:8080
@@ -11077,7 +11090,7 @@ Content-Length: 512
 <h5 id="_요청_93_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/contests/100?_csrf=7uSzPrfgssNBsTwm4Hz_QUbo8uO2bXRZLquPnEhZV5YXDYJK2dOKC4TQ1vps1QlH2VHLeX7a34GPXkx0SM-3rHttMfcmaeB5 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/contests/100?_csrf=V0kO3Ena2k7lgCjSyj8RNJQdzf7um-Am6S_8q9K9rbw4qMKTNH467nm_7n7I5E7k-RIlUKUq4MeP_YYL3EzOn7PYmd0AyaHx HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -11205,7 +11218,7 @@ Content-Length: 512
 <h5 id="_요청_94_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/contests?_csrf=bOQSAxylalHzsWCmJApctPm-JkC9qCVCkzoSWhmeQH8MygLbCYUkYC6RW2nehFHFRydo18GICyLemBVv9V4mbX2qIRs8rGTs HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/contests?_csrf=fBS8IhrpvMNkTzDSrSW0U8k4xwxgP_hw5z0VS6J0UYEsfCuEGXGLECiPjKdJeFTqmgiAav8P6jUCBsFd1V4kKpMQNLFOHxPg HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 341
 Host: localhost:8080
@@ -11399,7 +11412,7 @@ Content-Length: 512
 <h5 id="_요청_95_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/contests/100?_csrf=SHj7yhPCShf3rcC1PShcpSoLlvRf7kPj-Pe7E4RBwD7BJoPPLhme-SGheXbalPbQBAVolhw6u8072iXOy8aOKrB5-V-iRbP- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/contests/100?_csrf=82lNrU7am7kbq11AJqPUk97coYM4ytsi2rsUnsznw1xqpLO8l19-m37qrNg2kmV5QI7goei4jOJcqOkP74Ik__6D8T5exdKK HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 341
 Host: localhost:8080
@@ -11576,7 +11589,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=HOJmM35bn54pm00qSg1DubSGXlMdz0nVPAvzjz9J8hlrmovTKdBXBRtup6YE-XQeKSB3gIexczF493v4DmjCtl1-liAPrru3</code></pre>
+_csrf=sP7O5Qi5vvSFjDOsW-g3Q5NgB0BwJEqMx-BCgLlrRquxVOHVicv91T-Kj8aotFXNPcUDJfZRKnkWR3ihooZw44wIcpyANdCz</code></pre>
 </div>
 </div>
 </div>
@@ -12011,7 +12024,7 @@ Content-Length: 832
 <h5 id="_요청_99_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=zJX7mcSpWGj7g35Uw2JOkYrv9cm0GWRPTujQU93rEPQrLf8ZraTO-vWROQvWsU5s8k969b7X2PDXegdif93laurbc81OTpkq HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=j63r5hNhDVH1q0_QxkMfS3UZaYymzqxvasnerrsOjuuh-TmYvJmN1nFQbmnYmnuy_24rKEEpRLWT_5pCXvznntk_uY7Enw6g HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -12131,7 +12144,7 @@ Content-Length: 36
 <h5 id="_요청_100_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=fxD23ZRUi-_e-ZcYuZlYYJafRVLVQ38NZwkEDQEYLMb6oWN5GiWQ66Uy7drzwaUqjrRsAveoaGrkJh4gUj5iP2MrHKCYkVQd HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/10000/comments?_csrf=UdwYMJA4HR7szWPxh34yVBrQDvVabdcaFHEKXf5AMsUwAN4JN7otB6BaLyzB-lbH5lMGMizjI81vX7U3cUdoacxxAfMFN7tr HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -12251,7 +12264,7 @@ Content-Length: 52
 <h5 id="_요청_101_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=NzbAIicGMDb2cyOoT7ubgFvhQhA6x5P7x26uyLiGCOQ1qqtjAVShRhcwBgHbQhKcepavsjnQb3ED8qHW91ycqoy0bNINk5sF HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=UWMI4l-3osiIAGGmg07724Mep5Oj6dIyC87YVOi0pcDTAeHpYVc9hj2Hm6ylYViT5WPPubYuivHG0OMfav_hMtiAlKHrY9Le HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -12375,7 +12388,7 @@ Content-Length: 52
 <h5 id="_요청_102_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=fTRhaMjiyjHD_grwOWEoVjBzyDkEkqnN-MLnmY0ay1kGLhK4HAEAX_iHqVfuy27DCEwcYFNA5QBmoM3gyaGFr7h_qj9nTHPZ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/10000/comments/100?_csrf=ZlV25PEyIKAcfa8KN5u9R3djQSph6tbwpPcBqhctgoeOeRnMVjdB15QDF5cxT5c_BraJfkAHbBJZ0rfdwsQ4yyYUsb-9QHqo HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -12504,7 +12517,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=5PQqaD4Af7r5K05mSUvaHhVFI9PN3GbSQfSJzoEUDqKxsHUx08cYUVo0Ht7USn1ULGbueyUmDrKvv1D_JcXqqrkgbZGG0UdS</code></pre>
+_csrf=d5_cgvPnVuv6bR-t-w_0xn6k5pG4ZWZfmqO5ahOEqK5L50ymFvu-tZbSMt3XWyjOmiLAp0fAy_OMUwNyrcaBDHK3yZZ_0nzE</code></pre>
 </div>
 </div>
 </div>
@@ -12617,7 +12630,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=9xkDgxilHelGfHqNVmndWCuV0VK1cMQh3azeYicRBmRMiJNezig25yDGed9rTBm0ZkTpOxvz_DCCFPUM7MjuVx8mPwV7vaZo</code></pre>
+_csrf=3vzCAp4RTES0XSSxPsUBUwlW5Fz1sesMs2DMCbxNP8akOnRZ7Mj1N6gjKnOZORKDC-g1N280yT3N0Iohilb0Po5_DqOUWBBr</code></pre>
 </div>
 </div>
 </div>
@@ -12730,7 +12743,7 @@ Content-Length: 52
 <h5 id="_요청_105_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/likes?_csrf=5hU0DQVfkYD9emH35Gkm58h_LokJjUPFS-tmCG0vlztcWlAp03AHaTw8pbnQGQTGh0QSgfhOA-g_vSDoKdkAOwhNrgI4aWkb HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/likes?_csrf=97ifrkG48HqJ541XQLKRps4to5cU6jHB9pewYwn0a6dHkByjxI39mHLck06k0ehkeZ-ln6gajq8g3QPsxKCJBz3DCZ5_9n2V HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 66
 Host: localhost:8080
@@ -13649,7 +13662,7 @@ Content-Length: 1362
 <h5 id="_요청_110_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews?_csrf=iLMPz1_kYCe3T5XBoBJS-YLfrZrYTLAE0AeL3lKRCykoUoTL7dA_9meGWUaaeqKglD9mweHpgPi7LdEpsz69vWukaksZZeX6 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews?_csrf=OvVDruVYjQBY83jbvDfIdglzYRN3tu_x7swTQV06oB7BGJxgCpZ6yIA-vzF1wkzj3xr8QW8XTHJDhIvci653I2QOwiakLaxY HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 117
 Host: localhost:8080
@@ -13759,7 +13772,7 @@ Content-Length: 52
 <h5 id="_요청_111_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews?_csrf=73IB_jexL6NMoTxv6Z1UovhBh5I2Z1cHiPLzvMx2STm_Rjkli0NgyFWFHZFhmQkK27BglMpxqqtXUmIqucrAhfsSeQDZJwxB HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews?_csrf=NgQTLMESIdequ9dDdzyxZYBMVb4yqhAA-Ydk1yldGeLYTTQ6VWFxHPYgEOeHiLNzExGFAOQpeN8KkiAtn-RRsk9vfNfpLAYJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 117
 Host: localhost:8080
@@ -13869,7 +13882,7 @@ Content-Length: 58
 <h5 id="_요청_112_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/reviews/100?_csrf=41y9W9XOOqEBZiQ-_pKjlBgduMrJhNgousAhJFsgLmgXl3lY22_YbbD9XJUsXkBbzb-XonorlfOv5uoF2fRCQTkYGQkip01g HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/reviews/100?_csrf=ELn3_UQSBQk3kfEvrtlD6XPfSnrHmyzGIIrric3QFwwAb4_-I9-Sy3QnMTAa8MNLnfR33EHpZ0Kj-ErrRb3auf_nczU4Wb2Y HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 137
 Host: localhost:8080
@@ -14001,7 +14014,7 @@ Content-Length: 65
 <h5 id="_요청_113_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/reviews/1?_csrf=ZxgJUWmldyzQjrF4XkSrAHO4iP-rs0qL0xN7n-1chxS7YOGPXiFrYAqWQBr97YEaOmmfMUOPpZ3N13ym5SFKpolrsiyIAtO4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/certifications/reviews/1?_csrf=Pbqwh9CFPNKvJHfz3v_ggl7B5W_bgvmYo0P0EcMNFd11Sw5XX9iGsePmCuCCHEPKutLU42_xyFbvsJu1lHaWc6ZpcexMfmxg HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 137
 Host: localhost:8080
@@ -14138,7 +14151,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=J2ucG92RIYihRB1FUT1CChINs0aUMDKEkOy6aLnpuCKld50zEFL-Kbj0F7iMdn50ZhB2bic6niSiCQqp897ZW9ragUeTQ6hX</code></pre>
+_csrf=o12HUH_XTdeXhy9ECxnWehx-gAH60HCXEnJfk0nIihrCBtbekzmxaB6xK-a65hlwaTTiTnofrTjK5xO6I0BupHH46Sj7NuDt</code></pre>
 </div>
 </div>
 </div>
@@ -14247,7 +14260,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 Content-Length: 102
 
-_csrf=GlQbzLWnjAwyFtd5qYIsMhTj_yMEE-auQ22_NaBzMFSwqyDULW1--9eWvj0fdLIby68YASSA0hsyIoeDJl6LV8EVUWKJmRLt</code></pre>
+_csrf=9FUf3BhaM4OkY4mBNeI2rAmdnTykdtcdb0-vAaHkWohWTitqkmQm6ylpBbKJVrC5U88Cz2ulsAWcQ-IwWHvNY5nXar1lKhtf</code></pre>
 </div>
 </div>
 </div>
@@ -14356,7 +14369,7 @@ Content-Length: 58
 <h5 id="_요청_116_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews/likes?_csrf=ytkwuVqlfxCAox8CbCFnXAeCf0ks2xPZw7ImkrLPlGh9UjYc-LtVimuUSSOtx3w1WQxTbWW3UnBJ6HD0otcVo9P6pVBOYQd- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/reviews/likes?_csrf=5noRTa8j8k34prk0XTSL5h_wTRGq93MvkKK8nRMQHJSbH1ULgh8oK80RxivVn4xSaRm_0SyWYCjJwBACpsCKryZyLKb4fGw7 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 68
 Host: localhost:8080
@@ -15296,7 +15309,7 @@ Content-Length: 486
 <h5 id="_요청_122_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=179XaBoYajWJCjW-jQQ7V-Y6eVLBGFWIxalis7ZUjeq_8cBT44czDiMqUlOkOQ3YtCkPMtILVGujLTal988HgoFhu9_cw6Vj HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=ECrThpu1pDw4rmeGllkrn5jXMT_R3mDEP7J5bL4J0FFRFe9NJhPhsfiFlQUVmF6wpHQf-qmyHAfpuFHpCYJOXN9r4GBgcI51 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 97
 Host: localhost:8080
@@ -15400,7 +15413,7 @@ Content-Length: 67
 <h5 id="_요청_123_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=Por1BhOkE-9Iz5JN1qeM5JuCEwhO_R7Mps6jkO8v-9TMBTqAXb2QNnLCJNpl-qsp54q4063nPmkqzn_hlKqaoolLy7L-MQLk HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certification/interest?_csrf=SFiG0zr2Ui_2a3P76xzBRizIE830BeRn-4QyJ-6aCARrtzTOcGzgsQrAZhjbWUfI3TH1fx__PqzFY91KyeYCHtqjbGFYgFH6 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 96
 Host: localhost:8080
@@ -15509,7 +15522,7 @@ Content-Length: 67
 <h5 id="_요청_124_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=lbT6PWfAeSAT_-fd3BKaS9LEAd323CNZel9o3yZpZun9zs-YpYacWwKmQBU-noXs5T-uf7b3LOXE7hd0TW9Zux9bAtjK-P6q HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=Z-gWpC6nzS6K-0LTsgypSzkYcRqQRIc-P72DVjfJrJyB0Wf0Xo4nxRaS-h-nnXblhCGdeQkrXHjyJ-QTXN60NwH4la_islTC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 93
 Host: localhost:8080
@@ -15613,7 +15626,7 @@ Content-Length: 58
 <h5 id="_요청_125_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=jiYyFIS_r6K8BCO2A2PMTBqvpIWph8nyEGAeReShaPT0kzUI7UcFdrGJycGRN0bUNE74dS-biefMsvrfcgZ_JoCQDMTN9gI5 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=9rH50rOZIzDZ6QQ2WOc5ZUGvNYAENR03-1Zf67RN880s4LetzoLA4YKrFAX00GJQacoNVnOeGOIyAXkanW5uj40ow_gahNPP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 81
 Host: localhost:8080
@@ -15717,7 +15730,7 @@ Content-Length: 66
 <h5 id="_요청_126_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=yvQeteBvJqqp7nPDlVWoSx4S_ydj7sOJyovP321jtRwDEyZ-rJJ6hoMLRJ2EjEDxpnicfH9z0h9ajPWk_73771wA0Sw3JkRJ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=E7uOCAgb4GFo85CyxStatFPskP24E1GNJm0X3ymHAq2Nhxvxd4u-OGt9hVFFlaXQ_QZug2OJvZyAIGWgFlglvRqyZ5q74SvC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 71
 Host: localhost:8080
@@ -15815,7 +15828,7 @@ Content-Length: 60
 <h5 id="_요청_127_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=P9gJj0Jziq8kOEXYUwy1OrNv7zHkOElbUAiNU4coRmuuIlmHDehqunRKucoJC3zvYyGBDddbwlCCXn12ZDG8MLARJw7MEj_h HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/certifications/user-certification?_csrf=aVwZWi4-vx4BDUD5xgaCiHITsHIGmb5sfv8ZuZ8d87E1gRMhXm8rPhdb2i8sOyHLoCu2uxBwnUsyqoZBG8Z4jat5ytQMtyEZ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 99
 Host: localhost:8080
@@ -15913,11 +15926,1152 @@ Content-Length: 62
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_팀_매칭_api_teamcontroller">팀 매칭 API (TeamController)</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_팀_리스트_조회">팀 리스트 조회</h3>
+<div class="sect3">
+<h4 id="_요청_128">요청</h4>
+<div class="sect4">
+<h5 id="_요청_128_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/teams?page=0 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_128_query_parameters">Query parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청하는 페이지 (0부터 시작, 15개씩 자름)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_128">응답</h4>
+<div class="sect4">
+<h5 id="_응답_128_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 767
+
+{
+  "totalPage" : 3,
+  "teamResponse" : [ {
+    "teamId" : 100,
+    "teamName" : "정보처리기사 1팀",
+    "teamType" : "STUDY",
+    "maxMember" : 5,
+    "startDate" : "2024-01-10",
+    "endDate" : "2024-02-10"
+  }, {
+    "teamId" : 101,
+    "teamName" : "정보처리기사 2팀",
+    "teamType" : "STUDY",
+    "maxMember" : 4,
+    "startDate" : "2024-01-10",
+    "endDate" : "2024-02-10"
+  }, {
+    "teamId" : 102,
+    "teamName" : "정보처리기사 3팀",
+    "teamType" : "STUDY",
+    "maxMember" : 6,
+    "startDate" : "2024-01-10",
+    "endDate" : "2024-02-10"
+  }, {
+    "teamId" : 103,
+    "teamName" : "공모전에 도전해보자",
+    "teamType" : "CONTEST",
+    "maxMember" : 3,
+    "startDate" : "2024-01-10",
+    "endDate" : "2024-02-10"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_128_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 페이지 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].maxMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 최대 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 시작일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀_타입으로_리스트_조회">팀 타입으로 리스트 조회</h3>
+<div class="sect3">
+<h4 id="_요청_129">요청</h4>
+<div class="sect4">
+<h5 id="_요청_129_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/teams/contest?page=0 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_129_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/teams/{teamType}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 타입</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_요청_129_query_parameters">Query parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청하는 페이지 (0부터 시작, 15개씩 자름)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_129">응답</h4>
+<div class="sect4">
+<h5 id="_응답_129_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 426
+
+{
+  "totalPage" : 3,
+  "teamResponse" : [ {
+    "teamId" : 103,
+    "teamName" : "공모전에 도전해보자",
+    "teamType" : "CONTEST",
+    "maxMember" : 3,
+    "startDate" : "2024-01-10",
+    "endDate" : "2024-02-10"
+  }, {
+    "teamId" : 104,
+    "teamName" : "새로운 공모전에 도전해보자",
+    "teamType" : "CONTEST",
+    "maxMember" : 3,
+    "startDate" : "2024-01-10",
+    "endDate" : "2024-02-10"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_129_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 페이지 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].maxMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 최대 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 시작일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀_세부정보_조회">팀 세부정보 조회</h3>
+<div class="sect3">
+<h4 id="_요청_130">요청</h4>
+<div class="sect4">
+<h5 id="_요청_130_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/teams-details/100 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_130_path_parameters">Path parameters</h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/teams-details/{teamId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_130">응답</h4>
+<div class="sect4">
+<h5 id="_응답_130_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 636
+
+{
+  "teamResponse" : {
+    "teamId" : 100,
+    "teamName" : "정보처리기사 1팀",
+    "teamType" : "STUDY",
+    "maxMember" : 5,
+    "startDate" : "2024-01-10",
+    "endDate" : "2024-02-10"
+  },
+  "teamMemberResponses" : [ {
+    "userId" : "user1",
+    "position" : "백엔드 개발자",
+    "teamLeader" : true
+  }, {
+    "userId" : "user2",
+    "position" : "프론트엔드 개발자",
+    "teamLeader" : false
+  }, {
+    "userId" : "user3",
+    "position" : "디자이너",
+    "teamLeader" : false
+  } ],
+  "emptyTeamMemberResponses" : [ {
+    "position" : "AI 개발자"
+  }, {
+    "position" : "백엔드 개발자"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_130_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.teamName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.teamType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.maxMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 최대 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 시작일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamMemberResponses.[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀원 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamMemberResponses.[].position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀원 포지션</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamMemberResponses.[].teamLeader</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀장 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>emptyTeamMemberResponses.[].position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀장이 선호하는 포지션</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀_생성">팀 생성</h3>
+<div class="sect3">
+<h4 id="_요청_131">요청</h4>
+<div class="sect4">
+<h5 id="_요청_131_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/teams?_csrf=CjbFE36ZzyQMWTxYMwZgHqHk3PhEuWDyahvkwvjM1NaUY7QTaFPxdk6vrhchP1lhBitULZbV8cEl2gTfDCmA9J35tbDwV4Qr HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 341
+Host: localhost:8080
+
+{
+  "teamLeaderId" : "leaderId",
+  "position" : "백엔드 개발자",
+  "teamName" : "새로운 프로젝트를 만들어 봅시다.",
+  "teamType" : "STUDY",
+  "maxMember" : 5,
+  "startDate" : "2024-01-01",
+  "endDate" : "2024-02-01",
+  "positions" : [ "백엔드 개발자", "프론트엔드 개발자", "디자이너", "AI 개발자" ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_131_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamLeaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀장 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀장의 포지션</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 최대 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 시작일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>positions</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선호하는 팀원 포지션들</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_131">응답</h4>
+<div class="sect4">
+<h5 id="_응답_131_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 49
+
+{
+  "msg" : "팀 생성에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_131_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀_수정">팀 수정</h3>
+<div class="sect3">
+<h4 id="_요청_132">요청</h4>
+<div class="sect4">
+<h5 id="_요청_132_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/teams?_csrf=JL3k-miO_eeZ18IoaRO0uvrAzqO2cjq5J4SE-iTNDPkFQizjRojVmAntzIO04qROWj6AicL245qFFA6UHue0yhapPZsxe0rT HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 359
+Host: localhost:8080
+
+{
+  "teamId" : 100,
+  "teamLeaderId" : "leaderId",
+  "position" : "백엔드 개발자",
+  "teamName" : "새로운 프로젝트를 만들어 봅시다.",
+  "teamType" : "STUDY",
+  "maxMember" : 5,
+  "startDate" : "2024-01-01",
+  "endDate" : "2024-02-01",
+  "positions" : [ "백엔드 개발자", "프론트엔드 개발자", "디자이너", "AI 개발자" ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_132_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamLeaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀장 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀장의 포지션</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 최대 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 시작일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>positions</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선호하는 팀원 포지션들</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_132">응답</h4>
+<div class="sect4">
+<h5 id="_응답_132_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 49
+
+{
+  "msg" : "팀 수정에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_132_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀_삭제">팀 삭제</h3>
+<div class="sect3">
+<h4 id="_요청_133">요청</h4>
+<div class="sect4">
+<h5 id="_요청_133_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/teams?_csrf=3OWaJhDzGh6ikRjjyrvkwRZ9n9U8PQJzybbjYtNekh1h4MZfvdejRybKLS6P9yzUr5bQpXdLsrRYWzRe_9LVA7Jt9CpY0vNv HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 51
+Host: localhost:8080
+
+{
+  "teamId" : 100,
+  "teamLeaderId" : "leaderId"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_133_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamLeaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀장 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_133">응답</h4>
+<div class="sect4">
+<h5 id="_응답_133_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 49
+
+{
+  "msg" : "팀 삭제에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_133_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀_참가">팀 참가</h3>
+<div class="sect3">
+<h4 id="_요청_134">요청</h4>
+<div class="sect4">
+<h5 id="_요청_134_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/teams/members?_csrf=zbOP-jnbCKOrzmxQALCUx9eBL1nGDScYQc4xGZKEPshWWzUu-4TqmAy4bseGrFhjYp2g_rW5AmGnOh41cfpQKPO9XP9ka1QW HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 73
+Host: localhost:8080
+
+{
+  "teamId" : 100,
+  "userId" : "userA",
+  "position" : "AI 개발자"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_134_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자(팀원) ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자(팀원)의 포지션</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_134">응답</h4>
+<div class="sect4">
+<h5 id="_응답_134_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 49
+
+{
+  "msg" : "팀 참가에 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_134_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀_떠나기">팀 떠나기</h3>
+<div class="sect3">
+<h4 id="_요청_135">요청</h4>
+<div class="sect4">
+<h5 id="_요청_135_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/teams/members?_csrf=jUYWXQ-p53Vj6mzrKjkIihzthDjDqqL83InI6pASLQ7cIkdrvSdzaj_KhRRO2VuNHBQ8vimMqVn2k5HR7rCq2fV2SDy_FyJe HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 73
+Host: localhost:8080
+
+{
+  "teamId" : 100,
+  "userId" : "userA",
+  "position" : "AI 개발자"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_135_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자(팀원) ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자(팀원)의 포지션</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_135">응답</h4>
+<div class="sect4">
+<h5 id="_응답_135_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 55
+
+{
+  "msg" : "팀을 떠나는데 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_135_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_팀원_추방">팀원 추방</h3>
+<div class="sect3">
+<h4 id="_요청_136">요청</h4>
+<div class="sect4">
+<h5 id="_요청_136_http_request">HTTP request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/teams/members?_csrf=P3G_h7ZPDOhqY8-1Zcr5q6k2Im0mP-nVvc3BBDCVcf1FWZ3UDkOJtYcqadFHUfvXXefNz8hVDw9EB434ifv4YACmRJl1aq7m HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 106
+Host: localhost:8080
+
+{
+  "teamId" : 100,
+  "teamLeaderId" : "leaderId",
+  "targetId" : "userA",
+  "position" : "AI 개발자"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_요청_136_request_fields">Request fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamLeaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자(팀장) ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>targetId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 대상(팀원) ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈자리에 추가할(선호하는 팀원) 포지션</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_136">응답</h4>
+<div class="sect4">
+<h5 id="_응답_136_http_response">HTTP response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 71
+
+{
+  "msg" : "팀에서 회원을 추방하는데 성공했습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_응답_136_response_fields">Response fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처리결과</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-05-30 21:51:00 +0900
+Last updated 2024-06-01 23:27:37 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

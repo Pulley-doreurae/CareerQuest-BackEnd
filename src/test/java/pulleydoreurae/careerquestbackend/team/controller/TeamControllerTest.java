@@ -23,7 +23,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -34,7 +33,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.team.domain.TeamType;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.KickRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamDeleteRequest;
@@ -45,9 +43,6 @@ import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamDetailResp
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponseWithPageInfo;
-import pulleydoreurae.careerquestbackend.team.domain.entity.EmptyTeamMember;
-import pulleydoreurae.careerquestbackend.team.domain.entity.Team;
-import pulleydoreurae.careerquestbackend.team.domain.entity.TeamMember;
 import pulleydoreurae.careerquestbackend.team.service.TeamService;
 
 /**
@@ -186,16 +181,12 @@ class TeamControllerTest {
 		given(teamService.findByTeamId(any())).willReturn(response);
 
 		// When
-		mockMvc.perform(get("/api/teams-details/{teamId}", "100")
-						.queryParam("page", "0"))
+		mockMvc.perform(get("/api/teams-details/{teamId}", "100"))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andDo(document("{class-name}/{method-name}/",
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
-						queryParameters(
-								parameterWithName("page").description("요청하는 페이지 (0부터 시작, 15개씩 자름)")
-						),
 						pathParameters(
 								parameterWithName("teamId").description("팀 ID")
 						),
@@ -242,6 +233,9 @@ class TeamControllerTest {
 								fieldWithPath("startDate").description("모집 시작일"),
 								fieldWithPath("endDate").description("모집 종료일"),
 								fieldWithPath("positions").description("선호하는 팀원 포지션들")
+						),
+						responseFields(
+								fieldWithPath("msg").description("처리결과")
 						)));
 
 		// Then
