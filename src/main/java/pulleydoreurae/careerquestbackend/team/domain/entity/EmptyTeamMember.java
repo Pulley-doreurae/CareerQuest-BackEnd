@@ -35,6 +35,4 @@ public class EmptyTeamMember {
 	private Team team; // 팀 정보
 	@Column(nullable = false)
 	private String position; // 포지션
-	@Column(nullable = false)
-	private Integer index; // 인덱스
 }
