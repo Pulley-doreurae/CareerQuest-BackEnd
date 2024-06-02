@@ -330,12 +330,12 @@ public class UserAccountController {
 
         if(careers.isEmpty()) return makeBadRequestUsingUserIdResponse("[회원 - 직무 리스트 요청] 해당하는 회원직무가 없습니다.", null);
 
-        String msg = showCareersRequest.getMiddle().isEmpty() ? (showCareersRequest.getMajor().isEmpty() ? "대분류" : "중분류")  : "소분류" ;
+        String msg = showCareersRequest.getMiddle().isEmpty() ? (showCareersRequest.getMajor().isEmpty() ? "major" : "middle")  : "small" ;
 
         return ResponseEntity.status(HttpStatus.OK).body(
             ListResponse.builder()
                 .lists(careers)
-                .msg(msg +" 리스트 요청을 했습니다.")
+                .msg(msg)
                 .build());
     }
 
