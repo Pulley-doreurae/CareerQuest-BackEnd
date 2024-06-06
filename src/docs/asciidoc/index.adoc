@@ -20,3 +20,4 @@ include::../CareerQuest-BackEnd/src/docs/asciidoc/CertificationCalenderControlle
 include::../CareerQuest-BackEnd/src/docs/asciidoc/InterestedCertificationController.adoc[]
 include::../CareerQuest-BackEnd/src/docs/asciidoc/UserCertificationController.adoc[]
 include::../CareerQuest-BackEnd/src/docs/asciidoc/teamController.adoc[]
+include::../CareerQuest-BackEnd/src/docs/asciidoc/AiController.adoc[]

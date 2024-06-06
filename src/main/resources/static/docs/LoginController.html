@@ -512,9 +512,9 @@ Content-Length: 471
 {
   "userId" : "testId",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDIsImV4cCI6MTcxNzI1MzIwMn0.ta37ipvgsakEjvUbVmxWlvyE3yTPfz29f0WS9d4YtbE",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTc2Nzc0NTcsImV4cCI6MTcxNzY3ODA1N30.Tu9VkJdmKUaCzTrXVXpRkBSPoNnhGv9bTzuTfmgaCUM",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxOTQxMjYwM30.fVuHSZkFtK8gFizpc00iGVjk3qDFdJvgsgjs8i6GDyA",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTc2Nzc0NTcsImV4cCI6MTcxOTgzNzQ1N30.gTDH3w5miE1CSrXrPUQr4hZs0tVBL5D9InAYR-JO_ws",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -640,9 +640,9 @@ Content-Length: 501
 {
   "userId" : "test@email.com",
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzI1MjYwMywiZXhwIjoxNzE3MjUzMjAzfQ.YkXpXDvfj2OZk0Hd9aPayOgs0Xy7qTAtst4sKTVJ9cI",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzY3NzQ1NywiZXhwIjoxNzE3Njc4MDU3fQ.T2ss8gk9DGHv5hXeTK7vWY6QNr47NVrUWk0nb6RcHJU",
   "expires_in" : 600000,
-  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzI1MjYwMywiZXhwIjoxNzE5NDEyNjAzfQ.kKmjhszHc6UXdpQqWI_oNFJPYuEXSu9-azfGLNxW2iQ",
+  "refresh_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImlzcyI6InB1bGxleSIsImlhdCI6MTcxNzY3NzQ1NywiZXhwIjoxNzE5ODM3NDU3fQ.CrwXgJnxuq4D90Ysjw9iQ-DwWTBTvvOvt3BK1iIZFMA",
   "refresh_token_expires_in" : 2160000000
 }</code></pre>
 </div>
@@ -918,7 +918,7 @@ Content-Length: 133
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
 userId: testId
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxNzI1MzIwM30.1QVFWa_KZLx8CpKL7WU71JCVzn82kTxK8_s1gXYx0Cs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTc2Nzc0NTcsImV4cCI6MTcxNzY3ODA1N30.Tu9VkJdmKUaCzTrXVXpRkBSPoNnhGv9bTzuTfmgaCUM
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1077,7 +1077,7 @@ Content-Length: 60
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /test HTTP/1.1
 userId: testId
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MDU4MjU0OTUsImV4cCI6MTcwNzk4NTQ5NX0.k3dJRYloCsuMAEiMBDxTeYG44DWLs6xHAPrTmmyHsdg
-RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxOTQxMjYwM30.fVuHSZkFtK8gFizpc00iGVjk3qDFdJvgsgjs8i6GDyA
+RefreshToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTc2Nzc0NTcsImV4cCI6MTcxOTgzNzQ1N30.gTDH3w5miE1CSrXrPUQr4hZs0tVBL5D9InAYR-JO_ws
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1133,7 +1133,7 @@ Content-Length: 229
 
 {
   "token_type" : "bearer",
-  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTcyNTI2MDMsImV4cCI6MTcxNzI1MzIwM30.1QVFWa_KZLx8CpKL7WU71JCVzn82kTxK8_s1gXYx0Cs",
+  "access_token" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SWQiLCJpc3MiOiJwdWxsZXkiLCJpYXQiOjE3MTc2Nzc0NTcsImV4cCI6MTcxNzY3ODA1N30.Tu9VkJdmKUaCzTrXVXpRkBSPoNnhGv9bTzuTfmgaCUM",
   "expires_in" : 600000
 }</code></pre>
 </div>
