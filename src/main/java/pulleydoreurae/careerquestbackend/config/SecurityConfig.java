@@ -105,7 +105,7 @@ public class SecurityConfig {
 			auth.configurationSource(request -> {
 				CorsConfiguration cors = new CorsConfiguration();
 				cors.setAllowedOrigins(List.of("*"));
-				cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+				cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 				cors.setAllowedHeaders(List.of("*"));
 				return cors;
 			});

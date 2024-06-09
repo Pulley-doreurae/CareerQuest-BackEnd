@@ -5,6 +5,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -94,7 +95,8 @@ class CertificationCalenderControllerTest {
 		given(service.findByDate(request.getDate())).willReturn(willReturn);
 
 		// When
-		mockMvc.perform(get("/api/certifications/dates")
+		mockMvc.perform(post("/api/certifications/dates")
+						.with(csrf())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(gson.toJson(request)))
 				.andExpect(status().isOk())

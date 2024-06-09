@@ -57,7 +57,11 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 		if (request.getTotalPrize() != null && request.getTotalPrize() > 0) {
 			builder.and(contest.totalPrize.goe(request.getTotalPrize())); // 크거나 같은 경우에만
 		}
-
+		// 날짜가 검색조건에 있는경우
+		if (request.getStartDate() != null && request.getEndDate() != null) {
+			builder.and(contest.startDate.between(request.getStartDate(), request.getEndDate())
+					.or(contest.endDate.between(request.getStartDate(), request.getEndDate())));
+		}
 		List<Contest> contests = jpaQueryFactory
 				.selectFrom(contest)
 				.where(builder)

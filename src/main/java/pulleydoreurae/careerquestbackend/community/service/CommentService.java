@@ -97,6 +97,7 @@ public class CommentService {
 		Post post = commonCommunityService.findPost(postId);
 		return commentRepository.findAllByPostOrderByIdDesc(post, pageable).stream()
 				.map(comment -> CommentResponse.builder()
+						.commentId(comment.getId())
 						.userId(comment.getUserAccount().getUserId())
 						.postId(comment.getPost().getId())
 						.content(comment.getContent())

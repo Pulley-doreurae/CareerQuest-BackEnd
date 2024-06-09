@@ -6,6 +6,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -105,8 +106,9 @@ class AiControllerTest {
 		given(aiService.findResult(any())).willReturn(aiResponse);
 
 		// When
-		mockMvc.perform(get("/api/ai")
+		mockMvc.perform(post("/api/ai")
 						.contentType(MediaType.APPLICATION_JSON)
+						.with(csrf())
 						.content(gson.toJson(request)))
 				.andExpect(status().isOk())
 				.andDo(print())

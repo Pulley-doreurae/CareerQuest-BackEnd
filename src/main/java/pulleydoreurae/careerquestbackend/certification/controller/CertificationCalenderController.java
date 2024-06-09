@@ -2,14 +2,14 @@ package pulleydoreurae.careerquestbackend.certification.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationDateResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.CertificationSearchRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationDateResponse;
 import pulleydoreurae.careerquestbackend.certification.service.CertificationCalenderService;
 
 /**
@@ -25,7 +25,7 @@ public class CertificationCalenderController {
 
 	private final CertificationCalenderService certificationCalenderService;
 
-	@GetMapping("/certifications/dates")
+	@PostMapping("/certifications/dates")
 	public ResponseEntity<CertificationDateResponse> findByDate(@RequestBody CertificationSearchRequest request) {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(certificationCalenderService.findByDate(request.getDate()));

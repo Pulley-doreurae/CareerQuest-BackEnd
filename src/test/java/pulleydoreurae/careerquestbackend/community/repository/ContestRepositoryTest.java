@@ -2,6 +2,7 @@ package pulleydoreurae.careerquestbackend.community.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +52,7 @@ class ContestRepositoryTest {
 		userAccountRepository.save(userAccount);
 		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post);
-		Contest contest = new Contest(100L, post, "정부주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest = new Contest(100L, post, "정부주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 
 	    // When
 		contestRepository.save(contest);
@@ -73,7 +74,7 @@ class ContestRepositoryTest {
 		userAccountRepository.save(userAccount);
 		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post);
-		Contest contest = new Contest(100L, post, "정부주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest = new Contest(100L, post, "정부주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 
 		// When
 		contestRepository.save(contest);
@@ -91,7 +92,7 @@ class ContestRepositoryTest {
 		userAccountRepository.save(userAccount);
 		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post);
-		Contest contest = new Contest(100L, post, "정부주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest = new Contest(100L, post, "정부주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest);
 
 		// When
@@ -113,11 +114,11 @@ class ContestRepositoryTest {
 		postRepository.save(post2);
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
 
 		// When
@@ -146,11 +147,11 @@ class ContestRepositoryTest {
 		postRepository.save(post2);
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
 
 		// When
@@ -180,11 +181,11 @@ class ContestRepositoryTest {
 		postRepository.save(post2);
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
 
 		// When
@@ -214,11 +215,11 @@ class ContestRepositoryTest {
 		postRepository.save(post2);
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
 
 		// When
@@ -248,11 +249,11 @@ class ContestRepositoryTest {
 		postRepository.save(post2);
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
 
 		// When
@@ -282,11 +283,11 @@ class ContestRepositoryTest {
 		postRepository.save(post2);
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
 
 		// When
@@ -318,13 +319,13 @@ class ContestRepositoryTest {
 		postRepository.save(post3);
 		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post4);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
-		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L);
+		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest4);
 
 		// When
@@ -355,13 +356,13 @@ class ContestRepositoryTest {
 		postRepository.save(post3);
 		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post4);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
-		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L);
+		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest4);
 
 		// When
@@ -376,6 +377,74 @@ class ContestRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("공모전 검색조건으로 검색 (분야 + 대상 + 주관처 + 지역 + 날짜)")
+	void findAllBySearchRequestTest9() {
+		// Given
+		UserAccount userAccount = UserAccount.builder().userId("testId").build();
+		userAccountRepository.save(userAccount);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post4);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest1);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest2);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest3);
+		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest4);
+
+		// When
+		ContestSearchRequest request = ContestSearchRequest.builder().contestCategory("부산주관").target("대학생").organizer("부산시청").region("부산").startDate(LocalDate.of(2020, 1, 10)).endDate(LocalDate.of(2020, 1, 10)).build();
+		Pageable pageable = PageRequest.of(0, 1, Sort.by("id").descending());
+		Page<Contest> result = contestRepository.findAllBySearchRequest(request, pageable);
+
+		assertEquals(Optional.empty(), result.get().findFirst()); // 검색결과는 없다.
+		assertEquals(0, result.getNumberOfElements());
+		assertEquals(0, result.getTotalPages());
+		assertEquals(0, result.getTotalElements());
+	}
+
+	@Test
+	@DisplayName("공모전 검색조건으로 검색 (분야 + 대상 + 주관처 + 지역 + 날짜)")
+	void findAllBySearchRequestTest10() {
+		// Given
+		UserAccount userAccount = UserAccount.builder().userId("testId").build();
+		userAccountRepository.save(userAccount);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post4);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest1);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest2);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest3);
+		Contest contest4 = new Contest(103L, post4, "부산주관", "대학생", "부산", "병무청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest4);
+
+		// When
+		ContestSearchRequest request = ContestSearchRequest.builder().contestCategory("부산주관").target("대학생").organizer("부산시청").region("부산").startDate(LocalDate.of(2020, 1, 10)).endDate(LocalDate.of(2025, 1, 10)).build();
+		Pageable pageable = PageRequest.of(0, 1, Sort.by("id").descending());
+		Page<Contest> result = contestRepository.findAllBySearchRequest(request, pageable);
+
+		assertEquals(1, result.getSize());
+		assertEquals(1, result.getNumberOfElements());
+		assertEquals(1, result.getTotalPages());
+		assertEquals(1, result.getTotalElements());
+	}
+
+	@Test
 	@DisplayName("공모전 정보 게시글로 찾기")
 	void findByPostId() {
 	    // Given
@@ -387,11 +456,11 @@ class ContestRepositoryTest {
 		postRepository.save(post2);
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100001L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest3);
 
 	    // When
