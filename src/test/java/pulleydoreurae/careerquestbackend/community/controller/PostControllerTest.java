@@ -1166,7 +1166,7 @@ class PostControllerTest {
 
 	    // When
 		mockMvc.perform(
-						get("/api/contests/search")
+						post("/api/contests/search")
 								.with(csrf())
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(gson.toJson(request)))

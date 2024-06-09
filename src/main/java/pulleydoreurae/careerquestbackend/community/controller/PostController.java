@@ -125,7 +125,7 @@ public class PostController {
 	 * @param pageable             페이지 정보
 	 * @return 게시글 리스트
 	 */
-	@GetMapping("/contests/search")
+	@PostMapping("/contests/search")
 	public ResponseEntity<List<ContestResponse>> searchPosts(@RequestBody ContestSearchRequest contestSearchRequest,
 			@PageableDefault(size = 15, direction = Sort.Direction.DESC) Pageable pageable) {
 
