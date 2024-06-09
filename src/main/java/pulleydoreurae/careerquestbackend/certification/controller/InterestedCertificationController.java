@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.InterestedCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.service.InterestedCertificationService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
@@ -43,7 +43,8 @@ public class InterestedCertificationController {
 		result.forEach(certification -> {
 			response.add(new CertificationResponse(certification.getCertificationCode(),
 					certification.getCertificationName(), certification.getQualification(),
-					certification.getOrganizer(), certification.getRegistrationLink(), certification.getAiSummary()));
+					certification.getOrganizer(), certification.getRegistrationLink(), certification.getAiSummary(),
+					certification.getPassRate()));
 		});
 
 		return ResponseEntity.status(HttpStatus.OK)

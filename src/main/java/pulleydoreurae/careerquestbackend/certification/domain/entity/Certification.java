@@ -42,4 +42,5 @@ public class Certification extends BaseEntity {
 	private String organizer; // 주관처
 	private String registrationLink; // 접수링크
 	private String aiSummary; // AI 요약
+	private String passRate; // 합격률
 }
