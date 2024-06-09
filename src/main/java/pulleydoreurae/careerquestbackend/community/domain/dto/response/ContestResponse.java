@@ -1,5 +1,7 @@
 package pulleydoreurae.careerquestbackend.community.domain.dto.response;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -25,4 +27,6 @@ public class ContestResponse {
 	private String region; // 개최지역
 	private String organizer; // 주관처
 	private Long totalPrize; // 총상금
+	private LocalDate startDate; // 시작일
+	private LocalDate endDate; // 종료일
 }

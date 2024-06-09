@@ -127,6 +127,8 @@ public class ContestService {
 				.region(contest.getRegion())
 				.organizer(contest.getOrganizer())
 				.totalPrize(contest.getTotalPrize())
+				.startDate(contest.getStartDate())
+				.endDate(contest.getEndDate())
 				.build();
 	}
 
@@ -148,6 +150,8 @@ public class ContestService {
 					.region(contest.getRegion())
 					.organizer(contest.getOrganizer())
 					.totalPrize(contest.getTotalPrize())
+					.startDate(contest.getStartDate())
+					.endDate(contest.getEndDate())
 					.build());
 		});
 

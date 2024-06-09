@@ -10,8 +10,12 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestRequest;
@@ -56,7 +65,27 @@ class PostControllerTest {
 	PostService postService;
 	@MockBean
 	ContestService contestService;
-	Gson gson = new Gson();
+
+	/**
+	 * Gson으로 LocalDate를 전송하기 위한 직렬화
+	 */
+	static class LocalDateTimeSerializer implements JsonSerializer<LocalDate> {
+		private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+		@Override
+		public JsonElement serialize(LocalDate localDate, Type srcType, JsonSerializationContext context) {
+			return new JsonPrimitive(formatter.format(localDate));
+		}
+	}
+
+	GsonBuilder gsonBuilder = new GsonBuilder();
+	Gson gson;
+
+	@BeforeEach
+	void setUp() {
+		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateTimeSerializer());
+		gson = gsonBuilder.setPrettyPrinting().create();
+	}
 
 	@Test
 	@DisplayName("1. 게시글 리스트 조회 테스트")
@@ -1158,9 +1187,9 @@ class PostControllerTest {
 	void searchPostsTest() throws Exception {
 	    // Given
 		ContestSearchRequest request = ContestSearchRequest.builder().contestCategory("부산주관").target("대학생").organizer("부산시청").build();
-		ContestResponse contest1 = ContestResponse.builder().contestId(100L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
-		ContestResponse contest2 = ContestResponse.builder().contestId(101L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청2").totalPrize(100000L).build();
-		ContestResponse contest3 = ContestResponse.builder().contestId(102L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청3").totalPrize(100000L).build();
+		ContestResponse contest1 = ContestResponse.builder().contestId(100L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
+		ContestResponse contest2 = ContestResponse.builder().contestId(101L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청2").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
+		ContestResponse contest3 = ContestResponse.builder().contestId(102L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청3").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
 
 		given(contestService.findBySearchRequest(any(), any())).willReturn(List.of(contest1, contest2, contest3));
 
@@ -1185,7 +1214,9 @@ class PostControllerTest {
 								fieldWithPath("[].target").description("대상"),
 								fieldWithPath("[].region").description("공모전 분야"),
 								fieldWithPath("[].organizer").description("주관처"),
-								fieldWithPath("[].totalPrize").description("총상금")
+								fieldWithPath("[].totalPrize").description("총상금"),
+								fieldWithPath("[].startDate").description("시작일"),
+								fieldWithPath("[].endDate").description("종료일")
 						)));
 
 	    // Then
@@ -1196,7 +1227,7 @@ class PostControllerTest {
 	@WithMockUser
 	void getContestTest() throws Exception {
 		// Given
-		ContestResponse contest = ContestResponse.builder().contestId(100L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
+		ContestResponse contest = ContestResponse.builder().contestId(100L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
 
 		given(contestService.findByPostId(100L)).willReturn(contest);
 
@@ -1218,7 +1249,9 @@ class PostControllerTest {
 								fieldWithPath("target").description("대상"),
 								fieldWithPath("region").description("공모전 분야"),
 								fieldWithPath("organizer").description("주관처"),
-								fieldWithPath("totalPrize").description("총상금")
+								fieldWithPath("totalPrize").description("총상금"),
+								fieldWithPath("startDate").description("시작일"),
+								fieldWithPath("endDate").description("종료일")
 						)));
 
 		// Then

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -190,11 +191,11 @@ class ContestServiceTest {
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
 
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L);
+		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L);
+		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L);
+		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		Page<Contest> list = new PageImpl<>(
@@ -223,6 +224,8 @@ class ContestServiceTest {
 				.region(contest.getRegion())
 				.organizer(contest.getOrganizer())
 				.totalPrize(contest.getTotalPrize())
+				.startDate(contest.getStartDate())
+				.endDate(contest.getEndDate())
 				.build();
 	}
 }

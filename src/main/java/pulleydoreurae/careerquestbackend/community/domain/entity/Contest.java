@@ -1,5 +1,8 @@
 package pulleydoreurae.careerquestbackend.community.domain.entity;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -38,4 +41,6 @@ public class Contest {
 	private String region; // 개최지역
 	private String organizer; // 주관처
 	private Long totalPrize; // 총상금
+	private LocalDate startDate; // 시작일
+	private LocalDate endDate; // 종료일
 }
