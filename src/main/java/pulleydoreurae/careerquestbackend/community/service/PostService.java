@@ -122,6 +122,7 @@ public class PostService {
 	 * @param postId 게시글 id
 	 * @return 게시글 dto 를 반환
 	 */
+	@Transactional
 	public PostResponse findByPostId(HttpServletRequest request, HttpServletResponse response, Long postId) {
 		Post post = commonCommunityService.findPost(postId);
 
