@@ -27,6 +27,7 @@ public class CertificationResponse {
 	private String organizer; // 주관처
 	private String registrationLink; // 접수링크
 	private String aiSummary; // AI 요약
+	private String passRate; // 합격률
 
 	List<CertificationPeriodResponse> periodResponse = new ArrayList<>(); // 신청기간
 	List<CertificationExamDateResponse> examDateResponses = new ArrayList<>(); // 시험일정
@@ -34,12 +35,13 @@ public class CertificationResponse {
 	@Builder
 	public CertificationResponse(Long certificationCode, String certificationName, String qualification,
 			String organizer,
-			String registrationLink, String aiSummary) {
+			String registrationLink, String aiSummary, String passRate) {
 		this.certificationCode = certificationCode;
 		this.certificationName = certificationName;
 		this.qualification = qualification;
 		this.organizer = organizer;
 		this.registrationLink = registrationLink;
 		this.aiSummary = aiSummary;
+		this.passRate = passRate;
 	}
 }

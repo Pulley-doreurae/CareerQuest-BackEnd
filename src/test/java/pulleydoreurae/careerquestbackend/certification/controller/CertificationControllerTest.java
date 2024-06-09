@@ -70,8 +70,8 @@ class CertificationControllerTest {
 	@WithMockUser
 	void findByNameTest2() throws Exception {
 		// Given
-		Certification certification = Certification.builder().certificationCode(10L).certificationName("정보처리기사").qualification("4년제").organizer("한국산업인력공단").registrationLink("https://www.hrdkorea.or.kr/").aiSummary("정보처리기사에 대한 AI 요약입니다.").build();
-		CertificationResponse response = CertificationResponse.builder().certificationCode(10L).certificationName("정보처리기사").qualification("4년제").organizer("한국산업인력공단").registrationLink("https://www.hrdkorea.or.kr/").aiSummary("정보처리기사에 대한 AI 요약입니다.").build();
+		Certification certification = Certification.builder().certificationCode(10L).certificationName("정보처리기사").qualification("4년제").organizer("한국산업인력공단").registrationLink("https://www.hrdkorea.or.kr/").aiSummary("정보처리기사에 대한 AI 요약입니다.").passRate("58.7%").build();
+		CertificationResponse response = CertificationResponse.builder().certificationCode(10L).certificationName("정보처리기사").qualification("4년제").organizer("한국산업인력공단").registrationLink("https://www.hrdkorea.or.kr/").aiSummary("정보처리기사에 대한 AI 요약입니다.").passRate("58.7%").build();
 		List<CertificationPeriodResponse> periodResponses = response.getPeriodResponse();
 		periodResponses.add(new CertificationPeriodResponse("정보처리기사", ExamType.FIRST_STAGE, 1001L, LocalDate.of(2024, 7, 10), LocalDate.of(2024, 8, 10)));
 		periodResponses.add(new CertificationPeriodResponse("정보처리기사", ExamType.LAST_STAGE, 1001L, LocalDate.of(2024, 9, 10), LocalDate.of(2024, 10, 10)));
@@ -110,6 +110,7 @@ class CertificationControllerTest {
 								fieldWithPath("organizer").description("주관처"),
 								fieldWithPath("registrationLink").description("접수링크"),
 								fieldWithPath("aiSummary").description("AI요약"),
+								fieldWithPath("passRate").description("합격률"),
 								fieldWithPath("periodResponse").description("접수 기간 정보 배열"),
 								fieldWithPath("periodResponse[].name").description("자격증 이름"),
 								fieldWithPath("periodResponse[].examType").description("시험 유형"),
