@@ -34,7 +34,6 @@ import java.util.List;
 public class UserAccountController {
 
     private final UserAccountRepository userAccountRepository;
-    private final UserCareerDetailsRepository userCareerDetailsRepository;
     private final UserTechnologyStackRepository userTechnologyStackRepository;
     private final EmailAuthenticationRepository emailAuthenticationRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -44,13 +43,11 @@ public class UserAccountController {
 
     @Autowired
     public UserAccountController(UserAccountRepository userAccountRepository,
-                                 UserCareerDetailsRepository userCareerDetailsRepository,
                                  UserTechnologyStackRepository userTechnologyStackRepository,
                                  EmailAuthenticationRepository emailAuthenticationRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
                                  MailService mailService, UserInfoUserIdRepository userIdRepository,
                                  UserAccountService userAccountService) {
         this.userAccountRepository = userAccountRepository;
-        this.userCareerDetailsRepository = userCareerDetailsRepository;
         this.userTechnologyStackRepository = userTechnologyStackRepository;
         this.emailAuthenticationRepository = emailAuthenticationRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -325,12 +322,12 @@ public class UserAccountController {
      * @return 분류에 해당하는 카테고리 리스트
      */
     @GetMapping("/users/details/careers")
-    public ResponseEntity<?> showCareers(@RequestBody ShowCareersRequest showCareersRequest) {
-        List<ShowCareersResponse> careers = userAccountService.getCareerList(showCareersRequest.getMajor(), showCareersRequest.getMiddle());
+    public ResponseEntity<?> showCareers(@RequestParam("major") String major, @RequestParam("middle") String middle) {
+        List<ShowCareersResponse> careers = userAccountService.getCareerList(major, middle);
 
         if(careers.isEmpty()) return makeBadRequestUsingUserIdResponse("[회원 - 직무 리스트 요청] 해당하는 회원직무가 없습니다.", null);
 
-        String msg = showCareersRequest.getMiddle().isEmpty() ? (showCareersRequest.getMajor().isEmpty() ? "major" : "middle")  : "small" ;
+        String msg = middle.isEmpty() ? (major.isEmpty() ? "Major" : "Middle")  : "Small" ;
 
         return ResponseEntity.status(HttpStatus.OK).body(
             ListResponse.builder()

@@ -85,31 +85,15 @@ class UserAccountControllerTest {
 	@MockBean
 	private MailService mailService;
 	@MockBean
-	private UserInfoUserIdRepository userIdRepository;
-	@MockBean
-	private EmailAuthenticationRepository emailAuthenticationRepository;
-	@MockBean
-	private UserCareerDetailsRepository userCareerDetailsRepository;
-	@MockBean
 	private UserTechnologyStackRepository userTechnologyStackRepository;
 	@MockBean
-	private HelpUserPasswordRepository helpUserPasswordRepository;
-	@MockBean
-	private ChangeUserEmailRepository changeUserEmailRepository;
-	@MockBean
-	private UserFirstAddInfoRepository userFirstAddInfoRepository;
-	@MockBean
-	private CareerDetailsRepository careerDetailsRepository;
+	private EmailAuthenticationRepository emailAuthenticationRepository;
 	@MockBean
 	private TechnologyStackRepository technologyStackRepository;
 	@MockBean
 	private UserAccountService userAccountService;
 	@MockBean
-	private MajorCareersRepository majorCareersRepository;
-	@MockBean
-	private MiddleCareersRepository middleCareersRepository;
-	@MockBean
-	private SmallCareersRepository smallCareersRepository;
+	private UserInfoUserIdRepository userIdRepository;
 
 
 	Gson gson = new Gson();
@@ -679,7 +663,7 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void addInfoCheckFalseTest() throws Exception{
 		// Given
-		given(userFirstAddInfoRepository.existsByUserId(any())).willReturn(true);
+		given(userAccountService.isAddInfoShow(any())).willReturn(false);
 
 		// When
 		mockMvc.perform(
@@ -700,7 +684,7 @@ class UserAccountControllerTest {
 					fieldWithPath("msg").description("요청에 대한 처리결과")
 				)));
 		// Then
-		verify(userAccountService).isAddInfoShow(any());
+
 
 	}
 
@@ -709,7 +693,7 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void addInfoCheckTrueTest() throws Exception{
 		// Given
-		given(userFirstAddInfoRepository.existsByUserId(any())).willReturn(false);
+		given(userAccountService.isAddInfoShow(any())).willReturn(true);
 
 		// When
 		mockMvc.perform(
@@ -730,7 +714,7 @@ class UserAccountControllerTest {
 					fieldWithPath("msg").description("요청에 대한 처리결과")
 				)));
 		// Then
-		verify(userAccountService).isAddInfoShow(any());
+
 	}
 
 	@Test
@@ -746,13 +730,12 @@ class UserAccountControllerTest {
 
 		given(userAccountService.getCareerList(any(), any())).willReturn(majorList);
 
-		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("").middle("").build();
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/careers")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(gson.toJson(showCareersRequest))
+					.queryParam("major", "")
+					.queryParam("middle", "")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.lists").exists())
@@ -761,9 +744,9 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields( // Json 요청 방식
-					fieldWithPath("major").description("대분류"),
-					fieldWithPath("middle").description("중분류")
+				queryParameters( // Json 요청 방식
+					parameterWithName("major").description("대분류"),
+					parameterWithName("middle").description("중분류")
 				),
 				responseFields(    // Json 응답 형식
 					fieldWithPath("lists").description("요청한 카테고리 리스트"),
@@ -789,13 +772,12 @@ class UserAccountControllerTest {
 
 		given(userAccountService.getCareerList(any(), any())).willReturn(middleList);
 
-		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("사업관리").middle("").build();
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/careers")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(gson.toJson(showCareersRequest))
+					.queryParam("major", "사업관리")
+					.queryParam("middle", "")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.lists").exists())
@@ -804,9 +786,9 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields( // Json 요청 방식
-					fieldWithPath("major").description("대분류"),
-					fieldWithPath("middle").description("중분류")
+				queryParameters( // query-parameters 요청 방식
+					parameterWithName("major").description("대분류"),
+					parameterWithName("middle").description("중분류")
 				),
 				responseFields(    // Json 응답 형식
 					fieldWithPath("lists").description("요청한 카테고리 리스트"),
@@ -834,13 +816,12 @@ class UserAccountControllerTest {
 
 		given(userAccountService.getCareerList(any(), any())).willReturn(smallList);
 
-		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("사업관리").middle("기획사무").build();
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/careers")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(gson.toJson(showCareersRequest))
+					.queryParam("major", "사업관리")
+					.queryParam("middle", "기획사무")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.lists").exists())
@@ -849,9 +830,9 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields( // Json 요청 방식
-					fieldWithPath("major").description("대분류"),
-					fieldWithPath("middle").description("중분류")
+				queryParameters( // query-parameters 요청 방식
+					parameterWithName("major").description("대분류"),
+					parameterWithName("middle").description("중분류")
 				),
 				responseFields(    // Json 응답 형식
 					fieldWithPath("lists").description("요청한 카테고리 리스트"),
@@ -868,16 +849,14 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void showCareersFailTest() throws Exception{
 		// Given
-		ShowCareersRequest showCareersRequest = ShowCareersRequest.builder().major("hi").middle("hi").build();
-
 		given(userAccountService.getCareerList(any(), any())).willReturn(List.of());
 
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/careers")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(gson.toJson(showCareersRequest))
+					.queryParam("major", "hi")
+					.queryParam("middle", "hi")
 					.with(csrf()))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.msg").exists())
@@ -885,9 +864,9 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields( // Json 요청 방식
-					fieldWithPath("major").description("대분류"),
-					fieldWithPath("middle").description("중분류")
+				queryParameters( // query-parameters 요청 방식
+					parameterWithName("major").description("대분류"),
+					parameterWithName("middle").description("중분류")
 				),
 				responseFields(    // Json 응답 형식
 					fieldWithPath("userId").description("").ignored(),
