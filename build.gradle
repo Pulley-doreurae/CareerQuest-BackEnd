@@ -72,6 +72,12 @@ dependencies {
     implementation 'com.maxmind.geoip2:geoip2:2.16.1'
     testImplementation 'com.maxmind.geoip2:geoip2:2.16.1'
 
+    // Chat
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' // WebSocket
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb' // MongoDB
+    implementation 'org.webjars:stomp-websocket:2.3.3-1'
+    implementation 'org.webjars:sockjs-client:1.1.2'
+
 }
 
 // QueryDSL 설정 시작

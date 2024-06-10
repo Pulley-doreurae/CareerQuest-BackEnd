@@ -1,0 +1,71 @@
+== 채팅 API (ChatRoomController)
+=== 특정 채팅방 정보 조회 성공
+==== 요청
+operation::chat-room-controller-test/show-chat-room-info-success[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/show-chat-room-info-success[snippets="http-response,response-fields"]
+=== 특정 채팅방 정보 조회 실패
+==== 요청
+operation::chat-room-controller-test/show-chat-room-info-failed[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/show-chat-room-info-failed[snippets="http-response,response-fields"]
+=== 채팅방 생성 성공
+==== 요청
+operation::chat-room-controller-test/create-chat-room-success[snippets="http-request,request-fields"]
+==== 응답
+operation::chat-room-controller-test/create-chat-room-success[snippets="http-response,response-fields"]
+=== 채팅방 생성 실패 (유저가 없음)
+==== 요청
+operation::chat-room-controller-test/create-chat-room-failed[snippets="http-request,request-fields"]
+==== 응답
+operation::chat-room-controller-test/create-chat-room-failed[snippets="http-response,response-fields"]
+=== 채팅방 참가 성공
+==== 요청
+operation::chat-room-controller-test/join-chat-room-success[snippets="http-request,request-fields"]
+==== 응답
+operation::chat-room-controller-test/join-chat-room-success[snippets="http-response,response-fields"]
+=== 채팅방 참가 실패 (유저가 없음)
+==== 요청
+operation::chat-room-controller-test/join-chat-room-failed1[snippets="http-request,request-fields"]
+==== 응답
+operation::chat-room-controller-test/join-chat-room-failed1[snippets="http-response,response-fields"]
+=== 채팅방 참가 실패 (해당하는 채팅방이 없음)
+==== 요청
+operation::chat-room-controller-test/join-chat-room-failed2[snippets="http-request,request-fields"]
+==== 응답
+operation::chat-room-controller-test/join-chat-room-failed2[snippets="http-response,response-fields"]
+=== 채팅방 리스트 조회 성공
+==== 요청
+operation::chat-room-controller-test/show-chat-room-list-success[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/show-chat-room-list-success[snippets="http-response,response-fields"]
+=== 채팅방 리스트 조회 실패 (유저가 없음)
+==== 요청
+operation::chat-room-controller-test/show-chat-room-list-failed[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/show-chat-room-list-failed[snippets="http-response,response-fields"]
+=== 채팅방 나가기 성공
+==== 요청
+operation::chat-room-controller-test/delete-chat-room-success[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/delete-chat-room-success[snippets="http-response,response-fields"]
+=== 채팅방 나가기 실패 (유저가 없음)
+==== 요청
+operation::chat-room-controller-test/delete-chat-room-failed1[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/delete-chat-room-failed1[snippets="http-response,response-fields"]
+=== 채팅방 나가기 실패 (해당하는 방이 없음)
+==== 요청
+operation::chat-room-controller-test/delete-chat-room-failed2[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/delete-chat-room-failed2[snippets="http-response,response-fields"]
+=== 특정 채팅방 메시지 불러오기 성공
+==== 요청
+operation::chat-room-controller-test/show-chat-messages-success[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/show-chat-messages-success[snippets="http-response,response-fields"]
+=== 특정 채팅방 메시지 불러오기 실패 (해당하는 채팅방이 없음)
+==== 요청
+operation::chat-room-controller-test/show-chat-messages-failed[snippets="http-request,query-parameters"]
+==== 응답
+operation::chat-room-controller-test/show-chat-messages-failed[snippets="http-response,response-fields"]
