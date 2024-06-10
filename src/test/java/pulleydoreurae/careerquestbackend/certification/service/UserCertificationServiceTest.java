@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.UserCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.UserCertificationResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.UserCertification;
 import pulleydoreurae.careerquestbackend.certification.repository.CertificationRepository;
@@ -36,6 +38,30 @@ class UserCertificationServiceTest {
 	@Mock CertificationRepository certificationRepository;
 	@Mock UserCertificationRepository userCertificationRepository;
 	@Mock CommonService commonService;
+
+	@Test
+	@DisplayName("취득 자격증 리스트 불러오기")
+	void findUserCertificationTest() {
+	    // Given
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		Certification certification1 = Certification.builder().certificationCode(100L).certificationName("정보처리기사").qualification("4년제").organizer("A").registrationLink("AA").aiSummary("AI").build();
+		Certification certification2 = Certification.builder().certificationCode(101L).certificationName("정보보안기사").qualification("4년제").organizer("A").registrationLink("AA").aiSummary("AI").build();
+		Certification certification3 = Certification.builder().certificationCode(102L).certificationName("정보처리산업기사").qualification("2년제").organizer("A").registrationLink("AA").aiSummary("AI").build();
+		UserCertification userCertification1 = UserCertification.builder().userAccount(user).certification(certification1).acqDate(LocalDate.of(2024, 1, 1)).build();
+		UserCertification userCertification2 = UserCertification.builder().userAccount(user).certification(certification2).acqDate(LocalDate.of(2024, 1, 2)).build();
+		UserCertification userCertification3 = UserCertification.builder().userAccount(user).certification(certification3).acqDate(LocalDate.of(2024, 1, 3)).build();
+		given(userCertificationRepository.findByUserId("testId")).willReturn(List.of(userCertification1, userCertification2, userCertification3));
+
+	    // When
+		UserCertificationResponse response = userCertificationService.findAllByUserId("testId");
+
+		// Then
+		assertEquals("testId", response.getUserId());
+		assertEquals(3, response.getCertificationInfos().size());
+		assertEquals("정보처리기사", response.getCertificationInfos().get(0).getCertificationName());
+		assertEquals("정보보안기사", response.getCertificationInfos().get(1).getCertificationName());
+		assertEquals("정보처리산업기사", response.getCertificationInfos().get(2).getCertificationName());
+	}
 
 	@Test
 	@DisplayName("취득 자격증 저장 테스트 -실패 (user 찾을 수 없음)")
