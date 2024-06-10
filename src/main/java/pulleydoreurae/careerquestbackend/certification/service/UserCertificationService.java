@@ -1,5 +1,6 @@
 package pulleydoreurae.careerquestbackend.certification.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.UserCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.UserCertificationInfo;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.UserCertificationResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
 import pulleydoreurae.careerquestbackend.certification.domain.entity.UserCertification;
 import pulleydoreurae.careerquestbackend.certification.repository.CertificationRepository;
@@ -31,6 +34,22 @@ public class UserCertificationService {
 	private final CertificationRepository certificationRepository;
 	private final UserCertificationRepository userCertificationRepository;
 	private final CommonService commonService;
+
+	/**
+	 * 사용자 이름으로 취득한 자격증을 불러오는 메서드
+	 *
+	 * @param userId 사용자 ID
+	 * @return 응답
+	 */
+	public UserCertificationResponse findAllByUserId(String userId) {
+		List<UserCertification> findUserCertifications = userCertificationRepository.findByUserId(userId);
+
+		return new UserCertificationResponse(userId, findUserCertifications
+				.stream()
+				.map(uc -> new UserCertificationInfo(uc.getCertification().getCertificationName(), uc.getAcqDate()))
+				.toList());
+
+	}
 
 	/**
 	 * 취득 자격증을 추가하는 메서드
