@@ -17,7 +17,9 @@ import pulleydoreurae.careerquestbackend.certification.domain.entity.UserCertifi
  */
 public interface UserCertificationRepository extends JpaRepository<UserCertification, Long> {
 
-	@Query("select uc from UserCertification uc where uc.userAccount.userId = :userId")
+	@Query("select uc from UserCertification uc "
+			+ "join fetch uc.certification c "
+			+ "where uc.userAccount.userId = :userId")
 	List<UserCertification> findByUserId(String userId);
 
 	@Query("select uc from UserCertification uc where uc.certification.certificationName = :certificationName")

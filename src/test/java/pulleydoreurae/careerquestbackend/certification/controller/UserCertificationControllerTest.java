@@ -1,9 +1,11 @@
 package pulleydoreurae.careerquestbackend.certification.controller;
 
+import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -11,10 +13,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,7 +34,12 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.UserCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.UserCertificationInfo;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.UserCertificationResponse;
+import pulleydoreurae.careerquestbackend.certification.domain.entity.Certification;
+import pulleydoreurae.careerquestbackend.certification.domain.entity.UserCertification;
 import pulleydoreurae.careerquestbackend.certification.service.UserCertificationService;
 
 /**
@@ -64,6 +73,35 @@ class UserCertificationControllerTest {
 	void setUp() {
 		gsonBuilder.registerTypeAdapter(LocalDate.class, new CertificationCalenderControllerTest.LocalDateTimeSerializer());
 		gson = gsonBuilder.setPrettyPrinting().create();
+	}
+
+	@Test
+	@DisplayName("취득 자격증 조회 테스트")
+	@WithMockUser
+	void findAllByUserIdTest() throws Exception {
+	    // Given
+		UserCertificationResponse response = new UserCertificationResponse("testId", List.of(new UserCertificationInfo("정보처리기사", LocalDate.of(2024, 1, 1)), new UserCertificationInfo("정보처리산업기사", LocalDate.of(2024, 1, 2)), new UserCertificationInfo("정보보안기사", LocalDate.of(2024, 1, 3))));
+		given(service.findAllByUserId("testId")).willReturn(response);
+
+	    // When
+		mockMvc.perform(
+						get("/api/certifications/user-certification/{userId}", "testId")
+								.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("userId").description("사용자 ID")
+						),
+						responseFields(
+								fieldWithPath("userId").description("사용자 ID"),
+								fieldWithPath("certificationInfos[].certificationName").description("자격증 이름"),
+								fieldWithPath("certificationInfos[].acqDate").description("취득 날짜")
+						)));
+
+	    // Then
 	}
 
 	@Test
