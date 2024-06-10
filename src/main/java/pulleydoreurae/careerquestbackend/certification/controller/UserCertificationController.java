@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.request.UserCertificationRequest;
+import pulleydoreurae.careerquestbackend.certification.domain.dto.response.UserCertificationResponse;
 import pulleydoreurae.careerquestbackend.certification.service.UserCertificationService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 
@@ -27,6 +30,15 @@ import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 public class UserCertificationController {
 
 	private final UserCertificationService userCertificationService;
+
+	@GetMapping("/certifications/user-certification/{userId}")
+	public ResponseEntity<UserCertificationResponse> findAllByUserId(@PathVariable String userId) {
+
+		UserCertificationResponse response = userCertificationService.findAllByUserId(userId);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(response);
+	}
 
 	@PostMapping("/certifications/user-certification")
 	public ResponseEntity<SimpleResponse> saveUserCertification(@Valid @RequestBody UserCertificationRequest request,
