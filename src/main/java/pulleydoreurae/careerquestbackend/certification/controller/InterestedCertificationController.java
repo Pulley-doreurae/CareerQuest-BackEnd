@@ -43,8 +43,7 @@ public class InterestedCertificationController {
 		result.forEach(certification -> {
 			response.add(new CertificationResponse(certification.getCertificationCode(),
 					certification.getCertificationName(), certification.getQualification(),
-					certification.getOrganizer(), certification.getRegistrationLink(), certification.getAiSummary(),
-					certification.getPassRate()));
+					certification.getOrganizer(), certification.getRegistrationLink(), certification.getAiSummary()));
 		});
 
 		return ResponseEntity.status(HttpStatus.OK)
