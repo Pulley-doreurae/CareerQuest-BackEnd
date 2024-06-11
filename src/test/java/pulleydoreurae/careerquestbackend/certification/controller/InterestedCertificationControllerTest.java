@@ -57,8 +57,8 @@ class InterestedCertificationControllerTest {
 	@WithMockUser
 	void findAllByUserId() throws Exception {
 	    // Given
-		Certification certification1 = Certification.builder().id(100L).certificationCode(1L).certificationName("정보처리기사").qualification("4년제").organizer("A").registrationLink("Link").aiSummary("Summary").passRate("58.7%").build();
-		Certification certification2 = Certification.builder().id(101L).certificationCode(2L).certificationName("정보보안기사").qualification("4년제").organizer("A").registrationLink("Link").aiSummary("Summary").passRate("34.7%").build();
+		Certification certification1 = Certification.builder().id(100L).certificationCode(1L).certificationName("정보처리기사").qualification("4년제").organizer("A").registrationLink("Link").aiSummary("Summary").build();
+		Certification certification2 = Certification.builder().id(101L).certificationCode(2L).certificationName("정보보안기사").qualification("4년제").organizer("A").registrationLink("Link").aiSummary("Summary").build();
 		given(service.findAllByUserId("testId")).willReturn(List.of(certification1, certification2));
 
 	    // When
@@ -78,7 +78,6 @@ class InterestedCertificationControllerTest {
 								fieldWithPath("[].organizer").description("주관처"),
 								fieldWithPath("[].registrationLink").description("접수링크"),
 								fieldWithPath("[].aiSummary").description("AI요약"),
-								fieldWithPath("[].passRate").description("합격률"),
 								fieldWithPath("[].periodResponse").description("접수일정").ignored(),
 								fieldWithPath("[].examDateResponses").description("시험일정").ignored()
 						)));

@@ -53,7 +53,6 @@ public class CertificationService {
 				.organizer(certification.getOrganizer())
 				.registrationLink(certification.getRegistrationLink())
 				.aiSummary(certification.getAiSummary())
-				.passRate(certification.getPassRate())
 				.build();
 
 		addDateInfo(certificationName, response);
