@@ -39,7 +39,11 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import pulleydoreurae.careerquestbackend.community.domain.ContestCategory;
+import pulleydoreurae.careerquestbackend.community.domain.Organizer;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.Region;
+import pulleydoreurae.careerquestbackend.community.domain.Target;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestSearchRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostAndContestRequest;
@@ -1186,10 +1190,10 @@ class PostControllerTest {
 	@WithMockUser
 	void searchPostsTest() throws Exception {
 	    // Given
-		ContestSearchRequest request = ContestSearchRequest.builder().contestCategory("부산주관").target("대학생").organizer("부산시청").build();
-		ContestResponse contest1 = ContestResponse.builder().contestId(100L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
-		ContestResponse contest2 = ContestResponse.builder().contestId(101L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청2").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
-		ContestResponse contest3 = ContestResponse.builder().contestId(102L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청3").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
+		ContestSearchRequest request = ContestSearchRequest.builder().contestCategory(ContestCategory.ARCHITECTURE).target(Target.UNIVERSITY).organizer(Organizer.LOCAL_GOVERNMENT).build();
+		ContestResponse contest1 = ContestResponse.builder().contestId(100L).contestCategory(ContestCategory.ART).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
+		ContestResponse contest2 = ContestResponse.builder().contestId(101L).contestCategory(ContestCategory.CONTEST).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
+		ContestResponse contest3 = ContestResponse.builder().contestId(102L).contestCategory(ContestCategory.SCIENCE).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
 
 		given(contestService.findBySearchRequest(any(), any())).willReturn(List.of(contest1, contest2, contest3));
 
@@ -1231,7 +1235,7 @@ class PostControllerTest {
 	@WithMockUser
 	void getContestTest() throws Exception {
 		// Given
-		ContestResponse contest = ContestResponse.builder().contestId(100L).title("공모전 제목").content("공모전 내용").view(10L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
+		ContestResponse contest = ContestResponse.builder().contestId(100L).title("공모전 제목").content("공모전 내용").view(10L).contestCategory(ContestCategory.ART).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
 
 		given(contestService.findByPostId(100L)).willReturn(contest);
 
@@ -1271,7 +1275,7 @@ class PostControllerTest {
 	void saveContestTest() throws Exception {
 		// Given
 		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).images(List.of()).build();
-		ContestRequest contestRequest = ContestRequest.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
+		ContestRequest contestRequest = ContestRequest.builder().contestCategory(ContestCategory.ART).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).build();
 		PostAndContestRequest request = PostAndContestRequest.builder().postRequest(postRequest).contestRequest(contestRequest).build();
 
 		// When
@@ -1311,7 +1315,7 @@ class PostControllerTest {
 	void updateContestTest() throws Exception {
 		// Given
 		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).images(List.of()).build();
-		ContestRequest contestRequest = ContestRequest.builder().contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).build();
+		ContestRequest contestRequest = ContestRequest.builder().contestCategory(ContestCategory.ART).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).build();
 		PostAndContestRequest request = PostAndContestRequest.builder().postRequest(postRequest).contestRequest(contestRequest).build();
 
 		// When
