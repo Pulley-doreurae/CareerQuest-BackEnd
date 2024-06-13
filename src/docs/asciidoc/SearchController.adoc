@@ -1,0 +1,11 @@
+== 검색 요청 API (SearchController)
+=== 실시간 검색어 불러오기
+==== 요청
+operation::search-controller-test/real-time-search-term-success[snippets="http-request"]
+==== 응답
+operation::search-controller-test/real-time-search-term-success[snippets="http-response,response-fields"]
+=== 전체 검색 성공
+==== 요청
+operation::search-controller-test/search-by-keyword-success[snippets="http-request,query-parameters"]
+==== 응답
+operation::search-controller-test/search-by-keyword-success[snippets="http-response,response-fields"]
