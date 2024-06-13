@@ -2,8 +2,9 @@ package pulleydoreurae.careerquestbackend.community.domain.entity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pulleydoreurae.careerquestbackend.community.domain.ContestCategory;
+import pulleydoreurae.careerquestbackend.community.domain.Organizer;
+import pulleydoreurae.careerquestbackend.community.domain.Region;
+import pulleydoreurae.careerquestbackend.community.domain.Target;
 
 /**
  * 공모전 게시판 사용할 추가정보 엔티티
@@ -36,10 +41,15 @@ public class Contest {
 	@JoinColumn(name = "post_id")
 	private Post post; // 연관된 게시글
 
-	private String contestCategory; // 공모전 분야 -> 분야는 enum타입으로 분리?
-	private String target; // 대상
-	private String region; // 개최지역
-	private String organizer; // 주관처
+	@Enumerated(value = EnumType.STRING)
+	private ContestCategory contestCategory; // 공모전 분야
+	@Enumerated(value = EnumType.STRING)
+	private Target target; // 대상
+	@Enumerated(value = EnumType.STRING)
+	private Region region; // 개최지역
+	@Enumerated(value = EnumType.STRING)
+	private Organizer organizer; // 주관처
+
 	private Long totalPrize; // 총상금
 	private LocalDate startDate; // 시작일
 	private LocalDate endDate; // 종료일

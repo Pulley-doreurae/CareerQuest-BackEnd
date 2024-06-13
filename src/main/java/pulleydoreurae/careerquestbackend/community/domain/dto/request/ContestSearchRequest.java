@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pulleydoreurae.careerquestbackend.community.domain.ContestCategory;
+import pulleydoreurae.careerquestbackend.community.domain.Organizer;
+import pulleydoreurae.careerquestbackend.community.domain.Region;
+import pulleydoreurae.careerquestbackend.community.domain.Target;
 
 /**
  * 공모전 검색조건 Request
@@ -21,10 +25,10 @@ import lombok.Setter;
 @Builder
 public class ContestSearchRequest {
 
-	private String contestCategory; // 공모전 분야 -> enum으로 변경 가능할듯?
-	private String target; // 대상 -> enum으로 변경 가능할듯?
-	private String region; // 개최지역
-	private String organizer; // 주관처
+	private ContestCategory contestCategory; // 공모전 분야
+	private Target target; // 대상
+	private Region region; // 개최지역
+	private Organizer organizer; // 주관처
 	private Long totalPrize; // 총상금
 	private LocalDate startDate; // 시작일
 	private LocalDate endDate; // 종료일
