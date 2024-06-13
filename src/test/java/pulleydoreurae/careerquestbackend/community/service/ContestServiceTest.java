@@ -20,7 +20,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.community.domain.ContestCategory;
+import pulleydoreurae.careerquestbackend.community.domain.Organizer;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
+import pulleydoreurae.careerquestbackend.community.domain.Region;
+import pulleydoreurae.careerquestbackend.community.domain.Target;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestSearchRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
@@ -193,11 +197,11 @@ class ContestServiceTest {
 		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
 		postRepository.save(post3);
 
-		Contest contest1 = new Contest(100L, post1, "정부주관", "대학생", "서울", "보건복지부", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
-		Contest contest2 = new Contest(101L, post2, "서울주관", "대학생", "서울", "서울시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		Contest contest2 = new Contest(101L, post2, ContestCategory.ART, Target.UNIVERSITY, Region.ULSAN, Organizer.PUBLIC_INSTITUTION, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest2);
-		Contest contest3 = new Contest(102L, post3, "부산주관", "대학생", "부산", "부산시청", 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		Contest contest3 = new Contest(102L, post3, ContestCategory.ARCHITECTURE, Target.EVERYONE, Region.BUSAN, Organizer.LOCAL_GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 
 		Pageable pageable = PageRequest.of(0, 3); // 한 페이지에 3개씩 자르기
 		Page<Contest> list = new PageImpl<>(

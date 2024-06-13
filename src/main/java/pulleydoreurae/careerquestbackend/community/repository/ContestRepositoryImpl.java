@@ -38,20 +38,20 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 		BooleanBuilder builder = new BooleanBuilder();
 
 		// 공모전분야필드가 검색조건에 있는경우
-		if (request.getContestCategory() != null && !request.getContestCategory().isEmpty()) {
-			builder.and(contest.contestCategory.contains(request.getContestCategory()));
+		if (request.getContestCategory() != null) {
+			builder.and(contest.contestCategory.eq(request.getContestCategory()));
 		}
 		// 대상필드가 검색조건에 있는경우
-		if (request.getTarget() != null && !request.getTarget().isEmpty()) {
-			builder.and(contest.target.contains(request.getTarget()));
+		if (request.getTarget() != null) {
+			builder.and(contest.target.eq(request.getTarget()));
 		}
 		// 개최지역필드가 검색조건에 있는경우
-		if (request.getRegion() != null && !request.getRegion().isEmpty()) {
-			builder.and(contest.region.contains(request.getRegion()));
+		if (request.getRegion() != null) {
+			builder.and(contest.region.eq(request.getRegion()));
 		}
 		// 주관처필드가 검색조건에 있는경우
-		if (request.getOrganizer() != null && !request.getOrganizer().isEmpty()) {
-			builder.and(contest.organizer.contains(request.getOrganizer()));
+		if (request.getOrganizer() != null) {
+			builder.and(contest.organizer.eq(request.getOrganizer()));
 		}
 		// 총상금필드가 검색조건에 있는경우 (검색조건의 총 상금이 최소금액)
 		if (request.getTotalPrize() != null && request.getTotalPrize() > 0) {
