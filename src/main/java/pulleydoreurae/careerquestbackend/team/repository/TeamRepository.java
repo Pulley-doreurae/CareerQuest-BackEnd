@@ -23,6 +23,9 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
 	Page<Team> findAllByTeamTypeOrderByIdDesc(TeamType teamType, Pageable pageable);
 
+	@Query("SELECT t FROM Team t WHERE t.teamName LIKE concat('%', :keyword, '%')")
+	Page<Team> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
 	@Query("select t from Team t where t.teamName = :teamName")
 	List<Team> findByTeamName(@Param("teamName") String teamName);
 
