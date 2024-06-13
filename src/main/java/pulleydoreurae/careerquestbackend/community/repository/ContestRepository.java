@@ -2,6 +2,8 @@ package pulleydoreurae.careerquestbackend.community.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,4 +21,8 @@ public interface ContestRepository extends JpaRepository<Contest, Long>, Contest
 	Optional<Contest> findByPostId(Long postId);
 
 	void deleteByPostId(Long postId);
+
+	@Query("select c from Contest c join fetch c.post p where p.title LIKE concat('%', :keyword, '%')"
+			+ " OR p.content LIKE concat('%', :keyword, '%') order by p.id desc")
+	Page<Contest> findByKeyword(String keyword, Pageable pageable);
 }
