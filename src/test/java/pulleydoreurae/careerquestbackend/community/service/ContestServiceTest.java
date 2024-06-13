@@ -46,6 +46,7 @@ class ContestServiceTest {
 	@Mock ContestRepository contestRepository;
 	@Mock PostRepository postRepository;
 	@Mock PostService postService;
+	@Mock CommonCommunityService commonCommunityService;
 
 	@Test
 	@DisplayName("게시글 + 공모전 저장 테스트 -실패")
@@ -170,7 +171,8 @@ class ContestServiceTest {
 	@DisplayName("postId로 공모전정보 불러오기 테스트 -성공")
 	void findByPostIdTest2() {
 		// Given
-		Contest contest = Contest.builder().build();
+		Post post = Post.builder().build();
+		Contest contest = Contest.builder().post(post).build();
 		given(contestRepository.findByPostId(1L)).willReturn(Optional.ofNullable(contest));
 
 		// When
