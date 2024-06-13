@@ -34,6 +34,7 @@ public class ContestService {
 	private final PostService postService;
 	private final PostRepository postRepository;
 	private final ContestRepository contestRepository;
+	private final CommonCommunityService commonCommunityService;
 
 	/**
 	 * 게시글 + 공모전정보를 함께 저장하는 메서드 (하나의 트랜잭션으로 묶어 게시글 저장에 실패하면 공모전 저장에도 실패한다.)
@@ -112,6 +113,7 @@ public class ContestService {
 	 * @return 공모전 정보
 	 */
 	public ContestResponse findByPostId(Long postId) {
+
 		Optional<Contest> byPostId = contestRepository.findByPostId(postId);
 
 		if (byPostId.isEmpty()) {
@@ -119,9 +121,14 @@ public class ContestService {
 		}
 
 		Contest contest = byPostId.get();
+		Post post = contest.getPost();
 
 		return ContestResponse.builder()
 				.contestId(contest.getId())
+				.title(post.getTitle())
+				.content(post.getContent())
+				.images(commonCommunityService.postImageToStringList(post))
+				.view(post.getView())
 				.contestCategory(contest.getContestCategory())
 				.target(contest.getTarget())
 				.region(contest.getRegion())

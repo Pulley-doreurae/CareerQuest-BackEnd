@@ -1210,6 +1210,10 @@ class PostControllerTest {
 						),
 						responseFields(
 								fieldWithPath("[].contestId").description("공모전 id"),
+								fieldWithPath("[].title").description("공모전 제목"),
+								fieldWithPath("[].content").description("공모전 내용"),
+								fieldWithPath("[].images").description("이미지"),
+								fieldWithPath("[].view").description("조회수"),
 								fieldWithPath("[].contestCategory").description("공모전 분야"),
 								fieldWithPath("[].target").description("대상"),
 								fieldWithPath("[].region").description("공모전 분야"),
@@ -1227,7 +1231,7 @@ class PostControllerTest {
 	@WithMockUser
 	void getContestTest() throws Exception {
 		// Given
-		ContestResponse contest = ContestResponse.builder().contestId(100L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
+		ContestResponse contest = ContestResponse.builder().contestId(100L).title("공모전 제목").content("공모전 내용").view(10L).contestCategory("부산주관").target("대학생").region("부산").organizer("부산시청1").totalPrize(100000L).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 3, 10)).build();
 
 		given(contestService.findByPostId(100L)).willReturn(contest);
 
@@ -1245,6 +1249,10 @@ class PostControllerTest {
 						),
 						responseFields(
 								fieldWithPath("contestId").description("공모전 id"),
+								fieldWithPath("title").description("공모전 제목"),
+								fieldWithPath("content").description("공모전 내용"),
+								fieldWithPath("images").description("이미지"),
+								fieldWithPath("view").description("조회수"),
 								fieldWithPath("contestCategory").description("공모전 분야"),
 								fieldWithPath("target").description("대상"),
 								fieldWithPath("region").description("공모전 분야"),
