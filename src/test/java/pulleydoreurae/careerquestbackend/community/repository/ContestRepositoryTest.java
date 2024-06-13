@@ -1,16 +1,20 @@
 package pulleydoreurae.careerquestbackend.community.repository;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -476,5 +480,37 @@ class ContestRepositoryTest {
 		assertEquals(Region.SEOUL, result.getRegion());
 		assertEquals(Organizer.GOVERNMENT, result.getOrganizer());
 		assertEquals(99999L, result.getTotalPrize());
+	}
+
+	@Test
+	@DisplayName("공모전의 내용을 공모전을 검색하는 테스트")
+	void findByKeywordTest() {
+	    // Given
+		UserAccount userAccount = UserAccount.builder().userId("testId").build();
+		userAccountRepository.save(userAccount);
+		Post post1 = new Post(100L, userAccount, "공모전제목", "내용공모전내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post1);
+		Post post2 = new Post(101L, userAccount, "공모전공모전", "내용내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post2);
+		Post post3 = new Post(102L, userAccount, "공공모모전전", "내용내용내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		postRepository.save(post3);
+		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest1);
+		Contest contest2 = new Contest(101L, post2, ContestCategory.ART, Target.UNIVERSITY, Region.SEOUL, Organizer.LOCAL_GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest2);
+		Contest contest3 = new Contest(102L, post3, ContestCategory.ARCHITECTURE, Target.UNIVERSITY, Region.SEOUL, Organizer.LOCAL_GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		contestRepository.save(contest3);
+
+	    // When
+		Pageable pageable = PageRequest.of(0, 2);
+		Page<Contest> result = contestRepository.findByKeyword("공모", pageable);
+		List<Contest> list = result.get().toList();
+
+		// Then
+		assertEquals(2, result.getTotalPages());
+		assertEquals(3, result.getTotalElements());
+		assertEquals(2, result.getSize());
+		assertEquals(ContestCategory.ARCHITECTURE, list.get(0).getContestCategory());
+		assertEquals(ContestCategory.ART, list.get(1).getContestCategory());
 	}
 }
