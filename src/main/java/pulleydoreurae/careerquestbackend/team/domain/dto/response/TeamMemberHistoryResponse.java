@@ -1,7 +1,5 @@
 package pulleydoreurae.careerquestbackend.team.domain.dto.response;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,23 +8,22 @@ import lombok.Setter;
 import pulleydoreurae.careerquestbackend.team.domain.TeamType;
 
 /**
- * 팀의 정보를 담은 Response
+ * 한 회원이 참여했던 팀에 대한 정보를 담은 Response
  *
  * @author : parkjihyeok
- * @since : 2024/06/01
+ * @since : 2024/06/15
  */
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode
-public class TeamResponse {
+public class TeamMemberHistoryResponse {
 
-	private Long teamId;
+	private String userId;
+	private boolean isTeamLeader; // 팀장인지 여부
+	private String position; // 포지션
+	private Long teamId; // 팀 상세 정보를 조회하기 위한 팀 ID
 	private String teamName; // 팀 이름
-	private TeamType teamType; // 팀 구분
-	private Integer maxMember; // 팀 최대 인원
-	private LocalDate startDate; // 시작일
-	private LocalDate endDate; // 종료일
-	private boolean isOpened; // 팀 활성화 여부
+	private TeamType teamType; // 팀 유형
 }

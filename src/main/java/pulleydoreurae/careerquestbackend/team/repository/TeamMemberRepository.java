@@ -20,6 +20,15 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, Long> {
 	@Query("select tm from TeamMember tm where tm.team.id = :teamId")
 	List<TeamMember> findAllByTeamId(Long teamId);
 
-	@Query("select tm from TeamMember tm where tm.userAccount.userId = :userId and tm.team.id = :teamId")
+	@Query("select tm from TeamMember tm "
+			+ "join fetch tm.team t "
+			+ "where tm.userAccount.userId = :userId and t.id = :teamId "
+			+ "order by tm.id desc")
 	Optional<TeamMember> findByUserIdAndTeamId(@Param("userId") String userId, @Param("teamId") Long teamId);
+
+	@Query("select tm from TeamMember tm "
+			+ "join fetch tm.team t "
+			+ "where tm.userAccount.userId = :userId "
+			+ "order by tm.id desc")
+	List<TeamMember> findByUserId(String userId);
 }

@@ -1,5 +1,6 @@
 package pulleydoreurae.careerquestbackend.team.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamMemberReque
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.EmptyTeamMemberResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamDetailResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberHistoryResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponseWithPageInfo;
@@ -45,6 +47,28 @@ public class TeamService {
 	private final EmptyTeamMemberRepository emptyTeamMemberRepository;
 	private final TeamMemberRepository teamMemberRepository;
 	private final CommonService commonService;
+
+	/**
+	 * 한 회원이 팀에 참여했던 정보를 전달하는 메서드
+	 *
+	 * @param userId 회원ID
+	 * @return 각 팀에 참여했던 정보
+	 */
+	@Transactional(readOnly = true)
+	public List<TeamMemberHistoryResponse> findMemberHistory(String userId) {
+		return teamMemberRepository.findByUserId(userId)
+				.stream()
+				.map(teamMember ->
+						TeamMemberHistoryResponse.builder()
+								.userId(userId)
+								.isTeamLeader(teamMember.isTeamLeader())
+								.position(teamMember.getPosition())
+								.teamId(teamMember.getTeam().getId())
+								.teamName(teamMember.getTeam().getTeamName())
+								.teamType(teamMember.getTeam().getTeamType())
+								.build()
+				).toList();
+	}
 
 	/**
 	 * 전체 팀을 반환하는 메서드
@@ -103,6 +127,8 @@ public class TeamService {
 				.maxMember(makeRequest.getMaxMember())
 				.startDate(makeRequest.getStartDate())
 				.endDate(makeRequest.getEndDate())
+				.isOpened(true)
+				.isDeleted(false)
 				.build();
 
 		teamRepository.save(team);
@@ -125,7 +151,10 @@ public class TeamService {
 				.maxMember(updateRequest.getMaxMember())
 				.startDate(updateRequest.getStartDate())
 				.endDate(updateRequest.getEndDate())
+				.isOpened(updateRequest.isOpened())
+				.isDeleted(false)
 				.build();
+
 		teamRepository.save(newTeam); // 팀 정보 업데이트
 
 		List<EmptyTeamMember> emptyTeamMembers = emptyTeamMemberRepository.findAllByTeamId(team.getId());
@@ -144,16 +173,9 @@ public class TeamService {
 		// 팀 정보가 있는지 확인
 		Team team = findTeam(deleteRequest.getTeamId());
 
-		// 선점한 선호 포지션 삭제
-		List<EmptyTeamMember> emptyTeamMembers = emptyTeamMemberRepository.findAllByTeamId(team.getId());
-		emptyTeamMemberRepository.deleteAll(emptyTeamMembers);
-
-		// 팀원 제거
-		List<TeamMember> teamMembers = teamMemberRepository.findAllByTeamId(team.getId());
-		teamMemberRepository.deleteAll(teamMembers);
-
-		// 팀 제거
-		teamRepository.delete(team);
+		// 팀을 제거하더라도 팀에 대한 정보는 남아있어야 한다.
+		team.changeStatus(false);
+		team.delete();
 	}
 
 	/**
@@ -164,6 +186,12 @@ public class TeamService {
 	public void joinTeam(TeamMemberRequest request) {
 		UserAccount user = commonService.findUserAccount(request.getUserId(), true);
 		Team team = findTeam(request.getTeamId());
+
+		checkDate(team); // 팀 모집 종료일로 설정한 날짜 확인
+
+		if (!team.isOpened()) { // 팀이 활성화 상태가 아니라면
+			throw new IllegalArgumentException("팀이 현재 팀원을 모집하고 있지 않습니다.");
+		}
 
 		deleteEmptyTeamMember(request, team); // 선호 팀원 포지션에서 새로 참여할 팀원의 포지션 제거
 		saveTeamMember(user, team, request.getPosition(), false); // 새로운 팀원 저장
@@ -178,8 +206,9 @@ public class TeamService {
 		UserAccount user = commonService.findUserAccount(request.getUserId(), true);
 
 		TeamMember teamMember = findTeamMember(request.getTeamId(), user);
+		Team team = teamMember.getTeam();
 
-		saveEmptyTeamMember(teamMember.getTeam(), teamMember.getPosition()); // 팀에 빈자리 추가하기
+		saveEmptyTeamMember(team, teamMember.getPosition()); // 팀에 빈자리 추가하기
 		teamMemberRepository.delete(teamMember); // 팀에서 팀원 제거
 	}
 
@@ -187,8 +216,9 @@ public class TeamService {
 	public void kickMember(KickRequest request) {
 		UserAccount leader = commonService.findUserAccount(request.getTeamLeaderId(), true);
 		UserAccount target = commonService.findUserAccount(request.getTargetId(), false);
-		Team team = findTeam(request.getTeamId());
-		TeamMember teamLeader = findTeamMember(team.getId(), leader);
+
+		TeamMember teamLeader = findTeamMember(request.getTeamId(), leader);
+		Team team = teamLeader.getTeam();
 
 		if (!teamLeader.isTeamLeader()) {
 			throw new IllegalAccessError("추방 권한이 없습니다!");
@@ -198,6 +228,17 @@ public class TeamService {
 
 		saveEmptyTeamMember(team, request.getPosition()); // 팀에 빈자리 추가
 		teamMemberRepository.delete(targetMember); // 팀원 제거
+	}
+
+	/**
+	 * 팀에 설정한 종료일자를 넘겼다면 팀 닫기
+	 *
+	 * @param team 팀
+	 */
+	private void checkDate(Team team) {
+		if (LocalDate.now().isAfter(team.getEndDate())) {
+			team.changeStatus(false);
+		}
 	}
 
 	/**
@@ -214,6 +255,7 @@ public class TeamService {
 				.maxMember(team.getMaxMember())
 				.startDate(team.getStartDate())
 				.endDate(team.getEndDate())
+				.isOpened(team.isOpened())
 				.build();
 	}
 
@@ -304,7 +346,7 @@ public class TeamService {
 	private Team findTeam(Long teamId) {
 		Optional<Team> byId = teamRepository.findById(teamId);
 
-		if (byId.isEmpty()) {
+		if (byId.isEmpty() || byId.get().isDeleted()) {
 			throw new IllegalArgumentException("팀에 대한 정보를 찾을 수 없습니다.");
 		}
 

@@ -27,6 +27,7 @@ import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamDeleteReque
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamMemberRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamDetailResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberHistoryResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponseWithPageInfo;
 import pulleydoreurae.careerquestbackend.team.domain.entity.EmptyTeamMember;
 import pulleydoreurae.careerquestbackend.team.domain.entity.Team;
@@ -54,7 +55,7 @@ class TeamServiceTest {
 	void makeTeamTest1() {
 	    // Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
+		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
 		given(commonService.findUserAccount("leaderId", true)).willThrow(new UsernameNotFoundException("회원 정보를 찾을 수 없습니다."));
 
 	    // When
@@ -69,7 +70,7 @@ class TeamServiceTest {
 	void makeTeamTest2() {
 		// Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
+		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
 		UserAccount user = UserAccount.builder().userId("leaderId").build();
 		given(commonService.findUserAccount("leaderId", true)).willReturn(user);
 
@@ -85,7 +86,7 @@ class TeamServiceTest {
 	void updateTeamTest1() {
 	    // Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
+		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions, true);
 		given(teamRepository.findById(request.getTeamId())).willThrow(new IllegalArgumentException("팀에 대한 정보를 찾을 수 없습니다."));
 
 	    // When
@@ -102,7 +103,7 @@ class TeamServiceTest {
 	void updateTeamTest2() {
 		// Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
+		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions, true);
 		Team team = Team.builder().id(request.getTeamId()).teamName(request.getTeamName()).teamType(request.getTeamType()).maxMember(request.getMaxMember()).startDate(request.getStartDate()).endDate(request.getEndDate()).build();
 		given(teamRepository.findById(request.getTeamId())).willReturn(Optional.ofNullable(team));
 
@@ -162,11 +163,6 @@ class TeamServiceTest {
 
 		// Then
 		assertDoesNotThrow(() -> teamService.deleteTeam(request));
-		verify(emptyTeamMemberRepository).findAllByTeamId(any());
-		verify(emptyTeamMemberRepository).deleteAll(any());
-		verify(teamMemberRepository).findAllByTeamId(any());
-		verify(teamMemberRepository).deleteAll(any());
-		verify(teamRepository).delete(any());
 	}
 
 	@Test
@@ -186,7 +182,7 @@ class TeamServiceTest {
 	@DisplayName("팀 참가 테스트 - 성공")
 	void joinTeamTest2() {
 		// Given
-		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).build();
+		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).endDate(LocalDate.now().plusDays(3)).isOpened(true).build();
 		TeamMemberRequest request = new TeamMemberRequest(100L, "joinId", "백엔드 개발자");
 		EmptyTeamMember emptyTeamMember = EmptyTeamMember.builder().team(team).position("백엔드 개발자").build();
 		given(teamRepository.findById(100L)).willReturn(Optional.ofNullable(team));
@@ -198,6 +194,40 @@ class TeamServiceTest {
 		assertDoesNotThrow(() -> teamService.joinTeam(request));
 		verify(emptyTeamMemberRepository).delete(any());
 		verify(teamMemberRepository).save(any());
+	}
+
+	@Test
+	@DisplayName("팀 참가 테스트 - 실패 (날짜 지남)")
+	void joinTeamTest3() {
+		// Given
+		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).endDate(LocalDate.now().plusDays(-1)).isOpened(true).build();
+		TeamMemberRequest request = new TeamMemberRequest(100L, "joinId", "백엔드 개발자");
+		EmptyTeamMember emptyTeamMember = EmptyTeamMember.builder().team(team).position("백엔드 개발자").build();
+		given(teamRepository.findById(100L)).willReturn(Optional.ofNullable(team));
+
+		// When
+
+		// Then
+		assertThrows(IllegalArgumentException.class, () -> teamService.joinTeam(request));
+		verify(emptyTeamMemberRepository, never()).delete(any());
+		verify(teamMemberRepository, never()).save(any());
+	}
+
+	@Test
+	@DisplayName("팀 참가 테스트 - 실패 (팀 닫힘)")
+	void joinTeamTest4() {
+		// Given
+		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).endDate(LocalDate.now().plusDays(3)).isOpened(false).build();
+		TeamMemberRequest request = new TeamMemberRequest(100L, "joinId", "백엔드 개발자");
+		EmptyTeamMember emptyTeamMember = EmptyTeamMember.builder().team(team).position("백엔드 개발자").build();
+		given(teamRepository.findById(100L)).willReturn(Optional.ofNullable(team));
+
+		// When
+
+		// Then
+		assertThrows(IllegalArgumentException.class, () -> teamService.joinTeam(request));
+		verify(emptyTeamMemberRepository, never()).delete(any());
+		verify(teamMemberRepository, never()).save(any());
 	}
 
 	@Test
@@ -223,7 +253,7 @@ class TeamServiceTest {
 		// Given
 		TeamMemberRequest request = new TeamMemberRequest(100L, "memberId", "백엔드 개발자");
 		UserAccount user = UserAccount.builder().userId("memberId").build();
-		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).build();
+		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).isOpened(true).build();
 		TeamMember teamMember = TeamMember.builder().userAccount(user).isTeamLeader(false).team(team).position("백엔드 개발자").build();
 		given(commonService.findUserAccount("memberId", true)).willReturn(user);
 		given(teamMemberRepository.findByUserIdAndTeamId("memberId", 100L)).willReturn(Optional.ofNullable(teamMember));
@@ -243,11 +273,10 @@ class TeamServiceTest {
 		KickRequest kickRequest = new KickRequest(100L, "leaderId", "memberId", "디자이너");
 		UserAccount leader = UserAccount.builder().userId("leaderId").build();
 		UserAccount member = UserAccount.builder().userId("memberId").build();
-		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).build();
+		Team team = Team.builder().id(100L).teamName("팀 이름").teamType(TeamType.STUDY).isOpened(true).build();
 		TeamMember teamLeader = TeamMember.builder().userAccount(leader).isTeamLeader(false).team(team).position("백엔드 개발자").build();
 		given(commonService.findUserAccount("leaderId", true)).willReturn(leader);
 		given(commonService.findUserAccount("memberId", false)).willReturn(member);
-		given(teamRepository.findById(100L)).willReturn(Optional.ofNullable(team));
 		given(teamMemberRepository.findByUserIdAndTeamId("leaderId", 100L)).willReturn(Optional.ofNullable(teamLeader));
 
 		// When
@@ -270,7 +299,6 @@ class TeamServiceTest {
 		TeamMember teamMember = TeamMember.builder().userAccount(member).isTeamLeader(false).team(team).position("백엔드 개발자").build();
 		given(commonService.findUserAccount("leaderId", true)).willReturn(leader);
 		given(commonService.findUserAccount("memberId", false)).willReturn(member);
-		given(teamRepository.findById(100L)).willReturn(Optional.ofNullable(team));
 		given(teamMemberRepository.findByUserIdAndTeamId("leaderId", 100L)).willReturn(Optional.ofNullable(teamLeader));
 		given(teamMemberRepository.findByUserIdAndTeamId("memberId", 100L)).willReturn(Optional.ofNullable(teamMember));
 
@@ -370,5 +398,45 @@ class TeamServiceTest {
 		assertDoesNotThrow(() -> teamService.findByTeamId(100L));
 		assertEquals(3, result.getTeamMemberResponses().size());
 		assertEquals(2, result.getEmptyTeamMemberResponses().size());
+	}
+
+	@Test
+	@DisplayName("회원ID로 참여한 팀 정보 불러오기")
+	void findByUserIdTest() {
+	    // Given
+		Team team1 = Team.builder().id(100L).teamName("팀1").teamType(TeamType.STUDY).build();
+		Team team2 = Team.builder().id(101L).teamName("팀2").teamType(TeamType.CONTEST).isOpened(true).build();
+		Team team3 = Team.builder().id(102L).teamName("팀3").teamType(TeamType.STUDY).isOpened(true).build();
+		Team team4 = Team.builder().id(103L).teamName("팀4").teamType(TeamType.CONTEST).isDeleted(true).build();
+		Team team5 = Team.builder().id(104L).teamName("팀5").teamType(TeamType.STUDY).build();
+		UserAccount user = UserAccount.builder().userId("testId").build();
+		TeamMember teamMember1 = TeamMember.builder().userAccount(user).isTeamLeader(true).team(team1).position("백엔드 개발자").build();
+		TeamMember teamMember2 = TeamMember.builder().userAccount(user).isTeamLeader(false).team(team2).position("프론트엔드 개발자").build();
+		TeamMember teamMember3 = TeamMember.builder().userAccount(user).isTeamLeader(true).team(team3).position("DevOps").build();
+		TeamMember teamMember4 = TeamMember.builder().userAccount(user).isTeamLeader(false).team(team4).position("DBA").build();
+		TeamMember teamMember5 = TeamMember.builder().userAccount(user).isTeamLeader(false).team(team5).position("백엔드 개발자").build();
+		given(teamMemberRepository.findByUserId("testId")).willReturn(List.of(teamMember1, teamMember2, teamMember3, teamMember4, teamMember5));
+
+	    // When
+		List<TeamMemberHistoryResponse> result = teamService.findMemberHistory("testId");
+
+		// Then
+		assertEquals(5, result.size());
+		assertEquals(teamMemberToTeamMemberHistoryResponse(teamMember1, "testId"), result.get(0));
+		assertEquals(teamMemberToTeamMemberHistoryResponse(teamMember2, "testId"), result.get(1));
+		assertEquals(teamMemberToTeamMemberHistoryResponse(teamMember3, "testId"), result.get(2));
+		assertEquals(teamMemberToTeamMemberHistoryResponse(teamMember4, "testId"), result.get(3));
+		assertEquals(teamMemberToTeamMemberHistoryResponse(teamMember5, "testId"), result.get(4));
+	}
+
+	private TeamMemberHistoryResponse teamMemberToTeamMemberHistoryResponse(TeamMember teamMember, String userId) {
+		return TeamMemberHistoryResponse.builder()
+				.userId(userId)
+				.isTeamLeader(teamMember.isTeamLeader())
+				.position(teamMember.getPosition())
+				.teamId(teamMember.getTeam().getId())
+				.teamName(teamMember.getTeam().getTeamName())
+				.teamType(teamMember.getTeam().getTeamType())
+				.build();
 	}
 }

@@ -40,4 +40,15 @@ public class Team extends BaseEntity {
 
 	private LocalDate startDate; // 시작일
 	private LocalDate endDate; // 종료일
+
+	private boolean isOpened; // 팀 활성화 상태여부
+	private boolean isDeleted; // 팀 삭제 여부
+
+	public void changeStatus(boolean isOpened) {
+		this.isOpened = isOpened;
+	}
+
+	public void delete() {
+		isDeleted = true;
+	}
 }
