@@ -214,6 +214,7 @@ public class SearchControllerTest {
 					fieldWithPath("teamList.teamResponse[].maxMember").description("최대 멤버 수"),
 					fieldWithPath("teamList.teamResponse[].startDate").description("시작 날짜"),
 					fieldWithPath("teamList.teamResponse[].endDate").description("종료 날짜"),
+					fieldWithPath("teamList.teamResponse[].opened").description("팀 활성화 여부"),
 					fieldWithPath("msg").description("요청에 대한 응답").optional()
 				)));
 
