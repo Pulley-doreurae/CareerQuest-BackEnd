@@ -1,4 +1,9 @@
 == 팀 매칭 API (TeamController)
+=== UserId로 팀 기록 조회
+==== 요청
+operation::team-controller-test/find-by-user-id-test[snippets="http-request,path-parameters"]
+==== 응답
+operation::team-controller-test/find-by-user-id-test[snippets="http-response,response-fields"]
 === 팀 리스트 조회
 ==== 요청
 operation::team-controller-test/find-all-test[snippets="http-request,query-parameters"]
