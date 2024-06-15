@@ -19,8 +19,12 @@ import pulleydoreurae.careerquestbackend.team.domain.entity.Team;
  */
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
+	@Query("select t from Team t where t.isDeleted = false "
+			+ "order by t.id desc ")
 	Page<Team> findAllByOrderByIdDesc(Pageable pageable);
 
+	@Query("select t from Team t where t.isDeleted = false and t.teamType = :teamType "
+			+ "order by t.id desc")
 	Page<Team> findAllByTeamTypeOrderByIdDesc(TeamType teamType, Pageable pageable);
 
 	@Query("SELECT t FROM Team t WHERE t.teamName LIKE concat('%', :keyword, '%')")
