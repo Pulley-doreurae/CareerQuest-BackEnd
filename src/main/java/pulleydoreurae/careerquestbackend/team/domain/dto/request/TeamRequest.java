@@ -38,6 +38,8 @@ public class TeamRequest {
 	private LocalDate endDate; // 종료일
 	@NotNull(message = "선호 포지션은 null일 수 없습니다.") // 포지션이 아무 상관없더라도 값을 전달해야한다.
 	private List<String> positions; // 팀장이 원하는 팀원들의 포지션 (빈자리의 포지션만 입력)
+	@NotNull(message = "팀 활성화 여부는 null일 수 없습니다.")
+	private boolean isOpened; // 팀 활성화 여부
 
 	public TeamRequest(String teamLeaderId, String position, String teamName, TeamType teamType, Integer maxMember,
 			LocalDate startDate, LocalDate endDate, List<String> positions) {
@@ -49,5 +51,18 @@ public class TeamRequest {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.positions = positions;
+	}
+
+	public TeamRequest(String teamLeaderId, String position, String teamName, TeamType teamType, Integer maxMember,
+			LocalDate startDate, LocalDate endDate, List<String> positions, boolean isOpened) {
+		this.teamLeaderId = teamLeaderId;
+		this.position = position;
+		this.teamName = teamName;
+		this.teamType = teamType;
+		this.maxMember = maxMember;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.positions = positions;
+		this.isOpened = isOpened;
 	}
 }
