@@ -1,5 +1,7 @@
 package pulleydoreurae.careerquestbackend.team.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamDeleteReque
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamMemberRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamDetailResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberHistoryResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponseWithPageInfo;
 import pulleydoreurae.careerquestbackend.team.service.TeamService;
 
@@ -38,6 +41,14 @@ import pulleydoreurae.careerquestbackend.team.service.TeamService;
 public class TeamController {
 
 	private final TeamService teamService;
+
+	@GetMapping("/teams/history/{userId}")
+	public ResponseEntity<List<TeamMemberHistoryResponse>> findByUserId(@PathVariable String userId) {
+		List<TeamMemberHistoryResponse> responses = teamService.findMemberHistory(userId);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(responses);
+	}
 
 	@GetMapping("/teams")
 	public ResponseEntity<TeamResponseWithPageInfo> findAll(@PageableDefault(size = 15) Pageable pageable) {
