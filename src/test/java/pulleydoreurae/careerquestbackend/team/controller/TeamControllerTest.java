@@ -40,6 +40,7 @@ import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamMemberReque
 import pulleydoreurae.careerquestbackend.team.domain.dto.request.TeamRequest;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.EmptyTeamMemberResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamDetailResponse;
+import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberHistoryResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamMemberResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponse;
 import pulleydoreurae.careerquestbackend.team.domain.dto.response.TeamResponseWithPageInfo;
@@ -79,6 +80,40 @@ class TeamControllerTest {
 	}
 
 	@Test
+	@DisplayName("한 회원이 팀 정보 불러오기")
+	@WithMockUser
+	void findByUserIdTest() throws Exception {
+		// Given
+		TeamMemberHistoryResponse t1 = TeamMemberHistoryResponse.builder().userId("testId").isTeamLeader(true).position("백엔드 개발자").teamId(100L).teamName("해파리").teamType(TeamType.CONTEST).build();
+		TeamMemberHistoryResponse t2 = TeamMemberHistoryResponse.builder().userId("testId").isTeamLeader(false).position("프론트엔드 개발자").teamId(101L).teamName("해파리").teamType(TeamType.CONTEST).build();
+		TeamMemberHistoryResponse t3 = TeamMemberHistoryResponse.builder().userId("testId").isTeamLeader(false).position("백엔드 개발자").teamId(102L).teamName("스프링공부하기").teamType(TeamType.STUDY).build();
+		TeamMemberHistoryResponse t4 = TeamMemberHistoryResponse.builder().userId("testId").isTeamLeader(true).position("DBA").teamId(103L).teamName("DB공부하기").teamType(TeamType.STUDY).build();
+		TeamMemberHistoryResponse t5 = TeamMemberHistoryResponse.builder().userId("testId").isTeamLeader(false).position("DevOps").teamId(104L).teamName("공모전화이팅").teamType(TeamType.CONTEST).build();
+		given(teamService.findMemberHistory("testId")).willReturn(List.of(t1, t2, t3, t4, t5));
+
+		// When
+		mockMvc.perform(get("/api/teams/history/{userId}", "testId"))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("userId").description("조회할 회원ID")
+						),
+						responseFields(
+								fieldWithPath("[].userId").description("회원 ID"),
+								fieldWithPath("[].position").description("포지션"),
+								fieldWithPath("[].teamId").description("팀 ID"),
+								fieldWithPath("[].teamName").description("팀 이름"),
+								fieldWithPath("[].teamType").description("팀 유형"),
+								fieldWithPath("[].teamLeader").description("팀장여부")
+						)));
+
+		// Then
+	}
+
+	@Test
 	@DisplayName("전체 팀 목록 불러오기")
 	@WithMockUser
 	void findAllTest() throws Exception {
@@ -112,7 +147,8 @@ class TeamControllerTest {
 								fieldWithPath("teamResponse.[].teamType").description("팀 타입"),
 								fieldWithPath("teamResponse.[].maxMember").description("팀 최대 인원"),
 								fieldWithPath("teamResponse.[].startDate").description("모집 시작일"),
-								fieldWithPath("teamResponse.[].endDate").description("모집 종료일")
+								fieldWithPath("teamResponse.[].endDate").description("모집 종료일"),
+								fieldWithPath("teamResponse.[].opened").description("팀 활성화 여부")
 						)));
 
 		// Then
@@ -154,7 +190,8 @@ class TeamControllerTest {
 								fieldWithPath("teamResponse.[].teamType").description("팀 타입"),
 								fieldWithPath("teamResponse.[].maxMember").description("팀 최대 인원"),
 								fieldWithPath("teamResponse.[].startDate").description("모집 시작일"),
-								fieldWithPath("teamResponse.[].endDate").description("모집 종료일")
+								fieldWithPath("teamResponse.[].endDate").description("모집 종료일"),
+								fieldWithPath("teamResponse.[].opened").description("팀 활성화 여부")
 						)));
 
 		// Then
@@ -197,6 +234,7 @@ class TeamControllerTest {
 								fieldWithPath("teamResponse.maxMember").description("팀 최대 인원"),
 								fieldWithPath("teamResponse.startDate").description("모집 시작일"),
 								fieldWithPath("teamResponse.endDate").description("모집 종료일"),
+								fieldWithPath("teamResponse.opened").description("팀 활성화 여부"),
 								fieldWithPath("teamMemberResponses.[].userId").description("팀원 ID"),
 								fieldWithPath("teamMemberResponses.[].position").description("팀원 포지션"),
 								fieldWithPath("teamMemberResponses.[].teamLeader").description("팀장 여부"),
@@ -232,6 +270,7 @@ class TeamControllerTest {
 								fieldWithPath("maxMember").description("팀 최대 인원"),
 								fieldWithPath("startDate").description("모집 시작일"),
 								fieldWithPath("endDate").description("모집 종료일"),
+								fieldWithPath("isOpened").description("팀 활성화 여부"),
 								fieldWithPath("positions").description("선호하는 팀원 포지션들")
 						),
 						responseFields(
@@ -247,7 +286,7 @@ class TeamControllerTest {
 	void updateTeamTest() throws Exception {
 		// Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "디자이너", "AI 개발자");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "새로운 프로젝트를 만들어 봅시다.", TeamType.STUDY, 5, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 1), positions);
+		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "새로운 프로젝트를 만들어 봅시다.", TeamType.STUDY, 5, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 1), positions, true);
 
 		// When
 		mockMvc.perform(patch("/api/teams")
@@ -268,6 +307,7 @@ class TeamControllerTest {
 								fieldWithPath("maxMember").description("팀 최대 인원"),
 								fieldWithPath("startDate").description("모집 시작일"),
 								fieldWithPath("endDate").description("모집 종료일"),
+								fieldWithPath("isOpened").description("팀 활성화 여부"),
 								fieldWithPath("positions").description("선호하는 팀원 포지션들")
 						),
 						responseFields(
