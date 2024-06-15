@@ -97,6 +97,35 @@ class TeamRepositoryTest {
 		assertEquals("공모전에 참여하자", result.getContent().get(0).getTeamName());
 	}
 
+
+	@Test
+	@DisplayName("전체 팀 조회 테스트 - (삭제되지 않은 팀만 조회되는지 테스트)")
+	void findAllByOrderByIdDescTest2() {
+		// Given
+		Team team1 = Team.builder().teamName("정보처리기사1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team2 = Team.builder().teamName("정처기모여라!1").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team3 = Team.builder().teamName("정처기모여라!2").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).isDeleted(true).build();
+		Team team4 = Team.builder().teamName("정보처리기사2팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).isDeleted(true).build();
+		Team team5 = Team.builder().teamName("공모전에 나가보자").teamType(TeamType.CONTEST).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team6 = Team.builder().teamName("공모전에 참여하자").teamType(TeamType.CONTEST).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		teamRepository.save(team1);
+		teamRepository.save(team2);
+		teamRepository.save(team3);
+		teamRepository.save(team4);
+		teamRepository.save(team5);
+		teamRepository.save(team6);
+
+		// When
+		Pageable pageable = PageRequest.of(0, 3);
+		Page<Team> result = teamRepository.findAllByOrderByIdDesc(pageable);
+
+		// Then
+		assertEquals(2, result.getTotalPages());
+		assertEquals(4, result.getTotalElements());
+		assertEquals(3, result.getSize());
+		assertEquals("공모전에 참여하자", result.getContent().get(0).getTeamName());
+	}
+
 	@Test
 	@DisplayName("팀 타입에 맞는 팀 전체 조회")
 	void findAllByTeamTypeOrderByIdDescTest() {

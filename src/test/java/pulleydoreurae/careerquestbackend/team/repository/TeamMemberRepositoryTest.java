@@ -60,6 +60,11 @@ class TeamMemberRepositoryTest {
 		teamMemberRepository.save(teamMember2);
 		teamMemberRepository.save(teamMember3);
 		teamMemberRepository.save(teamMember4);
+
+		TeamMember teamMember5 = TeamMember.builder().userAccount(user1).isTeamLeader(false).team(team2).position("프론트 개발자").build();
+		TeamMember teamMember6 = TeamMember.builder().userAccount(user1).isTeamLeader(false).team(team2).position("백엔드 개발자").build();
+		teamMemberRepository.save(teamMember5);
+		teamMemberRepository.save(teamMember6);
 	}
 
 	@Test
@@ -93,5 +98,18 @@ class TeamMemberRepositoryTest {
 		assertEquals(TeamType.STUDY, result.getTeam().getTeamType());
 		assertEquals("프론트 개발자", result.getPosition());
 		assertFalse(result.isTeamLeader());
+	}
+
+	@Test
+	@DisplayName("userId로 참여한 팀 정보 불러오기")
+	void findByUserIdTest() {
+	    // Given
+
+	    // When
+		List<TeamMember> result = teamMemberRepository.findByUserId("testId1");
+
+		// Then
+		assertEquals(3, result.size());
+		assertEquals("정처기모여라!", result.get(0).getTeam().getTeamName());
 	}
 }
