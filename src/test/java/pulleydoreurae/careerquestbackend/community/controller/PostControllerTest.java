@@ -46,9 +46,11 @@ import pulleydoreurae.careerquestbackend.community.domain.Region;
 import pulleydoreurae.careerquestbackend.community.domain.Target;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestSearchRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.JoinContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostAndContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.ContestResponse;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.JoinContestResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.exception.PostDeleteException;
 import pulleydoreurae.careerquestbackend.community.exception.PostUpdateException;
@@ -1380,5 +1382,101 @@ class PostControllerTest {
 
 		// Then
 		verify(contestService).delete(any(), any());
+	}
+
+	@Test
+	@DisplayName("공모전 참여 리스트 출력 테스트")
+	@WithMockUser
+	void findByUserIdTest() throws Exception {
+		// Given
+		JoinContestResponse jr1 = new JoinContestResponse(100L, 100L, 100L, "testId", "공모전1");
+		JoinContestResponse jr2 = new JoinContestResponse(101L, 101L, 101L, "testId", "공모전2");
+		JoinContestResponse jr3 = new JoinContestResponse(102L, 102L, 102L, "testId", "공모전3");
+		JoinContestResponse jr4 = new JoinContestResponse(103L, 103L, 103L, "testId", "공모전4");
+		given(contestService.findJoinContest("testId")).willReturn(List.of(jr1, jr2, jr3, jr4));
+
+
+		// When
+		mockMvc.perform(
+						get("/api/contests/join/{userId}", "testId")
+								.with(csrf()))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						pathParameters(
+								parameterWithName("userId").description("회원ID")
+						),
+						responseFields(
+								fieldWithPath("[].postId").description("게시글ID"),
+								fieldWithPath("[].contestId").description("공모전ID"),
+								fieldWithPath("[].joinContestId").description("참여공모전ID"),
+								fieldWithPath("[].userId").description("회원ID"),
+								fieldWithPath("[].title").description("공모전 제목")
+						)));
+
+		// Then
+		verify(contestService).findJoinContest("testId");
+	}
+
+	@Test
+	@DisplayName("공모전 참여 테스트")
+	@WithMockUser
+	void joinContestTest() throws Exception {
+		// Given
+		JoinContestRequest request = new JoinContestRequest(100L, "testId");
+
+		// When
+		mockMvc.perform(
+						post("/api/contests/join")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("contestId").description("공모전 ID"),
+								fieldWithPath("userId").description("참여자 ID")
+						),
+						responseFields(
+								fieldWithPath("msg").description("처리결과")
+						)));
+
+		// Then
+		verify(contestService).joinContest(any());
+	}
+
+	@Test
+	@DisplayName("공모전 참여 제거 테스트")
+	@WithMockUser
+	void removeFromJoinContest() throws Exception {
+		// Given
+		JoinContestRequest request = new JoinContestRequest(100L, "testId");
+
+		// When
+		mockMvc.perform(
+						delete("/api/contests/join")
+								.with(csrf())
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(gson.toJson(request)))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andDo(document("{class-name}/{method-name}/",
+						preprocessRequest(prettyPrint()),
+						preprocessResponse(prettyPrint()),
+						requestFields(
+								fieldWithPath("contestId").description("공모전 ID"),
+								fieldWithPath("userId").description("참여자 ID")
+						),
+						responseFields(
+								fieldWithPath("msg").description("처리결과")
+						)));
+
+		// Then
+		verify(contestService).removeFromJoinContest(any());
 	}
 }

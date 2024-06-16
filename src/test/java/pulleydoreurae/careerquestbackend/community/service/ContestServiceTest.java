@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
+import pulleydoreurae.careerquestbackend.common.service.CommonService;
 import pulleydoreurae.careerquestbackend.community.domain.ContestCategory;
 import pulleydoreurae.careerquestbackend.community.domain.Organizer;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
@@ -27,15 +28,19 @@ import pulleydoreurae.careerquestbackend.community.domain.Region;
 import pulleydoreurae.careerquestbackend.community.domain.Target;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestSearchRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.JoinContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.ContestResponse;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.JoinContestResponse;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Contest;
+import pulleydoreurae.careerquestbackend.community.domain.entity.JoinedContest;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Post;
 import pulleydoreurae.careerquestbackend.community.exception.PostDeleteException;
 import pulleydoreurae.careerquestbackend.community.exception.PostNotFoundException;
 import pulleydoreurae.careerquestbackend.community.exception.PostSaveException;
 import pulleydoreurae.careerquestbackend.community.exception.PostUpdateException;
 import pulleydoreurae.careerquestbackend.community.repository.ContestRepository;
+import pulleydoreurae.careerquestbackend.community.repository.JoinedContestRepository;
 import pulleydoreurae.careerquestbackend.community.repository.PostRepository;
 
 /**
@@ -51,6 +56,8 @@ class ContestServiceTest {
 	@Mock PostRepository postRepository;
 	@Mock PostService postService;
 	@Mock CommonCommunityService commonCommunityService;
+	@Mock JoinedContestRepository joinedContestRepository;
+	@Mock CommonService commonService;
 
 	@Test
 	@DisplayName("게시글 + 공모전 저장 테스트 -실패")
@@ -222,6 +229,77 @@ class ContestServiceTest {
 		);
 	}
 
+	@Test
+	@DisplayName("공모전 참여 테스트")
+	void joinContestTest1() {
+	    // Given
+		UserAccount userAccount = UserAccount.builder().userId("testId").build();
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Contest contest = new Contest(100L, post, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		JoinContestRequest request = new JoinContestRequest(100L, "testId");
+		given(contestRepository.findById(request.getContestId())).willReturn(Optional.of(contest));
+
+	    // When
+		assertDoesNotThrow(() -> contestService.joinContest(request));
+
+	    // Then
+		verify(commonService).findUserAccount(any(), anyBoolean());
+		verify(joinedContestRepository).save(any());
+	}
+
+	@Test
+	@DisplayName("공모전 참여 테스트 -실패")
+	void joinContestTest2() {
+		// Given
+		JoinContestRequest request = new JoinContestRequest(100L, "testId");
+		given(contestRepository.findById(request.getContestId())).willReturn(Optional.empty());
+
+		// When
+		assertThrows(PostNotFoundException.class, () -> contestService.joinContest(request));
+
+		// Then
+		verify(commonService, never()).findUserAccount(any(), anyBoolean());
+		verify(joinedContestRepository, never()).save(any());
+	}
+
+	@Test
+	@DisplayName("공모전 참여에서 제거")
+	void removeFromJoinContestTest() {
+	    // Given
+		UserAccount userAccount = UserAccount.builder().userId("testId").build();
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Contest contest = new Contest(100L, post, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
+		JoinContestRequest request = new JoinContestRequest(100L, "testId");
+		given(contestRepository.findById(request.getContestId())).willReturn(Optional.of(contest));
+
+	    // When
+		assertDoesNotThrow(() -> contestService.removeFromJoinContest(request));
+
+	    // Then
+		verify(joinedContestRepository).deleteByContestIdAndUserAccount(any(), any());
+	}
+
+	@Test
+	@DisplayName("참여 공모전 리스트 조회 테스트")
+	void findJoinContestTest() {
+	    // Given
+		JoinedContest jc1 = JoinedContest.builder().contest(Contest.builder().post(Post.builder().title("공모전1").build()).build()).userAccount(UserAccount.builder().userId("testId").build()).build();
+		JoinedContest jc2 = JoinedContest.builder().contest(Contest.builder().post(Post.builder().title("공모전2").build()).build()).userAccount(UserAccount.builder().userId("testId").build()).build();
+		JoinedContest jc3 = JoinedContest.builder().contest(Contest.builder().post(Post.builder().title("공모전3").build()).build()).userAccount(UserAccount.builder().userId("testId").build()).build();
+		JoinedContest jc4 = JoinedContest.builder().contest(Contest.builder().post(Post.builder().title("공모전4").build()).build()).userAccount(UserAccount.builder().userId("testId").build()).build();
+		given(joinedContestRepository.findByUserId("testId")).willReturn(List.of(jc1, jc2, jc3, jc4));
+
+	    // When
+		List<JoinContestResponse> result = contestService.findJoinContest("testId");
+
+		// Then
+		assertEquals(4, result.size());
+		assertEquals(joinContestToResponse(jc1), result.get(0));
+		assertEquals(joinContestToResponse(jc2), result.get(1));
+		assertEquals(joinContestToResponse(jc3), result.get(2));
+		assertEquals(joinContestToResponse(jc4), result.get(3));
+	}
+
 	private ContestResponse contestToContestResponse(Contest contest) {
 		return ContestResponse.builder()
 				.contestId(contest.getId())
@@ -232,6 +310,16 @@ class ContestServiceTest {
 				.totalPrize(contest.getTotalPrize())
 				.startDate(contest.getStartDate())
 				.endDate(contest.getEndDate())
+				.build();
+	}
+
+	private JoinContestResponse joinContestToResponse(JoinedContest jc) {
+		return JoinContestResponse.builder()
+				.postId(jc.getContest().getPost().getId())
+				.contestId(jc.getContest().getId())
+				.joinContestId(jc.getId())
+				.userId(jc.getUserAccount().getUserId())
+				.title(jc.getContest().getPost().getTitle())
 				.build();
 	}
 }

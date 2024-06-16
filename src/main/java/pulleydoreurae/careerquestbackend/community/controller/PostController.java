@@ -29,9 +29,11 @@ import lombok.RequiredArgsConstructor;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 import pulleydoreurae.careerquestbackend.community.domain.PostCategory;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.ContestSearchRequest;
+import pulleydoreurae.careerquestbackend.community.domain.dto.request.JoinContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostAndContestRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.request.PostRequest;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.ContestResponse;
+import pulleydoreurae.careerquestbackend.community.domain.dto.response.JoinContestResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostFailResponse;
 import pulleydoreurae.careerquestbackend.community.domain.dto.response.PostResponse;
 import pulleydoreurae.careerquestbackend.community.service.ContestService;
@@ -330,6 +332,66 @@ public class PostController {
 	}
 
 	/**
+	 * 참여한 공모전 리스트를 출력하는 메서드
+	 *
+	 * @param userId 회원ID
+	 * @return 리스트
+	 */
+	@GetMapping("/contests/join/{userId}")
+	public ResponseEntity<List<JoinContestResponse>> findByUserId(@PathVariable String userId) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(contestService.findJoinContest(userId));
+	}
+
+	/**
+	 * 공모전 참여 메서드
+	 *
+	 * @param request 공모전 참여 요청
+	 * @param bindingResult 에러 검출
+	 * @return 처리결과
+	 */
+	@PostMapping("/contests/join")
+	public ResponseEntity<SimpleResponse> joinContest(@RequestBody @Valid JoinContestRequest request,
+			BindingResult bindingResult) {
+
+		ResponseEntity<SimpleResponse> BAD_REQUEST = validCheck(bindingResult);
+		if (BAD_REQUEST != null) {
+			return BAD_REQUEST;
+		}
+
+		contestService.joinContest(request);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(SimpleResponse.builder()
+						.msg("공모전 참여에 성공하였습니다.")
+						.build());
+	}
+
+	/**
+	 * 공모전 참여 제거 메서드
+	 *
+	 * @param request 공모전 제거 요청
+	 * @param bindingResult 에러 검출
+	 * @return 처리결과
+	 */
+	@DeleteMapping("/contests/join")
+	public ResponseEntity<SimpleResponse> removeFromJoinContest(@RequestBody @Valid JoinContestRequest request,
+			BindingResult bindingResult) {
+
+		ResponseEntity<SimpleResponse> BAD_REQUEST = validCheck(bindingResult);
+		if (BAD_REQUEST != null) {
+			return BAD_REQUEST;
+		}
+
+		contestService.removeFromJoinContest(request);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(SimpleResponse.builder()
+						.msg("공모전 참여 제거에 성공하였습니다.")
+						.build());
+	}
+
+	/**
 	 * 검증 메서드
 	 *
 	 * @param postRequest   게시글 요청 (검증에 실패하더라도 입력한 값은 그대로 돌려준다.)
@@ -379,6 +441,27 @@ public class PostController {
 							.content(postRequest.getContent())
 							.postCategory(postRequest.getPostCategory())
 							.errors(errors)
+							.build());
+		}
+		return null;
+	}
+
+	/**
+	 * 검증 메서드
+	 *
+	 * @param bindingResult 검증 결과
+	 * @return 검증결과 에러가 없다면 null 에러가 있다면 해당 에러를 담은 ResponseEntity 반환
+	 */
+	private ResponseEntity<SimpleResponse> validCheck(BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			bindingResult.getAllErrors().forEach(error -> {
+				sb.append(error.getDefaultMessage()).append("\n");
+			});
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(SimpleResponse.builder()
+							.msg(sb.toString())
 							.build());
 		}
 		return null;
