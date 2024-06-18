@@ -33,7 +33,7 @@ class EmptyTeamMemberRepositoryTest {
 	@DisplayName("팀 id로 팀장이 지정한 팀원 포지션 불러오기")
 	void findByTeamIdTest() {
 	    // Given
-		Team team = Team.builder().teamName("정보처리기사1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team = Team.builder().teamName("정보처리기사1팀").teamContent("정보처리기사를 목표로 하는 스터디").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
 		teamRepository.save(team);
 
 		EmptyTeamMember emptyTeamMember1 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();
@@ -60,7 +60,7 @@ class EmptyTeamMemberRepositoryTest {
 	@DisplayName("팀장이 지정한 팀원 포지션 팀id, 포지션, 인덱스로 불러오기")
 	void findAllByTeamIdAndPositionTest() {
 		// Given
-		Team team = Team.builder().teamName("정보처리기사1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team = Team.builder().teamName("정보처리기사1팀").teamContent("정보처리기사취득을 위한 팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
 		teamRepository.save(team);
 
 		EmptyTeamMember emptyTeamMember1 = EmptyTeamMember.builder().team(team).position("프론트 개발자").build();

@@ -210,6 +210,7 @@ public class SearchControllerTest {
 					fieldWithPath("teamList.teamResponse").description("팀 응답"),
 					fieldWithPath("teamList.teamResponse[].teamId").description("팀 ID"),
 					fieldWithPath("teamList.teamResponse[].teamName").description("팀 이름"),
+					fieldWithPath("teamList.teamResponse[].teamContent").description("팀 내용(설명)"),
 					fieldWithPath("teamList.teamResponse[].teamType").description("팀 유형"),
 					fieldWithPath("teamList.teamResponse[].maxMember").description("최대 멤버 수"),
 					fieldWithPath("teamList.teamResponse[].startDate").description("시작 날짜"),

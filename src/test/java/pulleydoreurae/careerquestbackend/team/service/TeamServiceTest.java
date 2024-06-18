@@ -55,7 +55,7 @@ class TeamServiceTest {
 	void makeTeamTest1() {
 	    // Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
+		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "해파리", "캡스톤 프로젝트를 위한 팀", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
 		given(commonService.findUserAccount("leaderId", true)).willThrow(new UsernameNotFoundException("회원 정보를 찾을 수 없습니다."));
 
 	    // When
@@ -70,7 +70,7 @@ class TeamServiceTest {
 	void makeTeamTest2() {
 		// Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
+		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "해파리", "캡스톤 프로젝트를 위한 팀", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions);
 		UserAccount user = UserAccount.builder().userId("leaderId").build();
 		given(commonService.findUserAccount("leaderId", true)).willReturn(user);
 
@@ -86,7 +86,7 @@ class TeamServiceTest {
 	void updateTeamTest1() {
 	    // Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions, true);
+		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", "캡스톤 프로젝트를 위한 팀", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions, true);
 		given(teamRepository.findById(request.getTeamId())).willThrow(new IllegalArgumentException("팀에 대한 정보를 찾을 수 없습니다."));
 
 	    // When
@@ -103,7 +103,7 @@ class TeamServiceTest {
 	void updateTeamTest2() {
 		// Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "프론트엔드 개발자", "디자이너");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions, true);
+		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "해파리", "캡스톤 프로젝트를 위한 팀", TeamType.STUDY, 5, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15), positions, true);
 		Team team = Team.builder().id(request.getTeamId()).teamName(request.getTeamName()).teamType(request.getTeamType()).maxMember(request.getMaxMember()).startDate(request.getStartDate()).endDate(request.getEndDate()).build();
 		given(teamRepository.findById(request.getTeamId())).willReturn(Optional.ofNullable(team));
 

@@ -24,6 +24,7 @@ public class TeamResponse {
 
 	private Long teamId;
 	private String teamName; // 팀 이름
+	private String teamContent; // 팀 설명
 	private TeamType teamType; // 팀 구분
 	private Integer maxMember; // 팀 최대 인원
 	private LocalDate startDate; // 시작일

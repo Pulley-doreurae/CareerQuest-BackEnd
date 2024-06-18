@@ -123,6 +123,7 @@ public class TeamService {
 		UserAccount user = commonService.findUserAccount(makeRequest.getTeamLeaderId(), true); // 팀장의 정보 불러오기
 		Team team = Team.builder()
 				.teamName(makeRequest.getTeamName())
+				.teamContent(makeRequest.getTeamContent())
 				.teamType(makeRequest.getTeamType())
 				.maxMember(makeRequest.getMaxMember())
 				.startDate(makeRequest.getStartDate())
@@ -147,6 +148,7 @@ public class TeamService {
 		Team newTeam = Team.builder()
 				.id(team.getId())
 				.teamName(updateRequest.getTeamName())
+				.teamContent(updateRequest.getTeamContent())
 				.teamType(updateRequest.getTeamType())
 				.maxMember(updateRequest.getMaxMember())
 				.startDate(updateRequest.getStartDate())
@@ -251,6 +253,7 @@ public class TeamService {
 		return TeamResponse.builder()
 				.teamId(team.getId())
 				.teamName(team.getTeamName())
+				.teamContent(team.getTeamContent())
 				.teamType(team.getTeamType())
 				.maxMember(team.getMaxMember())
 				.startDate(team.getStartDate())

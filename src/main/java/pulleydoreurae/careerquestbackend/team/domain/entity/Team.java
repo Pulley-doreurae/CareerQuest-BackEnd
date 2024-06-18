@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,6 +35,11 @@ public class Team extends BaseEntity {
 
 	@Column(nullable = false)
 	private String teamName; // 팀 이름
+
+	@Column(nullable = false)
+	private String teamContent; // 팀 설명
+
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TeamType teamType; // 팀 구분
 
