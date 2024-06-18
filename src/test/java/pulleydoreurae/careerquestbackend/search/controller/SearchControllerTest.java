@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -106,7 +105,7 @@ public class SearchControllerTest {
 			.build();
 
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		Post post1 = new Post(100L, userAccount, "천하제일 정보처리기사!", "대충 정보가지고 처리하는 내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "천하제일 정보처리기사!", "대충 정보가지고 처리하는 내용", 0L, PostCategory.CONTEST, null, null);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 
 		ContestResponse contestResponse = ContestResponse.builder()

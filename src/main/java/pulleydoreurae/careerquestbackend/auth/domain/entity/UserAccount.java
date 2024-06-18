@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pulleydoreurae.careerquestbackend.auth.domain.MBTI;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.common.entity.BaseEntity;
 import pulleydoreurae.careerquestbackend.community.domain.entity.Comment;
@@ -51,6 +52,9 @@ public class UserAccount extends BaseEntity {
 	@Setter
 	@Column(columnDefinition = "boolean default false")
 	private Boolean isMarketed;
+
+	@Enumerated(EnumType.STRING)
+	private MBTI mbti;
 
 	@Enumerated(EnumType.STRING)    // enum 을 데이터베이스에 문자열로 저장한다.
 	private UserRole role;

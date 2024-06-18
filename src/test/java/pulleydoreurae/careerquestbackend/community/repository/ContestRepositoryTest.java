@@ -1,20 +1,17 @@
 package pulleydoreurae.careerquestbackend.community.repository;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -58,7 +55,7 @@ class ContestRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post);
 		Contest contest = new Contest(100L, post, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.LOCAL_GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 
@@ -80,7 +77,7 @@ class ContestRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post);
 		Contest contest = new Contest(100L, post, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.LOCAL_GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 
@@ -98,7 +95,7 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post);
 		Contest contest = new Contest(100L, post, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.LOCAL_GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest);
@@ -116,11 +113,11 @@ class ContestRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -149,11 +146,11 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -183,11 +180,11 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -217,11 +214,11 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -251,11 +248,11 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -285,11 +282,11 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.GOVERNMENT, 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -319,13 +316,13 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
-		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post4);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -356,13 +353,13 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
-		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post4);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -390,13 +387,13 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
-		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post4);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -424,13 +421,13 @@ class ContestRepositoryTest {
 		// Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
-		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post4 = new Post(103L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post4);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -458,11 +455,11 @@ class ContestRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.GOVERNMENT, 99999L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
@@ -488,11 +485,11 @@ class ContestRepositoryTest {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(userAccount);
-		Post post1 = new Post(100L, userAccount, "공모전제목", "내용공모전내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전제목", "내용공모전내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전공모전", "내용내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전공모전", "내용내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공공모모전전", "내용내용내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공공모모전전", "내용내용내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.UNIVERSITY, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		contestRepository.save(contest1);
