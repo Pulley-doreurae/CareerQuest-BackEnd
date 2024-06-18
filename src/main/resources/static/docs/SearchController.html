@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_요청_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/search/ranking?_csrf=kpg9sLIwNS_m1-5K-A7Zsl2uWHeAMLGcBFUnDsDnSwsewXidpa8P0dMAAxnL4Y99miPtijyedU_jA4axYGceb_TTKGgv-E7- HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/search/ranking?_csrf=572uuaLGHbTgL_xbfD7ecpzzI3w6Yt3S_ahvZ9TEs6RLeuh11IWb3cfwfNXNGs05TBPqEK6RDh4DAO7_n8lZX-Tzi8EoTopC HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -602,7 +602,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1510
+Content-Length: 1538
 
 {
   "certificationList" : [ {
@@ -648,6 +648,7 @@ Content-Length: 1510
     "teamResponse" : [ {
       "teamId" : 100,
       "teamName" : "정보처리기사 끝내기!",
+      "teamContent" : null,
       "teamType" : "STUDY",
       "maxMember" : 5,
       "startDate" : "2024-01-10",
@@ -875,6 +876,11 @@ Content-Length: 1510
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamList.teamResponse[].teamName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamList.teamResponse[].teamContent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 내용(설명)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamList.teamResponse[].teamType</code></p></td>

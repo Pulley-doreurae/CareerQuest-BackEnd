@@ -634,13 +634,14 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 855
+Content-Length: 1088
 
 {
   "totalPage" : 3,
   "teamResponse" : [ {
     "teamId" : 100,
     "teamName" : "정보처리기사 1팀",
+    "teamContent" : "정보처리기사 취득을 위한팀",
     "teamType" : "STUDY",
     "maxMember" : 5,
     "startDate" : "2024-01-10",
@@ -649,6 +650,7 @@ Content-Length: 855
   }, {
     "teamId" : 101,
     "teamName" : "정보처리기사 2팀",
+    "teamContent" : "정보처리기사 취득을 위한팀",
     "teamType" : "STUDY",
     "maxMember" : 4,
     "startDate" : "2024-01-10",
@@ -657,6 +659,7 @@ Content-Length: 855
   }, {
     "teamId" : 102,
     "teamName" : "정보처리기사 3팀",
+    "teamContent" : "정보처리기사 취득을 위한팀",
     "teamType" : "STUDY",
     "maxMember" : 6,
     "startDate" : "2024-01-10",
@@ -665,6 +668,7 @@ Content-Length: 855
   }, {
     "teamId" : 103,
     "teamName" : "공모전에 도전해보자",
+    "teamContent" : "공모전 입상하기!",
     "teamType" : "CONTEST",
     "maxMember" : 3,
     "startDate" : "2024-01-10",
@@ -705,6 +709,11 @@ Content-Length: 855
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamContent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 내용(설명)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamType</code></p></td>
@@ -807,13 +816,14 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 470
+Content-Length: 574
 
 {
   "totalPage" : 3,
   "teamResponse" : [ {
     "teamId" : 103,
     "teamName" : "공모전에 도전해보자",
+    "teamContent" : "공모전 입상을 목표!",
     "teamType" : "CONTEST",
     "maxMember" : 3,
     "startDate" : "2024-01-10",
@@ -822,6 +832,7 @@ Content-Length: 470
   }, {
     "teamId" : 104,
     "teamName" : "새로운 공모전에 도전해보자",
+    "teamContent" : "공모전에 도전합시다.",
     "teamType" : "CONTEST",
     "maxMember" : 3,
     "startDate" : "2024-01-10",
@@ -862,6 +873,11 @@ Content-Length: 470
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamContent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 내용(설명)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.[].teamType</code></p></td>
@@ -943,12 +959,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 658
+Content-Length: 720
 
 {
   "teamResponse" : {
     "teamId" : 100,
     "teamName" : "정보처리기사 1팀",
+    "teamContent" : "정보처리기사 취득을 위한팀",
     "teamType" : "STUDY",
     "maxMember" : 5,
     "startDate" : "2024-01-10",
@@ -1002,6 +1019,11 @@ Content-Length: 658
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.teamName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.teamContent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 내용(설명)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamResponse.teamType</code></p></td>
@@ -1061,15 +1083,16 @@ Content-Length: 658
 <h5 id="_요청_5_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/teams?_csrf=7pEb7ahmft_kp3LdnPTfaLwA8EsxrJwA5BhIKgS9ZAsFvAtH3_V9icsDTu7JkUXv_tnrCotj3XJXyK8t0CgsEzzcBWpm2G5x HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/teams?_csrf=xcZOK-0Oz6MtF23TpK7YLUekpeO7ZhZXJR0Egk7YSPKrZHWj_aJ_Tt89q8cAL1rrwIPsFXaXiNvfUC96EitisXjsK8ufVEKR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 363
+Content-Length: 440
 Host: localhost:8080
 
 {
   "teamLeaderId" : "leaderId",
   "position" : "백엔드 개발자",
   "teamName" : "새로운 프로젝트를 만들어 봅시다.",
+  "teamContent" : "새로운 프로젝트를 만들기 위한팀이에요.",
   "teamType" : "STUDY",
   "maxMember" : 5,
   "startDate" : "2024-01-01",
@@ -1110,6 +1133,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamContent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 내용(설명)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamType</code></p></td>
@@ -1201,9 +1229,9 @@ Content-Length: 49
 <h5 id="_요청_6_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/teams?_csrf=8fd7bSAdIzrjg9kOFXWQ1ys1jBtMGdFTysFyOygwFQVT9s3AyMZMVEIlQAvOsug_IFikshgNoSJ4KOh-86IRWhlVdjU1xqym HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/teams?_csrf=WEsEAEn1UqhDRnzi9EL6COHiUJQ_JkiGzm0ZX5eBPScDX4vHaXg9NXrMYpBucx3TkW_OO9jaffVaEnCr918qOfOyBRE7Pbmm HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 380
+Content-Length: 457
 Host: localhost:8080
 
 {
@@ -1211,6 +1239,7 @@ Host: localhost:8080
   "teamLeaderId" : "leaderId",
   "position" : "백엔드 개발자",
   "teamName" : "새로운 프로젝트를 만들어 봅시다.",
+  "teamContent" : "새로운 프로젝트를 만들기 위한팀이에요.",
   "teamType" : "STUDY",
   "maxMember" : 5,
   "startDate" : "2024-01-01",
@@ -1256,6 +1285,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamContent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 내용(설명)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>teamType</code></p></td>
@@ -1347,7 +1381,7 @@ Content-Length: 49
 <h5 id="_요청_7_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/teams?_csrf=6hIOgPwvA6FeguDrj9hd8aXAtQFXq-m1lpfekUiFeeYGNwDK0iA_tM5KYZRz54PSvPVpksSjmGBum4qYpqHu8ymxSIU-VmWu HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/teams?_csrf=DF2KkCwRqtHCELYvcytnXKE0lmlZuUlH8Cf4CWaWlVqbTXi8Pjy-pBUhm-jvKdMYSgZTapNXuwtqi3pqkkHBPVHy92iuLkGM HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 51
 Host: localhost:8080
@@ -1445,7 +1479,7 @@ Content-Length: 49
 <h5 id="_요청_8_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/teams/members?_csrf=hjDT8KrmpAP33F919Pw6Y5DPu0jx1O7ndOfyAVNC3jDatinX5ADnk8-EwDXavW1Hw9EOV6muliqU4t_KRYKROGR7ugO5hhq2 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/teams/members?_csrf=-EibFtzpRybersjk9bVUcXcOJCCqA2SzO0suHRyO1ePKWgLVyn-pLrqId0DznPzdxJhgRU5tCRnJNFaeDn0bJC264tSpOzLj HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 73
 Host: localhost:8080
@@ -1549,7 +1583,7 @@ Content-Length: 49
 <h5 id="_요청_9_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/teams/members?_csrf=doPU2GyNUmQRMVt8xis2WfLKIEZ2c5_d7YMsTuRGswYjTBzkELrt6lrpNlU8Uj5M_wYCYMWvDScTRavw2eJPf9B-1jARei2B HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/teams/members?_csrf=SEiHbkSo-NWJZ5FxHi7oYRB4qdlt2ZZfokSkg0fM8UOXxDA5KyviW3GameOkBvdDJgPcWCMdhOBf6fRywCeX4nCpxiKkoAAL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 73
 Host: localhost:8080
@@ -1653,7 +1687,7 @@ Content-Length: 55
 <h5 id="_요청_10_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/teams/members?_csrf=67zzlqrODGD6SiD4-W2iQtyVqt3S6PbWkjgK_qbCTXvnqltajYqV85v9bVDXKEaayECWJuWhh-Tl0cX7oghrmJf2fUvXnThj HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/teams/members?_csrf=5XnWoUisTZLsYFDcWPPpohtUGltuB_FeukomymouIw9Dl8D10Um3wH2cKaDBBmi-Od7dl38yN2JbYZVziC8V-gwXEml08aGW HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 106
 Host: localhost:8080
