@@ -45,9 +45,9 @@ class TeamMemberRepositoryTest {
 		userAccountRepository.save(user3);
 		userAccountRepository.save(user4);
 
-		Team team1 = Team.builder().teamName("정보처리기사1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
-		Team team2 = Team.builder().teamName("정처기모여라!").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
-		Team team3 = Team.builder().teamName("정처기모여라!").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team1 = Team.builder().teamName("정보처리기사1팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team2 = Team.builder().teamName("정처기모여라!").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
+		Team team3 = Team.builder().teamName("정처기모여라!").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 3, 10)).endDate(LocalDate.of(2024, 5, 20)).build();
 		teamRepository.save(team1);
 		teamRepository.save(team2);
 		teamRepository.save(team3);

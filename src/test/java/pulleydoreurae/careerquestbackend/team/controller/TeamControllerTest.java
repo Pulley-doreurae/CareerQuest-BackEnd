@@ -119,10 +119,10 @@ class TeamControllerTest {
 	void findAllTest() throws Exception {
 		// Given
 		TeamResponseWithPageInfo response = new TeamResponseWithPageInfo(3);
-		TeamResponse teamResponse1 = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
-		TeamResponse teamResponse2 = TeamResponse.builder().teamId(101L).teamName("정보처리기사 2팀").teamType(TeamType.STUDY).maxMember(4).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
-		TeamResponse teamResponse3 = TeamResponse.builder().teamId(102L).teamName("정보처리기사 3팀").teamType(TeamType.STUDY).maxMember(6).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
-		TeamResponse teamResponse4 = TeamResponse.builder().teamId(103L).teamName("공모전에 도전해보자").teamType(TeamType.CONTEST).maxMember(3).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse1 = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse2 = TeamResponse.builder().teamId(101L).teamName("정보처리기사 2팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(4).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse3 = TeamResponse.builder().teamId(102L).teamName("정보처리기사 3팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(6).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse4 = TeamResponse.builder().teamId(103L).teamName("공모전에 도전해보자").teamContent("공모전 입상하기!").teamType(TeamType.CONTEST).maxMember(3).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
 		response.getTeamResponse().add(teamResponse1);
 		response.getTeamResponse().add(teamResponse2);
 		response.getTeamResponse().add(teamResponse3);
@@ -144,6 +144,7 @@ class TeamControllerTest {
 								fieldWithPath("totalPage").description("전체 페이지 수"),
 								fieldWithPath("teamResponse.[].teamId").description("팀 ID"),
 								fieldWithPath("teamResponse.[].teamName").description("팀 이름"),
+								fieldWithPath("teamResponse.[].teamContent").description("팀 내용(설명)"),
 								fieldWithPath("teamResponse.[].teamType").description("팀 타입"),
 								fieldWithPath("teamResponse.[].maxMember").description("팀 최대 인원"),
 								fieldWithPath("teamResponse.[].startDate").description("모집 시작일"),
@@ -160,11 +161,11 @@ class TeamControllerTest {
 	void findAllByTeamTypeTest() throws Exception {
 		// Given
 		TeamResponseWithPageInfo response = new TeamResponseWithPageInfo(3);
-		TeamResponse teamResponse1 = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
-		TeamResponse teamResponse2 = TeamResponse.builder().teamId(101L).teamName("정보처리기사 2팀").teamType(TeamType.STUDY).maxMember(4).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
-		TeamResponse teamResponse3 = TeamResponse.builder().teamId(102L).teamName("정보처리기사 3팀").teamType(TeamType.STUDY).maxMember(6).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
-		TeamResponse teamResponse4 = TeamResponse.builder().teamId(103L).teamName("공모전에 도전해보자").teamType(TeamType.CONTEST).maxMember(3).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
-		TeamResponse teamResponse5 = TeamResponse.builder().teamId(104L).teamName("새로운 공모전에 도전해보자").teamType(TeamType.CONTEST).maxMember(3).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse1 = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse2 = TeamResponse.builder().teamId(101L).teamName("정보처리기사 2팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(4).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse3 = TeamResponse.builder().teamId(102L).teamName("정보처리기사 3팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(6).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse4 = TeamResponse.builder().teamId(103L).teamName("공모전에 도전해보자").teamContent("공모전 입상을 목표!").teamType(TeamType.CONTEST).maxMember(3).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse5 = TeamResponse.builder().teamId(104L).teamName("새로운 공모전에 도전해보자").teamContent("공모전에 도전합시다.").teamType(TeamType.CONTEST).maxMember(3).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
 		response.getTeamResponse().add(teamResponse4);
 		response.getTeamResponse().add(teamResponse5);
 		given(teamService.findAllByTeamType(any(), any())).willReturn(response);
@@ -187,6 +188,7 @@ class TeamControllerTest {
 								fieldWithPath("totalPage").description("전체 페이지 수"),
 								fieldWithPath("teamResponse.[].teamId").description("팀 ID"),
 								fieldWithPath("teamResponse.[].teamName").description("팀 이름"),
+								fieldWithPath("teamResponse.[].teamContent").description("팀 내용(설명)"),
 								fieldWithPath("teamResponse.[].teamType").description("팀 타입"),
 								fieldWithPath("teamResponse.[].maxMember").description("팀 최대 인원"),
 								fieldWithPath("teamResponse.[].startDate").description("모집 시작일"),
@@ -202,7 +204,7 @@ class TeamControllerTest {
 	@WithMockUser
 	void findByTeamIdTest() throws Exception {
 		// Given
-		TeamResponse teamResponse = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
 		TeamDetailResponse response = new TeamDetailResponse(teamResponse);
 		TeamMemberResponse teamMember1 = TeamMemberResponse.builder().userId("user1").isTeamLeader(true).position("백엔드 개발자").build();
 		TeamMemberResponse teamMember2 = TeamMemberResponse.builder().userId("user2").isTeamLeader(false).position("프론트엔드 개발자").build();
@@ -230,6 +232,7 @@ class TeamControllerTest {
 						responseFields(
 								fieldWithPath("teamResponse.teamId").description("팀 ID"),
 								fieldWithPath("teamResponse.teamName").description("팀 이름"),
+								fieldWithPath("teamResponse.teamContent").description("팀 내용(설명)"),
 								fieldWithPath("teamResponse.teamType").description("팀 타입"),
 								fieldWithPath("teamResponse.maxMember").description("팀 최대 인원"),
 								fieldWithPath("teamResponse.startDate").description("모집 시작일"),
@@ -250,7 +253,7 @@ class TeamControllerTest {
 	void makeTeamTest() throws Exception {
 		// Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "디자이너", "AI 개발자");
-		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "새로운 프로젝트를 만들어 봅시다.", TeamType.STUDY, 5, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 1), positions);
+		TeamRequest request = new TeamRequest("leaderId", "백엔드 개발자", "새로운 프로젝트를 만들어 봅시다.", "새로운 프로젝트를 만들기 위한팀이에요.", TeamType.STUDY, 5, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 1), positions);
 
 		// When
 		mockMvc.perform(post("/api/teams")
@@ -266,6 +269,7 @@ class TeamControllerTest {
 								fieldWithPath("teamLeaderId").description("팀장 ID"),
 								fieldWithPath("position").description("팀장의 포지션"),
 								fieldWithPath("teamName").description("팀 이름"),
+								fieldWithPath("teamContent").description("팀 내용(설명)"),
 								fieldWithPath("teamType").description("팀 타입"),
 								fieldWithPath("maxMember").description("팀 최대 인원"),
 								fieldWithPath("startDate").description("모집 시작일"),
@@ -286,7 +290,7 @@ class TeamControllerTest {
 	void updateTeamTest() throws Exception {
 		// Given
 		List<String> positions = List.of("백엔드 개발자", "프론트엔드 개발자", "디자이너", "AI 개발자");
-		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "새로운 프로젝트를 만들어 봅시다.", TeamType.STUDY, 5, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 1), positions, true);
+		TeamRequest request = new TeamRequest(100L, "leaderId", "백엔드 개발자", "새로운 프로젝트를 만들어 봅시다.", "새로운 프로젝트를 만들기 위한팀이에요.",TeamType.STUDY, 5, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 1), positions, true);
 
 		// When
 		mockMvc.perform(patch("/api/teams")
@@ -303,6 +307,7 @@ class TeamControllerTest {
 								fieldWithPath("teamLeaderId").description("팀장 ID"),
 								fieldWithPath("position").description("팀장의 포지션"),
 								fieldWithPath("teamName").description("팀 이름"),
+								fieldWithPath("teamContent").description("팀 내용(설명)"),
 								fieldWithPath("teamType").description("팀 타입"),
 								fieldWithPath("maxMember").description("팀 최대 인원"),
 								fieldWithPath("startDate").description("모집 시작일"),
