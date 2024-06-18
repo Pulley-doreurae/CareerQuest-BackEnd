@@ -26,16 +26,26 @@ public class AiService {
 	@Value("${AI_METADATA_PATH}")
 	private String AI_PATH;
 
+	@Value("${AI_CREATE_SELF_INTRODUCE_PATH}")
+	private String AI_CREATE_SELF_INTRODUCE_PATH;
+
 	private final Gson gson = new Gson();
+
+
+	public String[] returnCmd(String userId){
+		return new String[] {"/bin/sh", "-c", AI_CREATE_SELF_INTRODUCE_PATH + " " + userId + " " + "300 글자 충족하는 자기소개서 만들어줘"};
+	}
+
+	public String[] returnCmd(AiRequest request){
+		return new String[] {"/bin/sh", "-c", AI_PATH + " " + request.getDatabase() + " " + request.getUserId()};
+	}
 
 	/**
 	 * AI에 질의하고 그 결과를 반환하는 메서드
-	 * @param request AI 질의 요청
+	 * @param cmd AI 질의 요청
 	 * @return AI 질의 결과를 담은 응답
 	 */
-	public AiResponse findResult(AiRequest request) {
-
-		String[] cmd = {"/bin/sh", "-c", AI_PATH + " " + request.getDatabase() + " " + request.getUserId()};
+	public AiResponse findResult(String[] cmd) {
 
 		ProcessBuilder processBuilder = new ProcessBuilder(cmd);
 		processBuilder.redirectErrorStream(true); // 표준 오류를 표준 출력과 합침

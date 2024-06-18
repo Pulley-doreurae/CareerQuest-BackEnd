@@ -90,7 +90,7 @@ public class SecurityConfig {
 						.requestMatchers("/api/login", "/api/users", "/api/verify", "/api/login-kakao/**"
 								, "/api/login-kakao/**", "/api/login-google/**", "/api/login-naver/**", "/"
 								, "/api/users/username/**", "/api/users/email/**", "/api-test", "/api/users/help/**"
-								, "/api/users/details/**", "/api/users/delete", "/api/chat/**")
+								, "/api/users/details/**", "/api/users/delete", "/api/chat/**", "/api/login-github/**")
 						.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
 						.requestMatchers("/docs/index.html")
 						.permitAll()    // Spring REST Docs 를 보기 위해 모두 접근 가능
@@ -101,7 +101,7 @@ public class SecurityConfig {
 								"/api/posts/user/**", "/api/posts/search/**", "/api/posts/**", "/api/contests/**",
 								"/api/posts/images/**", "/api/contests/join/**", "/api/posts/likes/**",
 								"/api/search/keyword/**", "/api/search/ranking/**", "/api/search/update/**",
-								"/api/teams/history/**", "/api/teams/**", "/api/teams-details/**")
+								"/api/teams/history/**", "/api/teams/**", "/api/teams-details/**", "/api/portfolio/**")
 						.permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/certifications/pass-rate/**", "/api/posts/search/**")
 						.permitAll()

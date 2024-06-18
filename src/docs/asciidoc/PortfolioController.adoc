@@ -1,0 +1,42 @@
+== 포트폴리오 API (PortfolioController)
+=== 포트폴리오 자기소개 내용 불러오기 성공
+==== 요청
+operation::portfolio-controller-test/get-user-about-me-success[snippets="http-request,query-parameters"]
+==== 응답
+operation::portfolio-controller-test/get-user-about-me-success[snippets="http-response", response-fields]
+
+=== 포트폴리오 자기소개 내용 불러오기 실패 (자기소개가 없음)
+==== 요청
+operation::portfolio-controller-test/get-user-about-me-failed[snippets="http-request,query-parameters"]
+==== 응답
+operation::portfolio-controller-test/get-user-about-me-failed[snippets="http-response, response-fields]
+
+=== 포트폴리오 자기소개 내용 업데이터 성공
+==== 요청
+operation::portfolio-controller-test/update-user-about-me-success[snippets="http-request,request-fields"]
+==== 응답
+operation::portfolio-controller-test/update-user-about-me-success[snippets="http-response, response-fields]
+
+=== 포트폴리오 자기소개 내용 업데이터 실패 (유저가 없음)
+==== 요청
+operation::portfolio-controller-test/update-user-about-me-failed[snippets="http-request,request-fields"]
+==== 응답
+operation::portfolio-controller-test/update-user-about-me-failed[snippets="http-response, response-fields]
+
+=== 유저의 레포지토리를 가져오기 성공 (내용 있음)
+==== 요청
+operation::portfolio-controller-test/get-user-repos-success1[snippets="http-request,query-parameters"]
+==== 응답
+operation::portfolio-controller-test/get-user-repos-success1[snippets="http-response, response-fields]
+
+=== 유저의 레포지토리를 가져오기 성공 (내용 없음)
+==== 요청
+operation::portfolio-controller-test/get-user-repos-success2[snippets="http-request,query-parameters"]
+==== 응답
+operation::portfolio-controller-test/get-user-repos-success2[snippets="http-response, response-fields]
+
+=== 유저의 레포지토리를 가져오기 실패 (유저가 없음)
+==== 요청
+operation::portfolio-controller-test/get-user-repos-failed[snippets="http-request,query-parameters"]
+==== 응답
+operation::portfolio-controller-test/get-user-repos-failed[snippets="http-response, response-fields]

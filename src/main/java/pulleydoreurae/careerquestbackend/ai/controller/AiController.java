@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import pulleydoreurae.careerquestbackend.ai.dto.AiRequest;
 import pulleydoreurae.careerquestbackend.ai.dto.AiResponse;
 import pulleydoreurae.careerquestbackend.ai.service.AiService;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserIdRequest;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
 
 /**
@@ -39,10 +40,27 @@ public class AiController {
 			}
 		}
 
-		AiResponse result = aiService.findResult(request);
+		AiResponse result = aiService.findResult(aiService.returnCmd(request));
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(result);
+	}
+
+	@PostMapping("/ai/aboutMe")
+	public ResponseEntity<?> createSelfIntroduction(@Valid @RequestBody UserIdRequest request, BindingResult bindingResult) {
+
+		if (bindingResult != null) {
+			// 검증
+			ResponseEntity<SimpleResponse> BAD_REQUEST = validCheck(bindingResult);
+			if (BAD_REQUEST != null) {
+				return BAD_REQUEST;
+			}
+		}
+
+		AiResponse result = aiService.findResult(aiService.returnCmd(request.getUserId()));
+
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(result);
 	}
 
 	/**
