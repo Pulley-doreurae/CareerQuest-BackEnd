@@ -12,6 +12,7 @@ import lombok.Getter;
 public enum PostCategory {
 	NOTICE("공지사항"),
 	CERTIFICATION_BOARD("자격증게시판"),
+	CONTEST("공모전"),
 	CONTEST_BOARD("공모전게시판"),
 	FREE_BOARD("자유게시판"),
 	QNA_BOARD("질문게시판"),

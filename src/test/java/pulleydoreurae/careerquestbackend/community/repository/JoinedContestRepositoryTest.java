@@ -41,7 +41,7 @@ class JoinedContestRepositoryTest {
 	    // Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(user);
-		Post post = Post.builder().userAccount(user).title("공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST).view(0L).build();
 		postRepository.save(post);
 		Contest contest = Contest.builder().post(post).build();
 		contestRepository.save(contest);
@@ -62,13 +62,13 @@ class JoinedContestRepositoryTest {
 	    // Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(user);
-		Post post1 = Post.builder().userAccount(user).title("1공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST_BOARD).view(0L).build();
+		Post post1 = Post.builder().userAccount(user).title("1공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST).view(0L).build();
 		postRepository.save(post1);
-		Post post2 = Post.builder().userAccount(user).title("2공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST_BOARD).view(0L).build();
+		Post post2 = Post.builder().userAccount(user).title("2공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST).view(0L).build();
 		postRepository.save(post2);
-		Post post3 = Post.builder().userAccount(user).title("3공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST_BOARD).view(0L).build();
+		Post post3 = Post.builder().userAccount(user).title("3공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST).view(0L).build();
 		postRepository.save(post3);
-		Post post4 = Post.builder().userAccount(user).title("4공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST_BOARD).view(0L).build();
+		Post post4 = Post.builder().userAccount(user).title("4공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST).view(0L).build();
 		postRepository.save(post4);
 		Contest contest1 = Contest.builder().post(post1).build();
 		contestRepository.save(contest1);
@@ -101,7 +101,7 @@ class JoinedContestRepositoryTest {
 	    // Given
 		UserAccount user = UserAccount.builder().userId("testId").build();
 		userAccountRepository.save(user);
-		Post post = Post.builder().userAccount(user).title("공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST_BOARD).view(0L).build();
+		Post post = Post.builder().userAccount(user).title("공모전입니다.").content("공모전내용").postCategory(PostCategory.CONTEST).view(0L).build();
 		postRepository.save(post);
 		Contest contest = Contest.builder().post(post).build();
 		contestRepository.save(contest);

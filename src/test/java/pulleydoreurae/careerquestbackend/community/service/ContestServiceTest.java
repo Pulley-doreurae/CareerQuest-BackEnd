@@ -197,11 +197,11 @@ class ContestServiceTest {
 	void findBySearchRequestTest() {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post1 = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post1);
-		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post2 = new Post(101L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post2);
-		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post3 = new Post(102L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		postRepository.save(post3);
 
 		Contest contest1 = new Contest(100L, post1, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
@@ -234,7 +234,7 @@ class ContestServiceTest {
 	void joinContestTest1() {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		Contest contest = new Contest(100L, post, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		JoinContestRequest request = new JoinContestRequest(100L, "testId");
 		given(contestRepository.findById(request.getContestId())).willReturn(Optional.of(contest));
@@ -267,7 +267,7 @@ class ContestServiceTest {
 	void removeFromJoinContestTest() {
 	    // Given
 		UserAccount userAccount = UserAccount.builder().userId("testId").build();
-		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST_BOARD, null, null);
+		Post post = new Post(100L, userAccount, "공모전", "내용", 0L, PostCategory.CONTEST, null, null);
 		Contest contest = new Contest(100L, post, ContestCategory.CONTEST, Target.HIGH_SCHOOL, Region.SEOUL, Organizer.GOVERNMENT, 100000L, LocalDate.of(2024, 1, 10), LocalDate.of(2024, 3, 10));
 		JoinContestRequest request = new JoinContestRequest(100L, "testId");
 		given(contestRepository.findById(request.getContestId())).willReturn(Optional.of(contest));

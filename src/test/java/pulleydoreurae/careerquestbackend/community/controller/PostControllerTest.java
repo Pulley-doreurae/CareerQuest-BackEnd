@@ -1276,7 +1276,7 @@ class PostControllerTest {
 	@WithMockUser
 	void saveContestTest() throws Exception {
 		// Given
-		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).images(List.of()).build();
+		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST).images(List.of()).build();
 		ContestRequest contestRequest = ContestRequest.builder().contestCategory(ContestCategory.ART).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).build();
 		PostAndContestRequest request = PostAndContestRequest.builder().postRequest(postRequest).contestRequest(contestRequest).build();
 
@@ -1316,7 +1316,7 @@ class PostControllerTest {
 	@WithMockUser
 	void updateContestTest() throws Exception {
 		// Given
-		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST_BOARD).images(List.of()).build();
+		PostRequest postRequest = PostRequest.builder().userId("testId").title("제목").content("내용").postCategory(PostCategory.CONTEST).images(List.of()).build();
 		ContestRequest contestRequest = ContestRequest.builder().contestCategory(ContestCategory.ART).target(Target.UNIVERSITY).region(Region.BUSAN).organizer(Organizer.LOCAL_GOVERNMENT).totalPrize(100000L).build();
 		PostAndContestRequest request = PostAndContestRequest.builder().postRequest(postRequest).contestRequest(contestRequest).build();
 
