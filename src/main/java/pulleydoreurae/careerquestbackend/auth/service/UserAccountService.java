@@ -26,9 +26,6 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
 import pulleydoreurae.careerquestbackend.auth.repository.CareerDetailsRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.ChangeUserEmailRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.HelpUserPasswordRepository;
-import pulleydoreurae.careerquestbackend.auth.repository.MajorCareersRepository;
-import pulleydoreurae.careerquestbackend.auth.repository.MiddleCareersRepository;
-import pulleydoreurae.careerquestbackend.auth.repository.SmallCareersRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.TechnologyStackRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserCareerDetailsRepository;
@@ -46,8 +43,6 @@ import pulleydoreurae.careerquestbackend.mail.service.MailService;
 @Slf4j
 public class UserAccountService implements Serializable {
 
-	@Value("${serialVersionUID}")
-	private static long serialVersionUID;
 	private final UserAccountRepository userAccountRepository;
 	private final HelpUserPasswordRepository helpUserPasswordRepository;
 	private final ChangeUserEmailRepository changeUserEmailRepository;
@@ -56,9 +51,6 @@ public class UserAccountService implements Serializable {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final MailService mailService;
 	private final TechnologyStackRepository technologyStackRepository;
-	private final MajorCareersRepository majorCareersRepository;
-	private final MiddleCareersRepository middleCareersRepository;
-	private final SmallCareersRepository smallCareersRepository;
 	private final CareerDetailsRepository careerDetailsRepository;
 	@Value("${spring.mail.domain}")
 	private String domain;
