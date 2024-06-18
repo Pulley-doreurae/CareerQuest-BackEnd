@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import pulleydoreurae.careerquestbackend.ai.dto.AiRequest;
 import pulleydoreurae.careerquestbackend.ai.dto.AiResponse;
 import pulleydoreurae.careerquestbackend.ai.service.AiService;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserIdRequest;
 
 /**
  * @author : parkjihyeok
@@ -125,5 +126,71 @@ class AiControllerTest {
 
 		// Then
 		verify(aiService).findResult(any());
+
+
+	}
+
+	@Test
+	@DisplayName("AI 자기소개 질의 테스트 - 실패 (유효성 검사 실패)")
+	@WithMockUser
+	void findResultTest4() throws Exception {
+		// Given
+
+		UserIdRequest request = new UserIdRequest();
+		request.setUserId("tet ");
+
+		// When
+		mockMvc.perform(get("/api/ai/aboutMe")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(gson.toJson(request)))
+			.andExpect(status().isBadRequest())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(
+					fieldWithPath("userId").description("질의할 ID")
+				),
+				responseFields(
+					fieldWithPath("msg").description("실패 사유")
+				)));
+
+		// Then
+		verify(aiService, never()).findResult(any());
+
+	}
+
+	@Test
+	@DisplayName("AI 자기소개 질의 테스트 - 성공")
+	@WithMockUser
+	void findResultTest5() throws Exception {
+		// Given
+		UserIdRequest request = new UserIdRequest();
+		request.setUserId("testId");
+		String[] names = {"안녕하세요 저는 꿈꾸는 개발자를 목표로 하고있는 창의력 있는 예술가 김아무개 입니다."};
+		AiResponse aiResponse = new AiResponse(names);
+		given(aiService.findResult(any())).willReturn(aiResponse);
+
+		// When
+		mockMvc.perform(post("/api/ai/aboutMe")
+				.contentType(MediaType.APPLICATION_JSON)
+				.with(csrf())
+				.content(gson.toJson(request)))
+			.andExpect(status().isOk())
+			.andDo(print())
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(
+					fieldWithPath("userId").description("질의할 ID")
+				),
+				responseFields(
+					fieldWithPath("name.[]").description("AI 질의결과")
+				)));
+
+		// Then
+		verify(aiService).findResult(any());
+
+
 	}
 }
