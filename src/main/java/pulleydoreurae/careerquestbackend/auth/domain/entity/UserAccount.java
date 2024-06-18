@@ -72,4 +72,9 @@ public class UserAccount extends BaseEntity {
 
 	@OneToMany(mappedBy = "userAccount")
 	private List<PostLike> postLikes;
+
+	// MBTI 설정하는 부분
+	public void updateMBTI(MBTI mbti){
+		this.mbti = mbti;
+	}
 }

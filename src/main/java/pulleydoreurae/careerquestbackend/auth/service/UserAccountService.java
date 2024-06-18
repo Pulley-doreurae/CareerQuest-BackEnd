@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowUserDetailsToChangeRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserMBTIRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.Careers;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
@@ -401,5 +402,14 @@ public class UserAccountService implements Serializable {
 			.build();
 		userCareerDetailsRepository.save(userCareerDetails);
 
+	}
+
+	public String getUserMBTI(String userId) {
+		return userAccountRepository.findMBTIByUserId(userId).toString();
+	}
+
+	public void updateUserMBTI(UserMBTIRequest userMBTIRequest) {
+		UserAccount user = findUserByUserId(userMBTIRequest.getUserId());
+		user.updateMBTI(userMBTIRequest.getMbti());
 	}
 }
