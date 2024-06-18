@@ -28,6 +28,8 @@ public class TeamRequest {
 	private String position; // 팀장의 포지션
 	@NotBlank(message = "팀 이름은 공백일 수 없습니다.")
 	private String teamName; // 팀 이름
+	@NotBlank(message = "팀 설명은 공백일 수 없습니다.")
+	private String teamContent; // 팀 설명
 	@NotNull(message = "팀 구분은 null일 수 없습니다.")
 	private TeamType teamType; // 팀 구분
 	@NotNull(message = "팀 최대 인원은 null일 수 없습니다.")
@@ -41,11 +43,12 @@ public class TeamRequest {
 	@NotNull(message = "팀 활성화 여부는 null일 수 없습니다.")
 	private boolean isOpened; // 팀 활성화 여부
 
-	public TeamRequest(String teamLeaderId, String position, String teamName, TeamType teamType, Integer maxMember,
-			LocalDate startDate, LocalDate endDate, List<String> positions) {
+	public TeamRequest(String teamLeaderId, String position, String teamName, String teamContent, TeamType teamType,
+			Integer maxMember, LocalDate startDate, LocalDate endDate, List<String> positions) {
 		this.teamLeaderId = teamLeaderId;
 		this.position = position;
 		this.teamName = teamName;
+		this.teamContent = teamContent;
 		this.teamType = teamType;
 		this.maxMember = maxMember;
 		this.startDate = startDate;
@@ -53,11 +56,12 @@ public class TeamRequest {
 		this.positions = positions;
 	}
 
-	public TeamRequest(String teamLeaderId, String position, String teamName, TeamType teamType, Integer maxMember,
-			LocalDate startDate, LocalDate endDate, List<String> positions, boolean isOpened) {
+	public TeamRequest(String teamLeaderId, String position, String teamName, String teamContent, TeamType teamType,
+			Integer maxMember, LocalDate startDate, LocalDate endDate, List<String> positions, boolean isOpened) {
 		this.teamLeaderId = teamLeaderId;
 		this.position = position;
 		this.teamName = teamName;
+		this.teamContent = teamContent;
 		this.teamType = teamType;
 		this.maxMember = maxMember;
 		this.startDate = startDate;
