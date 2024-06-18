@@ -24,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import pulleydoreurae.careerquestbackend.auth.domain.MBTI;
 import pulleydoreurae.careerquestbackend.auth.domain.UserRole;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowUserDetailsToChangeRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserAccountRegisterRequest;
@@ -40,6 +42,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserChangeEmail
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserDeleteRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserFindPasswordChangeRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserIdRequest;
+import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserMBTIRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserPasswordUpdateRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserTechnologyStackRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
@@ -66,9 +69,9 @@ import pulleydoreurae.careerquestbackend.mail.service.MailService;
 @AutoConfigureRestDocs    // REST Docs 를 사용하기 위해 추가
 class UserAccountControllerTest {
 
+	Gson gson = new Gson();
 	@Autowired
 	private MockMvc mockMvc;
-
 	@MockBean
 	private UserAccountRepository userAccountRepository;
 	@MockBean
@@ -86,8 +89,9 @@ class UserAccountControllerTest {
 	@MockBean
 	private UserInfoUserIdRepository userIdRepository;
 
-
-	Gson gson = new Gson();
+	public static Attribute field(String key, String value) {
+		return new Attribute(key, value);
+	}
 
 	@Test
 	@DisplayName("회원가입 테스트")
@@ -152,7 +156,8 @@ class UserAccountControllerTest {
 		// Then
 		// 이메일 전송 메서드가 동작했는지 확인
 		verify(mailService).emailAuthentication(request.getUserId(), request.getUserName(), request.getPhoneNum(),
-			request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(), request.getGender(), request.getIsMarketed());
+			request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(),
+			request.getGender(), request.getIsMarketed());
 	}
 
 	@Test
@@ -652,13 +657,13 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("추가정보 입력하는 창 노출 확인 (노출 여부 : x)")
 	@WithMockUser
-	void addInfoCheckFalseTest() throws Exception{
+	void addInfoCheckFalseTest() throws Exception {
 		// Given
 		given(userAccountService.isAddInfoShow(any())).willReturn(false);
 
 		// When
 		mockMvc.perform(
-				get("/api/users/details/{username}","testId")
+				get("/api/users/details/{username}", "testId")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.userId").exists())
@@ -676,19 +681,18 @@ class UserAccountControllerTest {
 				)));
 		// Then
 
-
 	}
 
 	@Test
 	@DisplayName("추가정보 입력하는 창 노출 확인 (노출 여부 : o)")
 	@WithMockUser
-	void addInfoCheckTrueTest() throws Exception{
+	void addInfoCheckTrueTest() throws Exception {
 		// Given
 		given(userAccountService.isAddInfoShow(any())).willReturn(true);
 
 		// When
 		mockMvc.perform(
-				get("/api/users/details/{username}","testId")
+				get("/api/users/details/{username}", "testId")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.userId").exists())
@@ -711,16 +715,31 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("회원직무 종류 리스트 조회 성공 (대분류)")
 	@WithMockUser
-	void showMajorCareersSuccessTest() throws Exception{
+	void showMajorCareersSuccessTest() throws Exception {
 		// Given
-		Careers majorCareers1 = Careers.builder().careerId(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
-		Careers majorCareers2 = Careers.builder().careerId(1L).categoryName("경영·회계·사무").categoryType("대분류").categoryImage("/major/images/1").build();
+		Careers majorCareers1 = Careers.builder()
+			.careerId(0L)
+			.categoryName("사업관리")
+			.categoryType("대분류")
+			.categoryImage("/major/images/0")
+			.build();
+		Careers majorCareers2 = Careers.builder()
+			.careerId(1L)
+			.categoryName("경영·회계·사무")
+			.categoryType("대분류")
+			.categoryImage("/major/images/1")
+			.build();
 
-		List<ShowCareersResponse> majorList = Arrays.asList(ShowCareersResponse.builder().categoryName(majorCareers1.getCategoryName()).categoryImage(majorCareers1.getCategoryImage()).build(),
-			ShowCareersResponse.builder().categoryName(majorCareers2.getCategoryName()).categoryImage(majorCareers2.getCategoryImage()).build());
+		List<ShowCareersResponse> majorList = Arrays.asList(ShowCareersResponse.builder()
+				.categoryName(majorCareers1.getCategoryName())
+				.categoryImage(majorCareers1.getCategoryImage())
+				.build(),
+			ShowCareersResponse.builder()
+				.categoryName(majorCareers2.getCategoryName())
+				.categoryImage(majorCareers2.getCategoryImage())
+				.build());
 
 		given(userAccountService.getCareerList(any(), any())).willReturn(majorList);
-
 
 		// When
 		mockMvc.perform(
@@ -751,18 +770,40 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("회원직무 종류 리스트 조회 성공 (중분류)")
 	@WithMockUser
-	void showMiddleCareersSuccessTest() throws Exception{
+	void showMiddleCareersSuccessTest() throws Exception {
 		// Given
-		Careers majorCareers1 = Careers.builder().careerId(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
+		Careers majorCareers1 = Careers.builder()
+			.careerId(0L)
+			.categoryName("사업관리")
+			.categoryType("대분류")
+			.categoryImage("/major/images/0")
+			.build();
 
-		Careers middleCareers1 = Careers.builder().careerId(1L).categoryName("사업관리").categoryType("중분류").categoryImage("/middle/images/0").parent(majorCareers1).build();
-		Careers middleCareers2 = Careers.builder().careerId(2L).categoryName("기획사무").categoryType("중분류").categoryImage("/middle/images/1").parent(majorCareers1).build();
+		Careers middleCareers1 = Careers.builder()
+			.careerId(1L)
+			.categoryName("사업관리")
+			.categoryType("중분류")
+			.categoryImage("/middle/images/0")
+			.parent(majorCareers1)
+			.build();
+		Careers middleCareers2 = Careers.builder()
+			.careerId(2L)
+			.categoryName("기획사무")
+			.categoryType("중분류")
+			.categoryImage("/middle/images/1")
+			.parent(majorCareers1)
+			.build();
 
-		List<ShowCareersResponse> middleList = Arrays.asList(ShowCareersResponse.builder().categoryName(middleCareers1.getCategoryName()).categoryImage(middleCareers1.getCategoryImage()).build(),
-			ShowCareersResponse.builder().categoryName(middleCareers2.getCategoryName()).categoryImage(middleCareers2.getCategoryImage()).build());
+		List<ShowCareersResponse> middleList = Arrays.asList(ShowCareersResponse.builder()
+				.categoryName(middleCareers1.getCategoryName())
+				.categoryImage(middleCareers1.getCategoryImage())
+				.build(),
+			ShowCareersResponse.builder()
+				.categoryName(middleCareers2.getCategoryName())
+				.categoryImage(middleCareers2.getCategoryImage())
+				.build());
 
 		given(userAccountService.getCareerList(any(), any())).willReturn(middleList);
-
 
 		// When
 		mockMvc.perform(
@@ -793,20 +834,48 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("회원직무 종류 리스트 조회 성공 (소분류)")
 	@WithMockUser
-	void showSmallCareersSuccessTest() throws Exception{
+	void showSmallCareersSuccessTest() throws Exception {
 		// Given
-		Careers majorCareers1 = Careers.builder().careerId(0L).categoryName("사업관리").categoryType("대분류").categoryImage("/major/images/0").build();
+		Careers majorCareers1 = Careers.builder()
+			.careerId(0L)
+			.categoryName("사업관리")
+			.categoryType("대분류")
+			.categoryImage("/major/images/0")
+			.build();
 
-		Careers middleCareers1 = Careers.builder().careerId(1L).categoryName("사업관리").categoryType("중분류").categoryImage("/middle/images/0").parent(majorCareers1).build();
+		Careers middleCareers1 = Careers.builder()
+			.careerId(1L)
+			.categoryName("사업관리")
+			.categoryType("중분류")
+			.categoryImage("/middle/images/0")
+			.parent(majorCareers1)
+			.build();
 
-		Careers smallCareers1 = Careers.builder().careerId(2L).categoryName("경영기획").categoryType("소분류").categoryImage("/small/images/0").parent(middleCareers1).build();
-		Careers smallCareers2 = Careers.builder().careerId(3L).categoryName("홍보·광고").categoryType("소분류").categoryImage("/small/images/1").parent(middleCareers1).build();
+		Careers smallCareers1 = Careers.builder()
+			.careerId(2L)
+			.categoryName("경영기획")
+			.categoryType("소분류")
+			.categoryImage("/small/images/0")
+			.parent(middleCareers1)
+			.build();
+		Careers smallCareers2 = Careers.builder()
+			.careerId(3L)
+			.categoryName("홍보·광고")
+			.categoryType("소분류")
+			.categoryImage("/small/images/1")
+			.parent(middleCareers1)
+			.build();
 
-		List<ShowCareersResponse> smallList = Arrays.asList(ShowCareersResponse.builder().categoryName(smallCareers1.getCategoryName()).categoryImage(smallCareers1.getCategoryImage()).build(),
-			ShowCareersResponse.builder().categoryName(smallCareers2.getCategoryName()).categoryImage(smallCareers2.getCategoryImage()).build());
+		List<ShowCareersResponse> smallList = Arrays.asList(ShowCareersResponse.builder()
+				.categoryName(smallCareers1.getCategoryName())
+				.categoryImage(smallCareers1.getCategoryImage())
+				.build(),
+			ShowCareersResponse.builder()
+				.categoryName(smallCareers2.getCategoryName())
+				.categoryImage(smallCareers2.getCategoryImage())
+				.build());
 
 		given(userAccountService.getCareerList(any(), any())).willReturn(smallList);
-
 
 		// When
 		mockMvc.perform(
@@ -838,10 +907,9 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("회원직무 종류 리스트 조회 실패 ( 잘못된 회원직무 종류 제목 전송 )")
 	@WithMockUser
-	void showCareersFailTest() throws Exception{
+	void showCareersFailTest() throws Exception {
 		// Given
 		given(userAccountService.getCareerList(any(), any())).willReturn(List.of());
-
 
 		// When
 		mockMvc.perform(
@@ -873,7 +941,8 @@ class UserAccountControllerTest {
 		// Given
 		given(userAccountService.findUserByUserId(any())).willReturn(null);
 		UserCareerDetailsRequest userCareerDetailsRequest = new UserCareerDetailsRequest();
-		userCareerDetailsRequest.setUserId("testId"); userCareerDetailsRequest.setSmallCategory("경영기획");
+		userCareerDetailsRequest.setUserId("testId");
+		userCareerDetailsRequest.setSmallCategory("경영기획");
 		// When
 		mockMvc.perform(
 				post("/api/users/details/careers")
@@ -906,7 +975,8 @@ class UserAccountControllerTest {
 	void addCareerFailTest2() throws Exception {
 		// Given
 		UserCareerDetailsRequest userCareerDetailsRequest = new UserCareerDetailsRequest();
-		userCareerDetailsRequest.setUserId("Id "); userCareerDetailsRequest.setSmallCategory("경영기획");
+		userCareerDetailsRequest.setUserId("Id ");
+		userCareerDetailsRequest.setSmallCategory("경영기획");
 		// When
 		mockMvc.perform(
 				post("/api/users/details/careers")
@@ -938,7 +1008,8 @@ class UserAccountControllerTest {
 	void addCareerSuccessTest() throws Exception {
 		// Given
 		UserCareerDetailsRequest userCareerDetailsRequest = new UserCareerDetailsRequest();
-		userCareerDetailsRequest.setUserId("testId"); userCareerDetailsRequest.setSmallCategory("경영기획");
+		userCareerDetailsRequest.setUserId("testId");
+		userCareerDetailsRequest.setSmallCategory("경영기획");
 
 		given(userAccountService.findUserByUserId(any())) // 사용자 id가 들어왔다면
 			.willReturn(new UserAccount());
@@ -972,13 +1043,24 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("기술스택 검색 성공 (키워드 : Java)")
 	@WithMockUser
-	void showStacksSuccessTest() throws Exception{
+	void showStacksSuccessTest() throws Exception {
 		// Given
-		TechnologyStack tech1 = TechnologyStack.builder().id(0L).stackName("Javascript").description("자바스크립트").stackImage("/src/image/tech/0").build();
-		TechnologyStack tech2 = TechnologyStack.builder().id(1L).stackName("Java").description("자바").stackImage("/src/image/tech/1").build();
+		TechnologyStack tech1 = TechnologyStack.builder()
+			.id(0L)
+			.stackName("Javascript")
+			.description("자바스크립트")
+			.stackImage("/src/image/tech/0")
+			.build();
+		TechnologyStack tech2 = TechnologyStack.builder()
+			.id(1L)
+			.stackName("Java")
+			.description("자바")
+			.stackImage("/src/image/tech/1")
+			.build();
 
 		List<TechnologyStack> technologyStackList = new ArrayList<>();
-		technologyStackList.add(tech1); technologyStackList.add(tech2);
+		technologyStackList.add(tech1);
+		technologyStackList.add(tech2);
 
 		given(userAccountService.getTechnologyStackByKeyword(anyString())).willReturn(technologyStackList);
 
@@ -986,7 +1068,7 @@ class UserAccountControllerTest {
 
 		mockMvc.perform(
 				get("/api/users/details/stacks")
-					.queryParam("keyword","Java")
+					.queryParam("keyword", "Java")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.lists").exists())
@@ -1014,14 +1096,14 @@ class UserAccountControllerTest {
 	@Test
 	@DisplayName("기술스택 검색 성공 (키워드에 들어있는 값이 없음)")
 	@WithMockUser
-	void showStacksFailTest() throws Exception{
+	void showStacksFailTest() throws Exception {
 		// Given
 		given(userAccountService.getTechnologyStackByKeyword(anyString())).willReturn(null);
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/stacks")
-					.queryParam("keyword","")
+					.queryParam("keyword", "")
 					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.lists").isEmpty())
@@ -1072,7 +1154,7 @@ class UserAccountControllerTest {
 					fieldWithPath("userId").description("사용자 아이디"),
 					fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
 				),
-				responseFields(		// Json 응답 형식
+				responseFields(        // Json 응답 형식
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
 		// Then
@@ -1110,7 +1192,7 @@ class UserAccountControllerTest {
 					fieldWithPath("userId").description("사용자 아이디"),
 					fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
 				),
-				responseFields(	 // Json 응답 형식
+				responseFields(     // Json 응답 형식
 					fieldWithPath("userId").description("요청한 사용자"),
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
@@ -1149,7 +1231,7 @@ class UserAccountControllerTest {
 					fieldWithPath("userId").description("사용자 아이디"),
 					fieldWithPath("stacks").description("추가할 스택들의 id 값 (List 형식)")
 				),
-				responseFields(		// Json 응답 형식
+				responseFields(        // Json 응답 형식
 					fieldWithPath("msg").description("요청에 대한 결과")
 				)));
 		// Then
@@ -1264,7 +1346,6 @@ class UserAccountControllerTest {
 				)));
 		// Then
 	}
-
 
 	@Test
 	@DisplayName("회원 비밀번호 찾기 링크 접속 성공")
@@ -1531,7 +1612,7 @@ class UserAccountControllerTest {
 		userDeleteRequest.setPassword("testPassword");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
-		given(userAccountService.isCurrentPassword(user,"testPassword")).willReturn(true);
+		given(userAccountService.isCurrentPassword(user, "testPassword")).willReturn(true);
 
 		// When
 		mockMvc.perform(
@@ -1717,9 +1798,26 @@ class UserAccountControllerTest {
 			.role(UserRole.ROLE_TEMPORARY_USER)
 			.build();
 
-		Careers major = Careers.builder().careerId(0L).categoryName("대분류_1").categoryType("대분류").categoryImage("/major/image0").build();
-		Careers middle = Careers.builder().careerId(1L).categoryName("중분류_1").categoryType("중분류").categoryImage("/middle/image0").parent(major).build();
-		Careers small = Careers.builder().careerId(2L).categoryName("소분류_1").categoryType("소분류").categoryImage("/small/image0").parent(middle).build();
+		Careers major = Careers.builder()
+			.careerId(0L)
+			.categoryName("대분류_1")
+			.categoryType("대분류")
+			.categoryImage("/major/image0")
+			.build();
+		Careers middle = Careers.builder()
+			.careerId(1L)
+			.categoryName("중분류_1")
+			.categoryType("중분류")
+			.categoryImage("/middle/image0")
+			.parent(major)
+			.build();
+		Careers small = Careers.builder()
+			.careerId(2L)
+			.categoryName("소분류_1")
+			.categoryType("소분류")
+			.categoryImage("/small/image0")
+			.parent(middle)
+			.build();
 
 		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
 			.smallCategory(small)
@@ -1846,12 +1944,42 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void successChangeUserDetail() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
-		Careers major = Careers.builder().careerId(0L).categoryName("대분류_1").categoryType("대분류").categoryImage("/major/image0").build();
-		Careers middle = Careers.builder().careerId(1L).categoryName("중분류_1").categoryType("중분류").categoryImage("/middle/image0").parent(major).build();
-		Careers small = Careers.builder().careerId(2L).categoryName("소분류_1").categoryType("소분류").categoryImage("/small/image0").parent(middle).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
+		Careers major = Careers.builder()
+			.careerId(0L)
+			.categoryName("대분류_1")
+			.categoryType("대분류")
+			.categoryImage("/major/image0")
+			.build();
+		Careers middle = Careers.builder()
+			.careerId(1L)
+			.categoryName("중분류_1")
+			.categoryType("중분류")
+			.categoryImage("/middle/image0")
+			.parent(major)
+			.build();
+		Careers small = Careers.builder()
+			.careerId(2L)
+			.categoryName("소분류_1")
+			.categoryType("소분류")
+			.categoryImage("/small/image0")
+			.parent(middle)
+			.build();
 
-		UserCareerDetails userCareerDetails = UserCareerDetails.builder().smallCategory(Careers.builder().build()).userAccount(user).smallCategory(small).build();
+		UserCareerDetails userCareerDetails = UserCareerDetails.builder()
+			.smallCategory(Careers.builder().build())
+			.userAccount(user)
+			.smallCategory(small)
+			.build();
 
 		UserTechnologyStack stack1 = UserTechnologyStack.builder().stackId("JAVA").userAccount(user).build();
 		UserTechnologyStack stack2 = UserTechnologyStack.builder().stackId("PHP").userAccount(user).build();
@@ -1863,7 +1991,9 @@ class UserAccountControllerTest {
 		user.setStacks(stacks);
 
 		List<String> changeStack = new ArrayList<>();
-		changeStack.add("C#"); changeStack.add("C++"); changeStack.add("C");
+		changeStack.add("C#");
+		changeStack.add("C++");
+		changeStack.add("C");
 		Collections.sort(changeStack);
 
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
@@ -1873,13 +2003,32 @@ class UserAccountControllerTest {
 		showUserDetailsToChangeRequest.setTechnologyStacks(changeStack);
 		showUserDetailsToChangeRequest.setPassword("testPassword");
 
-
 		UserAccount changeUser = user;
 		changeUser.setPhoneNum(showUserDetailsToChangeRequest.getPhoneNum());
-		Careers major2 = Careers.builder().careerId(3L).categoryName("대분류_2").categoryType("대분류").categoryImage("/major/image1").build();
-		Careers middle2 = Careers.builder().careerId(4L).categoryName("중분류_2").categoryType("중분류").categoryImage("/middle/image1").parent(major2).build();
-		Careers small2 = Careers.builder().careerId(5L).categoryName("소분류_2").categoryType("소분류").categoryImage("/small/image1").parent(middle2).build();
-		UserCareerDetails changeUserCareerDetails = UserCareerDetails.builder().userAccount(changeUser).smallCategory(small2).build();
+		Careers major2 = Careers.builder()
+			.careerId(3L)
+			.categoryName("대분류_2")
+			.categoryType("대분류")
+			.categoryImage("/major/image1")
+			.build();
+		Careers middle2 = Careers.builder()
+			.careerId(4L)
+			.categoryName("중분류_2")
+			.categoryType("중분류")
+			.categoryImage("/middle/image1")
+			.parent(major2)
+			.build();
+		Careers small2 = Careers.builder()
+			.careerId(5L)
+			.categoryName("소분류_2")
+			.categoryType("소분류")
+			.categoryImage("/small/image1")
+			.parent(middle2)
+			.build();
+		UserCareerDetails changeUserCareerDetails = UserCareerDetails.builder()
+			.userAccount(changeUser)
+			.smallCategory(small2)
+			.build();
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
 		given(userAccountService.isCurrentPassword(any(UserAccount.class), eq("testPassword"))).willReturn(true);
@@ -1887,7 +2036,6 @@ class UserAccountControllerTest {
 		given(userAccountRepository.save(user)).willReturn(changeUser);
 		given(userAccountService.findCareerDetailsByUser(changeUser)).willReturn(changeUserCareerDetails);
 		given(userAccountService.getTechnologyStack(changeUser)).willReturn(changeStack);
-
 
 		// When
 		mockMvc.perform(
@@ -1919,7 +2067,7 @@ class UserAccountControllerTest {
 				)));
 
 		// Then
-		verify(userAccountService).updateDetails(refEq(user),refEq(showUserDetailsToChangeRequest));
+		verify(userAccountService).updateDetails(refEq(user), refEq(showUserDetailsToChangeRequest));
 	}
 
 	@Test
@@ -1927,10 +2075,21 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void failedChangeUserDetail() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		List<String> changeStack = new ArrayList<>();
-		changeStack.add("C#"); changeStack.add("C++"); changeStack.add("C");
+		changeStack.add("C#");
+		changeStack.add("C++");
+		changeStack.add("C");
 		Collections.sort(changeStack);
 
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
@@ -1941,7 +2100,6 @@ class UserAccountControllerTest {
 		showUserDetailsToChangeRequest.setPassword("testPassword");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(null);
-
 
 		// When
 		mockMvc.perform(
@@ -1974,10 +2132,21 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void failedChangeUserDetail2() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		List<String> changeStack = new ArrayList<>();
-		changeStack.add("C#"); changeStack.add("C++"); changeStack.add("C");
+		changeStack.add("C#");
+		changeStack.add("C++");
+		changeStack.add("C");
 		Collections.sort(changeStack);
 
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
@@ -2022,10 +2191,21 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void failedChangeUserDetail3() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		List<String> changeStack = new ArrayList<>();
-		changeStack.add("C#"); changeStack.add("C++"); changeStack.add("C");
+		changeStack.add("C#");
+		changeStack.add("C++");
+		changeStack.add("C");
 		Collections.sort(changeStack);
 
 		ShowUserDetailsToChangeRequest showUserDetailsToChangeRequest = new ShowUserDetailsToChangeRequest();
@@ -2036,7 +2216,7 @@ class UserAccountControllerTest {
 		showUserDetailsToChangeRequest.setPassword("password");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
-		given(userAccountService.isCurrentPassword(user,"password")).willReturn(false);
+		given(userAccountService.isCurrentPassword(user, "password")).willReturn(false);
 		// When
 		mockMvc.perform(
 				post("/api/users/details/info")
@@ -2070,7 +2250,16 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void successChangeUserPassword() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserPasswordUpdateRequest userPasswordUpdateRequest = new UserPasswordUpdateRequest();
 		userPasswordUpdateRequest.setUserId("user_1");
@@ -2079,7 +2268,8 @@ class UserAccountControllerTest {
 		userPasswordUpdateRequest.setNewPassword2("newPassword");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
-		given(userAccountService.isCurrentPassword(user,userPasswordUpdateRequest.getCurrentPassword())).willReturn(true);
+		given(userAccountService.isCurrentPassword(user, userPasswordUpdateRequest.getCurrentPassword())).willReturn(
+			true);
 
 		// When
 		mockMvc.perform(
@@ -2106,7 +2296,8 @@ class UserAccountControllerTest {
 				)));
 
 		// Then
-		verify(userAccountService).updatePassword(user.getUserId(), bCryptPasswordEncoder.encode(userPasswordUpdateRequest.getNewPassword1()));
+		verify(userAccountService).updatePassword(user.getUserId(),
+			bCryptPasswordEncoder.encode(userPasswordUpdateRequest.getNewPassword1()));
 	}
 
 	@Test
@@ -2152,7 +2343,16 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void failedChangeUserPassword2() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserPasswordUpdateRequest userPasswordUpdateRequest = new UserPasswordUpdateRequest();
 		userPasswordUpdateRequest.setUserId("id ");
@@ -2195,7 +2395,16 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void failedChangeUserPassword3() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserPasswordUpdateRequest userPasswordUpdateRequest = new UserPasswordUpdateRequest();
 		userPasswordUpdateRequest.setUserId("user_1");
@@ -2204,8 +2413,8 @@ class UserAccountControllerTest {
 		userPasswordUpdateRequest.setNewPassword2("newPassword");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
-		given(userAccountService.isCurrentPassword(user, userPasswordUpdateRequest.getCurrentPassword())).willReturn(false);
-
+		given(userAccountService.isCurrentPassword(user, userPasswordUpdateRequest.getCurrentPassword())).willReturn(
+			false);
 
 		// When
 		mockMvc.perform(
@@ -2239,7 +2448,16 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void failedChangeUserPassword4() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserPasswordUpdateRequest userPasswordUpdateRequest = new UserPasswordUpdateRequest();
 		userPasswordUpdateRequest.setUserId("user_1");
@@ -2248,7 +2466,8 @@ class UserAccountControllerTest {
 		userPasswordUpdateRequest.setNewPassword2("newPassword");
 
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
-		given(userAccountService.isCurrentPassword(user, userPasswordUpdateRequest.getCurrentPassword())).willReturn(true);
+		given(userAccountService.isCurrentPassword(user, userPasswordUpdateRequest.getCurrentPassword())).willReturn(
+			true);
 
 		// When
 		mockMvc.perform(
@@ -2282,7 +2501,16 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void successSendEmailToChange() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserChangeEmailRequest userChangeEmailRequest = new UserChangeEmailRequest();
 		userChangeEmailRequest.setUserId("user_1");
@@ -2313,7 +2541,8 @@ class UserAccountControllerTest {
 				)));
 
 		// Then
-		verify(userAccountService).sendUpdateEmailLink(userChangeEmailRequest.getUserId(), userChangeEmailRequest.getEmail());
+		verify(userAccountService).sendUpdateEmailLink(userChangeEmailRequest.getUserId(),
+			userChangeEmailRequest.getEmail());
 	}
 
 	@Test
@@ -2355,7 +2584,16 @@ class UserAccountControllerTest {
 	@WithMockUser
 	void failedSendEmailToChange2() throws Exception {
 		// Given
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 
 		UserChangeEmailRequest userChangeEmailRequest = new UserChangeEmailRequest();
 		userChangeEmailRequest.setUserId("id ");
@@ -2394,7 +2632,16 @@ class UserAccountControllerTest {
 	void successChangeEmail() throws Exception {
 		// Given
 		String uuid = "0123-4567-89AB-CDEF";
-		UserAccount user = UserAccount.builder().userId("user_1").userName("testName").email("test@email.com").phoneNum("010-1111-2222").password("testPassword").birth("01-01-01").gender("M").role(UserRole.ROLE_TEMPORARY_USER).build();
+		UserAccount user = UserAccount.builder()
+			.userId("user_1")
+			.userName("testName")
+			.email("test@email.com")
+			.phoneNum("010-1111-2222")
+			.password("testPassword")
+			.birth("01-01-01")
+			.gender("M")
+			.role(UserRole.ROLE_TEMPORARY_USER)
+			.build();
 		ChangeUserEmail changeUserEmail = new ChangeUserEmail(uuid, user.getUserId(), user.getEmail());
 
 		given(userAccountService.checkUpdateEmailUserIdByUuid(uuid)).willReturn(changeUserEmail);
@@ -2498,8 +2745,10 @@ class UserAccountControllerTest {
 
 		// Then
 		// 이메일 전송 메서드가 동작했는지 확인
-		verify(mailService).sendAgainAuthenticationEmail(request.getUserId(), request.getUserName(), request.getPhoneNum(),
-			request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(), request.getGender(), request.getIsMarketed());
+		verify(mailService).sendAgainAuthenticationEmail(request.getUserId(), request.getUserName(),
+			request.getPhoneNum(),
+			request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()), request.getBirth(),
+			request.getGender(), request.getIsMarketed());
 	}
 
 	@Test
@@ -2560,7 +2809,127 @@ class UserAccountControllerTest {
 		// Then
 	}
 
-	public static Attribute field(String key, String value) {
-		return new Attribute(key, value);
+	@Test
+	@DisplayName("유저 MBTI 가져오기 성공")
+	@WithMockUser
+	void getUserMBTISuccess() throws Exception {
+		// Given
+		given(userAccountService.getUserMBTI(any())).willReturn("ENTP");
+
+		// When
+		mockMvc.perform(
+				get("/api/users/details/mbti")
+					.queryParam("userId", "testId")
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			// Spring REST Docs
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				queryParameters( // path 요청 방식
+					parameterWithName("userId").description("MBTI를 조회할 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 응답")
+				)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("유저 MBTI 가져오기 실패 (mbti가 없음)")
+	@WithMockUser
+	void getUserMBTIFailed() throws Exception {
+		// Given
+		given(userAccountService.getUserMBTI(any())).willReturn(null);
+
+		// When
+		mockMvc.perform(
+				get("/api/users/details/mbti")
+					.queryParam("userId", "testId")
+					.with(csrf()))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			// Spring REST Docs
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				queryParameters( // path 요청 방식
+					parameterWithName("userId").description("MBTI를 조회할 아이디")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("msg").description("요청에 대한 응답")
+				)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("유저 MBTI 갱신 성공")
+	@WithMockUser
+	void updateUserMBTISuccess() throws Exception {
+		// Given
+		UserMBTIRequest request = UserMBTIRequest.builder().userId("testId").mbti(MBTI.ENTP).build();
+
+		// When
+		mockMvc.perform(
+				post("/api/users/details/mbti")
+					.content(gson.toJson(request))
+					.contentType(MediaType.APPLICATION_JSON)
+					.with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").exists())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			// Spring REST Docs
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields( // path 요청 방식
+					fieldWithPath("userId").description("MBTI를 변경할 아이디"),
+					fieldWithPath("mbti").description("변경할 MBTI")
+				),
+				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 응답")
+				)));
+
+		// Then
+	}
+
+	@Test
+	@DisplayName("유저 MBTI 갱신 실패 (유효성 검사 실패)")
+	@WithMockUser
+	void updateUserMBTIFailed() throws Exception {
+		// Given
+		UserMBTIRequest request = UserMBTIRequest.builder().userId("").mbti(null).build();
+
+		// When
+		mockMvc.perform(
+				post("/api/users/details/mbti")
+					.content(gson.toJson(request))
+					.contentType(MediaType.APPLICATION_JSON)
+					.with(csrf()))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.msg").exists())
+			.andDo(print())
+			// Spring REST Docs
+			.andDo(document("{class-name}/{method-name}/",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				requestFields(
+					fieldWithPath("userId").description("MBTI를 변경할 아이디")
+				),
+				responseFields(
+					fieldWithPath("userId").description("요청한 아이디"),
+					fieldWithPath("msg").description("요청에 대한 응답")
+				)));
+
+		// Then
 	}
 }
