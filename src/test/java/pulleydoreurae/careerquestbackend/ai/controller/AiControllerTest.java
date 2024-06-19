@@ -10,6 +10,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.google.gson.Gson;
 
 import pulleydoreurae.careerquestbackend.ai.dto.AiRequest;
 import pulleydoreurae.careerquestbackend.ai.dto.AiResponse;
+import pulleydoreurae.careerquestbackend.ai.dto.Item;
 import pulleydoreurae.careerquestbackend.ai.service.AiService;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserIdRequest;
 
@@ -48,8 +51,9 @@ class AiControllerTest {
 		AiRequest request = new AiRequest("", "study_vector");
 
 		// When
-		mockMvc.perform(get("/api/ai")
+		mockMvc.perform(post("/api/ai")
 						.contentType(MediaType.APPLICATION_JSON)
+						.with(csrf())
 						.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andDo(print())
@@ -57,7 +61,7 @@ class AiControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestFields(
-								fieldWithPath("userId").description("질의할 ID"),
+								fieldWithPath("content").description("질의할 내용"),
 								fieldWithPath("database").description("질의할 데이터베이스")
 						),
 						responseFields(
@@ -76,8 +80,9 @@ class AiControllerTest {
 		AiRequest request = new AiRequest("testId", "");
 
 		// When
-		mockMvc.perform(get("/api/ai")
+		mockMvc.perform(post("/api/ai")
 						.contentType(MediaType.APPLICATION_JSON)
+						.with(csrf())
 						.content(gson.toJson(request)))
 				.andExpect(status().isBadRequest())
 				.andDo(print())
@@ -85,7 +90,7 @@ class AiControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestFields(
-								fieldWithPath("userId").description("질의할 ID"),
+								fieldWithPath("content").description("질의할 내용"),
 								fieldWithPath("database").description("질의할 데이터베이스")
 						),
 						responseFields(
@@ -102,8 +107,8 @@ class AiControllerTest {
 	void findResultTest3() throws Exception {
 		// Given
 		AiRequest request = new AiRequest("testId", "cert_vector");
-		String[] names = {"정보처리기사", "정보처리산업기사", "정보보안기사", "병아리 감별사"};
-		AiResponse aiResponse = new AiResponse(names);
+		List<Item> items = List.of(new Item(1L, null, "정보처리기사", "43%"), new Item(2L, null, "정보보안기사", "27%"), new Item(1L, null, "정보처리기사", "43%"), new Item(1L, null, "정보산업기사", "63%"), new Item(1L, null, "빅데이터분석기사", "80%"));
+		AiResponse aiResponse = new AiResponse(items);
 		given(aiService.findResult(any())).willReturn(aiResponse);
 
 		// When
@@ -117,11 +122,14 @@ class AiControllerTest {
 						preprocessRequest(prettyPrint()),
 						preprocessResponse(prettyPrint()),
 						requestFields(
-								fieldWithPath("userId").description("질의할 ID"),
+								fieldWithPath("content").description("질의할 내용"),
 								fieldWithPath("database").description("질의할 데이터베이스")
 						),
 						responseFields(
-								fieldWithPath("name.[]").description("AI 질의결과(결과가 높은 순서부터 출력됨)")
+								fieldWithPath("items.[].id").description("엔티티 ID"),
+								fieldWithPath("items.[].image").description("이미지 경로"),
+								fieldWithPath("items.[].name").description("AI 질의내용"),
+								fieldWithPath("items.[].value").description("AI 질의결과")
 						)));
 
 		// Then
@@ -140,9 +148,10 @@ class AiControllerTest {
 		request.setUserId("tet ");
 
 		// When
-		mockMvc.perform(get("/api/ai/aboutMe")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(gson.toJson(request)))
+		mockMvc.perform(post("/api/ai")
+						.contentType(MediaType.APPLICATION_JSON)
+						.with(csrf())
+						.content(gson.toJson(request)))
 			.andExpect(status().isBadRequest())
 			.andDo(print())
 			.andDo(document("{class-name}/{method-name}/",
@@ -165,14 +174,13 @@ class AiControllerTest {
 	@WithMockUser
 	void findResultTest5() throws Exception {
 		// Given
-		UserIdRequest request = new UserIdRequest();
-		request.setUserId("testId");
-		String[] names = {"안녕하세요 저는 꿈꾸는 개발자를 목표로 하고있는 창의력 있는 예술가 김아무개 입니다."};
-		AiResponse aiResponse = new AiResponse(names);
+		AiRequest request = new AiRequest("testId", "portfolio_summary");
+		List<Item> items = List.of(new Item(0L, null, null, "문채원 님은 정보통신 및 정보기술 분야에 관심이 많으며, Spring 프레임워크를 활용하여 Java 기반 애플리케이션 개발에 능숙합니다. 또한, 정보처리기사 자격증을 목표로 공부하고 있으며, 관련 스터디 팀에서 백엔드 역할을 담당하여 팀의 기술적 성장을 도모하고 있습니다."));
+		AiResponse aiResponse = new AiResponse(items);
 		given(aiService.findResult(any())).willReturn(aiResponse);
 
 		// When
-		mockMvc.perform(post("/api/ai/aboutMe")
+		mockMvc.perform(post("/api/ai")
 				.contentType(MediaType.APPLICATION_JSON)
 				.with(csrf())
 				.content(gson.toJson(request)))
@@ -182,15 +190,17 @@ class AiControllerTest {
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				requestFields(
-					fieldWithPath("userId").description("질의할 ID")
+						fieldWithPath("content").description("질의할 내용"),
+						fieldWithPath("database").description("질의할 데이터베이스")
 				),
 				responseFields(
-					fieldWithPath("name.[]").description("AI 질의결과")
+						fieldWithPath("items.[].id").description("엔티티 ID"),
+						fieldWithPath("items.[].image").description("이미지 경로"),
+						fieldWithPath("items.[].name").description("AI 질의내용"),
+						fieldWithPath("items.[].value").description("AI 질의결과")
 				)));
 
 		// Then
 		verify(aiService).findResult(any());
-
-
 	}
 }
