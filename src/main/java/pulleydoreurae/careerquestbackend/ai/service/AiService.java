@@ -31,21 +31,15 @@ public class AiService {
 
 	private final Gson gson = new Gson();
 
-
-	public String[] returnCmd(String userId){
-		return new String[] {"/bin/sh", "-c", AI_CREATE_SELF_INTRODUCE_PATH + " " + userId};
-	}
-
-	public String[] returnCmd(AiRequest request){
-		return new String[] {"/bin/sh", "-c", AI_PATH + " " + request.getDatabase() + " " + request.getUserId()};
-	}
-
 	/**
 	 * AI에 질의하고 그 결과를 반환하는 메서드
 	 * @param cmd AI 질의 요청
 	 * @return AI 질의 결과를 담은 응답
 	 */
-	public AiResponse findResult(String[] cmd) {
+	public AiResponse findResult(AiRequest request) {
+
+		String[] cmd = new String[] {"/bin/sh", "-c", AI_PATH + " " + request.getDatabase() + " " + request.getContent()};
+
 
 		ProcessBuilder processBuilder = new ProcessBuilder(cmd);
 		processBuilder.redirectErrorStream(true); // 표준 오류를 표준 출력과 합침
@@ -69,7 +63,7 @@ public class AiService {
 
 			// 결과 반환
 			AiResponse aiResponse = gson.fromJson(String.valueOf(result), AiResponse.class);
-			if (aiResponse.getName() != null) {
+			if (aiResponse != null) {
 				return aiResponse;
 			} else {
 				throw new IllegalStateException("AI 질의에 실패했습니다.");
