@@ -22,6 +22,7 @@ import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 public class AboutMe {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String content;

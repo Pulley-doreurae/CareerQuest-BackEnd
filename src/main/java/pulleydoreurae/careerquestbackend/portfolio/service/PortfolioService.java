@@ -34,6 +34,7 @@ public class PortfolioService {
 
 		if (aboutMe.isPresent()) { // 있으면 내용 업데이트
 			aboutMe.get().updateContent(content);
+			aboutMeRepository.save(aboutMe.get());
 		} else {                    // 없으면 새로 생성해서 저장
 			AboutMe newAboutMe = AboutMe.builder().content(content).userAccount(user).build();
 			aboutMeRepository.save(newAboutMe);

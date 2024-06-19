@@ -4,11 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
 import pulleydoreurae.careerquestbackend.auth.service.UserAccountService;
 import pulleydoreurae.careerquestbackend.common.dto.response.SimpleResponse;
@@ -19,6 +21,7 @@ import pulleydoreurae.careerquestbackend.portfolio.service.PortfolioService;
 @RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class PortfolioController {
 
 	private final PortfolioService portfolioService;
@@ -26,11 +29,12 @@ public class PortfolioController {
 
 	@GetMapping("/portfolio/selfIntro")
 	public ResponseEntity<?> getUserAboutMe(@RequestParam("userId") String userId) {
+		userAccountService.findUserByUserId(userId);
 		return ResponseEntity.status(HttpStatus.OK).body(portfolioService.getUserAboutMe(userId));
 	}
 
 	@PostMapping("/portfolio/selfIntro")
-	public ResponseEntity<?> updateUserAboutMe(UpdateAboutMeRequest request) {
+	public ResponseEntity<?> updateUserAboutMe(@RequestBody UpdateAboutMeRequest request) {
 		UserAccount user = userAccountService.findUserByUserId(request.getUserId());
 		portfolioService.updateUserAboutMe(user, request.getAboutMe());
 
@@ -41,7 +45,8 @@ public class PortfolioController {
 	private ResponseEntity<?> getUserRepos(@RequestParam("userId") String userId) {
 		UserAccount user = userAccountService.findUserByUserId(userId);
 		RepoInfoListResponse response = portfolioService.getUserRepos(user);
-		if(response == null) return ResponseEntity.status(HttpStatus.OK).body(SimpleResponse.builder().msg("리스트가 없습니다.").build());
+		if (response == null)
+			return ResponseEntity.status(HttpStatus.OK).body(SimpleResponse.builder().msg("리스트가 없습니다.").build());
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
