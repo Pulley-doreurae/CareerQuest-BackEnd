@@ -24,7 +24,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -1840,19 +1839,16 @@ class UserAccountControllerTest {
 
 		user.setStacks(stacks);
 
-		UserIdRequest userIdRequest = new UserIdRequest();
-		userIdRequest.setUserId("user_1");
-
 		given(userAccountService.findUserByUserId("user_1")).willReturn(user);
-		given(userAccountService.findCareerDetailsByUser(user)).willReturn(userCareerDetails);
+		given(userAccountService.findCareerDetailsByUser(user)).willReturn(
+			userCareerDetails.getSmallCategory().getCategoryName());
 		given(userAccountService.getTechnologyStack(user)).willReturn(Arrays.asList("JAVA", "PHP"));
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/info")
-					.with(csrf())
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(gson.toJson(userIdRequest)))
+					.queryParam("userId", "user_1")
+					.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.userId").exists())
 			.andExpect(jsonPath("$.email").exists())
@@ -1862,8 +1858,8 @@ class UserAccountControllerTest {
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields( // Json 방식
-					fieldWithPath("userId").description("사용자 아이디")
+				queryParameters( // path 방식
+					parameterWithName("userId").description("사용자 아이디")
 				),
 				responseFields(    // Json 응답 형식
 					fieldWithPath("userId").description("요청한 아이디"),
@@ -1881,59 +1877,23 @@ class UserAccountControllerTest {
 	void failedShowUserDetail() throws Exception {
 		// Given
 
-		UserIdRequest userIdRequest = new UserIdRequest();
-		userIdRequest.setUserId("user_1");
-
 		given(userAccountService.findUserByUserId("user_1")).willReturn(null);
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/info")
-					.with(csrf())
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(gson.toJson(userIdRequest)))
+					.queryParam("userId", "user_1")
+					.with(csrf()))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.msg").exists())
 			.andDo(print())
 			.andDo(document("{class-name}/{method-name}/",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
-				requestFields( // Json 방식
-					fieldWithPath("userId").description("사용자 아이디")
+				queryParameters( // path 방식
+					parameterWithName("userId").description("사용자 아이디")
 				),
 				responseFields(    // Json 응답 형식
-					fieldWithPath("msg").description("요청에 대한 처리결과")
-				)));
-		// Then
-	}
-
-	@Test
-	@DisplayName("회원 정보 열람 실패 (유효성 검사 실패)")
-	@WithMockUser
-	void failedShowUserDetail2() throws Exception {
-		// Given
-
-		UserIdRequest userIdRequest = new UserIdRequest();
-		userIdRequest.setUserId("id ");
-
-		// When
-		mockMvc.perform(
-				get("/api/users/details/info")
-					.with(csrf())
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(gson.toJson(userIdRequest)))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.userId").exists())
-			.andExpect(jsonPath("$.msg").exists())
-			.andDo(print())
-			.andDo(document("{class-name}/{method-name}/",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
-				requestFields( // Json 방식
-					fieldWithPath("userId").description("사용자 아이디")
-				),
-				responseFields(    // Json 응답 형식
-					fieldWithPath("userId").description("요청한 아이디"),
 					fieldWithPath("msg").description("요청에 대한 처리결과")
 				)));
 		// Then
@@ -2034,7 +1994,8 @@ class UserAccountControllerTest {
 		given(userAccountService.isCurrentPassword(any(UserAccount.class), eq("testPassword"))).willReturn(true);
 		given(userAccountRepository.findByUserId("user_1")).willReturn(Optional.of(user));
 		given(userAccountRepository.save(user)).willReturn(changeUser);
-		given(userAccountService.findCareerDetailsByUser(changeUser)).willReturn(changeUserCareerDetails);
+		given(userAccountService.findCareerDetailsByUser(changeUser)).willReturn(
+			changeUserCareerDetails.getSmallCategory().getCategoryName());
 		given(userAccountService.getTechnologyStack(changeUser)).willReturn(changeStack);
 
 		// When
@@ -2810,7 +2771,7 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("유저 MBTI 가져오기 성공")
+	@DisplayName("유저 MBTI 가져오기 성공 (mbti가 있음)")
 	@WithMockUser
 	void getUserMBTISuccess() throws Exception {
 		// Given
@@ -2841,18 +2802,18 @@ class UserAccountControllerTest {
 	}
 
 	@Test
-	@DisplayName("유저 MBTI 가져오기 실패 (mbti가 없음)")
+	@DisplayName("유저 MBTI 가져오기 성공 (mbti가 없음)")
 	@WithMockUser
-	void getUserMBTIFailed() throws Exception {
+	void getUserMBTISuccess2() throws Exception {
 		// Given
-		given(userAccountService.getUserMBTI(any())).willReturn(null);
+		given(userAccountService.getUserMBTI(any())).willReturn("");
 
 		// When
 		mockMvc.perform(
 				get("/api/users/details/mbti")
 					.queryParam("userId", "testId")
 					.with(csrf()))
-			.andExpect(status().isBadRequest())
+			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.msg").exists())
 			.andDo(print())
 			// Spring REST Docs
@@ -2863,6 +2824,7 @@ class UserAccountControllerTest {
 					parameterWithName("userId").description("MBTI를 조회할 아이디")
 				),
 				responseFields(    // Json 응답 형식
+					fieldWithPath("userId").description("요청한 아이디"),
 					fieldWithPath("msg").description("요청에 대한 응답")
 				)));
 

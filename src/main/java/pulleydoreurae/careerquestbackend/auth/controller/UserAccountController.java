@@ -39,7 +39,6 @@ import pulleydoreurae.careerquestbackend.auth.domain.dto.response.UserIdResponse
 import pulleydoreurae.careerquestbackend.auth.domain.entity.ChangeUserEmail;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.TechnologyStack;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.domain.entity.UserCareerDetails;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserTechnologyStack;
 import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.auth.repository.UserTechnologyStackRepository;
@@ -572,20 +571,14 @@ public class UserAccountController {
 	/**
 	 * 유저의 정보를 열람하는 메서드
 	 *
-	 * @param userIdRequest 정보를 열람하고 싶은 userId
+	 * @param userId 정보를 열람하고 싶은 userId
 	 * @return 요청에 대한 유저정보를 반환
 	 */
 	@GetMapping("/users/details/info")
-	public ResponseEntity<?> showUserDetails(@Valid @RequestBody UserIdRequest userIdRequest,
-		BindingResult bindingResult) {
+	public ResponseEntity<?> showUserDetails(@RequestParam("userId") String userId) {
 
-		if (bindingResult.hasErrors()) {
-			return makeBadRequestByBindingResult("[회원 - 정보 보기] 유효성 검사 실패 : {}", userIdRequest.getUserId(),
-				bindingResult);
-		}
-
-		UserAccount user = userAccountService.findUserByUserId(userIdRequest.getUserId());
-		UserCareerDetails careerDetails = userAccountService.findCareerDetailsByUser(user);
+		UserAccount user = userAccountService.findUserByUserId(userId);
+		String careerDetails = userAccountService.findCareerDetailsByUser(user);
 
 		List<String> stacks = userAccountService.getTechnologyStack(user);
 
@@ -594,7 +587,7 @@ public class UserAccountController {
 			UserDetailsResponse.builder()
 				.userId(user.getUserId())
 				.email(user.getEmail())
-				.smallCategory(careerDetails.getSmallCategory().getCategoryName())
+				.smallCategory(careerDetails)
 				.technologyStacks(stacks)
 				.build()
 		);
@@ -624,14 +617,14 @@ public class UserAccountController {
 			showUserDetailsToChangeRequest.getPassword())) {
 
 			userAccountService.updateDetails(user, showUserDetailsToChangeRequest);
-			UserCareerDetails careerDetails = userAccountService.findCareerDetailsByUser(user);
+			String careerDetails = userAccountService.findCareerDetailsByUser(user);
 			List<String> stacks = userAccountService.getTechnologyStack(user);
 
 			return ResponseEntity.status(HttpStatus.OK).body(
 				ShowUserDetailsToChangeResponse.builder()
 					.userId(user.getUserId())
 					.phoneNum(user.getPhoneNum())
-					.smallCategory(careerDetails.getSmallCategory().getCategoryName())
+					.smallCategory(careerDetails)
 					.technologyStacks(stacks)
 					.build()
 			);

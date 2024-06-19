@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import pulleydoreurae.careerquestbackend.auth.domain.MBTI;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.ShowUserDetailsToChangeRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.request.UserMBTIRequest;
 import pulleydoreurae.careerquestbackend.auth.domain.dto.response.ShowCareersResponse;
@@ -374,16 +375,15 @@ public class UserAccountService implements Serializable {
 		mailService.removeVerifiedUser(user.getUserId(), user.getEmail());
 	}
 
-	public UserCareerDetails findCareerDetailsByUser(UserAccount user) {
+	public String findCareerDetailsByUser(UserAccount user) {
 
 		Optional<UserCareerDetails> userCareerDetails = userCareerDetailsRepository.findByUserAccount(user);
 
 		if (userCareerDetails.isEmpty()) {
-			log.error("해당하는 정보를 찾을 수 없습니다.");
-			throw new UsernameNotFoundException("요청한 정보를 찾을 수 없습니다.");
+			return "직무가 없습니다";
 		}
 
-		return userCareerDetails.get();
+		return userCareerDetails.get().getSmallCategory().getCategoryName();
 	}
 
 	public void saveUserCareerDetail(UserAccount user, String smallCategory) {
@@ -405,11 +405,14 @@ public class UserAccountService implements Serializable {
 	}
 
 	public String getUserMBTI(String userId) {
-		return userAccountRepository.findMBTIByUserId(userId).toString();
+		MBTI mbti = userAccountRepository.findMBTIByUserId(userId);
+		if(mbti == null) return "";
+		return mbti.toString();
 	}
 
 	public void updateUserMBTI(UserMBTIRequest userMBTIRequest) {
 		UserAccount user = findUserByUserId(userMBTIRequest.getUserId());
 		user.updateMBTI(userMBTIRequest.getMbti());
+		userAccountRepository.save(user);
 	}
 }

@@ -103,7 +103,7 @@ public class SecurityConfig {
 								"/api/search/keyword/**", "/api/search/ranking/**", "/api/search/update/**",
 								"/api/teams/history/**", "/api/teams/**", "/api/teams-details/**", "/api/portfolio/**")
 						.permitAll()
-						.requestMatchers(HttpMethod.POST, "/api/certifications/pass-rate/**", "/api/posts/search/**")
+						.requestMatchers(HttpMethod.POST, "/api/certifications/pass-rate/**", "/api/posts/search/**", "/api/portfolio/**")
 						.permitAll()
 						.anyRequest()
 						.authenticated());    // 나머지는 인증된 사용자만 접근가능
