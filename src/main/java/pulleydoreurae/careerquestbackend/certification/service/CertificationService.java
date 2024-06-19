@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pulleydoreurae.careerquestbackend.ai.dto.AiRequest;
+import pulleydoreurae.careerquestbackend.ai.service.AiService;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationExamDateResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationPeriodResponse;
 import pulleydoreurae.careerquestbackend.certification.domain.dto.response.CertificationResponse;
@@ -29,6 +31,7 @@ public class CertificationService {
 	private final CertificationRepository certificationRepository;
 	private final CertificationRegistrationPeriodRepository certificationRegistrationPeriodRepository;
 	private final CertificationExamDateRepository certificationExamDateRepository;
+	private final AiService aiService;
 
 	/**
 	 * 자격증 이름으로 자격증정보를 가져오는 메서드
@@ -45,6 +48,11 @@ public class CertificationService {
 		}
 
 		Certification certification = byCertificationName.get();
+
+		if (certification.getAiSummary() == null) { // 자격증 AI 요약이 비어있다면 AI요약 호출
+			AiRequest request = new AiRequest(certificationName, "cert_summary");
+			aiService.findResult(request);
+		}
 
 		CertificationResponse response = CertificationResponse.builder()
 				.certificationCode(certification.getCertificationCode())
