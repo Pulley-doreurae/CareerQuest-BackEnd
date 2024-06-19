@@ -26,20 +26,17 @@ public class AiService {
 	@Value("${AI_METADATA_PATH}")
 	private String AI_PATH;
 
-	@Value("${AI_CREATE_SELF_INTRODUCE_PATH}")
-	private String AI_CREATE_SELF_INTRODUCE_PATH;
-
 	private final Gson gson = new Gson();
 
 	/**
 	 * AI에 질의하고 그 결과를 반환하는 메서드
-	 * @param cmd AI 질의 요청
+	 *
 	 * @return AI 질의 결과를 담은 응답
 	 */
 	public AiResponse findResult(AiRequest request) {
 
-		String[] cmd = new String[] {"/bin/sh", "-c", AI_PATH + " " + request.getDatabase() + " " + request.getContent()};
-
+		String[] cmd = new String[] {"/bin/sh", "-c",
+				AI_PATH + " " + request.getDatabase() + " " + request.getContent()};
 
 		ProcessBuilder processBuilder = new ProcessBuilder(cmd);
 		processBuilder.redirectErrorStream(true); // 표준 오류를 표준 출력과 합침
