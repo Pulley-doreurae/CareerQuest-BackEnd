@@ -10,10 +10,10 @@ operation::github-controller-test/github-get-redirect-test[snippets="http-respon
 ==== 요청
 operation::github-controller-test/github-invalid-code-login-test[snippets="http-request,query-parameters"]
 ==== 응답
-operation::github-controller-test/github-invalid-code-login-test[snippets="http-response]
+operation::github-controller-test/github-invalid-code-login-test[snippets="http-response"]
 
 === 유효한 인증코드로 깃허브서버에 요청할때 (정상 요청)
 ==== 요청
 operation::github-controller-test/github-valid-code-login-test[snippets="http-request,query-parameters"]
 ==== 응답
-operation::github-controller-test/github-valid-code-login-test[snippets="http-response]
+operation::github-controller-test/github-valid-code-login-test[snippets="http-response"]

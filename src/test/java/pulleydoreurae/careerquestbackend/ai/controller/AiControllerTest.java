@@ -144,8 +144,7 @@ class AiControllerTest {
 	void findResultTest4() throws Exception {
 		// Given
 
-		UserIdRequest request = new UserIdRequest();
-		request.setUserId("tet ");
+		AiRequest request = new AiRequest("tes ", "");
 
 		// When
 		mockMvc.perform(post("/api/ai")
@@ -158,10 +157,11 @@ class AiControllerTest {
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				requestFields(
-					fieldWithPath("userId").description("질의할 ID")
+						fieldWithPath("content").description("질의할 내용"),
+						fieldWithPath("database").description("질의할 데이터베이스")
 				),
 				responseFields(
-					fieldWithPath("msg").description("실패 사유")
+						fieldWithPath("msg").description("실패 사유")
 				)));
 
 		// Then
