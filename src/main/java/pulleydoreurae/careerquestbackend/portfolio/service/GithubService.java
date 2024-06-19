@@ -12,7 +12,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -22,7 +21,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import pulleydoreurae.careerquestbackend.auth.domain.entity.UserAccount;
-import pulleydoreurae.careerquestbackend.auth.repository.UserAccountRepository;
 import pulleydoreurae.careerquestbackend.auth.service.UserAccountService;
 import pulleydoreurae.careerquestbackend.portfolio.domain.dto.response.FinalResponse;
 import pulleydoreurae.careerquestbackend.portfolio.domain.dto.response.GithubLoginResponse;
@@ -40,27 +38,17 @@ public class GithubService {
 	private final String clientId;
 	private final String clientSecret;
 	private final String redirect_uri;
-	private final String response_type = "code";
-	private final String host;
-	private final UserAccountRepository userAccountRepository;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final UserAccountService userAccountService;
 	private final GitRepoInfoRepository gitRepoInfoRepository;
 	private final GitRepoLanguageRepository gitRepoLanguageRepository;
 
 	public GithubService(@Value("${LOGIN.GITHUB_CLIENT_ID}") String clientId,
-		@Value("${LOGIN.GITHUB_CLIENT_SECRET}") String clientSecret,
-		@Value("${LOGIN.GITHUB_REDIRECT_URL}") String redirect_uri,
-		@Value("${LOGIN.HOST}") String host,
-		UserAccountRepository userAccountRepository,
-		BCryptPasswordEncoder bCryptPasswordEncoder, UserAccountService userAccountService,
-		GitRepoInfoRepository gitRepoInfoRepository, GitRepoLanguageRepository gitRepoLanguageRepository) {
+			@Value("${LOGIN.GITHUB_CLIENT_SECRET}") String clientSecret,
+			@Value("${LOGIN.GITHUB_REDIRECT_URL}") String redirect_uri, UserAccountService userAccountService,
+			GitRepoInfoRepository gitRepoInfoRepository, GitRepoLanguageRepository gitRepoLanguageRepository) {
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
 		this.redirect_uri = redirect_uri;
-		this.host = host;
-		this.userAccountRepository = userAccountRepository;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.userAccountService = userAccountService;
 		this.gitRepoInfoRepository = gitRepoInfoRepository;
 		this.gitRepoLanguageRepository = gitRepoLanguageRepository;
@@ -75,10 +63,10 @@ public class GithubService {
 	public String getRedirectUrl(String authUrl) {
 
 		URI uri = UriComponentsBuilder.fromUriString(authUrl)
-			.queryParam("client_id", clientId)
-			.queryParam("redirect_uri", redirect_uri)
-			.build()
-			.toUri();
+				.queryParam("client_id", clientId)
+				.queryParam("redirect_uri", redirect_uri)
+				.build()
+				.toUri();
 
 		return uri.toString();
 	}
@@ -97,10 +85,10 @@ public class GithubService {
 
 		try {
 			GithubLoginResponse response = new RestTemplate().exchange(
-				tokenUrl,
-				HttpMethod.POST,
-				entity,
-				GithubLoginResponse.class
+					tokenUrl,
+					HttpMethod.POST,
+					entity,
+					GithubLoginResponse.class
 			).getBody();
 
 			return response.getAccess_token();
@@ -121,10 +109,10 @@ public class GithubService {
 
 		try {
 			GithubUserDetailsResponse googleUserDetailsResponse = new RestTemplate().exchange(
-				url,
-				HttpMethod.GET,
-				entity,
-				GithubUserDetailsResponse.class
+					url,
+					HttpMethod.GET,
+					entity,
+					GithubUserDetailsResponse.class
 			).getBody();
 
 			return googleUserDetailsResponse.getLogin();
@@ -146,10 +134,10 @@ public class GithubService {
 
 		try {
 			GithubRepoListResponse[] response = new RestTemplate().exchange(
-				url,
-				HttpMethod.GET,
-				entity,
-				GithubRepoListResponse[].class
+					url,
+					HttpMethod.GET,
+					entity,
+					GithubRepoListResponse[].class
 			).getBody();
 
 			List<GitRepoInfo> repositories = new ArrayList<>();
@@ -158,17 +146,17 @@ public class GithubService {
 			// 각 리포지토리의 언어 정보를 가져와 합산
 			for (GithubRepoListResponse repo : response) {
 				ResponseEntity<Map> languagesResponse = new RestTemplate().exchange(
-					repo.getLanguages_url(),
-					HttpMethod.GET,
-					entity,
-					Map.class
+						repo.getLanguages_url(),
+						HttpMethod.GET,
+						entity,
+						Map.class
 				);
 				Map<String, Integer> languages = languagesResponse.getBody();
 
 				// 리포지토리 정보 추가
 				GitRepoInfo repoInfo = GitRepoInfo.builder()
-					.name(repo.getName())
-					.project_url(repo.getHtml_url()).build();
+						.name(repo.getName())
+						.project_url(repo.getHtml_url()).build();
 				repositories.add(repoInfo);
 
 				// 언어 합산
@@ -181,24 +169,24 @@ public class GithubService {
 
 			// 상위 3개 언어 추출
 			Map<String, Integer> topLanguages = languageMap.entrySet()
-				.stream()
-				.sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-				.limit(3)
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+					.stream()
+					.sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+					.limit(3)
+					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
 			int totalLanguageCount = topLanguages.values().stream().mapToInt(Integer::intValue).sum();
 
 			// 퍼센트 계산
 			Map<String, Double> languagePercentages = topLanguages.entrySet().stream()
-				.collect(Collectors.toMap(
-					Map.Entry::getKey,
-					entry -> (entry.getValue() * 100.0) / totalLanguageCount
-				));
+					.collect(Collectors.toMap(
+							Map.Entry::getKey,
+							entry -> (entry.getValue() * 100.0) / totalLanguageCount
+					));
 
 			FinalResponse finalResponse = FinalResponse.builder()
-				.gitRepoInfoList(repositories)
-				.languages(languagePercentages)
-				.build();
+					.gitRepoInfoList(repositories)
+					.languages(languagePercentages)
+					.build();
 
 			return finalResponse;
 		} catch (Exception e) {
@@ -222,10 +210,10 @@ public class GithubService {
 
 		List<GitRepoInfo> repositories = response.getGitRepoInfoList().stream().map(repoInfo -> {
 			GitRepoInfo repo = GitRepoInfo.builder()
-				.name(repoInfo.getName())
-				.project_url(repoInfo.getProject_url())
-				.userAccount(user)
-				.build();
+					.name(repoInfo.getName())
+					.project_url(repoInfo.getProject_url())
+					.userAccount(user)
+					.build();
 			return repo;
 		}).collect(Collectors.toList());
 
@@ -235,10 +223,10 @@ public class GithubService {
 		// 저장할 언어 목록
 		List<GitRepoLanguage> languages = response.getLanguages().entrySet().stream().map(entry -> {
 			GitRepoLanguage language = GitRepoLanguage.builder()
-				.name(entry.getKey())
-				.count(entry.getValue())
-				.userAccount(user)
-				.build();
+					.name(entry.getKey())
+					.count(entry.getValue())
+					.userAccount(user)
+					.build();
 			return language;
 		}).collect(Collectors.toList());
 

@@ -40,27 +40,10 @@ public class AiController {
 			}
 		}
 
-		AiResponse result = aiService.findResult(aiService.returnCmd(request));
+		AiResponse result = aiService.findResult(request);
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(result);
-	}
-
-	@PostMapping("/ai/aboutMe")
-	public ResponseEntity<?> createSelfIntroduction(@Valid @RequestBody UserIdRequest request, BindingResult bindingResult) {
-
-		if (bindingResult != null) {
-			// 검증
-			ResponseEntity<SimpleResponse> BAD_REQUEST = validCheck(bindingResult);
-			if (BAD_REQUEST != null) {
-				return BAD_REQUEST;
-			}
-		}
-
-		AiResponse result = aiService.findResult(aiService.returnCmd(request.getUserId()));
-
-		return ResponseEntity.status(HttpStatus.OK)
-			.body(result);
 	}
 
 	/**

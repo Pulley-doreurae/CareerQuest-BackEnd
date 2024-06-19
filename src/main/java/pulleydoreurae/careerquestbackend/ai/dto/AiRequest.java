@@ -18,8 +18,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AiRequest {
 
-	@NotEmpty(message = "검색할 대상 ID는 필수입니다.")
-	private String userId; // 검색할 대상ID
+	@NotEmpty(message = "검색할 대상은 필수입니다.")
+	private String content; // 검색할 대상ID
 	@NotEmpty(message = "검색할 데이터베이스 정보는 필수입니다.")
 	private String database; // 질의할 데이터베이스
 }
