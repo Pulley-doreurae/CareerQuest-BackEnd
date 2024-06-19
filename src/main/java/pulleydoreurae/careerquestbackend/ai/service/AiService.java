@@ -33,7 +33,7 @@ public class AiService {
 
 
 	public String[] returnCmd(String userId){
-		return new String[] {"/bin/sh", "-c", AI_CREATE_SELF_INTRODUCE_PATH + " " + userId + " " + "300 글자 충족하는 자기소개서 만들어줘"};
+		return new String[] {"/bin/sh", "-c", AI_CREATE_SELF_INTRODUCE_PATH + " " + userId};
 	}
 
 	public String[] returnCmd(AiRequest request){

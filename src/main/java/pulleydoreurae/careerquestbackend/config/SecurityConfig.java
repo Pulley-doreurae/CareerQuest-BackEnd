@@ -92,12 +92,12 @@ public class SecurityConfig {
 								, "/api/users/username/**", "/api/users/email/**", "/api-test", "/api/users/help/**"
 								, "/api/users/details/**", "/api/users/delete", "/api/chat/**", "/api/login-github/**")
 						.permitAll()    // 로그인, 회원가입, 루트 페이지는 모두 접근 가능
-						.requestMatchers("/docs/index.html")
+						.requestMatchers("/docs/index.html", "/repoSaveOk.html")
 						.permitAll()    // Spring REST Docs 를 보기 위해 모두 접근 가능
 						.requestMatchers(HttpMethod.GET, "/api/certification/**", "/api/certifications/pass-rate/**",
 								"/api/certifications/reviews/**", "/api/certifications/reviews/user/**",
 								"/api/certifications/likes/**", "/api/certifications/user-certification/**",
-								"/api/comments/**", "/api/posts/**/comments", "/api/posts/**", "/api/posts/category/**",
+								"/api/comments/**", "/api/posts/\\d+/comments", "/api/posts/**", "/api/posts/category/**",
 								"/api/posts/user/**", "/api/posts/search/**", "/api/posts/**", "/api/contests/**",
 								"/api/posts/images/**", "/api/contests/join/**", "/api/posts/likes/**",
 								"/api/search/keyword/**", "/api/search/ranking/**", "/api/search/update/**",
