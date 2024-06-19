@@ -79,6 +79,7 @@ class TeamServiceTest {
 		// Then
 		assertDoesNotThrow(() -> teamService.makeTeam(request));
 		verify(teamRepository).save(any());
+		verify(emptyTeamMemberRepository, times(4)).save(any());
 	}
 
 	@Test

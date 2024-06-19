@@ -204,7 +204,7 @@ class TeamControllerTest {
 	@WithMockUser
 	void findByTeamIdTest() throws Exception {
 		// Given
-		TeamResponse teamResponse = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(5).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
+		TeamResponse teamResponse = TeamResponse.builder().teamId(100L).teamName("정보처리기사 1팀").teamContent("정보처리기사 취득을 위한팀").teamType(TeamType.STUDY).maxMember(6).startDate(LocalDate.of(2024, 1, 10)).endDate(LocalDate.of(2024, 2, 10)).build();
 		TeamDetailResponse response = new TeamDetailResponse(teamResponse);
 		TeamMemberResponse teamMember1 = TeamMemberResponse.builder().userId("user1").isTeamLeader(true).position("백엔드 개발자").build();
 		TeamMemberResponse teamMember2 = TeamMemberResponse.builder().userId("user2").isTeamLeader(false).position("프론트엔드 개발자").build();
