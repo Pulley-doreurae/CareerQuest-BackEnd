@@ -33,8 +33,7 @@ public class GithubController {
 		@Value("${LOGIN.GITHUB_AUTH_URL}") String authUrl,
 		@Value("${LOGIN.GITHUB_TOKEN_URL}") String tokenUrl,
 		@Value("${LOGIN.GITHUB_GET_USERDETAIL_URL}") String getUserDetailUrl,
-		@Value("${LOGIN.GITHUB_GET_REPO_URL}") String getRepoUrl,
-		@Value("${LOGIN.GITHUB_GET_LANGUAGE_URL}") String getLanguageUrl) {
+		@Value("${LOGIN.GITHUB_GET_REPO_URL}") String getRepoUrl) {
 		this.githubService = githubService;
 		this.authUrl = authUrl;
 		this.tokenUrl = tokenUrl;

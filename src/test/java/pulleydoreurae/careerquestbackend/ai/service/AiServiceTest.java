@@ -47,7 +47,7 @@ class AiServiceTest {
 		String request2 = "testId";
 
 		String[] returnCmd1 = {"/bin/sh", "-c", AI_PATH + " " + "mbti_vector" + " " + "user1"};
-		String[] returnCmd2 = {"/bin/sh", "-c", AI_CREATE_SELF_INTRODUCE_PATH + " " + "testId" + " " + "300 글자 충족하는 자기소개서 만들어줘"};
+		String[] returnCmd2 = {"/bin/sh", "-c", AI_CREATE_SELF_INTRODUCE_PATH + " " + "testId"};
 
 
 		// When
